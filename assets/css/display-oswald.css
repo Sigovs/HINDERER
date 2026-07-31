@@ -1,0 +1,88 @@
+/* =========================================================================
+   DISPLAY FACE — Oswald
+   Loads after main.css. One <link> away from being removed.
+
+   Swapping a display face is never just swapping a stack: the optical
+   corrections belong to the face, not to the size. Oswald is a condensed
+   grotesk with tall caps, short descenders and a narrow set, so every
+   correction the previous face needed is wrong for this one.
+   ========================================================================= */
+
+:root {
+  --font-display: "Oswald", "Inter", system-ui, -apple-system, sans-serif;
+
+  /* Oswald is already narrow. The −0.022em that stopped the wider face going
+     gappy at 64px jams this one, so display tracking returns to neutral —
+     and small sizes go slightly OPEN, which is what condensed faces need to
+     stay readable below 20px. */
+  --track-display: 0em;
+  --track-heading: 0.004em;
+
+  /* Condensed letterforms read heavier at the same nominal weight, so the
+     whole ramp drops a step. 400 here carries roughly the stem mass 500 had
+     in the wider face. */
+  --weight-display: 300;
+  --weight-heading: 400;
+  --weight-label:   500;
+
+  /* Tall caps and short descenders leave the line looking tighter than it
+     measures, so the leading opens to compensate. */
+  --lh-display: 1.08;
+  --lh-heading: 1.20;
+
+  /* Narrower per character, so the hero phrase carries a larger size before
+     it has to break. */
+  --text-hero: clamp(1.625rem, 8.4vw, 4.5rem);
+}
+
+/* -------------------------------------------------------------------------
+   Caps — display only
+   Oswald is drawn for uppercase: tall caps, short descenders, a narrow set.
+   It is also where uppercase is safe, because every one of these lines is two
+   to four words. Uppercase removes the ascender/descender variation the eye
+   uses to recognise word shapes, so it measurably slows reading — which is
+   why it stops at the display tier and never reaches a lead, a body or a
+   caption.
+
+   The sub-line deliberately stays sentence case. Title in caps against a
+   sentence-case sub gives the pair a real relationship instead of a wall of
+   capitals — the pattern `vault/organimo-com` (3, in) records as working:
+   "сочетание uppercase-заголовков с обычным регистром в основном тексте".
+   ------------------------------------------------------------------------- */
+.hero__title,
+.section-title,
+.contact__title {
+  text-transform: uppercase;
+  /* Caps need tracking OPENED, not closed — the counters stop nesting into
+     each other once the descenders are gone. */
+  letter-spacing: 0.03em;
+  /* And leading tightened, because there are no descenders to clear. */
+  line-height: 0.98;
+}
+
+/* One exception to the 300: section titles are copper on the dark ground at
+   3.67:1 — legal as large text, but a light condensed stem at that ratio is
+   thin twice over. They take 400. The hero stays at 300 because it is
+   near-white at 16.83:1 and can carry the air. */
+.section-title { font-weight: 400; }
+
+/* Caps set wider per character, so the unbreakable hero phrase needs a little
+   less viewport-driven size to stay on one line down at 320px. */
+:root { --text-hero: clamp(1.5rem, 7.6vw, 4.25rem); }
+
+/* Oswald ships no true italic and no tabular figure set. Anything that has to
+   align down a column stays in Inter, which has both — a price is a single
+   figure per card and is free to take the display face. */
+.plate dd,
+.vehicle__specs dd,
+.hours dd,
+.num-tabular { font-family: var(--font-body); }
+
+/* Condensed uppercase closes up faster at label size than the wider face did,
+   so label tracking opens one notch. */
+.eyebrow,
+.field__label,
+.footer-col__title,
+.vehicle__status,
+.vehicle__specs dt,
+.plate dt { letter-spacing: 0.14em; }

@@ -1,0 +1,24 @@
+# Source assets — never committed (client hand-off folder)
+ASSETS DO NOT COPY TO GIT/
+
+# Camera / client masters stay out; the encoded deliverables are committed
+assets/video/_src/
+
+# Unreferenced 10.5 MB export — the largest file in the tree and not used by
+# any page. Delete this line and run: git add -f assets/img/index_preview.png
+assets/img/index_preview.png
+
+# Pre-optimisation image originals
+.orig/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+
+# Build output & deps (none yet — here so the first person to add them doesn't forget)
+node_modules/
+dist/
+*.log

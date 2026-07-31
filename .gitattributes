@@ -1,0 +1,10 @@
+# Normalise line endings in the repo; check out native. Keeps diffs clean
+# between Windows and anything else touching this.
+* text=auto eol=lf
+
+# Binary — never diffed, never line-ending-converted
+*.png  binary
+*.jpg  binary
+*.mp4  binary
+*.webm binary
+*.mov  binary

@@ -1,0 +1,742 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Hinderer Motor Company — Precision-Engineered Custom Roadsters</title>
+  <meta name="description" content="Hinderer Motor Company builds world-class custom roadsters in Heath, Ohio. Browse inventory, spec your own Backdraft RT4B, trade in your vehicle, or arrange nationwide white-glove delivery.">
+  <meta name="theme-color" content="#1f1d19">
+
+  <link rel="icon" href="assets/img/logo-hinderer.png" sizes="any">
+  <link rel="preload" as="image" href="assets/img/hero-cobra.jpg" fetchpriority="high">
+
+  <!-- Two voices: Oswald carries headline mass, Inter carries reading and
+       data. Degular (licensed, not supplied) leads --font-display in
+       tokens.css and takes over the moment its @font-face lands — no markup
+       change required. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Oswald:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap 5.3 — grid, carousel, modal -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/main.css">
+  <!-- Display face under trial: Oswald. index1–3 stay on the previous stack,
+       so the two can be compared side by side. Remove this one line to revert. -->
+  <link rel="stylesheet" href="assets/css/display-oswald.css">
+
+  <!-- Marks that scripting is available, before first paint. Only then does
+       the mobile nav collapse behind its toggle; without JS it renders as a
+       stacked list and every destination stays reachable. -->
+  <script>document.documentElement.className += " js";</script>
+</head>
+
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<!-- =====================================================================
+     SITE HEADER — shared across every page. Copy verbatim into new pages
+     and change only the aria-current on the active nav item.
+     ===================================================================== -->
+<header class="site-header" id="siteHeader">
+  <div class="wrap site-header__inner">
+
+    <a class="brand" href="index.html" aria-label="Hinderer Motor Company — home">
+      <img class="brand__mark" src="assets/img/logo-hinderer.png"
+           alt="The Hinderer Motor Company — we love what moves you" width="272" height="94">
+    </a>
+
+    <button class="nav-toggle" type="button"
+            aria-expanded="false" aria-controls="siteNav" data-nav-toggle>
+      <span class="visually-hidden">Menu</span>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </button>
+
+    <nav class="site-nav" id="siteNav" aria-label="Primary">
+      <ul class="site-nav__list">
+        <li><a class="site-nav__link" href="inventory.html" aria-current="page">Inventory</a></li>
+        <li class="site-nav__sep" aria-hidden="true"></li>
+        <li><a class="site-nav__link" href="#build">Build</a></li>
+        <li class="site-nav__sep" aria-hidden="true"></li>
+        <li><a class="site-nav__link" href="#trade">Trade In</a></li>
+        <li class="site-nav__sep" aria-hidden="true"></li>
+        <li><a class="site-nav__link" href="#about">Who We Are</a></li>
+        <li>
+          <a class="header-phone" href="tel:+17406182466">
+            <img class="header-phone__icon" src="assets/icons/phone.svg" alt="" aria-hidden="true" width="12" height="12">
+            740.618.2466
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <a class="collection-pill" href="saved.html">
+      My Collection <span class="num-tabular">/ 03</span>
+    </a>
+
+  </div>
+</header>
+
+
+<main id="main">
+
+  <!-- ===================================================================
+       1 · HERO
+       =================================================================== -->
+  <section class="hero" aria-labelledby="heroTitle">
+    <div class="hero__media">
+      <img src="assets/img/hero-cobra.jpg"
+           alt="A blue Backdraft roadster with a white racing stripe parked against a painted brick wall"
+           width="1920" height="796" fetchpriority="high">
+    </div>
+
+    <div class="wrap hero__content">
+      <div class="hero__text">
+        <h1 class="hero__title" id="heroTitle">
+          Precision&nbsp;-&nbsp;Engineered
+          <span>Custom Roadsters</span>
+        </h1>
+        <p class="hero__tagline">Crafting world-class custom roadsters since 1965</p>
+
+        <div class="hero__actions">
+          <a class="btn-hmc btn-hmc--secondary" href="inventory.html">
+            <span>View<br>Our Inventory</span>
+            <img class="btn-hmc__icon" src="assets/icons/arrow-inventory.svg" alt="" aria-hidden="true" width="40" height="28">
+          </a>
+          <a class="btn-hmc btn-hmc--primary" href="#build">
+            <span>Build<br>Your Own</span>
+            <img class="btn-hmc__icon" src="assets/icons/arrow-build.svg" alt="" aria-hidden="true" width="30" height="30">
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ===================================================================
+       2 · INVENTORY RAIL
+       =================================================================== -->
+  <section class="section section--tight-top" id="inventory" aria-labelledby="inventoryTitle">
+    <div class="wrap">
+
+      <div class="rail-head">
+        <h2 class="visually-hidden" id="inventoryTitle">Current inventory</h2>
+        <p class="eyebrow">Available now</p>
+        <div class="rail-nav">
+          <button class="btn-round" type="button" data-rail-prev="vehicleRail">
+            <span class="visually-hidden">Scroll inventory left</span>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <button class="btn-round" type="button" data-rail-next="vehicleRail">
+            <span class="visually-hidden">Scroll inventory right</span>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <ul class="rail" id="vehicleRail" tabindex="0" role="list"
+        aria-label="Inventory — scroll horizontally">
+
+      <!-- VEHICLE CARD — the repeating unit. Duplicate one <li> per vehicle.
+           Titles, prices, mileage and stock numbers are PLACEHOLDERS standing in
+           for the real feed; only the photograph is final. -->
+      <li class="vehicle vehicle--sold">
+        <div class="vehicle__media">
+          <img src="assets/img/inventory-1.jpg" alt="1965 Roadster Shelby Cobra Replica" width="381" height="278" loading="lazy">
+          <p class="vehicle__status">Sold</p>
+        </div>
+        <div class="vehicle__head">
+          <h3 class="vehicle__title"><a href="vehicle.html">1965 Roadster Shelby Cobra Replica</a></h3>
+          <p class="vehicle__price">$92,995</p>
+        </div>
+        <dl class="vehicle__specs">
+          <dt>Miles</dt><dd>1,184</dd>
+          <dt>Stock</dt><dd>235455</dd>
+        </dl>
+        <div class="vehicle__actions">
+          <button class="btn-card" type="button"><span class="btn-card__icon btn-card__icon--share"></span>Share</button>
+          <button class="btn-card" type="button"><span class="btn-card__icon btn-card__icon--save"></span>Save</button>
+          <a class="btn-card" href="sms:+17406182466"><span class="btn-card__icon btn-card__icon--text"></span>Text</a>
+        </div>
+      </li>
+
+      <li class="vehicle vehicle--new">
+        <div class="vehicle__media">
+          <img src="assets/img/inventory-1.jpg" alt="1965 Backdraft RT4B Roadster" width="381" height="278" loading="lazy">
+          <p class="vehicle__status">New</p>
+        </div>
+        <div class="vehicle__head">
+          <h3 class="vehicle__title"><a href="vehicle.html">1965 Backdraft RT4B Roadster</a></h3>
+          <p class="vehicle__price">$109,500</p>
+        </div>
+        <dl class="vehicle__specs">
+          <dt>Miles</dt><dd>62</dd>
+          <dt>Stock</dt><dd>235612</dd>
+        </dl>
+        <div class="vehicle__actions">
+          <button class="btn-card" type="button"><span class="btn-card__icon btn-card__icon--share"></span>Share</button>
+          <button class="btn-card" type="button"><span class="btn-card__icon btn-card__icon--save"></span>Save</button>
+          <a class="btn-card" href="sms:+17406182466"><span class="btn-card__icon btn-card__icon--text"></span>Text</a>
+        </div>
+      </li>
+
+      <li class="vehicle vehicle--just">
+        <div class="vehicle__media">
+          <img src="assets/img/inventory-1.jpg" alt="1966 Roadster 427 S/C Replica" width="381" height="278" loading="lazy">
+          <p class="vehicle__status">Just In</p>
+        </div>
+        <div class="vehicle__head">
+          <h3 class="vehicle__title"><a href="vehicle.html">1966 Roadster 427 S/C Replica</a></h3>
+          <p class="vehicle__price">$98,750</p>
+        </div>
+        <dl class="vehicle__specs">
+          <dt>Miles</dt><dd>3,420</dd>
+          <dt>Stock</dt><dd>235588</dd>
+        </dl>
+        <div class="vehicle__actions">
+          <button class="btn-card" type="button"><span class="btn-card__icon btn-card__icon--share"></span>Share</button>
+          <button class="btn-card" type="button"><span class="btn-card__icon btn-card__icon--save"></span>Save</button>
+          <a class="btn-card" href="sms:+17406182466"><span class="btn-card__icon btn-card__icon--text"></span>Text</a>
+        </div>
+      </li>
+
+      <li class="vehicle vehicle--sold">
+        <div class="vehicle__media">
+          <img src="assets/img/inventory-1.jpg" alt="1965 Roadster Shelby Cobra Replica" width="381" height="278" loading="lazy">
+          <p class="vehicle__status">Sold</p>
+        </div>
+        <div class="vehicle__head">
+          <h3 class="vehicle__title"><a href="vehicle.html">1965 Roadster Shelby Cobra Replica</a></h3>
+          <p class="vehicle__price">$89,900</p>
+        </div>
+        <dl class="vehicle__specs">
+          <dt>Miles</dt><dd>7,865</dd>
+          <dt>Stock</dt><dd>235401</dd>
+        </dl>
+        <div class="vehicle__actions">
+          <button class="btn-card" type="button"><span class="btn-card__icon btn-card__icon--share"></span>Share</button>
+          <button class="btn-card" type="button"><span class="btn-card__icon btn-card__icon--save"></span>Save</button>
+          <a class="btn-card" href="sms:+17406182466"><span class="btn-card__icon btn-card__icon--text"></span>Text</a>
+        </div>
+      </li>
+
+      <li class="vehicle vehicle--just">
+        <div class="vehicle__media">
+          <img src="assets/img/inventory-1.jpg" alt="1967 Backdraft RT3 Roadster" width="381" height="278" loading="lazy">
+          <p class="vehicle__status">Just In</p>
+        </div>
+        <div class="vehicle__head">
+          <h3 class="vehicle__title"><a href="vehicle.html">1967 Backdraft RT3 Roadster</a></h3>
+          <p class="vehicle__price">$114,900</p>
+        </div>
+        <dl class="vehicle__specs">
+          <dt>Miles</dt><dd>240</dd>
+          <dt>Stock</dt><dd>235630</dd>
+        </dl>
+        <div class="vehicle__actions">
+          <button class="btn-card" type="button"><span class="btn-card__icon btn-card__icon--share"></span>Share</button>
+          <button class="btn-card" type="button"><span class="btn-card__icon btn-card__icon--save"></span>Save</button>
+          <a class="btn-card" href="sms:+17406182466"><span class="btn-card__icon btn-card__icon--text"></span>Text</a>
+        </div>
+      </li>
+
+    </ul>
+
+    <div class="wrap">
+      <div class="cta-centre">
+        <a class="btn-hmc btn-hmc--secondary btn-hmc--centred btn-hmc--wide" href="inventory.html">View All Inventory</a>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ===================================================================
+       3 · BUILD YOUR OWN
+       =================================================================== -->
+  <section class="section" id="build" aria-labelledby="buildTitle">
+    <div class="wrap">
+
+      <div class="section-head section-head--centre stack">
+        <h2 class="section-title" id="buildTitle">Build your Own!</h2>
+        <p class="section-sub">Craft Your Ultimate Driving Machine</p>
+        <p class="lead u-centre-text u-measure">
+          Build your Backdraft RT4B the way you want it, with precision engineering and
+          customizable luxury at every step!
+        </p>
+      </div>
+
+      <div class="build__panel">
+        <div class="row g-5 align-items-center">
+
+          <div class="col-12 col-lg-7">
+            <div class="spec-list">
+              <div>
+                <h3 class="spec-list__title">Tailor Your Interior</h3>
+                <p class="spec-list__body">
+                  Make the inside of your roadster as stunning as the exterior. Choose from a range of
+                  Interior Upholstery options, including premium materials like red, grey, or tan leather.
+                  Elevate your style further with custom Interior Stitching options such as diamond stitch
+                  or ribbed patterns, adding both comfort and flair to your ride.
+                </p>
+              </div>
+              <div>
+                <h3 class="spec-list__title">Choose Your Body &amp; Suspension</h3>
+                <p class="spec-list__body">
+                  Make a statement with a custom Body that reflects your taste. Choose from an array of
+                  paint finishes, racing stripes, and more. Pair it with a high-performance Suspension
+                  system to ensure your RT4B handles the road like a dream, whether you’re cruising or
+                  tearing up the track.
+                </p>
+              </div>
+              <div>
+                <h3 class="spec-list__title">Personalize Your Dash &amp; Gauges</h3>
+                <p class="spec-list__body">
+                  Your control center should be as sophisticated as your roadster. Select from sleek,
+                  modern Dash &amp; Gauges options, including carbon fiber finishes paired with premium
+                  Moal or GT gauges, providing that perfect blend of vintage appeal and contemporary
+                  performance.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-lg-5">
+            <figure class="build__media m-0">
+              <img src="assets/img/build-cobra.png"
+                   alt="A red Backdraft roadster with twin white racing stripes, seen head-on"
+                   width="570" height="490" loading="lazy">
+            </figure>
+          </div>
+
+        </div>
+
+        <div class="build__cta d-flex justify-content-center justify-content-lg-end">
+          <a class="btn-hmc btn-hmc--primary btn-hmc--centred btn-hmc--wide" href="build.html">Start Building Today!</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ===================================================================
+       4 · TRADE IN
+       =================================================================== -->
+  <section class="section trade" id="trade" aria-labelledby="tradeTitle">
+    <div class="trade__stage">
+    <div class="trade__media">
+      <img src="assets/img/tradein-bg.jpg" alt="" aria-hidden="true" width="1920" height="1150" loading="lazy">
+    </div>
+
+    <div class="wrap">
+      <div class="section-head stack">
+        <h2 class="section-title" id="tradeTitle">Ready to Trade In?</h2>
+        <p class="section-sub">Let’s Get Started</p>
+        <p class="lead">
+          Upgrade your vehicle quickly and easily. Trade in your car for cash or a new
+          ride—hassle-free. Get started with these simple steps:
+        </p>
+      </div>
+
+      <ol class="steps list-unstyled">
+        <li class="step">
+          <p class="step__index">01.</p>
+          <h3 class="step__title">Get a Quote</h3>
+          <p class="step__body">
+            Provide details about your vehicle, including its make, model, mileage, and condition,
+            and receive a fair market value estimate.
+          </p>
+        </li>
+        <li class="step">
+          <p class="step__index">02.</p>
+          <h3 class="step__title">Schedule an Inspection</h3>
+          <p class="step__body">
+            Bring your car in or schedule a virtual inspection so we can assess its condition and
+            finalize the offer.
+          </p>
+        </li>
+        <li class="step">
+          <p class="step__index">03.</p>
+          <h3 class="step__title">Receive Your Offer</h3>
+          <p class="step__body">
+            We’ll provide a competitive offer based on the inspection, which you can accept on
+            the spot.
+          </p>
+        </li>
+        <li class="step">
+          <p class="step__index">04.</p>
+          <h3 class="step__title">Complete the Trade</h3>
+          <p class="step__body">
+            Once you accept the offer, you can either use the value toward a new vehicle or
+            receive cash for your trade-in!
+          </p>
+        </li>
+      </ol>
+
+      <div class="cta-centre">
+        <a class="btn-hmc btn-hmc--primary btn-hmc--centred btn-hmc--wide" href="trade-in.html">Start Trade In</a>
+      </div>
+    </div>
+    </div>
+  </section>
+
+
+  <!-- ===================================================================
+       5 · WHO WE ARE
+       =================================================================== -->
+  <section class="section" id="about" aria-labelledby="aboutTitle">
+    <div class="wrap">
+      <p class="standfirst">Passion meets performance in every vehicle we create.</p>
+
+      <div class="split u-mt-6">
+        <figure class="split__media split__media--16x9 m-0">
+          <video controls preload="none" playsinline
+                 poster="assets/img/whoweare-poster.jpg"
+                 aria-label="A Backdraft roadster on Courthouse Square in Newark, Ohio">
+            <source src="assets/video/about-us.webm" type="video/webm">
+            <source src="assets/video/about-us.mp4" type="video/mp4">
+            Your browser cannot play this video. The same story is told in the text beside it.
+          </video>
+        </figure>
+
+        <div class="split__body stack">
+          <h2 class="section-title" id="aboutTitle">Who we are?</h2>
+          <p class="section-sub">Working with us</p>
+          <p>
+            Hinderer Motor Company is dedicated to crafting world-class custom roadsters, blending
+            precision engineering with timeless design. Since 1965, we’ve been committed to
+            delivering exceptional performance and unmatched quality. Whether you’re looking to
+            build your dream car or upgrade your current vehicle, we offer a seamless, personalized
+            experience from start to finish.
+          </p>
+          <p>
+            With over five decades of experience, our dedication to quality and innovation remains
+            at the heart of everything we do. Whether you’re trading in a vehicle or building a
+            custom Backdraft RT4B from the ground up, you can trust us to deliver an exceptional,
+            tailored experience.
+          </p>
+
+          <div class="btn-row">
+            <a class="btn-hmc btn-hmc--primary btn-hmc--centred btn-hmc--wide" href="contact.html">Contact Us</a>
+            <a class="btn-hmc btn-hmc--secondary btn-hmc--centred btn-hmc--wide" href="tel:+17405221106">740.522.1106</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ===================================================================
+       6 · FINANCE CENTER
+       =================================================================== -->
+  <section class="section" id="finance" aria-labelledby="financeTitle">
+    <div class="wrap">
+      <div class="split split--reverse">
+        <figure class="split__media split__media--warm split__media--4x3 m-0">
+          <img src="assets/img/finance.jpg"
+               alt="Two people reviewing financing paperwork at a desk in the Hinderer showroom"
+               width="774" height="544" loading="lazy">
+        </figure>
+
+        <div class="split__body stack">
+          <h2 class="section-title" id="financeTitle">Finance Center</h2>
+          <p class="section-sub">Get Pre-Approved</p>
+          <p>
+            At Hinderer Motor Company, we understand that financing is a crucial step in turning your
+            automotive dreams into reality. Our flexible financing options are designed to make owning
+            a world-class custom roadster more accessible than ever. Whether you’re trading in a
+            vehicle or embarking on a journey to build your custom Backdraft RT4B, our team is here to
+            guide you through a seamless financing process.
+          </p>
+          <p>
+            With over five decades of experience, we’re dedicated to crafting not only
+            precision-engineered cars but also tailored financial solutions that suit your unique
+            needs. Trust us to deliver the same commitment to excellence in financing as we do in
+            every roadster we create.
+          </p>
+
+          <div class="btn-row">
+            <a class="btn-hmc btn-hmc--primary btn-hmc--centred btn-hmc--wide" href="finance.html">Get Pre-Approved</a>
+            <a class="btn-hmc btn-hmc--secondary btn-hmc--centred btn-hmc--wide" href="tel:+17406182466">740.618.2466</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ===================================================================
+       7 · NATIONWIDE DELIVERY
+       =================================================================== -->
+  <section class="section" id="nationwide" aria-labelledby="nationwideTitle">
+    <div class="wrap">
+      <div class="section-head section-head--centre stack u-mb-7">
+        <h2 class="section-title" id="nationwideTitle">Nationwide</h2>
+        <p class="section-sub">White Glove Delivery</p>
+      </div>
+
+      <div class="band">
+        <div class="band__media">
+          <img src="assets/img/nationwide.jpg"
+               alt="A red roadster being loaded onto an enclosed transporter at dusk"
+               width="1564" height="496" loading="lazy">
+        </div>
+
+        <div class="band__content stack">
+          <p>
+            Hinderer Motor Company takes pride in offering nationwide delivery with our exclusive
+            White Glove Service, ensuring your custom roadster arrives in pristine condition no
+            matter where you are. From the moment your vehicle leaves our facility, it is handled
+            with the utmost care, utilizing premium transportation methods to protect every detail
+            of its precision engineering and timeless design.
+          </p>
+          <p>
+            Our White Glove Service includes real-time updates, professional handling, and a
+            seamless delivery experience straight to your doorstep. With over five decades of
+            expertise, we are committed to delivering not just exceptional vehicles, but also
+            exceptional service—right to your hands, wherever you are in the nation.
+          </p>
+
+          <div class="btn-row">
+            <a class="btn-hmc btn-hmc--primary btn-hmc--centred btn-hmc--wide" href="delivery.html">Learn More</a>
+            <a class="btn-hmc btn-hmc--secondary btn-hmc--centred btn-hmc--wide" href="tel:+17406182466">740.618.2466</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ===================================================================
+       8 · GALLERY
+       =================================================================== -->
+  <section class="section" id="gallery" aria-labelledby="galleryTitle">
+    <div class="wrap">
+      <div class="section-head section-head--centre stack">
+        <h2 class="section-title" id="galleryTitle">The Hinderer Motor Company</h2>
+        <p class="section-sub">Gallery</p>
+      </div>
+
+      <div class="gallery">
+        <figure class="gallery__item gallery__item--a m-0">
+          <img src="assets/img/gallery-1.jpg" alt="A purple roadster photographed from the front three-quarter" width="615" height="390" loading="lazy">
+        </figure>
+
+        <figure class="gallery__item gallery__item--d m-0">
+          <img src="assets/img/gallery-4.jpg" alt="The cockpit of a finished roadster, wheel and red shift knob" width="615" height="573" loading="lazy">
+          <figcaption class="gallery__caption--static">Interior — cockpit and shifter</figcaption>
+        </figure>
+
+        <figure class="gallery__item gallery__item--b m-0">
+          <img src="assets/img/gallery-2.jpg" alt="Blue leather interior with matching stitching" width="457" height="614" loading="lazy">
+        </figure>
+
+        <figure class="gallery__item gallery__item--f m-0">
+          <img src="assets/img/gallery-6.jpg" alt="Louvred bonnet detail in raw carbon" width="457" height="573" loading="lazy">
+        </figure>
+
+        <figure class="gallery__item gallery__item--c m-0">
+          <img src="assets/img/gallery-3.jpg" alt="Steering wheel, dash and gauges seen from the passenger side" width="457" height="352" loading="lazy">
+          <figcaption class="gallery__caption--static">Interior — dash and gauges</figcaption>
+        </figure>
+
+        <figure class="gallery__item gallery__item--e m-0">
+          <img src="assets/img/gallery-5.jpg" alt="The gear lever and red shift knob in a finished cabin" width="457" height="525" loading="lazy">
+        </figure>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ===================================================================
+       9 · REVIEWS
+       =================================================================== -->
+  <section class="section" id="reviews" aria-labelledby="reviewsTitle">
+    <div class="wrap">
+      <div class="section-head section-head--centre stack">
+        <h2 class="section-title" id="reviewsTitle">Reviews</h2>
+        <p class="section-sub">People say about us</p>
+      </div>
+
+      <div class="reviews__stage">
+        <div id="reviewsCarousel" class="carousel slide carousel-fade" data-bs-interval="false" data-bs-touch="true">
+          <div class="carousel-inner">
+
+            <div class="carousel-item active">
+              <div class="row g-4">
+                <div class="col-12 col-lg-4">
+                  <blockquote class="review">
+                    <p class="review__name">Maurice Looper</p>
+                    <p class="review__stars" aria-label="Rated 5 out of 5">
+                      <img src="assets/icons/star.svg" alt="" aria-hidden="true" width="18" height="18">
+                      <img src="assets/icons/star.svg" alt="" aria-hidden="true" width="18" height="18">
+                      <img src="assets/icons/star.svg" alt="" aria-hidden="true" width="18" height="18">
+                      <img src="assets/icons/star.svg" alt="" aria-hidden="true" width="18" height="18">
+                      <img src="assets/icons/star.svg" alt="" aria-hidden="true" width="18" height="18">
+                    </p>
+                    <p class="review__body">
+                      Cory was an awesome salesman and made the whole buying experience stress free.
+                      I would definitely recommend him as a salesman. He was also very professional
+                      and down to earth.
+                    </p>
+                  </blockquote>
+                </div>
+
+                <div class="col-12 col-lg-4">
+                  <blockquote class="review">
+                    <p class="review__name">Tony Vannelli</p>
+                    <p class="review__stars" aria-label="Rated 5 out of 5">
+                      <img src="assets/icons/star.svg" alt="" aria-hidden="true" width="18" height="18">
+                      <img src="assets/icons/star.svg" alt="" aria-hidden="true" width="18" height="18">
+                      <img src="assets/icons/star.svg" alt="" aria-hidden="true" width="18" height="18">
+                      <img src="assets/icons/star.svg" alt="" aria-hidden="true" width="18" height="18">
+                      <img src="assets/icons/star.svg" alt="" aria-hidden="true" width="18" height="18">
+                    </p>
+                    <p class="review__body">
+                      I had a great experience purchasing my car from The Hinderer Motor Company.
+                      No high pressure sales, no gimmicks, no bait and switch. Just a group of people
+                      who like cars. Financing went very well, with a very competitive interest rate.
+                      There were no bogus fees (like anti-theft measures or “dealer prep”). Dealer fees
+                      were totally reasonable. My car was cleaned and prepped; looked great! They didn’t
+                      misrepresent anything. All on the up and up. Oh, and the prices were very fair.
+                      I wouldn’t hesitate to recommend these folks to anyone.
+                    </p>
+                  </blockquote>
+                </div>
+
+                <div class="col-12 col-lg-4">
+                  <blockquote class="review">
+                    <p class="review__name">FuzionBonnie Backup</p>
+                    <p class="review__stars" aria-label="Rated 5 out of 5">
+                      <img src="assets/icons/star.svg" alt="" aria-hidden="true" width="18" height="18">
+                      <img src="assets/icons/star.svg" alt="" aria-hidden="true" width="18" height="18">
+                      <img src="assets/icons/star.svg" alt="" aria-hidden="true" width="18" height="18">
+                      <img src="assets/icons/star.svg" alt="" aria-hidden="true" width="18" height="18">
+                      <img src="assets/icons/star.svg" alt="" aria-hidden="true" width="18" height="18">
+                    </p>
+                    <p class="review__body">
+                      We had a great experience purchasing a vehicle from Luxury Motor Car Company.
+                      We came across a vehicle that we were interested in after hours and Cory sent us
+                      a message within minutes saying sorry it is after hours but I’ll reach out to you
+                      in the morning — and that he did! We showed up at the lot, took the car for a
+                      drive, spoke with Cory and made a deal. Smooth, quick and easy. If anyone is
+                      looking for a nice clean car go see Cory.
+                    </p>
+                  </blockquote>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="reviews__nav">
+          <button class="btn-round" type="button" data-bs-target="#reviewsCarousel" data-bs-slide="prev">
+            <span class="visually-hidden">Previous reviews</span>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <button class="btn-round" type="button" data-bs-target="#reviewsCarousel" data-bs-slide="next">
+            <span class="visually-hidden">Next reviews</span>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="reviews__cta">
+        <a class="btn-hmc btn-hmc--secondary btn-hmc--centred btn-hmc--wide" href="reviews.html">View All Reviews</a>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ===================================================================
+       10 · CONTACT
+       =================================================================== -->
+  <section class="section contact" id="contact" aria-labelledby="contactTitle">
+    <div class="wrap">
+      <div class="contact__grid">
+
+        <div class="contact__map">
+          <a href="https://maps.google.com/?q=1555+Hebron+Rd,+Heath,+OH+43056" target="_blank" rel="noopener">
+            <img src="assets/img/map.jpg" alt="Map showing Hinderer Motor Company at 1555 Hebron Rd, Heath, Ohio" width="1248" height="500" loading="lazy">
+          </a>
+        </div>
+
+        <div class="contact__panel">
+          <h2 class="contact__title" id="contactTitle">Connect with<br>Us for details</h2>
+
+          <address class="contact__address">
+            Hinderer Motor Company<br>
+            1555 Hebron Rd<br>
+            Heath, OH 43056<br><br>
+            Call us: <a href="tel:+17406182466" class="num-tabular">740.618.2466</a>
+          </address>
+
+          <div class="contact__foot">
+            <a class="btn-hmc btn-hmc--primary btn-hmc--centred btn-hmc--wide" href="contact.html">Contact Us</a>
+
+            <ul class="social">
+              <li><a href="#" aria-label="Hinderer Motor Company on Instagram"><img src="assets/icons/social-instagram.svg" alt="" aria-hidden="true" width="21" height="21"></a></li>
+              <li><a href="#" aria-label="Hinderer Motor Company on Facebook"><img src="assets/icons/social-facebook.svg" alt="" aria-hidden="true" width="21" height="21"></a></li>
+              <li><a href="#" aria-label="Hinderer Motor Company on X"><img src="assets/icons/social-x.svg" alt="" aria-hidden="true" width="21" height="21"></a></li>
+              <li><a href="#" aria-label="Hinderer Motor Company on YouTube"><img src="assets/icons/social-youtube.svg" alt="" aria-hidden="true" width="21" height="21"></a></li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+
+<!-- =====================================================================
+     SITE FOOTER — shared across every page.
+     ===================================================================== -->
+<footer class="site-footer">
+  <div class="wrap site-footer__inner">
+    <p>
+      Copyright © <span data-year>2024</span> Hinderer Motor Company. All Rights Reserved. |
+      <a href="sitemap.html">Sitemap</a> | <a href="privacy.html">Privacy</a>
+    </p>
+    <p>Powered By All Auto Network</p>
+  </div>
+</footer>
+
+
+<!-- Video lightbox — only opened by a control that really has a video -->
+<div class="modal fade" id="videoModal" tabindex="-1" aria-labelledby="videoModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content bg-transparent border-0">
+      <div class="modal-header border-0">
+        <h2 class="modal-title fs-6 text-white" id="videoModalTitle">Video</h2>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body p-0">
+        <video id="videoModalPlayer" controls playsinline style="width:100%;border-radius:var(--radius-3)"></video>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

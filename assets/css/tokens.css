@@ -1,0 +1,181 @@
+/* =========================================================================
+   HINDERER MOTOR COMPANY — design tokens
+   Single source of truth. No component may introduce a raw value.
+   Every colour below is measured from the Figma file
+   (rVcU822PQHDphMoBEqrrGz, node 2:11); contrast ratios are computed against
+   the ground they actually sit on and recorded in the comment on each line.
+   ========================================================================= */
+
+:root {
+  /* ---------------------------------------------------------------------
+     GROUND & SURFACES
+     Warm near-black, not #000 — taken from the hero's own bottom gradient.
+     --------------------------------------------------------------------- */
+  --bg:              #1f1d19;   /* page ground */
+  --bg-raised:       #221f20;   /* inventory card title band */
+  --bg-plate:        #3e2e1e;   /* step-card gradient, warm top stop */
+  --bg-card:         #f2efe9;   /* warm bone — the vehicle card. Pure #fff is
+                                   absent rather than neutral and buzzed against
+                                   the warm near-black ground. 14.66:1 with ink. */
+  --bg-card-plain:   #ffffff;   /* review cards, which are quotations on paper */
+  --bg-control:      #434343;   /* card action buttons */
+  --bg-scrim:        #1f1d19;   /* scrim colour over photography */
+
+  /* ---------------------------------------------------------------------
+     INK  — ratios measured against --bg (#1f1d19)
+     --------------------------------------------------------------------- */
+  --ink:             #ffffff;   /* 16.83:1  headings, primary copy */
+  --ink-quiet:       #e2e2e2;   /* 12.99:1  footer, legal */
+  --ink-muted:       #b2a991;   /*  7.19:1  warm sand — all secondary body */
+  --ink-inverse:     #1f1d19;   /* 16.83:1 on white — card metadata */
+  --ink-card:        #707070;   /*  4.95:1 on white — review body */
+
+  /* ---------------------------------------------------------------------
+     ACCENT — copper.
+     Derived, not chosen: sampled from the identity's own values in the
+     Figma file (#a86537 heading fill, #a86537 button fill, #e07921 hero
+     radial glow) — the same sodium/tail-light band the photography already
+     holds. Judged where it lands: #a86537 clears 3:1 only as large type, so
+     a second step exists for anything under 24px.
+     --------------------------------------------------------------------- */
+  --accent:          #a86537;   /*  3.67:1 — display ≥24px + solid fills only */
+  --accent-ink:      #c8813f;   /*  5.34:1 — copper text below 24px */
+  --accent-hover:    #b97240;   /*  4.32:1 — control hover */
+  --accent-glow:     #e07921;   /*  5.55:1 — hero radial, decorative */
+
+  /* ---------------------------------------------------------------------
+     SECONDARY — slate green. Sits opposite copper on the wheel and is the
+     one hue the photography does not hold, so it separates the secondary
+     action from the primary one without competing with the vehicles.
+     --------------------------------------------------------------------- */
+  --slate:           #405c58;   /*  7.27:1 with white label */
+  --slate-lift:      #5f7673;   /*  4.85:1 with white label — hover/panel top */
+
+  /* ---------------------------------------------------------------------
+     RULES, BORDERS, FOCUS
+     --------------------------------------------------------------------- */
+  --rule:            rgb(255 255 255 / 0.12);
+  --rule-strong:     rgb(255 255 255 / 0.28);
+  --rule-control:    #a0a0a0;   /*  3.78:1 on --bg-control — UI boundary floor */
+  --focus:           #ffffff;   /* 16.83:1 on ground · 4.58:1 on copper */
+
+  /* ---------------------------------------------------------------------
+     TYPE
+     One voice. The Figma specifies Inter for every heading, lead, body and
+     card, and Degular only on three button labels; Degular is licensed and
+     not supplied, so it leads the display stack and Inter renders until the
+     licence lands. Poppins (reviews + footer in the Figma) is folded into
+     the same voice — a role, not a second voice.
+     --------------------------------------------------------------------- */
+  --font-body:    "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-display: "Degular", "Hanken Grotesk", "Inter", system-ui, -apple-system, sans-serif;
+
+  /* Two voices, and the second has a systemic job the first cannot do:
+     Inter carries reading and data (its tabular figures are why the spec
+     plates align); the display voice carries headline mass. Degular is the
+     licensed original. Hanken Grotesk is the stand-in — it matches Degular's
+     large x-height and slightly narrow set without the geometric roundness
+     that made the first stand-in read friendly on a technical brief. */
+
+  /* Fluid so type is optically right at every width, not only at breakpoints */
+  --text-xs:      0.875rem;                                        /* 14px — hard floor */
+  --text-sm:      clamp(0.9375rem, 0.20vw + 0.88rem, 1.0625rem);   /* 15 → 17 */
+  --text-body:    clamp(1.0625rem, 0.25vw + 1rem, 1.1875rem);      /* 17 → 19 */
+  --text-lead:    clamp(1.125rem, 0.55vw + 1rem, 1.375rem);        /* 18 → 22 */
+  --text-btn:     clamp(1.125rem, 0.55vw + 0.95rem, 1.4375rem);    /* 18 → 23 */
+  --text-h3:      clamp(1.375rem, 0.90vw + 1.1rem, 1.75rem);       /* 22 → 28 */
+  --text-h2:      clamp(1.625rem, 1.40vw + 1.2rem, 2.125rem);      /* 26 → 34 */
+  --text-hero-2:  clamp(1.875rem, 2.40vw + 1.2rem, 3.25rem);       /* 30 → 52 */
+  --text-display: clamp(2.5rem, 3.60vw + 1.4rem, 4rem);            /* 40 → 64 */
+  /* The hero headline is one unbreakable phrase, so it is sized against the
+     viewport rather than stepped: at any narrower rule it breaks after the
+     dash, which is a break nobody chose. */
+  --text-hero:    clamp(1.5rem, 7.4vw, 4rem);                      /* 24 → 64 */
+
+  /* Weight is size-dependent and the correction is encoded, not remembered.
+     Stems grow with the type, so the biggest sizes take the LIGHTEST weight;
+     it is the small headings that need 500 to keep presence. Setting one
+     weight across the whole ramp is what makes display type read fat. */
+  --weight-display: 400;   /* 40px and up — hero, section titles */
+  --weight-heading: 500;   /* 22–34px — sub-heads, card and step titles */
+  --weight-body:    400;
+  --weight-label:   600;   /* 14px labels — small type needs the compensation */
+
+  --lh-display:   1.04;
+  --lh-heading:   1.14;
+  --lh-body:      1.65;
+  --lh-tight:     1.2;
+
+  /* Tracking tightens as the type grows, for the same optical reason */
+  --track-display: -0.022em;
+  --track-heading: -0.006em;
+  --track-body:    0.005em;
+  --track-label:   0.12em;
+
+  /* Reading measures — long lines hurt reading in any aesthetic */
+  --measure:       68ch;
+  --measure-tight: 46ch;
+
+  /* ---------------------------------------------------------------------
+     SPACE — 4px base. Every gap in the build resolves to one of these.
+     --------------------------------------------------------------------- */
+  --space-1:   0.25rem;   /*   4 */
+  --space-2:   0.5rem;    /*   8 */
+  --space-3:   0.75rem;   /*  12 */
+  --space-4:   1rem;      /*  16 */
+  --space-5:   1.5rem;    /*  24 */
+  --space-6:   2rem;      /*  32 */
+  --space-7:   3rem;      /*  48 */
+  --space-8:   4rem;      /*  64 */
+  --space-9:   6rem;      /*  96 */
+  --space-10:  8rem;      /* 128 */
+  --space-11: 12rem;      /* 192 */
+
+  /* Layout: the Figma content column is 1564px inside a 1920 frame */
+  --container:  1564px;
+  --gutter:     clamp(1.5rem, 5vw, 6rem);
+
+  /* Section rhythm — bottom-heavy (≈1:1.5) so a section ends rather than
+     being shoved into the next one, and the page reads as chapters.
+     Matched to the Figma's own section intervals, which run 200–300px. */
+  --section-top:    clamp(4rem, 8vw, var(--space-10));    /*  64 → 128 */
+  --section-bottom: clamp(5.5rem, 12vw, var(--space-11)); /*  88 → 192 */
+
+  /* ---------------------------------------------------------------------
+     RADIUS & ELEVATION
+     Shadows appear only where the Figma has a genuinely floating layer.
+     --------------------------------------------------------------------- */
+  --radius-1:  3px;    /* card action buttons */
+  --radius-2:  4px;    /* primary/secondary buttons */
+  --radius-3:  10px;   /* media panels, review cards, map */
+  --radius-4:  20px;   /* trade-in step plates */
+  --radius-pill: 999px;
+
+  /* A shadow is a claim about elevation, so only things that genuinely sit
+     above something else carry one. The Figma drops a soft ambient shadow on
+     every plate, band and card; those elements sit *in* the page, not above
+     it, so the separation is carried by a hairline and a tonal step instead
+     — which is also what keeps a dark page from going mushy.
+     Kept: the contact panel (it really overlaps the map) and the modal. */
+  --shadow-float: 0 8px 24px -8px rgb(0 0 0 / 0.55);   /* floating layers only */
+  --shadow-deep:  0 24px 60px -24px rgb(0 0 0 / 0.75); /* panel over media */
+
+  /* ---------------------------------------------------------------------
+     MOTION — the scale exists now so the animation pass has one source.
+     Entering decelerates (ease-out); exiting accelerates (ease-in).
+     --------------------------------------------------------------------- */
+  --dur-1: 0.15s;
+  --dur-2: 0.25s;
+  --dur-3: 0.4s;
+  --dur-4: 1.2s;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in:  cubic-bezier(0.55, 0, 1, 0.45);
+
+  /* Height of the persistent header — counted as a mass, used for
+     scroll-margin so anchor targets are never hidden beneath it. */
+  --header-h: 84px;
+}
+
+@media (min-width: 62rem) {
+  :root { --header-h: 136px; }
+}
