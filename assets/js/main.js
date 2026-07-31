@@ -93,37 +93,44 @@
   });
 
   /* -----------------------------------------------------------------------
-     Reviews — a control that cannot do anything must not be offered.
-     With one page of reviews the arrows are removed; add a second
-     .carousel-item and they return on their own.
-     ----------------------------------------------------------------------- */
-  var reviewsCarousel = document.getElementById('reviewsCarousel');
-  if (reviewsCarousel) {
-    var slides = reviewsCarousel.querySelectorAll('.carousel-item').length;
-    var reviewsNav = document.querySelector('.reviews__nav');
-    if (reviewsNav && slides < 2) reviewsNav.hidden = true;
-  }
+     Gallery video lightbox — native <dialog>.
 
-  /* -----------------------------------------------------------------------
-     Gallery video lightbox — only bound to controls that actually carry a
-     source, so no element offers an affordance it cannot honour.
+     showModal() gives the top layer, the backdrop, Esc-to-close and the
+     focus trap for free, and returns focus to the trigger on close. That is
+     the whole reason this is not a div: those four behaviours are the ones
+     hand-rolled modals get wrong, and the browser cannot get them wrong.
+
+     Only controls that actually carry a source are bound, so no element
+     offers an affordance it cannot honour.
      ----------------------------------------------------------------------- */
-  var modalEl = document.getElementById('videoModal');
+  var dialogEl = document.getElementById('videoModal');
   var player = document.getElementById('videoModalPlayer');
 
-  if (modalEl && player && window.bootstrap) {
-    var modal = new window.bootstrap.Modal(modalEl);
+  if (dialogEl && player && typeof dialogEl.showModal === 'function') {
+    var title = document.getElementById('videoModalTitle');
 
     document.querySelectorAll('[data-video]').forEach(function (trigger) {
       trigger.addEventListener('click', function () {
         player.src = trigger.getAttribute('data-video');
-        document.getElementById('videoModalTitle').textContent =
-          trigger.getAttribute('data-video-title') || 'Video';
-        modal.show();
+        if (title) title.textContent = trigger.getAttribute('data-video-title') || 'Video';
+        dialogEl.showModal();
       });
     });
 
-    modalEl.addEventListener('hidden.bs.modal', function () {
+    dialogEl.querySelectorAll('[data-dialog-close]').forEach(function (btn) {
+      btn.addEventListener('click', function () { dialogEl.close(); });
+    });
+
+    /* Click outside the panel closes it. The dialog element itself fills the
+       backdrop area, so a click landing on the element rather than on its
+       contents is a click on the backdrop. */
+    dialogEl.addEventListener('click', function (e) {
+      if (e.target === dialogEl) dialogEl.close();
+    });
+
+    /* One teardown for every route out — button, Esc, backdrop — so the
+       video can never keep playing behind a closed dialog. */
+    dialogEl.addEventListener('close', function () {
       player.pause();
       player.removeAttribute('src');
       player.load();

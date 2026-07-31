@@ -22,3 +22,8 @@ desktop.ini
 node_modules/
 dist/
 *.log
+
+# Browser-automation scratch — snapshots and verification screenshots
+.playwright-mcp/
+*-after.jpeg
+*-before.jpeg

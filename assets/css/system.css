@@ -1,0 +1,267 @@
+/* =========================================================================
+   HINDERER MOTOR COMPANY — DESIGN SYSTEM
+   Layout, rhythm and utilities. Loads after tokens.css, before main.css.
+
+   This file replaces Bootstrap. Everything here is built only on the
+   variables in tokens.css — no raw hex, no magic number, no second scale.
+
+   Why it exists: the page previously carried two layout systems at once.
+   Structure lived partly in main.css and partly in Bootstrap utilities
+   written into the markup, and Bootstrap's utilities carry !important, so
+   the project's own CSS could not win an argument with them. One page, one
+   language — a rule that only holds if there is exactly one place to say
+   how things are placed.
+
+   ORDER OF THE FILE
+     1. Container and page gutter
+     2. Grid
+     3. Rhythm — the semantic intervals
+     4. Flow utilities
+     5. Screen-reader and reset utilities
+     6. Dialog (replaces the Bootstrap modal)
+   ========================================================================= */
+
+
+/* =========================================================================
+   1. CONTAINER
+   The content column, and the one place the page gutter is decided.
+   Named .wrap because that is what the markup already says — a second name
+   for a thing that exists is how a system grows two of everything.
+   ========================================================================= */
+
+.wrap {
+  inline-size: 100%;
+  max-inline-size: calc(var(--container) + (var(--gutter) * 2));
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.wrap--narrow { max-inline-size: calc(1100px + (var(--gutter) * 2)); }
+
+/* Break out of the container to the full viewport, without the horizontal
+   scrollbar that the 100vw/-50% trick causes when a scrollbar is present. */
+.full-bleed {
+  inline-size: 100vw;
+  margin-inline-start: 50%;
+  transform: translateX(-50%);
+}
+
+
+/* =========================================================================
+   2. GRID
+   Twelve columns on desktop, eight at tablet, four on phone. Spans are
+   written to grid-column-END so that a co-existing start rule composes with
+   them instead of overwriting them — the shorthand `grid-column: span N`
+   silently resets the start, which is the bug this avoids.
+   ========================================================================= */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--grid-gap);
+}
+
+/* Gap variants, for the two densities the page actually uses. */
+.grid--tight { --grid-gap: var(--space-5); }
+.grid--wide  { --grid-gap: var(--space-7); }
+
+.col-1  { grid-column-end: span 1; }
+.col-2  { grid-column-end: span 2; }
+.col-3  { grid-column-end: span 3; }
+.col-4  { grid-column-end: span 4; }
+.col-5  { grid-column-end: span 5; }
+.col-6  { grid-column-end: span 6; }
+.col-7  { grid-column-end: span 7; }
+.col-8  { grid-column-end: span 8; }
+.col-9  { grid-column-end: span 9; }
+.col-10 { grid-column-end: span 10; }
+.col-11 { grid-column-end: span 11; }
+.col-12 { grid-column-end: span 12; }
+
+.col-start-2 { grid-column-start: 2; }
+.col-start-3 { grid-column-start: 3; }
+.col-start-4 { grid-column-start: 4; }
+.col-start-5 { grid-column-start: 5; }
+.col-start-6 { grid-column-start: 6; }
+.col-start-7 { grid-column-start: 7; }
+
+/* Vertical centring of grid children, as a property of the row rather than
+   of each child. */
+.grid--middle { align-items: center; }
+
+@media (max-width: 61.99rem) {
+  .grid { grid-template-columns: repeat(8, minmax(0, 1fr)); }
+  .col-1, .col-2, .col-3, .col-4, .col-5, .col-6,
+  .col-7, .col-8, .col-9, .col-10, .col-11, .col-12 { grid-column: auto / span 8; }
+  .col-start-2, .col-start-3, .col-start-4,
+  .col-start-5, .col-start-6, .col-start-7 { grid-column-start: auto; }
+}
+
+@media (max-width: 47.99rem) {
+  .grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--space-5);
+  }
+  .col-1, .col-2, .col-3, .col-4, .col-5, .col-6,
+  .col-7, .col-8, .col-9, .col-10, .col-11, .col-12 { grid-column: auto / span 4; }
+}
+
+
+/* =========================================================================
+   3. RHYTHM
+   The interval is chosen by RELATIONSHIP, not by eye. Three distances, and
+   naming them is the whole point: a gap picked from a raw scale gets picked
+   again, differently, three sections later — which is exactly how the same
+   interval above a button ended up written as both 48px and 64px.
+
+     --space-text      heading → its own body, label → its value
+     --space-text-obj  a text block → a card, an image, a control
+     --space-block     one content block → the next
+
+   Internal gaps stay smaller than external ones, so a group reads as a
+   group before it reads as a list of parts.
+   ========================================================================= */
+
+/* Vertical flow inside a text group. Differentiated on purpose: title→sub is
+   the tightest pair because they are one thought; anything→actions opens
+   furthest, because a CTA is a decision point and must not read as the next
+   paragraph. The exceptions live here, once, rather than as a margin on each
+   component — which is what let the same interval drift apart. */
+.stack > * + *              { margin-block-start: var(--space-text-obj); }
+.stack > .eyebrow + *       { margin-block-start: var(--space-4); }
+.stack > .section-title + * { margin-block-start: var(--space-text); }
+.stack > .section-sub + *   { margin-block-start: var(--space-6); }
+
+/* Section vertical rhythm — bottom-heavy, so a section ends rather than
+   being pushed into the next one. */
+.section {
+  position: relative;
+  padding-block: var(--section-top) var(--section-bottom);
+}
+.section--flush-top    { padding-block-start: 0; }
+.section--flush-bottom { padding-block-end: 0; }
+/* The inventory rail follows the hero's own downward hand-off, so it takes a
+   shorter interval than a section that has to introduce itself. */
+.section--tight-top    { padding-block-start: var(--space-8); }
+
+
+/* =========================================================================
+   4. FLOW UTILITIES
+   A deliberately short list. A utility earns its place by describing a
+   relationship the components cannot; anything longer than this becomes a
+   second way to write CSS, which is the thing this file exists to remove.
+   ========================================================================= */
+
+.row-flex   { display: flex; flex-wrap: wrap; gap: var(--space-5); }
+.row-flex--middle { align-items: center; }
+.row-flex--centre { justify-content: center; }
+.row-flex--end    { justify-content: flex-end; }
+
+/* Centre on one column, end-align once there is a column to end against.
+   This is the one alignment that genuinely changes with the layout. */
+@media (min-width: 62rem) {
+  .row-flex--end\@lg { justify-content: flex-end; }
+}
+
+
+/* =========================================================================
+   5. RESET UTILITIES
+   ========================================================================= */
+
+/* figure and ul carry UA margins that fight the flow rules above. */
+.bare { margin: 0; padding: 0; }
+.list-bare { margin: 0; padding: 0; list-style: none; }
+
+/* Available to a screen reader, absent from the visual composition.
+   Not `display:none` — that would remove it from the accessibility tree too. */
+.sr-only {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+
+/* =========================================================================
+   6. DIALOG
+   Native <dialog> in place of the Bootstrap modal: the same behaviour —
+   top layer, backdrop, Esc to close, focus trapped — with no framework and
+   no CDN request. The browser owns the semantics, so they cannot drift.
+   ========================================================================= */
+
+.dialog {
+  inline-size: min(1100px, calc(100vw - var(--gutter) * 2));
+  max-block-size: calc(100vh - var(--space-8) * 2);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-3);
+  background: transparent;
+  color: var(--ink);
+  overflow: visible;
+}
+
+.dialog::backdrop {
+  background: rgb(15 14 12 / 0.86);
+}
+
+.dialog__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-5);
+  padding-block-end: var(--space-3);
+}
+
+.dialog__title {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-label);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--ink-quiet);
+}
+
+/* The close control is a real 44px target, and it is visible without hover:
+   an affordance that only appears on hover is not discoverable on touch. */
+.dialog__close {
+  display: inline-grid;
+  place-items: center;
+  inline-size: 44px;
+  block-size: 44px;
+  padding: 0;
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  transition:
+    background-color var(--dur-1) var(--ease-out),
+    border-color     var(--dur-1) var(--ease-out);
+}
+.dialog__close:hover { background: rgb(255 255 255 / 0.08); border-color: var(--ink); }
+.dialog__close svg   { inline-size: 18px; block-size: 18px; }
+
+.dialog__body { display: block; }
+.dialog__body video {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+  border-radius: var(--radius-3);
+}
+
+/* The dialog is a layer that genuinely sits above the page, so it is the
+   one place a deep shadow is a true statement about elevation. */
+.dialog__body { box-shadow: var(--shadow-deep); border-radius: var(--radius-3); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .dialog[open] { animation: dialog-in var(--dur-2) var(--ease-out); }
+  @keyframes dialog-in {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: none; }
+  }
+}

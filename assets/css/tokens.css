@@ -131,9 +131,18 @@
   --space-10:  8rem;      /* 128 */
   --space-11: 12rem;      /* 192 */
 
+  /* CONTENT RHYTHM — the interval is chosen by relationship, not by eye.
+     A gap picked straight from the raw scale gets picked again, differently,
+     three sections later; naming the three distances is what stops that.
+     Internal always smaller than external, so a group reads as one thing. */
+  --space-text:     var(--space-3);   /*  12 — heading → its own body, label → value */
+  --space-text-obj: var(--space-5);   /*  24 — text block → card, image, control */
+  --space-block:    var(--space-8);   /*  64 — one content block → the next */
+
   /* Layout: the Figma content column is 1564px inside a 1920 frame */
   --container:  1564px;
   --gutter:     clamp(1.5rem, 5vw, 6rem);
+  --grid-gap:   var(--space-6);
 
   /* Section rhythm — bottom-heavy (≈1:1.5) so a section ends rather than
      being shoved into the next one, and the page reads as chapters.

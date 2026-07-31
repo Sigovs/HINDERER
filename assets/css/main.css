@@ -55,7 +55,7 @@ img, svg, video { max-width: 100%; height: auto; display: block; }
   background: var(--ink);
   color: var(--ink-inverse);
   font-size: var(--text-xs);
-  font-weight: 600;
+  font-weight: var(--weight-label);
   letter-spacing: var(--track-label);
   text-transform: uppercase;
   text-decoration: none;
@@ -71,43 +71,30 @@ img, svg, video { max-width: 100%; height: auto; display: block; }
    2. LAYOUT
    ========================================================================= */
 
-.wrap {
-  width: 100%;
-  max-width: calc(var(--container) + (var(--gutter) * 2));
-  margin-inline: auto;
-  padding-inline: var(--gutter);
-}
+/* .wrap, .section*, .stack now live in system.css — layout and rhythm are
+   one layer, components are another. */
 
-.wrap--narrow { max-width: calc(1100px + (var(--gutter) * 2)); }
+/* ACTION ROWS
+   Six semantic wrappers, one interval. What sits above a set of actions is a
+   property of the actions, not of the section that happens to hold them — so
+   it is stated once here rather than re-decided at each call site, which is
+   how the same gap ended up written as both 48px and 64px. */
+.btn-row,
+.hero__actions,
+.build__cta,
+.cta-centre,
+.reviews__cta { margin-block-start: var(--space-8); }
 
-/* Sections exhale downward: the bottom interval always exceeds the top, so a
-   section ends rather than being shoved into the next one. */
-.section {
-  position: relative;
-  padding-block: var(--section-top) var(--section-bottom);
-}
-
-.section--flush-top    { padding-block-start: 0; }
-.section--flush-bottom { padding-block-end: 0; }
-/* The inventory rail follows the hero's own downward hand-off, so it takes a
-   shorter interval than a section that has to introduce itself. */
-.section--tight-top    { padding-block-start: var(--space-8); }
-
-/* Deliberate, differentiated stack rhythm — internal gaps < external gaps.
-   Title→sub is the tightest pair because they are one thought; sub→lead
-   opens; anything→actions opens furthest, because a CTA is a decision point
-   and must not read as the next paragraph. */
-.stack > * + *              { margin-block-start: var(--space-5); }
-.stack > .eyebrow + *       { margin-block-start: var(--space-4); }
-.stack > .section-title + * { margin-block-start: var(--space-3); }
-.stack > .section-sub + *   { margin-block-start: var(--space-6); }
-.stack > * + .btn-row       { margin-block-start: var(--space-8); }
-
-.btn-row {
+.btn-row,
+.hero__actions {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-5);
 }
+
+.build__cta,
+.cta-centre,
+.reviews__cta { display: flex; justify-content: center; }
 
 
 /* =========================================================================
@@ -253,33 +240,21 @@ p + p { margin-block-start: var(--space-5); }
 .btn-hmc--centred { justify-content: center; text-align: center; }
 .btn-hmc--wide    { inline-size: min(300px, 100%); }
 
+/* The hero pair is the one place the control is the page's primary mass rather
+   than a control inside a section, so it takes a taller box. It is a modifier
+   and not a rule inside .hero__actions, because a section that reaches into a
+   component is how one exception becomes four. Returns to the base height in
+   one column, where the extra height buys nothing and costs a screen. */
+.btn-hmc--tall { min-block-size: 84px; flex: 1 1 260px; max-inline-size: 300px; }
+
+@media (max-width: 47.99rem) {
+  .btn-hmc--tall { min-block-size: 64px; max-inline-size: none; }
+}
+
 /* A pair of parallel actions stays a pair: they share the row and only wrap
    when the column genuinely cannot hold both. Stacking them earlier would
    rank one above the other, which is not what the choice is. */
 .btn-row .btn-hmc--wide { flex: 1 1 13.75rem; inline-size: auto; max-inline-size: 300px; }
-
-/* Small control inside a card: share / save / text */
-.btn-mini {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-2);
-  flex: 1 1 0;
-  min-block-size: 44px;            /* the Figma's 37px is under the touch floor */
-  padding-inline: var(--space-2);
-  border: 1px solid var(--rule-control);   /* 3.78:1 — UI boundary floor */
-  border-radius: var(--radius-1);
-  background: var(--bg-control);
-  color: var(--ink-quiet);
-  font-size: var(--text-xs);               /* raised from the Figma's 13px */
-  font-weight: 600;
-  line-height: var(--lh-tight);
-  text-decoration: none;
-  cursor: pointer;
-  transition: background-color var(--dur-1) var(--ease-out);
-}
-.btn-mini:hover { background: #4f4f4f; }
-.btn-mini__icon { inline-size: 14px; flex: 0 0 auto; }
 
 /* Icon-only round control — carousel arrows, media play */
 .btn-round {
@@ -538,13 +513,6 @@ p + p { margin-block-start: var(--space-5); }
   color: var(--ink);
 }
 
-.hero__actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-5);
-  margin-block-start: var(--space-8);
-}
-.hero__actions .btn-hmc { min-block-size: 84px; flex: 1 1 260px; max-inline-size: 300px; }
 
 @media (max-width: 47.99rem) {
   .hero { min-block-size: 0; padding-block-end: var(--space-8); }
@@ -558,7 +526,6 @@ p + p { margin-block-start: var(--space-5); }
       rgb(20 19 16 / 0.55) 45%,
       rgb(20 19 16 / 0.85) 100%);
   }
-  .hero__actions .btn-hmc { max-inline-size: none; min-block-size: 64px; }
 }
 
 
@@ -848,7 +815,6 @@ p + p { margin-block-start: var(--space-5); }
 }
 .build__media img { inline-size: 100%; }
 
-.build__cta { margin-block-start: var(--space-8); }
 
 
 /* =========================================================================
@@ -930,7 +896,6 @@ p + p { margin-block-start: var(--space-5); }
 .step__body { color: var(--ink-muted); }   /* 5.56:1 against the plate's top stop */
 
 /* Shared: a single action centred under a block that has just ended */
-.cta-centre { display: flex; justify-content: center; margin-block-start: var(--space-8); }
 
 
 /* =========================================================================
@@ -1153,7 +1118,6 @@ p + p { margin-block-start: var(--space-5); }
   margin-block-start: var(--space-6);
 }
 
-.reviews__cta { display: flex; justify-content: center; margin-block-start: var(--space-7); }
 
 
 /* =========================================================================

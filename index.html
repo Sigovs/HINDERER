@@ -19,11 +19,13 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Oswald:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-  <!-- Bootstrap 5.3 — grid, carousel, modal -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-
+  <!-- The cascade, in the order it must load:
+       tokens  → the values, and the only place a raw value is written
+       system  → layout, rhythm, utilities (this replaced Bootstrap)
+       main    → the components
+       oswald  → the display-face layer, one link away from being removed -->
   <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/system.css">
   <link rel="stylesheet" href="assets/css/main.css">
   <!-- Display face under trial: Oswald. index1–3 stay on the previous stack,
        so the two can be compared side by side. Remove this one line to revert. -->
@@ -52,7 +54,7 @@
 
     <button class="nav-toggle" type="button"
             aria-expanded="false" aria-controls="siteNav" data-nav-toggle>
-      <span class="visually-hidden">Menu</span>
+      <span class="sr-only">Menu</span>
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
         <path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
       </svg>
@@ -105,11 +107,11 @@
         <p class="hero__tagline">Crafting world-class custom roadsters since 1965</p>
 
         <div class="hero__actions">
-          <a class="btn-hmc btn-hmc--secondary" href="inventory.html">
+          <a class="btn-hmc btn-hmc--secondary btn-hmc--tall" href="inventory.html">
             <span>View<br>Our Inventory</span>
             <img class="btn-hmc__icon" src="assets/icons/arrow-inventory.svg" alt="" aria-hidden="true" width="40" height="28">
           </a>
-          <a class="btn-hmc btn-hmc--primary" href="#build">
+          <a class="btn-hmc btn-hmc--primary btn-hmc--tall" href="#build">
             <span>Build<br>Your Own</span>
             <img class="btn-hmc__icon" src="assets/icons/arrow-build.svg" alt="" aria-hidden="true" width="30" height="30">
           </a>
@@ -126,17 +128,17 @@
     <div class="wrap">
 
       <div class="rail-head">
-        <h2 class="visually-hidden" id="inventoryTitle">Current inventory</h2>
+        <h2 class="sr-only" id="inventoryTitle">Current inventory</h2>
         <p class="eyebrow">Available now</p>
         <div class="rail-nav">
           <button class="btn-round" type="button" data-rail-prev="vehicleRail">
-            <span class="visually-hidden">Scroll inventory left</span>
+            <span class="sr-only">Scroll inventory left</span>
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </button>
           <button class="btn-round" type="button" data-rail-next="vehicleRail">
-            <span class="visually-hidden">Scroll inventory right</span>
+            <span class="sr-only">Scroll inventory right</span>
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
@@ -277,9 +279,9 @@
       </div>
 
       <div class="build__panel">
-        <div class="row g-5 align-items-center">
+        <div class="grid grid--wide grid--middle">
 
-          <div class="col-12 col-lg-7">
+          <div class="col-7">
             <div class="spec-list">
               <div>
                 <h3 class="spec-list__title">Tailor Your Interior</h3>
@@ -311,8 +313,8 @@
             </div>
           </div>
 
-          <div class="col-12 col-lg-5">
-            <figure class="build__media m-0">
+          <div class="col-5">
+            <figure class="build__media bare">
               <img src="assets/img/build-cobra.png"
                    alt="A red Backdraft roadster with twin white racing stripes, seen head-on"
                    width="570" height="490" loading="lazy">
@@ -321,7 +323,7 @@
 
         </div>
 
-        <div class="build__cta d-flex justify-content-center justify-content-lg-end">
+        <div class="build__cta row-flex row-flex--centre row-flex--end@lg">
           <a class="btn-hmc btn-hmc--primary btn-hmc--centred btn-hmc--wide" href="build.html">Start Building Today!</a>
         </div>
       </div>
@@ -349,7 +351,7 @@
         </p>
       </div>
 
-      <ol class="steps list-unstyled">
+      <ol class="steps list-bare">
         <li class="step">
           <p class="step__index">01.</p>
           <h3 class="step__title">Get a Quote</h3>
@@ -400,7 +402,7 @@
       <p class="standfirst">Passion meets performance in every vehicle we create.</p>
 
       <div class="split u-mt-6">
-        <figure class="split__media split__media--16x9 m-0">
+        <figure class="split__media split__media--16x9 bare">
           <video controls preload="none" playsinline
                  poster="assets/img/whoweare-poster.jpg"
                  aria-label="A Backdraft roadster on Courthouse Square in Newark, Ohio">
@@ -443,7 +445,7 @@
   <section class="section" id="finance" aria-labelledby="financeTitle">
     <div class="wrap">
       <div class="split split--reverse">
-        <figure class="split__media split__media--warm split__media--4x3 m-0">
+        <figure class="split__media split__media--warm split__media--4x3 bare">
           <img src="assets/img/finance.jpg"
                alt="Two people reviewing financing paperwork at a desk in the Hinderer showroom"
                width="774" height="544" loading="lazy">
@@ -529,29 +531,29 @@
       </div>
 
       <div class="gallery">
-        <figure class="gallery__item gallery__item--a m-0">
+        <figure class="gallery__item gallery__item--a bare">
           <img src="assets/img/gallery-1.jpg" alt="A purple roadster photographed from the front three-quarter" width="615" height="390" loading="lazy">
         </figure>
 
-        <figure class="gallery__item gallery__item--d m-0">
+        <figure class="gallery__item gallery__item--d bare">
           <img src="assets/img/gallery-4.jpg" alt="The cockpit of a finished roadster, wheel and red shift knob" width="615" height="573" loading="lazy">
           <figcaption class="gallery__caption--static">Interior — cockpit and shifter</figcaption>
         </figure>
 
-        <figure class="gallery__item gallery__item--b m-0">
+        <figure class="gallery__item gallery__item--b bare">
           <img src="assets/img/gallery-2.jpg" alt="Blue leather interior with matching stitching" width="457" height="614" loading="lazy">
         </figure>
 
-        <figure class="gallery__item gallery__item--f m-0">
+        <figure class="gallery__item gallery__item--f bare">
           <img src="assets/img/gallery-6.jpg" alt="Louvred bonnet detail in raw carbon" width="457" height="573" loading="lazy">
         </figure>
 
-        <figure class="gallery__item gallery__item--c m-0">
+        <figure class="gallery__item gallery__item--c bare">
           <img src="assets/img/gallery-3.jpg" alt="Steering wheel, dash and gauges seen from the passenger side" width="457" height="352" loading="lazy">
           <figcaption class="gallery__caption--static">Interior — dash and gauges</figcaption>
         </figure>
 
-        <figure class="gallery__item gallery__item--e m-0">
+        <figure class="gallery__item gallery__item--e bare">
           <img src="assets/img/gallery-5.jpg" alt="The gear lever and red shift knob in a finished cabin" width="457" height="525" loading="lazy">
         </figure>
       </div>
@@ -569,13 +571,11 @@
         <p class="section-sub">People say about us</p>
       </div>
 
+      <!-- Three reviews, and three is all there are: a carousel around a
+           single page of content is an affordance with nothing behind it. -->
       <div class="reviews__stage">
-        <div id="reviewsCarousel" class="carousel slide carousel-fade" data-bs-interval="false" data-bs-touch="true">
-          <div class="carousel-inner">
-
-            <div class="carousel-item active">
-              <div class="row g-4">
-                <div class="col-12 col-lg-4">
+        <div class="grid grid--tight">
+              <div class="col-4">
                   <blockquote class="review">
                     <p class="review__name">Maurice Looper</p>
                     <p class="review__stars" aria-label="Rated 5 out of 5">
@@ -593,7 +593,7 @@
                   </blockquote>
                 </div>
 
-                <div class="col-12 col-lg-4">
+                <div class="col-4">
                   <blockquote class="review">
                     <p class="review__name">Tony Vannelli</p>
                     <p class="review__stars" aria-label="Rated 5 out of 5">
@@ -615,7 +615,7 @@
                   </blockquote>
                 </div>
 
-                <div class="col-12 col-lg-4">
+                <div class="col-4">
                   <blockquote class="review">
                     <p class="review__name">FuzionBonnie Backup</p>
                     <p class="review__stars" aria-label="Rated 5 out of 5">
@@ -635,25 +635,6 @@
                     </p>
                   </blockquote>
                 </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-
-        <div class="reviews__nav">
-          <button class="btn-round" type="button" data-bs-target="#reviewsCarousel" data-bs-slide="prev">
-            <span class="visually-hidden">Previous reviews</span>
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </button>
-          <button class="btn-round" type="button" data-bs-target="#reviewsCarousel" data-bs-slide="next">
-            <span class="visually-hidden">Next reviews</span>
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </button>
         </div>
       </div>
 
@@ -721,22 +702,20 @@
 
 
 <!-- Video lightbox — only opened by a control that really has a video -->
-<div class="modal fade" id="videoModal" tabindex="-1" aria-labelledby="videoModalTitle" aria-hidden="true">
-  <div class="modal-dialog modal-xl modal-dialog-centered">
-    <div class="modal-content bg-transparent border-0">
-      <div class="modal-header border-0">
-        <h2 class="modal-title fs-6 text-white" id="videoModalTitle">Video</h2>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body p-0">
-        <video id="videoModalPlayer" controls playsinline style="width:100%;border-radius:var(--radius-3)"></video>
-      </div>
-    </div>
+<dialog class="dialog" id="videoModal" aria-labelledby="videoModalTitle">
+  <div class="dialog__head">
+    <h2 class="dialog__title" id="videoModalTitle">Video</h2>
+    <button type="button" class="dialog__close" data-dialog-close aria-label="Close video">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </button>
   </div>
-</div>
+  <div class="dialog__body">
+    <video id="videoModalPlayer" controls playsinline></video>
+  </div>
+</dialog>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <script src="assets/js/main.js"></script>
 </body>
 </html>
