@@ -19,10 +19,15 @@
   --track-heading: 0.004em;
 
   /* Condensed letterforms read heavier at the same nominal weight, so the
-     whole ramp drops a step. 400 here carries roughly the stem mass 500 had
-     in the wider face. */
-  --weight-display: 300;
-  --weight-heading: 400;
+     whole ramp drops a step.
+
+     Weights follow the Figma text styles: display/hero and display/section
+     are Oswald Regular, display/h3 is Oswald Light. The ramp still inverts —
+     the biggest sizes are not the heaviest — but the inversion now starts one
+     step later than it did, so the display tier carries more presence and the
+     sub-heads recede. */
+  --weight-display: 400;   /* hero, section titles — Oswald Regular */
+  --weight-heading: 300;   /* 22–34px sub-heads — Oswald Light */
   --weight-label:   500;
 
   /* Tall caps and short descenders leave the line looking tighter than it
@@ -57,11 +62,8 @@
   line-height: 0.98;
 }
 
-/* One exception to the 300: section titles are copper on the dark ground at
-   3.67:1 — legal as large text, but a light condensed stem at that ratio is
-   thin twice over. They take 400. The hero stays at 300 because it is
-   near-white at 16.83:1 and can carry the air. */
-.section-title { font-weight: 400; }
+/* The old 400 exception for section titles is gone — --weight-display is 400
+   for the whole display tier now, so the rule said nothing. */
 
 /* Caps set wider per character, so the unbreakable hero phrase needs a little
    less viewport-driven size to stay on one line down at 320px. */

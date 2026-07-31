@@ -67,8 +67,12 @@
      licence lands. Poppins (reviews + footer in the Figma) is folded into
      the same voice — a role, not a second voice.
      --------------------------------------------------------------------- */
-  --font-body:    "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  --font-display: "Degular", "Hanken Grotesk", "Inter", system-ui, -apple-system, sans-serif;
+  /* Inter Tight, not Inter: a slightly narrower set that sits better beside a
+     condensed display face, and holds its colour at the small end of the ramp
+     where this page does most of its reading. Inter stays as the fallback —
+     same metrics family, so a failed load degrades rather than reflows. */
+  --font-body:    "Inter Tight", "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-display: "Degular", "Hanken Grotesk", "Inter Tight", system-ui, -apple-system, sans-serif;
 
   /* Two voices, and the second has a systemic job the first cannot do:
      Inter carries reading and data (its tabular figures are why the spec

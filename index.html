@@ -17,7 +17,7 @@
        change required. -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Oswald:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=Oswald:wght@300;400;500;600&display=swap" rel="stylesheet">
 
   <!-- The cascade, in the order it must load:
        tokens  → the values, and the only place a raw value is written
@@ -63,18 +63,10 @@
     <nav class="site-nav" id="siteNav" aria-label="Primary">
       <ul class="site-nav__list">
         <li><a class="site-nav__link" href="inventory.html" aria-current="page">Inventory</a></li>
-        <li class="site-nav__sep" aria-hidden="true"></li>
         <li><a class="site-nav__link" href="#build">Build</a></li>
-        <li class="site-nav__sep" aria-hidden="true"></li>
         <li><a class="site-nav__link" href="#trade">Trade In</a></li>
-        <li class="site-nav__sep" aria-hidden="true"></li>
         <li><a class="site-nav__link" href="#about">Who We Are</a></li>
-        <li>
-          <a class="header-phone" href="tel:+17406182466">
-            <img class="header-phone__icon" src="assets/icons/phone.svg" alt="" aria-hidden="true" width="12" height="12">
-            740.618.2466
-          </a>
-        </li>
+        <li><a class="site-nav__link site-nav__link--phone" href="tel:+17406182466">740.618.2466</a></li>
       </ul>
     </nav>
 
@@ -652,9 +644,22 @@
     <div class="wrap">
       <div class="contact__grid">
 
+        <!-- A real, pannable map rather than a screenshot. OpenStreetMap needs
+             no API key and no account, so the page keeps working without a
+             billing relationship. It is darkened at the CSS layer to sit on
+             this ground — see .contact__map in main.css. -->
         <div class="contact__map">
-          <a href="https://maps.google.com/?q=1555+Hebron+Rd,+Heath,+OH+43056" target="_blank" rel="noopener">
-            <img src="assets/img/map.jpg" alt="Map showing Hinderer Motor Company at 1555 Hebron Rd, Heath, Ohio" width="1248" height="500" loading="lazy">
+          <iframe class="contact__map__frame"
+                  title="Map showing Hinderer Motor Company at 1555 Hebron Rd, Heath, Ohio"
+                  src="https://www.openstreetmap.org/export/embed.html?bbox=-82.4590%2C40.0215%2C-82.4190%2C40.0435&amp;layer=mapnik&amp;marker=40.0325%2C-82.4390"
+                  loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          <!-- The interactive frame cannot be a link, so the route to full
+               directions is stated separately and stays keyboard reachable. -->
+          <a class="contact__map__link"
+             href="https://www.openstreetmap.org/?mlat=40.0325&amp;mlon=-82.4390#map=15/40.0325/-82.4390"
+             target="_blank" rel="noopener">
+            Open directions
+            <span class="sr-only">— 1555 Hebron Rd, Heath, Ohio, opens in a new tab</span>
           </a>
         </div>
 

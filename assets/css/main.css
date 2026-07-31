@@ -209,6 +209,12 @@ p + p { margin-block-start: var(--space-5); }
   font-family: var(--font-display);
   font-size: var(--text-btn);
   line-height: var(--lh-tight);
+  /* Caps on the control tier, as the Figma style now sets. Safe here because
+     every label is two to four words — uppercase removes the ascender and
+     descender variation the eye reads word shapes by, so it stops at labels
+     and never reaches a lead, a body or a caption. */
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
   text-align: start;
   text-decoration: none;
   cursor: pointer;
@@ -299,6 +305,7 @@ p + p { margin-block-start: var(--space-5); }
 .site-header__inner {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: var(--space-5);
   min-block-size: var(--header-h);
   padding-block: var(--space-3);
@@ -312,87 +319,99 @@ p + p { margin-block-start: var(--space-5); }
   object-position: 50% 45.5%;        /* the Figma mask crop of the square lockup */
 }
 
-.site-nav { margin-inline-start: auto; }
+/* The header is three masses: logo, nav, counter. space-between on the inner
+   wrap distributes them, so nav no longer needs to shove itself right. */
+.site-nav { flex: 0 1 auto; }
 
 .site-nav__list {
   display: flex;
   align-items: center;
-  gap: var(--space-5);
+  gap: 40px;                       /* the Figma nav interval */
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.site-nav__sep {
-  inline-size: 1px;
-  block-size: 27px;
-  background: var(--rule-strong);
-}
-
-/* Nav links are not underlined; rank is carried by a rule above the active
-   item and by ink opacity. */
+/* Nav is set in the display voice, uppercase — Oswald is drawn for caps, and
+   at nav length every item is one or two words, which is where uppercase is
+   safe. The rule sits UNDER the active item, not above it. */
 .site-nav__link {
   position: relative;
   display: block;
   padding-block: var(--space-2);
   color: var(--ink);
-  font-size: var(--text-lead);
-  line-height: var(--lh-tight);
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  line-height: var(--lh-body);
+  letter-spacing: 0.005em;
+  text-transform: uppercase;
   text-decoration: none;
   transition: color var(--dur-1) var(--ease-out);
 }
-.site-nav__link::before {
+.site-nav__link::after {
   content: "";
   position: absolute;
-  inset-block-start: -0.75rem;
+  inset-block-end: 0;
   inset-inline: 0;
   block-size: 3px;
-  background: var(--ink);
+  background: var(--accent);
   opacity: 0;
   transition: opacity var(--dur-1) var(--ease-out);
 }
 .site-nav__link:hover,
-.site-nav__link:focus-visible { color: var(--ink); }
-.site-nav__link:hover::before,
-.site-nav__link:focus-visible::before,
-.site-nav__link[aria-current="page"]::before { opacity: 1; }
+.site-nav__link:focus-visible { color: var(--accent-ink); }
+.site-nav__link:hover::after,
+.site-nav__link:focus-visible::after { opacity: 1; }
 
-.header-phone {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  padding: var(--space-1) var(--space-3);
-  border: 1px solid var(--rule-strong);
-  border-radius: var(--radius-2);
-  color: var(--ink);
-  font-size: var(--text-lead);
-  text-decoration: none;
-  white-space: nowrap;
-  transition: border-color var(--dur-1) var(--ease-out);
+/* The current page is marked twice — copper ink AND the rule — because meaning
+   carried by hue alone is invisible to a large share of visitors. */
+.site-nav__link[aria-current="page"] { color: var(--accent-ink); }
+.site-nav__link[aria-current="page"]::after { opacity: 1; }
+
+/* The phone number is the one gradient on the page. The Figma ramp ended at
+   #2B6459, which is 2.46:1 on the ground — legal nowhere. The end stop is
+   lifted to #00998C so both ends clear AA: 6.77:1 → 4.87:1. */
+.site-nav__link--phone {
+  background-image: linear-gradient(90deg, #00b7a9 0%, #00998c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
-.header-phone:hover { border-color: var(--ink); }
-.header-phone__icon { inline-size: 12px; }
+.site-nav__link--phone:hover,
+.site-nav__link--phone:focus-visible { color: transparent; }
+/* background-clip:text leaves no colour for a forced-colours renderer, so the
+   fallback is restored where the gradient cannot paint. */
+@media (forced-colors: active) {
+  .site-nav__link--phone { background-image: none; color: LinkText; }
+}
 
 /* Saved-vehicle counter — a real means of the task, so it survives every
    breakpoint rather than being tucked into the burger. */
 .collection-pill {
-  position: absolute;
-  inset-block-start: 0;
-  inset-inline-end: var(--gutter);
+  flex: 0 0 auto;
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
-  min-block-size: 40px;            /* the Figma tab is 30px — under the target floor */
-  padding: var(--space-1) var(--space-4);
-  border-radius: 0 0 var(--radius-2) var(--radius-2);
-  background: var(--accent);
+  min-block-size: 44px;
+  padding: var(--space-3) var(--space-5);
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius-pill);
+  background: transparent;
   color: var(--ink);
-  font-size: var(--text-xs);
-  line-height: var(--lh-tight);
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  line-height: var(--lh-body);
+  text-transform: uppercase;
   text-decoration: none;
-  transition: background-color var(--dur-1) var(--ease-out);
+  white-space: nowrap;
+  transition: border-color var(--dur-1) var(--ease-out),
+              background-color var(--dur-1) var(--ease-out);
 }
-.collection-pill:hover { background: var(--accent-hover); }
+.collection-pill:hover {
+  border-color: var(--ink);
+  background: rgb(255 255 255 / 0.04);
+}
+.collection-pill .num-tabular { color: var(--accent-ink); }
 
 .nav-toggle {
   display: none;
@@ -422,11 +441,22 @@ p + p { margin-block-start: var(--space-5); }
   html.js .site-nav { display: none; }
   html.js .nav-toggle[aria-expanded="true"] ~ .site-nav { display: block; }
   .site-nav__list { flex-direction: column; align-items: stretch; gap: var(--space-4); }
-  .site-nav__sep  { display: none; }
+  /* One column gives the nav room, so the display voice steps up a size; the
+     rule stays under the item, where it now lives on every viewport. */
   .site-nav__link { font-size: var(--text-h3); }
-  .site-nav__link::before { inset-block-start: auto; inset-block-end: -0.5rem; }
-  .header-phone   { justify-content: center; }
-  .collection-pill { padding-inline: var(--space-3); }
+  .site-nav__link::after { inset-inline: 0 auto; inline-size: 3rem; }
+
+  /* Three masses in one bar: at 375px the logo, the toggle and the counter
+     together overrun the viewport, so all three step down rather than the
+     counter being dropped into the burger — it is a real means of the task
+     and has to survive the breakpoint. */
+  .site-header__inner { gap: var(--space-3); }
+  .brand__mark { inline-size: clamp(128px, 34vw, 180px); }
+  .collection-pill {
+    padding-inline: var(--space-3);
+    font-size: var(--text-xs);
+    gap: var(--space-1);
+  }
 }
 
 
@@ -1126,13 +1156,62 @@ p + p { margin-block-start: var(--space-5); }
 
 .contact { position: relative; }
 
+/* LIVE MAP
+   OpenStreetMap ships one tile set, and it is light — a white rectangle on a
+   near-black page reads as a hole punched through it. The frame is inverted and
+   hue-rotated back, which is the only way to darken third-party tiles you do not
+   host: invert() flips the paper to ink AND the ink to paper, so labels stay
+   legible, and hue-rotate(180deg) returns the greens and blues to roughly
+   themselves after the flip. */
 .contact__map {
-  border: 1px solid #707070;
+  position: relative;
+  border: 1px solid var(--rule-control);
   border-radius: var(--radius-3);
   overflow: hidden;
+  background: var(--bg-raised);   /* holds the shape while tiles load */
 }
-.contact__map > a { display: block; }   /* the target is the map, not a 35px inline box */
-.contact__map img { inline-size: 100%; aspect-ratio: 1248 / 500; object-fit: cover; }
+
+.contact__map__frame {
+  display: block;
+  inline-size: 100%;
+  aspect-ratio: 1248 / 500;
+  border: 0;
+  filter: invert(1) hue-rotate(180deg) brightness(0.92) contrast(0.95) saturate(0.75);
+}
+
+/* An iframe cannot be wrapped in a link, so the route out is its own control —
+   and it is a real target, not a hover-only affordance. */
+.contact__map__link {
+  position: absolute;
+  inset-block-end: var(--space-4);
+  inset-inline-start: var(--space-4);
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 44px;
+  padding: var(--space-2) var(--space-5);
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius-2);
+  background: rgb(31 29 25 / 0.88);
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background-color var(--dur-1) var(--ease-out),
+              border-color var(--dur-1) var(--ease-out);
+}
+.contact__map__link:hover,
+.contact__map__link:focus-visible {
+  background: var(--bg);
+  border-color: var(--ink);
+}
+
+/* The filter is a cosmetic layer, not information — a renderer that overrides
+   colour has its own contrast model and must not be fought. */
+@media (forced-colors: active) {
+  .contact__map__frame { filter: none; }
+}
 
 /* This one keeps its shadow: it genuinely overlaps the map, so the elevation
    cue is telling the truth about the layer order. */
