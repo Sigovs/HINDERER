@@ -613,15 +613,12 @@
     };
 
     var matches = function (card) {
-      var wanted = [].slice.call(facetForm.querySelectorAll('[data-facet="status"]:checked'))
+      var wanted = [].slice.call(facetForm.querySelectorAll('[data-facet="condition"]:checked'))
                      .map(function (i) { return i.value; });
-      if (wanted.indexOf(card.getAttribute('data-status')) === -1) return false;
+      if (wanted.indexOf(card.getAttribute('data-condition')) === -1) return false;
 
       var year = num(card, 'data-year');
       if (year < bound('yearFrom', -Infinity) || year > bound('yearTo', Infinity)) return false;
-
-      var price = num(card, 'data-price');
-      if (price < bound('priceFrom', -Infinity) || price > bound('priceTo', Infinity)) return false;
 
       var make = facetForm.elements.make ? facetForm.elements.make.value : '';
       if (make && card.getAttribute('data-make') !== make) return false;
@@ -635,8 +632,8 @@
     /* True when the query is anything other than "show me everything", which
        is the only condition under which Clear has work to do. */
     var isFiltered = function () {
-      if (facetForm.querySelectorAll('[data-facet="status"]:not(:checked)').length) return true;
-      var names = ['yearFrom', 'yearTo', 'priceFrom', 'priceTo', 'make', 'model'];
+      if (facetForm.querySelectorAll('[data-facet="condition"]:not(:checked)').length) return true;
+      var names = ['yearFrom', 'yearTo', 'make', 'model'];
       for (var i = 0; i < names.length; i++) {
         var el = facetForm.elements[names[i]];
         if (el && el.value !== '') return true;

@@ -95,13 +95,13 @@
        =================================================================== -->
   <section class="section section--below-header section--flush-bottom" aria-labelledby="srpTitle">
     <div class="wrap">
+      <!-- Eyebrow and headline, and nothing else. A results page states what it
+           is and then gets out of the way; the sub-line and the paragraph that
+           were here pushed the first car most of a screen further down and said
+           nothing the list does not say better by existing. -->
       <div class="stack" data-scene>
         <p class="eyebrow" data-rise="left">Current inventory</p>
         <h1 class="section-title" id="srpTitle" data-rise="left">Hand-Built. In Stock.</h1>
-        <p class="section-sub" data-rise="left">Every roadster on the floor right now.</p>
-        <p class="body-muted" data-rise="left">Each car is inspected, documented and photographed before it
-          is listed. What you see here is what is in the building — nothing is ordered in
-          against a picture.</p>
       </div>
     </div>
   </section>
@@ -128,30 +128,24 @@
           <summary>Filter<span class="sr-only"> the inventory</span></summary>
 
           <div class="facets__inner">
-            <p class="facets__title">Filter by</p>
-
             <form data-facets>
               <fieldset class="facet bare">
-                <legend class="facet__legend">Availability</legend>
-                <!-- These three are the states the cards actually carry. The Figma
-                     offers New / Used / Certified, which describe no data this
-                     inventory holds — a switch that filters nothing is worse than
-                     no switch, because it makes the visitor doubt the result. -->
+                <legend class="facet__legend sr-only">Condition</legend>
                 <div class="switch-row switch-row--inline">
                   <label class="switch">
-                    <input type="checkbox" name="status" value="new" checked data-facet="status">
+                    <input type="checkbox" name="condition" value="new" checked data-facet="condition">
                     <span class="switch__track" aria-hidden="true"></span>
                     <span class="switch__label">New</span>
                   </label>
                   <label class="switch">
-                    <input type="checkbox" name="status" value="just" checked data-facet="status">
+                    <input type="checkbox" name="condition" value="used" checked data-facet="condition">
                     <span class="switch__track" aria-hidden="true"></span>
-                    <span class="switch__label">Just in</span>
+                    <span class="switch__label">Used</span>
                   </label>
                   <label class="switch">
-                    <input type="checkbox" name="status" value="sold" checked data-facet="status">
+                    <input type="checkbox" name="condition" value="certified" checked data-facet="condition">
                     <span class="switch__track" aria-hidden="true"></span>
-                    <span class="switch__label">Sold</span>
+                    <span class="switch__label">Certified</span>
                   </label>
                 </div>
               </fieldset>
@@ -180,29 +174,6 @@
                 </div>
               </fieldset>
 
-              <fieldset class="facet bare">
-                <legend class="facet__legend">Price</legend>
-                <div class="range" data-range="price">
-                  <label class="sr-only" for="priceMin">Lowest price</label>
-                  <input id="priceMin" type="range" min="60000" max="200000" value="60000" step="1000"
-                         data-range-min data-target="priceFrom">
-                  <label class="sr-only" for="priceMax">Highest price</label>
-                  <input id="priceMax" type="range" min="60000" max="200000" value="200000" step="1000"
-                         data-range-max data-target="priceTo">
-                </div>
-                <div class="field-pair">
-                  <div class="field">
-                    <label class="field__label" for="priceFrom">From</label>
-                    <input class="control" id="priceFrom" name="priceFrom" type="number"
-                           inputmode="numeric" min="0" step="1000" placeholder="$60,000">
-                  </div>
-                  <div class="field">
-                    <label class="field__label" for="priceTo">To</label>
-                    <input class="control" id="priceTo" name="priceTo" type="number"
-                           inputmode="numeric" min="0" step="1000" placeholder="$200,000">
-                  </div>
-                </div>
-              </fieldset>
 
               <fieldset class="facet bare">
                 <legend class="facet__legend">Vehicle</legend>
@@ -232,7 +203,9 @@
               </fieldset>
 
               <div class="facets__actions">
-                <button class="btn-hmc btn-hmc--primary btn-hmc--centred" type="submit">Find your car</button>
+                <!-- Slate, as the Figma has it, and it is the legal choice too: 6.33:1 on
+                     bone against copper's 3.99:1. -->
+                <button class="btn-hmc btn-hmc--secondary btn-hmc--centred" type="submit">Find your car</button>
                 <button class="facets__clear" type="reset" data-facets-clear hidden>Clear all filters</button>
               </div>
               <a class="facets__advanced" href="#facets">Advanced search</a>
@@ -262,7 +235,7 @@
 
           <ul class="results list-bare" data-results>
             <li class="vehicle vehicle--new" data-status="new"
-                data-price="109500" data-year="1965" data-make="Backdraft" data-model="RT4B Roadster" data-miles="62">
+                data-condition="new" data-price="109500" data-year="1965" data-make="Backdraft" data-model="RT4B Roadster" data-miles="62">
               <div class="vehicle__media">
                 <img src="assets/img/inventory-1.jpg" alt="1965 Backdraft RT4B Roadster" width="381" height="278" loading="lazy">
                 <p class="vehicle__status">New!</p>
@@ -290,7 +263,7 @@
               </div>
             </li>
             <li class="vehicle vehicle--just" data-status="just"
-                data-price="98750" data-year="1966" data-make="Roadster" data-model="427 S/C Replica" data-miles="3420">
+                data-condition="certified" data-price="98750" data-year="1966" data-make="Roadster" data-model="427 S/C Replica" data-miles="3420">
               <div class="vehicle__media">
                 <img src="assets/img/inventory-1.jpg" alt="1966 Roadster 427 S/C Replica" width="381" height="278" loading="lazy">
                 <p class="vehicle__status">Just in</p>
@@ -318,7 +291,7 @@
               </div>
             </li>
             <li class="vehicle vehicle--sold" data-status="sold"
-                data-price="92995" data-year="1965" data-make="Shelby" data-model="Cobra Replica" data-miles="1184">
+                data-condition="used" data-price="92995" data-year="1965" data-make="Shelby" data-model="Cobra Replica" data-miles="1184">
               <div class="vehicle__media">
                 <img src="assets/img/inventory-1.jpg" alt="1965 Roadster Shelby Cobra Replica" width="381" height="278" loading="lazy">
                 <p class="vehicle__status">Sold!</p>
@@ -346,7 +319,7 @@
               </div>
             </li>
             <li class="vehicle vehicle--new" data-status="new"
-                data-price="114900" data-year="1967" data-make="Backdraft" data-model="RT3 Roadster" data-miles="118">
+                data-condition="new" data-price="114900" data-year="1967" data-make="Backdraft" data-model="RT3 Roadster" data-miles="118">
               <div class="vehicle__media">
                 <img src="assets/img/inventory-1.jpg" alt="1967 Backdraft RT3 Roadster" width="381" height="278" loading="lazy">
                 <p class="vehicle__status">New!</p>
@@ -374,7 +347,7 @@
               </div>
             </li>
             <li class="vehicle vehicle--just" data-status="just"
-                data-price="104250" data-year="1964" data-make="Superformance" data-model="MkIII Roadster" data-miles="7960">
+                data-condition="used" data-price="104250" data-year="1964" data-make="Superformance" data-model="MkIII Roadster" data-miles="7960">
               <div class="vehicle__media">
                 <img src="assets/img/inventory-1.jpg" alt="1964 Superformance MkIII Roadster" width="381" height="278" loading="lazy">
                 <p class="vehicle__status">Just in</p>
@@ -402,7 +375,7 @@
               </div>
             </li>
             <li class="vehicle vehicle--new" data-status="new"
-                data-price="101800" data-year="1965" data-make="Backdraft" data-model="RT3 Roadster" data-miles="240">
+                data-condition="new" data-price="101800" data-year="1965" data-make="Backdraft" data-model="RT3 Roadster" data-miles="240">
               <div class="vehicle__media">
                 <img src="assets/img/inventory-1.jpg" alt="1965 Backdraft RT3 Roadster" width="381" height="278" loading="lazy">
                 <p class="vehicle__status">New!</p>
@@ -430,7 +403,7 @@
               </div>
             </li>
             <li class="vehicle vehicle--sold" data-status="sold"
-                data-price="88400" data-year="1966" data-make="Shelby" data-model="Cobra Replica" data-miles="12480">
+                data-condition="used" data-price="88400" data-year="1966" data-make="Shelby" data-model="Cobra Replica" data-miles="12480">
               <div class="vehicle__media">
                 <img src="assets/img/inventory-1.jpg" alt="1966 Shelby Cobra 289 Replica" width="381" height="278" loading="lazy">
                 <p class="vehicle__status">Sold!</p>
@@ -458,7 +431,7 @@
               </div>
             </li>
             <li class="vehicle vehicle--just" data-status="just"
-                data-price="119750" data-year="1968" data-make="Backdraft" data-model="RT4B Roadster" data-miles="1902">
+                data-condition="certified" data-price="119750" data-year="1968" data-make="Backdraft" data-model="RT4B Roadster" data-miles="1902">
               <div class="vehicle__media">
                 <img src="assets/img/inventory-1.jpg" alt="1968 Backdraft RT4B Roadster" width="381" height="278" loading="lazy">
                 <p class="vehicle__status">Just in</p>
@@ -486,7 +459,7 @@
               </div>
             </li>
             <li class="vehicle vehicle--new" data-status="new"
-                data-price="132500" data-year="1965" data-make="Superformance" data-model="MkIII-R" data-miles="44">
+                data-condition="new" data-price="132500" data-year="1965" data-make="Superformance" data-model="MkIII-R" data-miles="44">
               <div class="vehicle__media">
                 <img src="assets/img/inventory-1.jpg" alt="1965 Superformance MkIII-R" width="381" height="278" loading="lazy">
                 <p class="vehicle__status">New!</p>
@@ -514,7 +487,7 @@
               </div>
             </li>
             <li class="vehicle vehicle--sold" data-status="sold"
-                data-price="94900" data-year="1964" data-make="Roadster" data-model="427 S/C Replica" data-miles="9310">
+                data-condition="used" data-price="94900" data-year="1964" data-make="Roadster" data-model="427 S/C Replica" data-miles="9310">
               <div class="vehicle__media">
                 <img src="assets/img/inventory-1.jpg" alt="1964 Roadster 427 S/C Replica" width="381" height="278" loading="lazy">
                 <p class="vehicle__status">Sold!</p>
@@ -542,7 +515,7 @@
               </div>
             </li>
             <li class="vehicle vehicle--just" data-status="just"
-                data-price="97600" data-year="1967" data-make="Shelby" data-model="Cobra Replica" data-miles="5140">
+                data-condition="certified" data-price="97600" data-year="1967" data-make="Shelby" data-model="Cobra Replica" data-miles="5140">
               <div class="vehicle__media">
                 <img src="assets/img/inventory-1.jpg" alt="1967 Shelby Cobra Replica" width="381" height="278" loading="lazy">
                 <p class="vehicle__status">Just in</p>
@@ -570,7 +543,7 @@
               </div>
             </li>
             <li class="vehicle vehicle--new" data-status="new"
-                data-price="106400" data-year="1966" data-make="Backdraft" data-model="RT3 Roadster" data-miles="310">
+                data-condition="new" data-price="106400" data-year="1966" data-make="Backdraft" data-model="RT3 Roadster" data-miles="310">
               <div class="vehicle__media">
                 <img src="assets/img/inventory-1.jpg" alt="1966 Backdraft RT3 Roadster" width="381" height="278" loading="lazy">
                 <p class="vehicle__status">New!</p>

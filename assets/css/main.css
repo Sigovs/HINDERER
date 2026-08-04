@@ -2438,16 +2438,37 @@ p + p { margin-block-start: var(--space-5); }
    this page IS the inventory, so it gets a grid that grows downward and can
    be read row by row. auto-fill rather than a fixed count, so the card keeps
    its designed width instead of stretching to whatever the column allows. */
+/* Three across, declared rather than derived. auto-fill gave three at 1440 and
+   four at 1600, so the same page had two different card widths depending on the
+   window — and the card was drawn at one. Three is also what lets the title,
+   the price and the metadata sit on the lines they were designed for. */
 .results {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
-  gap: var(--space-6);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  /* Rows and columns are NOT the same interval here. The status disc hangs
+     roughly a third of its diameter above the card — about 32px — so a 32px
+     row gap puts the second row's badges straight onto the first row's feet.
+     The row interval is the named block distance, which leaves clear air
+     above every badge; the column interval stays tight because nothing
+     overhangs sideways. */
+  column-gap: var(--space-6);
+  row-gap: var(--space-block);
   margin-block-start: var(--space-6);
   /* Same reason as the rail: the status disc overhangs the top of a card and
      the hover shadow falls past its foot, and neither may be clipped. */
   padding-block: var(--space-6) var(--space-8);
 }
 .results .vehicle { inline-size: auto; }
+
+/* Three needs room. Below the two-column breakpoint the rail column is gone,
+   so the results have the full width and step down by content rather than by
+   an arbitrary count. */
+@media (max-width: 74.99rem) {
+  .results { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 47.99rem) {
+  .results { grid-template-columns: minmax(0, 1fr); }
+}
 
 /* Nothing matched. A results page that goes silently blank reads as broken,
    so the empty state says what happened and offers the way back. */
@@ -2511,20 +2532,17 @@ p + p { margin-block-start: var(--space-5); }
   color: var(--ink-inverse);
 }
 
-.facets__title {
-  font-size: var(--text-xs);
-  font-weight: var(--weight-label);
-  letter-spacing: var(--track-label);
-  text-transform: uppercase;
-  color: var(--ink-inverse);
-  padding-block-end: var(--space-3);
-  border-block-end: 1px solid var(--rule-inverse);
-}
+
 
 /* A fieldset is the right element — it is what groups controls under one label
    for a screen reader — but it arrives with a UA border on all four sides and a
    legend notched into it. Both are stripped: the grouping is carried by the one
    rule underneath and by the interval, like every other group on this site. */
+/* The panel had a "Filter by" rubric over an "Availability" rubric — two
+   labels stacked with nothing between them, and neither is in the Figma. Both
+   are gone from the drawing; the Availability legend stays in the markup as
+   .sr-only, because a fieldset without a legend stops grouping its checkboxes
+   and the three switches become three orphans to a screen reader. */
 .facet {
   min-inline-size: 0;   /* fieldset's UA min-width refuses to shrink in a grid */
   margin: 0;
@@ -2533,6 +2551,7 @@ p + p { margin-block-start: var(--space-5); }
   border: 0;
   border-block-end: 1px solid var(--rule-inverse);
 }
+.facet:first-of-type { padding-block-start: 0; }
 .facet:last-of-type { border-block-end: 0; }
 
 .facet__legend {
@@ -2862,7 +2881,6 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
   }
   .facets[open] > summary::after { rotate: 180deg; }
   .facets__inner { padding: 0 var(--space-5) var(--space-5); }
-  .facets__title { display: none; }
 }
 
 @media (min-width: 62rem) {
