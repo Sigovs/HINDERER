@@ -183,16 +183,25 @@
                document. Without JS the tab bar is hidden and all four panels
                render in order, so a visitor with no script and a search engine
                both see the whole page. main.js is what turns them into tabs. -->
+          <!-- Six tabs, as the Figma has them, and six panels with something
+               behind each: a tab whose panel is empty is the same lie as a link
+               to nowhere. Every panel stays in the document — without JS the bar
+               is hidden and all six render in order, so a visitor with no script
+               and a search engine both see the whole page. -->
           <div class="tabs" data-tabs>
             <div class="tabs__list" role="tablist" aria-label="About this vehicle">
               <button class="tabs__tab" type="button" role="tab" id="tab-description"
                       aria-controls="panel-description" aria-selected="true">Description</button>
-              <button class="tabs__tab" type="button" role="tab" id="tab-specification"
-                      aria-controls="panel-specification" aria-selected="false" tabindex="-1">Specification</button>
+              <button class="tabs__tab" type="button" role="tab" id="tab-options"
+                      aria-controls="panel-options" aria-selected="false" tabindex="-1">Premium options</button>
               <button class="tabs__tab" type="button" role="tab" id="tab-photos"
                       aria-controls="panel-photos" aria-selected="false" tabindex="-1">Photos</button>
-              <button class="tabs__tab" type="button" role="tab" id="tab-enquire"
-                      aria-controls="panel-enquire" aria-selected="false" tabindex="-1">Enquire</button>
+              <button class="tabs__tab" type="button" role="tab" id="tab-videos"
+                      aria-controls="panel-videos" aria-selected="false" tabindex="-1">Videos</button>
+              <button class="tabs__tab" type="button" role="tab" id="tab-buy"
+                      aria-controls="panel-buy" aria-selected="false" tabindex="-1">Buy Now</button>
+              <button class="tabs__tab" type="button" role="tab" id="tab-contact"
+                      aria-controls="panel-contact" aria-selected="false" tabindex="-1">Contact us</button>
             </div>
 
             <section class="tabs__panel" id="panel-description" role="tabpanel"
@@ -210,9 +219,23 @@
               on an enclosed transporter, and the car is inspected again on the truck and on arrival.</p>
             </section>
 
-            <section class="tabs__panel" id="panel-specification" role="tabpanel"
-                     aria-labelledby="tab-specification" tabindex="0">
-              <h2 class="sr-only">Specification</h2>
+            <section class="tabs__panel" id="panel-options" role="tabpanel"
+                     aria-labelledby="tab-options" tabindex="0">
+              <h2 class="sr-only">Premium options</h2>
+<p class="body-muted">Fitted to this car and documented on the build sheet. Anything
+              not listed here was not specified.</p>
+            <ul class="options list-bare">
+              <li class="options__item">Wilwood four-piston brakes, vented discs all round</li>
+              <li class="options__item">Tremec TKX five-speed manual</li>
+              <li class="options__item">Limited-slip differential, 3.31:1</li>
+              <li class="options__item">17-inch Halibrand-style wheels, satin black</li>
+              <li class="options__item">Stainless side pipes</li>
+              <li class="options__item">Black leather with red stitching</li>
+              <li class="options__item">Twin roll hoops</li>
+              <li class="options__item">Quick-release steering wheel</li>
+            </ul>
+
+            <h3 class="section-sub u-mt-7">Full specification</h3>
             <table class="spec-table">
               <caption>As documented on arrival. Anything not listed was not fitted.</caption>
               <tbody>
@@ -259,9 +282,57 @@
               </ul>
             </section>
 
-            <section class="tabs__panel" id="panel-enquire" role="tabpanel"
-                     aria-labelledby="tab-enquire" tabindex="0">
-              <h2 class="sr-only">Enquire</h2>
+            <section class="tabs__panel" id="panel-videos" role="tabpanel"
+                     aria-labelledby="tab-videos" tabindex="0">
+              <h2 class="sr-only">Videos</h2>
+<!-- No film exists for this car, and a Videos tab that opens an empty
+                 panel is the same lie as a link to nowhere. So the panel states
+                 the fact and offers the thing a visitor actually wants from it:
+                 someone to go and shoot it. -->
+            <p class="body-muted">We have not filmed this car yet. Our walkarounds are shot to order
+              rather than in a batch, so what you get is the car as it stands on the day you ask —
+              cold start, side pipes, panel gaps, the lot.</p>
+            <p class="body-muted u-mt-5">Ask for one and we will send it the same week, usually within
+              two days.</p>
+            <div class="u-mt-6" style="display: grid; gap: var(--space-3); max-inline-size: 22rem">
+              <a class="btn-hmc btn-hmc--primary btn-hmc--centred" href="sms:+17406182466">Request a walkaround</a>
+              <a class="btn-hmc btn-hmc--ghost btn-hmc--centred" href="index.html#about">Watch the workshop film</a>
+            </div>
+            </section>
+
+            <section class="tabs__panel" id="panel-buy" role="tabpanel"
+                     aria-labelledby="tab-buy" tabindex="0">
+              <h2 class="sr-only">Buy Now</h2>
+<dl class="buy-summary">
+              <div class="buy-summary__row">
+                <dt>Our price</dt>
+                <dd class="buy-summary__price num-tabular">$109,500</dd>
+              </div>
+              <div class="buy-summary__row">
+                <dt>Deposit to hold</dt>
+                <dd class="num-tabular">$2,500, refundable for 7 days</dd>
+              </div>
+              <div class="buy-summary__row">
+                <dt>Delivery</dt>
+                <dd>Enclosed transport, continental US, quoted per address</dd>
+              </div>
+              <div class="buy-summary__row">
+                <dt>Not included</dt>
+                <dd>Tax, title, registration and documentation fees</dd>
+              </div>
+            </dl>
+            <p class="body-muted u-mt-6">Nothing here is bought online. A car at this price is bought
+              after a conversation and, wherever possible, after you have sat in it — so these are the
+              two ways to start one.</p>
+            <div class="u-mt-6" style="display: grid; gap: var(--space-3); max-inline-size: 22rem">
+              <a class="btn-hmc btn-hmc--primary btn-hmc--centred" href="index.html#finance">Get pre-approved</a>
+              <a class="btn-hmc btn-hmc--secondary btn-hmc--centred" href="tel:+17406182466">Call 740.618.2466</a>
+            </div>
+            </section>
+
+            <section class="tabs__panel" id="panel-contact" role="tabpanel"
+                     aria-labelledby="tab-contact" tabindex="0">
+              <h2 class="sr-only">Contact us</h2>
   <!-- A form, not a third pair of Call/Text buttons. The panel already
                  carries the immediate actions; this is the considered one, for a
                  visitor who wants to ask something rather than ring. -->
@@ -294,6 +365,7 @@
             </section>
 
           </div>
+
         </div>
 
         <aside class="vdp-panel" aria-labelledby="vdpTitle">
@@ -319,29 +391,46 @@
 
       </div>
 
-      <h2 class="section-sub u-mt-7">Next steps</h2>
-      <div class="next-steps">
-        <a class="next-step" href="index.html#trade">
-          <span class="next-step__title">Trade in</span>
-          <span class="next-step__body">Get a fair market value for the car you are driving now.</span>
-          <span class="next-step__go">Start a valuation →</span>
-        </a>
-        <a class="next-step" href="index.html#finance">
-          <span class="next-step__title">Finance</span>
-          <span class="next-step__body">Pre-approval in minutes, with no effect on your credit score.</span>
-          <span class="next-step__go">Get pre-approved →</span>
-        </a>
-        <a class="next-step" href="index.html#build">
-          <span class="next-step__title">Build your own</span>
-          <span class="next-step__body">Specify a roadster from the chassis up, exactly as you want it.</span>
-          <span class="next-step__go">Open the configurator →</span>
-        </a>
-        <a class="next-step" href="inventory.html">
-          <span class="next-step__title">See the rest</span>
-          <span class="next-step__body">Eleven more hand-built roadsters currently on the floor.</span>
-          <span class="next-step__go">Back to inventory →</span>
-        </a>
-      </div>
+      <!-- The old site's four promo cards, back with their photography. They
+           were a plain text strip for a while and the strip was the wrong call:
+           these are the four other things the company does, and each one is a
+           place, a person or a car — they are photographs by nature. Every one
+           carries a scrim so the label sits on ink, not on whatever the
+           photograph happens to be doing behind it. -->
+      <ul class="promos list-bare">
+        <li><a class="promo" href="index.html#nationwide">
+          <img class="promo__media" src="assets/img/Nationwide White Glove Delivery.jpg"
+               alt="" aria-hidden="true" width="800" height="500" loading="lazy">
+          <span class="promo__body">
+            <span class="promo__title">Ask us about Nationwide White Glove delivery</span>
+            <span class="promo__cta">Learn more</span>
+          </span>
+        </a></li>
+        <li><a class="promo" href="index.html#trade">
+          <img class="promo__media" src="assets/img/tradein-bg.jpg"
+               alt="" aria-hidden="true" width="800" height="500" loading="lazy">
+          <span class="promo__body">
+            <span class="promo__title">Upgrade to your dream car today!</span>
+            <span class="promo__cta">Start trade in</span>
+          </span>
+        </a></li>
+        <li><a class="promo" href="index.html#finance">
+          <img class="promo__media" src="assets/img/finance.jpg"
+               alt="" aria-hidden="true" width="800" height="500" loading="lazy">
+          <span class="promo__body">
+            <span class="promo__title">We offer financing services</span>
+            <span class="promo__cta">Get approved!</span>
+          </span>
+        </a></li>
+        <li><a class="promo" href="index.html#build">
+          <img class="promo__media" src="assets/img/whoweare-poster.jpg"
+               alt="" aria-hidden="true" width="800" height="500" loading="lazy">
+          <span class="promo__body">
+            <span class="promo__title">Build your own ultimate driving machine</span>
+            <span class="promo__cta">Build now!</span>
+          </span>
+        </a></li>
+      </ul>
 
     </div>
   </section>

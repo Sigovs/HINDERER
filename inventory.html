@@ -223,12 +223,11 @@
                 </div>
               </fieldset>
 
-              <div class="facets__actions">
-                <!-- Slate, as the Figma has it, and it is the legal choice too: 6.33:1 on
-                     bone against copper's 3.99:1. -->
-                <button class="btn-hmc btn-hmc--secondary btn-hmc--centred" type="submit">Find your car</button>
-                <button class="facets__clear" type="reset" data-facets-clear hidden>Clear all filters</button>
-              </div>
+              <!-- No apply button. The filters take effect as they are set, so
+                   a "Find your car" would be a control promising an action that
+                   has already happened. Clear is the only action left, and it
+                   appears only once there is something to clear. -->
+              <button class="facets__clear" type="reset" data-facets-clear hidden>Clear all filters</button>
               <!-- A real disclosure, not a link to nowhere. Everything inside
                    filters data the cards actually carry — price, mileage and the
                    availability badge — so opening it changes the result rather

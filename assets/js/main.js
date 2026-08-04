@@ -736,17 +736,16 @@
     facetForm.addEventListener('change', apply);
     facetForm.addEventListener('input', apply);
 
-    /* The button is not decorative: it takes the visitor to the results. On one
-       column the panel is a disclosure sitting on top of them, so it closes it
-       first — otherwise "Find your car" leaves you looking at the same form. */
+    /* There is no submit button any more, but Enter inside a text field still
+       submits a form — and a page reload would throw away every filter the
+       visitor had set. On one column it also closes the panel, because Enter
+       there means "I am done", and the results are underneath it. */
     facetForm.addEventListener('submit', function (e) {
       e.preventDefault();
       apply();
       if (facetsPanel && window.matchMedia('(max-width: 61.99rem)').matches) {
         facetsPanel.open = false;
       }
-      var bar = document.querySelector('.results-bar');
-      if (bar) bar.scrollIntoView({ behavior: motionOK ? 'smooth' : 'auto', block: 'start' });
     });
 
     clearBtns.forEach(function (b) {

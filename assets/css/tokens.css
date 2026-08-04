@@ -193,13 +193,18 @@
   --track-display: -0.022em;
   --track-heading: -0.006em;
   --track-body:    0.005em;
-  --track-caps:    0.03em;   /* uppercase 14 → 24: buttons, step and option titles */
-  --track-label:   0.12em;   /* the 14px eyebrow */
-  /* The same 14px label role, opened further. It exists because the contact
-     panel sets label and value one above the other on a copper ground, where
-     0.12em left the two reading as one block of text; the wider track is what
-     makes the label read as a rubric. Only the contact panel uses it — an
-     eyebrow in the page flow stays at --track-label. */
+  /* THE uppercase tracking, and now the only one. 0.12em lived here as a
+     separate "label" step and it was the wrong idea rather than the wrong
+     number: at 14px it stopped reading as tracking and started reading as gaps
+     between letters, so a five-letter word spread across half its container and
+     announced louder than the control beneath it. Everything uppercase from 14
+     to 24 takes this. */
+  --track-caps:    0.03em;
+  /* The one deliberate exception, and it is a watermark rather than a label:
+     the contact panel sets its rubric and its value one above the other on a
+     copper ground, where a normal track left the two reading as one block of
+     text. Only the contact panel uses it. Everything else uppercase takes
+     --track-caps. */
   --track-label-wide: 0.22em;
   --track-num:     0.06em;   /* figures read aloud — phone, stock */
 
