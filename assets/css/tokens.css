@@ -66,8 +66,12 @@
      2.46:1 on the ground and legal nowhere; the end stop is lifted so both
      ends clear AA.
      --------------------------------------------------------------------- */
-  --tel:             #00998c;   /*  4.87:1 as text · 4.76:1 as hover ground */
+  --tel:             #00998c;   /*  4.87:1 as text · 4.76:1 under ink-inverse */
   --tel-lift:        #00b7a9;   /*  6.77:1 — gradient start */
+  /* The hover ground, and it is darker than --tel for one measured reason:
+     white on --tel is 3.54:1 and fails. This clears 4.86:1, so the label can
+     be the page's own ink instead of a second inverted rule to remember. */
+  --tel-deep:        #00806f;
 
   /* A warm wash laid over photography in soft-light. Not a surface and not a
      text colour — it only ever tints an image. */

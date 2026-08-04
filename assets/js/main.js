@@ -618,6 +618,19 @@
       var year = num(card, 'data-year');
       if (year < bound('yearFrom', -Infinity) || year > bound('yearTo', Infinity)) return false;
 
+      /* Advanced. These read the same way whether the disclosure is open or
+         shut, which is deliberate: a filter the visitor set and then collapsed
+         is still a filter they set. */
+      var price = num(card, 'data-price');
+      if (price < bound('priceFrom', -Infinity) || price > bound('priceTo', Infinity)) return false;
+
+      var milesCap = bound('milesTo', Infinity);
+      if (num(card, 'data-miles') > milesCap) return false;
+
+      var states = [].slice.call(facetForm.querySelectorAll('[data-facet="status"]:checked'))
+                     .map(function (i) { return i.value; });
+      if (states.length && states.indexOf(card.getAttribute('data-status')) === -1) return false;
+
       var make = facetForm.elements.make ? facetForm.elements.make.value : '';
       if (make && card.getAttribute('data-make') !== make) return false;
 
@@ -631,7 +644,8 @@
        is the only condition under which Clear has work to do. */
     var isFiltered = function () {
       if (facetForm.querySelectorAll('[data-facet="condition"]:not(:checked)').length) return true;
-      var names = ['yearFrom', 'yearTo', 'make', 'model'];
+      if (facetForm.querySelectorAll('[data-facet="status"]:not(:checked)').length) return true;
+      var names = ['yearFrom', 'yearTo', 'priceFrom', 'priceTo', 'milesTo', 'make', 'model'];
       for (var i = 0; i < names.length; i++) {
         var el = facetForm.elements[names[i]];
         if (el && el.value !== '') return true;
@@ -740,7 +754,13 @@
         facetForm.reset();
         /* reset() restores the checked ATTRIBUTE, which is what we want, but it
            lands after this handler — so apply runs on the next tick. */
-        setTimeout(apply, 0);
+        setTimeout(function () {
+          apply();
+          /* Nothing is set any more, so the advanced panel has nothing to show
+             for being open. */
+          var adv = document.getElementById('advanced');
+          if (adv) adv.open = false;
+        }, 0);
       });
     });
 

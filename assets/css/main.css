@@ -442,17 +442,33 @@ p + p { margin-block-start: var(--space-5); }
 
 /* The phone number is the one gradient on the page. The Figma ramp ended at
    #2B6459, which is 2.46:1 on the ground — legal nowhere. The end stop is
-   lifted to #00998C so both ends clear AA: 6.77:1 → 4.87:1. */
+   lifted to --tel so both ends clear AA.
+
+   The gradient sits on the NUMBER, not on the link. background-clip: text needs
+   `color: transparent`, and a transparent colour is what every child inherits —
+   so an icon drawn in currentColor beside it would be invisible. Moving the
+   clip one level in gives the link a real colour for the icon to take. */
 .site-nav__link--phone {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--tel);
+}
+.site-nav__phone-icon { flex: 0 0 auto; }
+.site-nav__phone-num {
   background-image: linear-gradient(90deg, var(--tel-lift) 0%, var(--tel) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
+
 /* A call is not a page, so hover gives it a pill rather than the rule that
    marks navigation targets. The inline padding is permanent and cancelled by
    an equal negative margin, so the pill appears without shifting the row.
-   Ground #00998c under #1f1d19 ink is 4.76:1 — AA at this size. */
+
+   The pill is --tel-deep, not --tel: white on --tel measures 3.54:1 and fails,
+   and the label here is the page's own ink rather than a second inverted rule
+   for one control. On --tel-deep it is 4.86:1. */
 .site-nav__link--phone {
   padding-inline: var(--space-3);
   margin-inline: calc(var(--space-3) * -1);
@@ -464,12 +480,20 @@ p + p { margin-block-start: var(--space-5); }
 
 .site-nav__link--phone:hover,
 .site-nav__link--phone:focus-visible {
+  background-color: var(--tel-deep);
+  color: var(--ink);
+}
+/* The number drops its gradient and takes the link's ink, so the icon and the
+   digits are one colour on hover rather than two. */
+.site-nav__link--phone:hover .site-nav__phone-num,
+.site-nav__link--phone:focus-visible .site-nav__phone-num {
   background-image: none;
-  background-color: var(--tel);
   -webkit-background-clip: border-box;
   background-clip: border-box;
-  color: var(--ink-inverse);
+  color: inherit;
 }
+
+
 /* background-clip:text leaves no colour for a forced-colours renderer, so the
    fallback is restored where the gradient cannot paint. */
 @media (forced-colors: active) {
@@ -2393,6 +2417,12 @@ p + p { margin-block-start: var(--space-5); }
   /* Sticky, because the list is long and a filter you have to scroll back up
      to reach is a filter nobody uses twice. */
 
+  /* Sticky only while it fits. Opened, the advanced panel can be taller than
+     the window, and a pinned block taller than the viewport has a bottom
+     nobody can reach — the filters you just opened would be the ones you
+     cannot see. */
+  .srp__facets:has(#advanced[open]) { position: static; }
+
   .srp__facets {
     position: sticky;
     inset-block-start: calc(var(--header-h) + var(--space-5));
@@ -2943,8 +2973,17 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
 /* "Advanced Search" — in the Figma and dropped from the first build. It is a
    link, under the button, in ink rather than copper: copper is 2.74:1 on this
    ground and illegal at any size. */
+/* The disclosure that holds the advanced filters. It carries no border and no
+   ground of its own — inside the panel it is a continuation of the same
+   instrument, not a second panel bolted underneath it. */
+.advanced { margin-block-start: var(--space-2); }
+.advanced > summary { list-style: none; }
+.advanced > summary::-webkit-details-marker { display: none; }
+.advanced .facet:first-of-type { padding-block-start: var(--space-4); }
+
 .facets__advanced {
   display: block;
+  cursor: pointer;
   margin-block-start: var(--space-2);
   min-block-size: 44px;
   padding-block: var(--space-3);
@@ -2956,6 +2995,25 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
   text-underline-offset: 0.25em;
 }
 .facets__advanced:hover { text-decoration-thickness: 2px; }
+.facets__advanced:focus-visible { outline: 2px solid var(--ink-inverse); outline-offset: 2px; }
+/* State is carried by a caret, not by changing the word — the same rotating
+   chevron the phone disclosure uses, so one gesture means one thing across the
+   site. The underline stays on the words alone; a rule running under the caret
+   would read as part of the glyph. */
+.facets__advanced { display: flex; align-items: center; justify-content: center; gap: var(--space-2); text-decoration: none; }
+.facets__advanced > span { text-decoration: underline; text-underline-offset: 0.25em; }
+.facets__advanced::after {
+  content: "";
+  inline-size: 14px;
+  block-size: 14px;
+  background: currentColor;
+  clip-path: polygon(50% 72%, 6% 26%, 18% 14%, 50% 46%, 82% 14%, 94% 26%);
+  transition: rotate var(--dur-2) var(--ease-out);
+}
+.advanced[open] > .facets__advanced::after { rotate: 180deg; }
+@media (prefers-reduced-motion: reduce) {
+  .facets__advanced::after { transition: none; }
+}
 
 /* On one column the facets stop being a rail and become a disclosure, so the
    list is not pushed a screen and a half down the page. */
