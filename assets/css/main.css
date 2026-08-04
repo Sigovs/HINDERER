@@ -2621,7 +2621,11 @@ p + p { margin-block-start: var(--space-5); }
 .facet {
   min-inline-size: 0;   /* fieldset's UA min-width refuses to shrink in a grid */
   margin: 0;
-  padding-block: var(--space-4);
+  /* Asymmetric on purpose: the space ABOVE a legend separates it from the
+     previous group's rule and has to be the largest interval in the panel;
+     the space below the group's last control only has to reach the next
+     rule. */
+  padding-block: var(--space-5) var(--space-4);
   padding-inline: 0;
   border: 0;
   border-block-end: 1px solid var(--rule-inverse);
@@ -2635,7 +2639,15 @@ p + p { margin-block-start: var(--space-5); }
    louder than the control under it and spread "VEHICLE" across half the panel.
    The eyebrow keeps that treatment because an eyebrow IS a rubric; a legend
    inside an instrument is not. */
+/* A <legend> is not laid out like anything else in CSS: the UA lifts it onto
+   the fieldset's top border and its own padding-block-start applies BELOW it.
+   That is why the group separation measured 0 above the word and 32 below it —
+   the interval I set was landing on the wrong side of the label. Floating it
+   full-width puts it back in normal flow, where the sequence can be stated;
+   the element after it clears. */
 .facet__legend {
+  float: inline-start;
+  inline-size: 100%;
   padding: 0;
   font-size: var(--text-sm);
   font-weight: var(--weight-label);
@@ -2645,9 +2657,28 @@ p + p { margin-block-start: var(--space-5); }
 }
 /* Label to control is the tight interval; facet to facet is the loose one, so
    a group reads as a group before it reads as a list of fields. */
-/* One rhythm, three steps, each visibly smaller than the one outside it:
-   label → its control 4, legend → its group 12, field → field 16. */
-.facet__legend + * { margin-block-start: var(--space-text); }
+/* THE SEQUENCE, and it is read as proximity rather than chosen as numbers.
+   Each step must be visibly smaller than the one outside it, or an element
+   ends up nearer to something it does not belong to:
+
+     label → its own control      4    they are one unit
+     legend → the control it names 8   ALSO one unit: "Year" and the slider it
+                                       labels are the same thing, so the legend
+                                       sits nearer to it than the slider sits
+                                       to anything else
+     control → next control      16    two controls in one group
+     group → group (over a rule) 24    the rule is the boundary, and the
+                                       legend must never sit against it
+
+   The last one is the one that was wrong: at 4px above and 4px below, a
+   legend belonged to neither the rule above it nor the control under it, and
+   the hairline read as an underline for the word rather than as the edge
+   between two groups. */
+/* The interval goes on the LEGEND, not on the element after it. Clearance
+   places a cleared box below the float's margin box and consumes that box's
+   own top margin — so a margin-block-start on the sibling measured zero. */
+.facet__legend { margin-block-end: var(--space-2); }
+.facet__legend + * { clear: both; }
 
 .field { display: grid; gap: var(--space-1); }
 /* Field to field inside one group is the tight interval; group to group is the
@@ -2660,6 +2691,10 @@ p + p { margin-block-start: var(--space-5); }
 .facet > .field + .field { margin-block-start: var(--space-4); }
 .field__label {
   font-size: var(--text-xs);
+  /* Stated, not inherited. This caption sits inside three different type
+     contexts across the site and the one thing it must not do is pick up a
+     rubric's tracking on its way down. */
+  letter-spacing: var(--track-body);
   /* The box hugs the word. Left at reading leading, a 14px caption sat on
      16px of line box and the 4px gap under it measured 4 and read as 12 —
      which is why the label looked detached from the control it names. */
@@ -2759,6 +2794,10 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
   --range-target: 44px;
   --range-thumb: 22px;
 }
+/* The rail and the From/To row are two controls in one group, so they take the
+   control-to-control interval. At 4px the slider sat nearer to the caption of
+   the next control than to the legend of its own group. */
+.facet .range { margin-block-end: var(--space-4); }
 /* The 44px targets overhang the 24px rail, which is intended — but they must
    not swallow the clicks of whatever sits above and below them. */
 .range input { pointer-events: none; }
@@ -3070,7 +3109,10 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
      clearance, it is a coincidence waiting for a longer word. */
   @media (max-height: 58rem) {
     .facets { padding-block: var(--space-3); }
-    .facet { padding-block: var(--space-2); }
+    /* The top interval holds at every height. It is the one that carries the
+       grouping, and a panel that fits by destroying its own grouping has not
+       fitted, it has collapsed. */
+    .facet { padding-block: var(--space-5) var(--space-2); }
     /* The captions go, not the fields. A select whose first option reads "All
        makes" is already telling you what it filters, and "From"/"To" is already
        said by the slider they sit under — so the words that survive are the
@@ -3096,8 +3138,12 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
      intervals take their shortest value rather than the panel being crushed
      further — a filter nobody can read is not a filter that fits. */
   @media (max-height: 50rem) {
-    .section--below-header { padding-block-start: calc(var(--header-h) + var(--space-3)); }
-    .section--tight-top { padding-block-start: var(--space-3); }
+    .section--below-header { padding-block-start: calc(var(--header-h) + var(--space-2)); }
+    .section--tight-top { padding-block-start: var(--space-2); }
+    /* The head's own rule can sit closer to the row above it than a filter
+       group's rule can sit to its legend — one is a page divider, the other
+       is what tells you which controls belong together. */
+    .srp-head { padding-block-end: var(--space-2); }
     /* The eyebrow and the headline are one thought; on a short screen they can
        be read as one at the tighter interval too. */
     .stack > .eyebrow + * { margin-block-start: var(--space-2); }
@@ -3105,7 +3151,10 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
        needed and the panel read as squeezed; these are the values that clear
        768px with room to spare and still look like a considered instrument. */
     .facets { padding-block: var(--space-3); }
-    .facet { padding-block: var(--space-2); }
+    /* The top interval holds at every height. It is the one that carries the
+       grouping, and a panel that fits by destroying its own grouping has not
+       fitted, it has collapsed. */
+    .facet { padding-block: var(--space-5) var(--space-2); }
     .facet__legend + * { margin-block-start: var(--space-1); }
     .facet > .field + .field { margin-block-start: var(--space-2); }
     .range { block-size: 20px; }

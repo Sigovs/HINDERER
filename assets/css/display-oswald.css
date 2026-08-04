@@ -77,10 +77,14 @@
 .hours dd,
 .num-tabular { font-family: var(--font-body); }
 
-/* Condensed uppercase closes up faster at label size than the wider face did,
-   so label tracking opens one notch. */
+/* Condensed UPPERCASE closes up faster at label size than the wider face did,
+   so label tracking opens one notch. Every selector here is caps — that is the
+   whole condition for being in this list.
+
+   .field__label was in it and should never have been: "From", "To", "Make" are
+   plain sentence-case words, and 0.14em on lowercase text is not tracking, it
+   is damage. A form caption tracks like reading, because it is read. */
 .eyebrow,
-.field__label,
 .footer-col__title,
 .vehicle__status,
 .vehicle__specs dt,
