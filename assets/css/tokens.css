@@ -72,6 +72,15 @@
      where this page does most of its reading. Inter stays as the fallback —
      same metrics family, so a failed load degrades rather than reflows. */
   --font-body:    "Inter Tight", "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  /* A third voice, and it has to earn the seat (typography I8). Oswald announces
+     and Inter Tight informs; neither of them VALUES anything. In an auction
+     catalogue the lot's price and its one line of positioning are set in a
+     serif while the rubrics and the metadata stay sans — the change of face is
+     what marks "this is the object and what it costs" apart from "this is how
+     the page is organised". Bounded to exactly those two roles: prices and the
+     drive line. It never touches body copy, labels or navigation. */
+  --font-serif: "Playfair Display", "Iowan Old Style", Georgia, serif;
   --font-display: "Degular", "Hanken Grotesk", "Inter Tight", system-ui, -apple-system, sans-serif;
 
   /* Two voices, and the second has a systemic job the first cannot do:
@@ -81,11 +90,14 @@
      large x-height and slightly narrow set without the geometric roundness
      that made the first stand-in read friendly on a technical brief. */
 
-  /* Fluid so type is optically right at every width, not only at breakpoints */
+  /* Fluid so type is optically right at every width, not only at breakpoints.
+     Body settles at 16px rather than 19. The steps below and above it move with
+     it — a ramp where the "small" step ends up larger than body is not a ramp,
+     and the 14px floor has to stay a floor. */
   --text-xs:      0.875rem;                                        /* 14px — hard floor */
-  --text-sm:      clamp(0.9375rem, 0.20vw + 0.88rem, 1.0625rem);   /* 15 → 17 */
-  --text-body:    clamp(1.0625rem, 0.25vw + 1rem, 1.1875rem);      /* 17 → 19 */
-  --text-lead:    clamp(1.125rem, 0.55vw + 1rem, 1.375rem);        /* 18 → 22 */
+  --text-sm:      clamp(0.875rem, 0.10vw + 0.85rem, 0.9375rem);    /* 14 → 15 */
+  --text-body:    clamp(0.9375rem, 0.15vw + 0.90rem, 1rem);        /* 15 → 16 */
+  --text-lead:    clamp(1.0625rem, 0.40vw + 0.95rem, 1.25rem);     /* 17 → 20 */
   --text-btn:     clamp(1.125rem, 0.55vw + 0.95rem, 1.4375rem);    /* 18 → 23 */
   --text-h3:      clamp(1.375rem, 0.90vw + 1.1rem, 1.75rem);       /* 22 → 28 */
   --text-h2:      clamp(1.625rem, 1.40vw + 1.2rem, 2.125rem);      /* 26 → 34 */
@@ -134,6 +146,17 @@
   --space-9:   6rem;      /*  96 */
   --space-10:  8rem;      /* 128 */
   --space-11: 12rem;      /* 192 */
+
+  /* ---- Content → CTA ------------------------------------------------------
+     Two intervals, and only two, because the page has exactly two situations:
+     a paragraph has just ended, or a block of cards has. A paragraph ends
+     softly — ragged right edge, open descenders — so 48px reads as the next
+     step of one thought. A card grid ends on a hard edge with borders and
+     shadow, and at 48 the button sticks to it and reads as one more card, so
+     that case gets 64. Anything else on the page picking a third value is a
+     bug, not a decision. */
+  --gap-cta-text: var(--space-7);   /* 48 — after prose */
+  --gap-cta-grid: var(--space-8);   /* 64 — after a grid, strip or rail */
 
   /* CONTENT RHYTHM — the interval is chosen by relationship, not by eye.
      A gap picked straight from the raw scale gets picked again, differently,
