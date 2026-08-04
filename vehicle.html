@@ -127,8 +127,6 @@
            content ends is worth more than two columns ending on one line. -->
       <div class="vdp">
 
-        <div class="vdp__main">
-
         <div class="stage" data-stage>
           <div class="stage__frame">
             <img src="assets/img/vehicle-1.jpg" alt="1965 Backdraft RT4B Roadster, three-quarter front"
@@ -199,13 +197,14 @@
                     aria-controls="panel-contact" aria-selected="false" tabindex="-1">Contact us</button>
             </div>
 
-            <!-- Photos is not a tab. The gallery is a permanent full-width
-                 block below, so a panel here would be a second copy of it; this
-                 is a link to where it already is. It sits in the same bar
-                 because that is where a visitor looks for it, and OUTSIDE the
-                 tablist, because a list of tabs containing something that is
-                 not a tab is a lie told to a screen reader. -->
-            <a class="tabs__jump" href="#photos">Photos</a>
+            <!-- Reads as the sixth tab and behaves as a jump: the gallery is a
+                 permanent block below, so a panel here would be a second copy of
+                 it. Same treatment as its neighbours, because to a visitor all
+                 six do the same thing — take you to a part of the page. It stays
+                 OUTSIDE the tablist and stays an <a>, so it is announced as the
+                 link it is; a list of tabs containing something that is not a
+                 tab is a lie told to a screen reader. -->
+            <a class="tabs__tab tabs__tab--jump" href="#photos">Photos</a>
             </div>
 
           <div class="tabs__panels">
@@ -369,15 +368,11 @@
 
         </div>
 
-        </div>
 
-
-        <div class="vdp__rail">
 
         <aside class="vdp-panel" aria-labelledby="vdpTitle">
           <h1 class="vdp-panel__title" id="vdpTitle">1965 Backdraft RT4B Roadster</h1>
           <p class="vdp-panel__price num-tabular">$109,500</p>
-          <p class="vdp-panel__note">Price excludes tax, title, registration and documentation fees.</p>
 
           <hr class="vdp-panel__rule">
 
@@ -430,7 +425,6 @@
           </a></li>
         </ul>
 
-        </div>
 
       </div>
 

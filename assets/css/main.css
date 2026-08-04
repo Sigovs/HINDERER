@@ -3222,10 +3222,21 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
     gap: var(--space-6);
     align-items: start;
   }
-  /* No rows. Two columns, each flowing at its own length — with rows the
-     taller of the two set the height of the first, and the tab bar had to wait
-     for the price panel to finish. */
-  .vdp__rail { display: grid; gap: var(--space-6); align-content: start; }
+  /* EXACT equality of the two columns cannot hold, and it is worth writing down
+     why: the left one is sized by an aspect ratio and therefore by the window's
+     WIDTH, the right one by how much text is in it. Tie them together and one of
+     them stretches — either a hole above the buttons, or, with the slack
+     distributed, a price floating in the middle of half a metre of nothing.
+
+     So they are independent, and the photograph is capped instead. Bounded by
+     the viewport height it stays near the panel's own length at every width
+     rather than running away from it on a wide screen, which is what "aligned"
+     actually has to mean here. */
+  .vdp { grid-template-rows: auto auto; }
+  .vdp > .stage     { grid-column: 1; grid-row: 1; }
+  .vdp > .vdp-panel { grid-column: 2; grid-row: 1; }
+  .vdp > .tabs      { grid-column: 1; grid-row: 2; }
+  .vdp > .promos    { grid-column: 2; grid-row: 2; }
 }
 
 /* ---- lit from both sides ------------------------------------------------
@@ -3336,7 +3347,10 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
   overflow: hidden;
   border-radius: var(--radius-3);
   background: var(--bg-raised);
-  aspect-ratio: 16 / 10;
+  /* The photographs are 1024x768, so 4:3 crops nothing — and the cap is what
+     stops that proportion turning into a two-metre image on a wide monitor. */
+  aspect-ratio: 4 / 3;
+  max-block-size: min(62vh, 34rem);
 }
 .stage__frame img {
   inline-size: 100%;
@@ -3443,12 +3457,6 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
   font-variant-numeric: lining-nums tabular-nums;
   color: var(--ink-inverse);
 }
-.vdp-panel__note {
-  margin-block-start: var(--space-2);
-  font-size: var(--text-xs);
-  color: var(--ink-inverse);
-  opacity: 0.7;
-}
 
 .vdp-panel__rule {
   block-size: 2px;
@@ -3528,7 +3536,7 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--space-2) var(--space-4);
+  gap: var(--space-2);
 }
 .tabs__list {
   display: flex;
@@ -3559,43 +3567,31 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
 /* Selected is carried by ground AND ink, not by ground alone: a filled tab that
    only changes colour is invisible to anyone who cannot separate copper from
    white, and this is the control that decides what the page is showing. */
+/* The selected tab and the panel are one shape. Its foot squares off and sits
+   directly on the surface below with no gap, so the plate reads as growing out
+   of the panel rather than floating above it. */
 .tabs__tab[aria-selected="true"] {
   background: var(--slate);              /* 7.27:1 with the white label */
   color: var(--ink);
+  border-end-start-radius: 0;
+  border-end-end-radius: 0;
+  padding-block-end: var(--space-2);
+  margin-block-end: calc(var(--space-2) * -1);
 }
+.tabs__bar { position: relative; z-index: 1; }
 
-/* The jump link is not a tab and does not look like one: no selected state,
-   because it never becomes the thing you are looking at — it moves you to it. */
-.tabs__jump {
-  min-block-size: 44px;
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  margin-inline-start: auto;
-  padding-inline: var(--space-4);
-  color: var(--ink-muted);
-  font-family: var(--font-display);
-  font-size: var(--text-sm);
-  letter-spacing: var(--track-caps);
-  text-transform: uppercase;
-  text-decoration: underline;
-  text-underline-offset: 0.3em;
-  transition: color var(--dur-1) var(--ease-out);
-}
-.tabs__jump:hover { color: var(--ink); }
-.tabs__jump::after {
-  content: "";
-  inline-size: 12px;
-  block-size: 12px;
-  background: currentColor;
-  clip-path: polygon(50% 72%, 6% 26%, 18% 14%, 50% 46%, 82% 14%, 94% 26%);
-}
+/* Looks like the tab beside it and behaves as a jump. It carries .tabs__tab,
+   so there is one definition of what a tab looks like; this only removes the
+   underline an anchor arrives with and states that it never becomes selected. */
+.tabs__tab--jump { text-decoration: none; }
+.tabs__tab--jump:hover { background: rgb(var(--ink-rgb) / 0.06); color: var(--ink); }
 
 /* A SURFACE under the panels, so the tab bar has something to sit on and the
    reading column stops floating on the page ground. Dark rather than the
    Figma's cream: the description runs to several hundred words and a light
    field that size in the middle of a dark page is a second hero. */
 .tabs__panels {
+  margin-block-start: 0;
   padding: var(--space-6);
   border: 1px solid var(--rule);
   border-start-start-radius: 0;
