@@ -2286,7 +2286,15 @@ p + p { margin-block-start: var(--space-5); }
 /* The number is the one thing here anyone copies by eye — tabular figures and a
    little air between them, the way a phone number is read aloud. */
 .contact__value .num-tabular { letter-spacing: var(--track-num); }
-.contact__value a { color: inherit; text-decoration: none; }
+/* A phone number is a control on a phone, so it takes the target floor like
+   one. inline-flex rather than block, so the box grows without the line moving. */
+.contact__value a {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 44px;
+  color: inherit;
+  text-decoration: none;
+}
 .contact__value a:hover,
 .contact__value a:focus-visible { text-decoration: underline; text-underline-offset: 0.2em; }
 
@@ -2664,6 +2672,7 @@ p + p { margin-block-start: var(--space-5); }
 }
 .facets select.control option { background: var(--bg-card-plain); color: var(--ink-inverse); }
 .facets .select::after { background: var(--ink-inverse); }
+.facets .range { --rail: var(--rule-inverse-strong); --knob-ink: var(--ink-inverse); }
 .control:hover { border-color: var(--ink); }
 .control:focus-visible {
   outline: 2px solid var(--focus);
@@ -2709,7 +2718,16 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
   position: relative;
   block-size: 24px;
   margin-block-end: var(--space-1);
+  /* Ground-agnostic. Written straight against the bone panel's inks the whole
+     control vanished on the dark stage — a component that only works on one
+     surface is a trap for whoever builds the next page with it. These two are
+     the dark-ground defaults; the panel overrides them. */
+  --rail: var(--rule-strong);
+  --knob-ink: var(--ink);
 }
+/* The 44px targets overhang the 24px rail, which is intended — but they must
+   not swallow the clicks of whatever sits above and below them. */
+.range input { pointer-events: none; }
 /* The rail both handles run on. */
 .range::before {
   content: "";
@@ -2719,14 +2737,19 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
   translate: 0 -50%;
   block-size: 4px;
   border-radius: var(--radius-pill);
-  background: var(--rule-inverse-strong);
+  background: var(--rail);
 }
 .range input {
   position: absolute;
   inset-inline: 0;
-  inset-block-start: 0;
+  /* The DRAWING is the thin rail above; the TARGET is 44px, centred on it.
+     Left at the rail's own height the two handles were 28px tall — the one
+     control in the system under the floor the system states, and the floor is
+     not a look, it is whether a finger lands on the thing it aimed at. */
+  inset-block-start: 50%;
+  translate: 0 -50%;
   inline-size: 100%;
-  block-size: 28px;
+  block-size: 44px;
   margin: 0;
   padding: 0;
   background: none;
@@ -2742,7 +2765,7 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
   block-size: 22px;
   border: 0;
   border-radius: var(--radius-pill);
-  background: var(--ink-inverse);
+  background: var(--knob-ink);
   cursor: grab;
 }
 .range input::-moz-range-thumb {
@@ -2751,15 +2774,15 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
   block-size: 22px;
   border: 0;
   border-radius: var(--radius-pill);
-  background: var(--ink-inverse);
+  background: var(--knob-ink);
   cursor: grab;
 }
-.range input:focus-visible::-webkit-slider-thumb { outline: 2px solid var(--ink-inverse); outline-offset: 2px; }
-.range input:focus-visible::-moz-range-thumb { outline: 2px solid var(--ink-inverse); outline-offset: 2px; }
+.range input:focus-visible::-webkit-slider-thumb { outline: 2px solid var(--knob-ink); outline-offset: 2px; }
+.range input:focus-visible::-moz-range-thumb { outline: 2px solid var(--knob-ink); outline-offset: 2px; }
 /* Both tracks are transparent — the rail above is the only one drawn, so the
    two inputs cannot paint two rails on top of each other. */
-.range input::-webkit-slider-runnable-track { background: none; block-size: 28px; }
-.range input::-moz-range-track { background: none; block-size: 28px; }
+.range input::-webkit-slider-runnable-track { background: none; block-size: 44px; }
+.range input::-moz-range-track { background: none; block-size: 44px; }
 
 .field-pair { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); }
 @media (max-width: 30rem) {

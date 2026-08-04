@@ -967,8 +967,9 @@
       Built as a set for the inventory page rather than invented inside it — a
       control designed on one screen is how a second visual language gets in.
       One ground, one border, one focus behaviour, declared once, so a select
-      and a text input cannot drift apart. Every one clears the 44px target
-      floor.
+      and a text input cannot drift apart. Every one clears the 44px target floor —
+      including the range handles, whose 24px rail is the drawing and whose 44px
+      box is the target.
     </p>
 
     <p class="ds-note ds-note--stop">
@@ -1014,6 +1015,33 @@
     </div>
 
     <div class="ds-group">
+      <h3 class="ds-group__title">Range — two handles, one rail</h3>
+      <div class="ds-stage">
+        <div class="range" style="max-inline-size: 22rem">
+          <label class="sr-only" for="dsRangeMin">Earliest year</label>
+          <input id="dsRangeMin" type="range" min="1962" max="2026" value="1968">
+          <label class="sr-only" for="dsRangeMax">Latest year</label>
+          <input id="dsRangeMax" type="range" min="1962" max="2026" value="2014">
+        </div>
+      </div>
+      <p class="ds-item__caption">
+        .range — two native range inputs stacked on one rail, not a scripted
+        widget. Each handle is a real slider with its own label, operable from
+        the keyboard and announced with its value, which no div-and-mousemove
+        version manages.
+      </p>
+      <p class="ds-note">
+        <strong>Three things it must keep.</strong> The handles cannot cross —
+        a "from" above its "to" is a query that can never match, and the control
+        should refuse it rather than quietly return nothing. A handle resting on
+        its extreme writes <em>nothing</em> into its field, because "no
+        preference" must not silently become a bound. And the drawing is the
+        24px rail while the TARGET is 44px centred on it: the floor is not a
+        look, it is whether a finger lands on the thing it aimed at.
+      </p>
+    </div>
+
+    <div class="ds-group">
       <h3 class="ds-group__title">Switch</h3>
       <div class="ds-stage">
         <div class="switch-row">
@@ -1033,6 +1061,74 @@
         .switch — a real checkbox with the box hidden, so it is keyboard-operable
         and announced correctly without a single ARIA attribute. The state lives
         in the element, not in a class a script has to keep in sync.
+      </p>
+    </div>
+
+    <div class="ds-group">
+      <h3 class="ds-group__title">On bone — the whole set, inverted</h3>
+      <div class="ds-stage">
+        <div class="facets" style="max-inline-size: 20rem">
+          <form>
+            <fieldset class="facet bare">
+              <legend class="facet__legend sr-only">Condition</legend>
+              <div class="switch-row switch-row--inline">
+                <label class="switch">
+                  <input type="checkbox" checked>
+                  <span class="switch__track" aria-hidden="true"></span>
+                  <span class="switch__label">New</span>
+                </label>
+                <label class="switch">
+                  <input type="checkbox" checked>
+                  <span class="switch__track" aria-hidden="true"></span>
+                  <span class="switch__label">Used</span>
+                </label>
+                <label class="switch">
+                  <input type="checkbox">
+                  <span class="switch__track" aria-hidden="true"></span>
+                  <span class="switch__label">Certified</span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="facet bare">
+              <legend class="facet__legend">Vehicle</legend>
+              <div class="field">
+                <label class="field__label" for="dsBoneMake">Make</label>
+                <span class="select">
+                  <select class="control" id="dsBoneMake">
+                    <option>All makes</option>
+                    <option>Backdraft</option>
+                  </select>
+                </span>
+              </div>
+            </fieldset>
+            <div class="facets__actions">
+              <button class="btn-hmc btn-hmc--secondary btn-hmc--centred" type="button">Find your car</button>
+            </div>
+            <a class="facets__advanced" href="#controls">Advanced search</a>
+          </form>
+        </div>
+      </div>
+      <p class="ds-item__caption">
+        .facets — the inventory filter panel and the one light island on that
+        page. .switch-row--inline puts the word above the control, three across.
+      </p>
+      <p class="ds-note ds-note--stop">
+        <strong>A light island inverts entirely, and the numbers decide what may
+        go in it.</strong> Measured on <code>#f2efe9</code>: <code>--ink-inverse</code>
+        14.66:1, <code>--slate</code> 6.33:1 — which is why the CTA is slate —
+        white input fields 16.83:1 with ink, and <code>--accent-ink</code>
+        <strong>2.74:1, banned</strong>. That is why the link under the button is
+        ink and not copper. Hairlines take <code>--rule-inverse</code>: a rule is
+        a tonal step from its OWN ground, and the dark-ground pair is invisible
+        here. No muted ink clears 4.5:1 on this surface at all, so a label and
+        its value are separated by size, weight and register instead of by tone.
+      </p>
+      <p class="ds-note">
+        <strong>A legend inside an instrument is not an eyebrow.</strong> These
+        read "Year" and "Vehicle" in sentence case at body tracking. Set as
+        uppercase at <code>--track-label</code> they announced louder than the
+        control beneath them and spread a seven-letter word across half the
+        panel. The eyebrow keeps that treatment because an eyebrow IS a rubric.
       </p>
     </div>
 
