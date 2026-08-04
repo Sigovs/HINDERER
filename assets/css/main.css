@@ -2526,7 +2526,13 @@ p + p { margin-block-start: var(--space-5); }
    Everything inside inverts together. A light island with dark-ground rules
    and dark-ground ink is how a surface ends up half-converted. */
 .facets {
-  padding: var(--space-6);
+  /* Compact on purpose. This is an instrument, not a piece of editorial: the
+     air that makes a section read as considered makes a control panel read as
+     unfinished, and every pixel it takes is a pixel the cars do not get. One
+     step down on every interval inside it — padding, group, field and action —
+     rather than one dramatic cut in one place, so the internal hierarchy the
+     panel had is the hierarchy it keeps. */
+  padding: var(--space-5);
   border-radius: var(--radius-3);
   background: var(--bg-card);
   color: var(--ink-inverse);
@@ -2546,7 +2552,7 @@ p + p { margin-block-start: var(--space-5); }
 .facet {
   min-inline-size: 0;   /* fieldset's UA min-width refuses to shrink in a grid */
   margin: 0;
-  padding-block: var(--space-5);
+  padding-block: var(--space-4);
   padding-inline: 0;
   border: 0;
   border-block-end: 1px solid var(--rule-inverse);
@@ -2567,6 +2573,14 @@ p + p { margin-block-start: var(--space-5); }
 .facet__legend + * { margin-block-start: var(--space-text); }
 
 .field { display: grid; gap: var(--space-2); }
+/* Field to field inside one group is the tight interval; group to group is the
+   loose one, and the rule between them carries the separation — so stacked
+   fields do not need the distance a new group does.
+
+   DIRECT children only. Written as a descendant selector it also caught the
+   From/To pair inside .field-pair, which is a row, and pushed "To" 16px below
+   "From" — a pair that no longer reads as a pair. */
+.facet > .field + .field { margin-block-start: var(--space-4); }
 .field__label {
   font-size: var(--text-xs);
   color: var(--ink-muted);
@@ -2818,7 +2832,17 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
   .switch__track::after { transition: none; }
 }
 
-.facets__actions { display: grid; gap: var(--space-3); margin-block-start: var(--space-6); }
+.facets__actions { display: grid; gap: var(--space-3); margin-block-start: var(--space-5); }
+
+/* The control tier's 23px label wrapped "Find your car" onto two lines in a
+   272px column and gave the panel a 90px button. Inside the panel the label
+   drops a step and the box drops to the 44px floor plus its own padding —
+   still the largest thing in the panel, which is correct, and now on one line. */
+.facets .btn-hmc {
+  min-block-size: 52px;
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--text-lead);
+}
 
 /* Clearing filters is a real action but not the primary one, so it is a link
    rather than a third button competing with Find. It only appears once
@@ -2841,7 +2865,7 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
    ground and illegal at any size. */
 .facets__advanced {
   display: block;
-  margin-block-start: var(--space-4);
+  margin-block-start: var(--space-3);
   min-block-size: 44px;
   padding-block: var(--space-3);
   text-align: center;
