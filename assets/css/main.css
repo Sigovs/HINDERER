@@ -3610,7 +3610,14 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
   margin-block-end: calc(var(--space-3) * -1);
 }
 .tabs__bar { position: relative; z-index: 1; }
-.tabs__panels { border-start-start-radius: 0; }
+/* The surface keeps its corners. Squaring the top-left permanently was only
+   correct while the FIRST tab was selected — choose any other and the plate sits
+   in the middle of the bar while a cut corner stands on its own at the left, and
+   the one shape falls apart. The corner is squared only when the plate is
+   actually standing on it. */
+.tabs:has(.tabs__list > :first-child[aria-selected="true"]) .tabs__panels {
+  border-start-start-radius: 0;
+}
 
 /* Looks like the tab beside it and behaves as a jump. It carries .tabs__tab,
    so there is one definition of what a tab looks like; this only removes the
@@ -3944,7 +3951,10 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
      12-character measure — fitting is not the only thing a card has to do. */
   .promo { min-block-size: 10rem; }
   .promo__body { min-block-size: 10rem; gap: var(--space-3); padding: var(--space-4); }
-  .promo__title { font-size: var(--text-lead); max-inline-size: 15ch; }
+  /* Two lines each, and the copy is cut to fit rather than the measure widened
+     to hide it: at three lines one card is a paragraph and the four stop
+     reading as a set. */
+  .promo__title { font-size: var(--text-lead); max-inline-size: 17ch; }
 }
 
 @media (prefers-reduced-motion: reduce) {
