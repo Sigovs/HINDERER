@@ -2495,14 +2495,30 @@ p + p { margin-block-start: var(--space-5); }
    with the same ring as every other control on the site.
    ========================================================================= */
 
+/* THE PANEL IS BONE, as the Figma has it. It is the one light field on the
+   listing, and it is what makes the search read as an instrument sitting on
+   the page rather than as more page. Measured on #f2efe9: --ink-inverse
+   14.66:1, --slate 6.33:1 (the Find button), white input fields 16.83:1 with
+   ink. --accent-ink is 2.74:1 here and is therefore banned inside this panel —
+   which is why the link below the button is ink, not copper.
+
+   Everything inside inverts together. A light island with dark-ground rules
+   and dark-ground ink is how a surface ends up half-converted. */
+.facets {
+  padding: var(--space-6);
+  border-radius: var(--radius-3);
+  background: var(--bg-card);
+  color: var(--ink-inverse);
+}
+
 .facets__title {
   font-size: var(--text-xs);
   font-weight: var(--weight-label);
   letter-spacing: var(--track-label);
   text-transform: uppercase;
-  color: var(--ink-muted);
+  color: var(--ink-inverse);
   padding-block-end: var(--space-3);
-  border-block-end: 1px solid var(--rule);
+  border-block-end: 1px solid var(--rule-inverse);
 }
 
 /* A fieldset is the right element — it is what groups controls under one label
@@ -2515,7 +2531,7 @@ p + p { margin-block-start: var(--space-5); }
   padding-block: var(--space-5);
   padding-inline: 0;
   border: 0;
-  border-block-end: 1px solid var(--rule);
+  border-block-end: 1px solid var(--rule-inverse);
 }
 .facet:last-of-type { border-block-end: 0; }
 
@@ -2525,7 +2541,7 @@ p + p { margin-block-start: var(--space-5); }
   font-weight: var(--weight-label);
   letter-spacing: var(--track-label);
   text-transform: uppercase;
-  color: var(--ink);
+  color: var(--ink-inverse);
 }
 /* Label to control is the tight interval; facet to facet is the loose one, so
    a group reads as a group before it reads as a list of fields. */
@@ -2536,6 +2552,10 @@ p + p { margin-block-start: var(--space-5); }
   font-size: var(--text-xs);
   color: var(--ink-muted);
 }
+/* Inside the bone panel every ink flips. --ink-muted is 4.32:1 on bone and
+   fails, so the label takes full ink and is separated from its value by size,
+   weight and register instead of by tone. */
+.facets .field__label { color: var(--ink-inverse); }
 
 /* The shared control surface. One ground, one border, one focus behaviour —
    declared once so a select and a text input cannot drift apart. */
@@ -2552,6 +2572,22 @@ p + p { margin-block-start: var(--space-5); }
               background-color var(--dur-1) var(--ease-out);
 }
 .control::placeholder { color: var(--ink-muted); opacity: 1; }
+
+/* On bone the control is a white field with a soft edge — the Figma's own
+   treatment, and the only way an input reads as an input on a light card. */
+.facets .control {
+  background: var(--bg-card-plain);
+  border-color: var(--rule-inverse-strong);
+  color: var(--ink-inverse);
+}
+.facets .control::placeholder { color: var(--ink-card); }   /* 4.95:1 on white */
+.facets .control:hover { border-color: var(--ink-inverse); }
+.facets .control:focus-visible {
+  outline-color: var(--ink-inverse);
+  border-color: var(--ink-inverse);
+}
+.facets select.control option { background: var(--bg-card-plain); color: var(--ink-inverse); }
+.facets .select::after { background: var(--ink-inverse); }
 .control:hover { border-color: var(--ink); }
 .control:focus-visible {
   outline: 2px solid var(--focus);
@@ -2586,7 +2622,91 @@ select.control {
    are set explicitly — otherwise an open dropdown is white-on-white. */
 select.control option { background: var(--bg-raised); color: var(--ink); }
 
+/* ---- range slider -------------------------------------------------------
+   The Figma draws a two-handle track above the From/To fields, and it was
+   missing from the first build. Built as TWO native range inputs stacked on
+   one track rather than as a scripted widget: each handle is then a real
+   slider with its own label, operable from the keyboard and announced with
+   its value, which no div-and-mousemove version manages. The pair writes into
+   the From/To fields, and the fields write back — one value, two ways in. */
+.range {
+  position: relative;
+  block-size: 28px;
+  margin-block-end: var(--space-2);
+}
+/* The rail both handles run on. */
+.range::before {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  inset-block-start: 50%;
+  translate: 0 -50%;
+  block-size: 4px;
+  border-radius: var(--radius-pill);
+  background: var(--rule-inverse-strong);
+}
+.range input {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-start: 0;
+  inline-size: 100%;
+  block-size: 28px;
+  margin: 0;
+  padding: 0;
+  background: none;
+  appearance: none;
+  /* The two inputs are stacked, so the upper one would swallow every click
+     meant for the lower. Only the handles take the pointer. */
+  pointer-events: none;
+}
+.range input::-webkit-slider-thumb {
+  appearance: none;
+  pointer-events: auto;
+  inline-size: 22px;
+  block-size: 22px;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--ink-inverse);
+  cursor: grab;
+}
+.range input::-moz-range-thumb {
+  pointer-events: auto;
+  inline-size: 22px;
+  block-size: 22px;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--ink-inverse);
+  cursor: grab;
+}
+.range input:focus-visible::-webkit-slider-thumb { outline: 2px solid var(--ink-inverse); outline-offset: 2px; }
+.range input:focus-visible::-moz-range-thumb { outline: 2px solid var(--ink-inverse); outline-offset: 2px; }
+/* Both tracks are transparent — the rail above is the only one drawn, so the
+   two inputs cannot paint two rails on top of each other. */
+.range input::-webkit-slider-runnable-track { background: none; block-size: 28px; }
+.range input::-moz-range-track { background: none; block-size: 28px; }
+
 .field-pair { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); }
+@media (max-width: 30rem) {
+  /* Two 44px controls side by side stop being usable well before the layout
+     stops fitting them. */
+  .field-pair { grid-template-columns: 1fr; }
+}
+
+/* A textarea is the one control that must not be a fixed height: it is sized
+   by rows and then left alone, because a box that grows under the pointer
+   moves everything below it while someone is typing into it. */
+.control--area {
+  min-block-size: 0;
+  padding-block: var(--space-3);
+  line-height: var(--lh-body);
+  resize: vertical;
+}
+
+.enquiry__legal {
+  margin-block-start: var(--space-4);
+  font-size: var(--text-xs);
+  color: var(--ink-muted);
+}
 
 /* Switch. Built from a real checkbox so it is keyboard-operable and announced
    as a checkbox without a single ARIA attribute — the state lives in the
@@ -2613,7 +2733,10 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
   block-size: 22px;
   border-radius: var(--radius-pill);
   background: var(--bg-control);
-  border: 1px solid var(--rule-strong);
+  /* The boundary token that exists for exactly this ground: 3.78:1 on
+     --bg-control, which is the floor at which a UI edge is still an edge. */
+  border: 1px solid var(--rule-control);
+  --knob: var(--ink);
   transition: background-color var(--dur-2) var(--ease-out),
               border-color var(--dur-2) var(--ease-out);
 }
@@ -2625,7 +2748,7 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
   inline-size: 16px;
   block-size: 16px;
   border-radius: var(--radius-pill);
-  background: var(--ink);
+  background: var(--knob);
   transition: translate var(--dur-2) var(--ease-out);
 }
 .switch input:checked + .switch__track {
@@ -2638,6 +2761,38 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
   outline-offset: 2px;
 }
 .switch__label { font-size: var(--text-body); color: var(--ink); }
+
+/* Off, on bone, is a pale grey track with a white knob — the Figma's state.
+   On is slate, which is the same slate the secondary button uses, so "on"
+   means the same thing everywhere on the site. */
+.facets .switch__track { background: var(--rule-inverse-strong); border-color: transparent; }
+.facets .switch input:checked + .switch__track { background: var(--slate); border-color: var(--slate); }
+.facets .switch__label { color: var(--ink-inverse); }
+
+/* The three availability switches sit in a row with the word above the
+   control, as the Figma has them — a label beside a 40px track wastes the
+   width a three-up row needs. */
+.switch-row--inline {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-3);
+}
+.switch-row--inline .switch {
+  display: grid;                 /* grid, not column-flex: the word and the
+                                    control get their own rows, so a label that
+                                    wraps cannot push its own switch out of
+                                    line with the two beside it. */
+  grid-template-rows: auto 1fr;
+  align-items: start;
+  justify-items: start;
+  gap: var(--space-2);
+  min-block-size: 0;
+  padding-block: var(--space-2);
+}
+.switch-row--inline .switch__label {
+  font-size: var(--text-sm);
+  order: -1;   /* the word first, the control under it */
+}
 
 @media (prefers-reduced-motion: reduce) {
   .switch__track,
@@ -2654,18 +2809,34 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
   padding: var(--space-2);
   background: none;
   border: 0;
-  color: var(--ink-muted);
+  color: var(--ink-inverse);
   font-size: var(--text-sm);
   text-decoration: underline;
   text-underline-offset: 0.25em;
   cursor: pointer;
 }
-.facets__clear:hover { color: var(--ink); }
+.facets__clear:hover { color: var(--ink-inverse); text-decoration-thickness: 2px; }
+
+/* "Advanced Search" — in the Figma and dropped from the first build. It is a
+   link, under the button, in ink rather than copper: copper is 2.74:1 on this
+   ground and illegal at any size. */
+.facets__advanced {
+  display: block;
+  margin-block-start: var(--space-4);
+  min-block-size: 44px;
+  padding-block: var(--space-3);
+  text-align: center;
+  color: var(--ink-inverse);
+  font-size: var(--text-sm);
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+}
+.facets__advanced:hover { text-decoration-thickness: 2px; }
 
 /* On one column the facets stop being a rail and become a disclosure, so the
    list is not pushed a screen and a half down the page. */
 @media (max-width: 61.99rem) {
-  .facets { border: 1px solid var(--rule); border-radius: var(--radius-3); }
+  .facets { padding: 0; }
   .facets > summary {
     display: flex;
     align-items: center;
@@ -2678,7 +2849,7 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
     font-size: var(--text-lead);
     text-transform: uppercase;
     letter-spacing: var(--track-caps);
-    color: var(--ink);
+    color: var(--ink-inverse);
   }
   .facets > summary::-webkit-details-marker { display: none; }
   .facets > summary::after {
@@ -2698,6 +2869,338 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
   /* The disclosure is a phone affordance only: on the rail everything is
      already visible, so the summary would be a control that does nothing. */
   .facets > summary { display: none; }
+}
+
+
+/* =========================================================================
+   15d. VEHICLE DETAIL (vehicle.html)
+
+   One object, so the composition can afford a dominant: the photograph is the
+   subject and the bone panel beside it is the one light field on the page,
+   holding the two facts the visitor came for — what it is and what it costs.
+
+   This is where --bg-card finally has a job. It was declared as "the vehicle
+   card" and used by nothing; the card on the listing is dark, because a bone
+   card among eleven others would out-rank the cars. Here there is one car, and
+   out-ranking is the point.
+
+   CONTRAST ON BONE, measured (#f2efe9):
+     --ink-inverse  14.66:1  everything textual
+     --slate         6.33:1  the secondary button
+     --accent        3.99:1  LARGE type and rules only — never a label
+     --accent-ink    2.74:1  banned here; it is the dark-ground copper
+   Because no muted ink clears 4.5:1 on this surface, the label/value pair is
+   separated by size, weight, register and tracking instead of by tone — four
+   axes, which read as a decision where one reads as an accident.
+   ========================================================================= */
+
+.vdp { display: grid; gap: var(--space-6); }
+.vdp__main { min-inline-size: 0; }
+/* The reading column is capped where reading happens, not where the grid ends
+   — the gallery above it is allowed the full width. */
+.vdp__main > p,
+.vdp__main > .enquiry { max-inline-size: var(--measure); }
+
+@media (min-width: 62rem) {
+  .vdp {
+    grid-template-columns: minmax(0, 1fr) 24rem;
+    gap: var(--space-6) var(--space-8);
+    align-items: start;
+  }
+}
+
+/* ---- action bar ---------------------------------------------------------
+   Back first and leftmost: this page is reached from a list, and the way back
+   to the list is the most-used control on any detail page. */
+.vdp-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  margin-block-end: var(--space-5);
+}
+.vdp-actions__spacer { flex: 1 1 auto; }
+/* .btn-card is built to share a card's action row three ways, so it carries
+   flex: 1. Out here it would stretch three controls across the page and put a
+   divider between them; on this bar they are three ordinary buttons. */
+.vdp-actions .btn-card {
+  flex: 0 0 auto;
+  padding-inline: var(--space-4);
+  border-radius: var(--radius-2);
+}
+
+.btn-back {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-block-size: 44px;
+  padding-inline: var(--space-4);
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius-2);
+  background: transparent;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  letter-spacing: var(--track-caps);
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: border-color var(--dur-1) var(--ease-out),
+              background-color var(--dur-1) var(--ease-out);
+}
+.btn-back:hover { border-color: var(--ink); background: rgb(var(--ink-rgb) / 0.06); }
+.btn-back__arrow {
+  inline-size: 16px;
+  block-size: 16px;
+  background: currentColor;
+  clip-path: polygon(45% 8%, 57% 20%, 33% 44%, 100% 44%, 100% 60%, 33% 60%, 57% 84%, 45% 96%, 0 52%);
+}
+
+/* ---- gallery stage ------------------------------------------------------ */
+/* min-inline-size: 0 on every link in the chain. A grid and a flex item both
+   default to min-width:auto, which refuses to shrink below their content — so
+   a scrolling thumbnail strip pushes its own column wider instead of
+   scrolling, and the whole page acquires a horizontal scrollbar. */
+.stage { position: relative; min-inline-size: 0; }
+.stage__frame {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-3);
+  background: var(--bg-raised);
+  aspect-ratio: 16 / 10;
+}
+.stage__frame img {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* The arrows sit ON the photograph here — unlike the listing rail, where they
+   sit outside it. On a single image there is no row for them to sit beside,
+   and a control floated below the frame reads as belonging to the next block. */
+.stage__nav {
+  position: absolute;
+  inset-block-start: 50%;
+  translate: 0 -50%;
+  z-index: 2;
+}
+.stage__nav--prev { inset-inline-start: var(--space-4); }
+.stage__nav--next { inset-inline-end: var(--space-4); }
+
+/* Position within the set, over the image's own dark foot. Twelve thumbnails
+   below still leave "which one am I on" unanswered while the strip scrolls. */
+.stage__index {
+  position: absolute;
+  inset-block-end: var(--space-4);
+  inset-inline-end: var(--space-4);
+  z-index: 2;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-pill);
+  background: rgb(var(--bg-deep-rgb) / 0.72);
+  backdrop-filter: blur(6px);
+  font-size: var(--text-xs);
+  color: var(--ink);
+}
+
+.thumbs {
+  display: flex;
+  min-inline-size: 0;
+  gap: var(--space-3);
+  margin-block-start: var(--space-3);
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--rule-strong) transparent;
+  padding-block-end: var(--space-2);
+}
+.thumb {
+  flex: 0 0 auto;
+  inline-size: 7rem;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: var(--radius-2);
+  background: none;
+  cursor: pointer;
+  overflow: hidden;
+  line-height: var(--lh-none);
+  opacity: 0.55;
+  transition: opacity var(--dur-2) var(--ease-out),
+              border-color var(--dur-2) var(--ease-out);
+}
+.thumb img { inline-size: 100%; aspect-ratio: 16 / 10; object-fit: cover; display: block; }
+.thumb:hover { opacity: 0.85; }
+/* Selection is carried by BOTH opacity and a border. Opacity alone is a
+   difference nobody can name when four thumbnails are already dim. */
+.thumb[aria-current="true"] { opacity: 1; border-color: var(--accent); }
+
+/* ---- the bone panel ----------------------------------------------------- */
+.vdp-panel {
+  padding: var(--space-6);
+  border-radius: var(--radius-3);
+  background: var(--bg-card);
+  color: var(--ink-inverse);
+}
+@media (min-width: 62rem) {
+  /* Sticky, because the specification is what the visitor checks against every
+     photograph they scroll through. */
+  .vdp-panel { position: sticky; inset-block-start: calc(var(--header-h) + var(--space-5)); }
+}
+
+/* The name out-ranks nothing else on the page, but it must not be dwarfed by
+   the number: at h3 against a 64px price the car read as a caption on its own
+   price tag. One step up, one step down, and the pair now reads as a title
+   with its value rather than a value with a footnote. */
+.vdp-panel__title {
+  font-family: var(--font-display);
+  font-size: var(--text-h2);
+  font-weight: var(--weight-heading);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--track-heading);
+  color: var(--ink-inverse);
+}
+
+/* Playfair, and this is the same role it was given on the card: the price.
+   Near-black rather than copper — copper clears only 3.99:1 on bone, which is
+   legal at this size but is 3.5× less contrast on the one number the whole
+   page exists to state. */
+.vdp-panel__price {
+  margin-block-start: var(--space-text);
+  font-family: var(--font-serif);
+  font-size: var(--text-hero-2);
+  font-weight: var(--weight-body);
+  line-height: var(--lh-display);
+  font-variant-numeric: lining-nums tabular-nums;
+  color: var(--ink-inverse);
+}
+.vdp-panel__note {
+  margin-block-start: var(--space-2);
+  font-size: var(--text-xs);
+  color: var(--ink-inverse);
+  opacity: 0.7;
+}
+
+.vdp-panel__rule {
+  block-size: 2px;
+  margin-block: var(--space-5);
+  background: var(--accent);
+  border: 0;
+}
+
+/* Label and value: four axes apart, because tone cannot carry it here. */
+.spec-pairs { display: grid; gap: var(--space-4); margin: 0; }
+.spec-pairs__row { display: grid; gap: var(--space-1); }
+.spec-pairs dt {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-label);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--ink-inverse);
+}
+.spec-pairs dd {
+  margin: 0;
+  font-size: var(--text-body);
+  font-weight: var(--weight-body);
+  color: var(--ink-inverse);
+}
+.spec-pairs dd.num-tabular { letter-spacing: var(--track-num); }
+
+.vdp-panel__actions { display: grid; gap: var(--space-3); margin-block-start: var(--gap-cta-text); }
+
+/* ---- jump nav -----------------------------------------------------------
+   Not tabs. The Figma hides Description, Premium options, Photos, Videos, Buy
+   Now and Contact behind six of them — which puts the car's own specification
+   one click away from being seen at all, and out of reach of a search engine.
+   These are links to sections that are all present, all scrollable, all
+   indexable. */
+.jump {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  padding-block: var(--space-4);
+  border-block: 1px solid var(--rule);
+}
+.jump a {
+  min-block-size: 44px;
+  display: inline-flex;
+  align-items: center;
+  padding-inline: var(--space-4);
+  border-radius: var(--radius-pill);
+  color: var(--ink-muted);
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  letter-spacing: var(--track-caps);
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: color var(--dur-1) var(--ease-out),
+              background-color var(--dur-1) var(--ease-out);
+}
+.jump a:hover { color: var(--ink); background: rgb(var(--ink-rgb) / 0.06); }
+
+/* ---- full specification ------------------------------------------------- */
+.spec-table {
+  inline-size: 100%;
+  table-layout: fixed;   /* long VINs must wrap, not widen the column */
+  border-collapse: collapse;
+  margin-block-start: var(--space-text-obj);
+}
+.spec-table th,
+.spec-table td {
+  padding: var(--space-4) var(--space-4) var(--space-4) 0;
+  border-block-end: 1px solid var(--rule);
+  text-align: start;
+  vertical-align: baseline;
+}
+.spec-table th {
+  inline-size: 34%;
+  font-size: var(--text-xs);
+  font-weight: var(--weight-label);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+.spec-table td { font-size: var(--text-body); color: var(--ink); overflow-wrap: anywhere; }
+.spec-table caption {
+  text-align: start;
+  padding-block-end: var(--space-4);
+  color: var(--ink-muted);
+  font-size: var(--text-sm);
+}
+
+/* ---- cross-sell strip ---------------------------------------------------
+   The Figma stacks four image promos in a rail beside the car, each with its
+   own copper button. Four photographs and four buttons next to the one
+   photograph and one button that matter is the apparatus out-ranking the
+   subject. They become a quiet strip after the content, where a visitor who
+   has finished reading is genuinely choosing what to do next. */
+.next-steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: var(--space-4);
+  margin-block-start: var(--space-text-obj);
+}
+.next-step {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-5);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-3);
+  color: var(--ink);
+  text-decoration: none;
+  transition: border-color var(--dur-2) var(--ease-out),
+              translate var(--dur-3) var(--ease-out);
+}
+.next-step:hover { border-color: var(--rule-strong); translate: 0 -3px; }
+.next-step__title {
+  font-family: var(--font-display);
+  font-size: var(--text-lead);
+  font-weight: var(--weight-heading);
+  text-transform: uppercase;
+  letter-spacing: var(--track-caps);
+}
+.next-step__body { font-size: var(--text-sm); color: var(--ink-muted); }
+.next-step__go { font-size: var(--text-sm); color: var(--accent-ink); }
+
+@media (prefers-reduced-motion: reduce) {
+  .next-step { transition: none; }
 }
 
 

@@ -1,0 +1,402 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>1965 Backdraft RT4B Roadster — Hinderer Motor Company</title>
+  <meta name="description" content="1965 Backdraft RT4B Roadster — black over black leather, 7.3L Godzilla V8, 580 hp, five-speed manual, 62 miles. Full specification, photographs and provenance from Hinderer Motor Company.">
+  <meta name="theme-color" content="#1f1d19">
+
+  <link rel="icon" href="assets/img/logo-hinderer.png" sizes="any">
+  <!-- No hero preload: this page has no hero. The first paint here is twelve
+       card thumbnails, and they are lazy by design — preloading anything above
+       them would only delay the one image the visitor actually scrolls to. -->
+
+  <!-- Two voices: Oswald carries headline mass, Inter carries reading and
+       data. Degular (licensed, not supplied) leads --font-display in
+       tokens.css and takes over the moment its @font-face lands — no markup
+       change required. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=Oswald:wght@300;400;500;600&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- The cascade, in the order it must load:
+       tokens  → the values, and the only place a raw value is written
+       system  → layout, rhythm, utilities (this replaced Bootstrap)
+       main    → the components
+       oswald  → the display-face layer, one link away from being removed -->
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/system.css">
+  <link rel="stylesheet" href="assets/css/main.css">
+  <!-- The display face, kept as its own layer rather than folded into main.css:
+       it is applied last and can be lifted out in one line if the face changes.
+       Every new page loads these four, in this order. -->
+  <link rel="stylesheet" href="assets/css/display-oswald.css">
+
+  <!-- Marks that scripting is available, before first paint. Only then does
+       the mobile nav collapse behind its toggle; without JS it renders as a
+       stacked list and every destination stays reachable. -->
+  <script>document.documentElement.className += " js";</script>
+</head>
+
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<!-- =====================================================================
+     SITE HEADER — shared across every page. Copy verbatim into new pages
+     and change only the aria-current on the active nav item.
+     ===================================================================== -->
+<header class="site-header" id="siteHeader">
+  <div class="wrap site-header__inner">
+
+    <a class="brand" href="index.html" aria-label="Hinderer Motor Company — home">
+      <img class="brand__mark" src="assets/img/logo-hinderer.png"
+           alt="The Hinderer Motor Company — we love what moves you" width="272" height="94">
+    </a>
+
+    <button class="nav-toggle" type="button"
+            aria-expanded="false" aria-controls="siteNav" data-nav-toggle>
+      <span class="sr-only">Menu</span>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </button>
+
+    <nav class="site-nav" id="siteNav" aria-label="Primary">
+      <ul class="site-nav__list">
+        <li><a class="site-nav__link" href="inventory.html">Inventory</a></li>
+        <li><a class="site-nav__link" href="index.html#build">Build</a></li>
+        <li><a class="site-nav__link" href="index.html#trade">Trade In</a></li>
+        <li><a class="site-nav__link" href="index.html#about">Who We Are</a></li>
+        <li><a class="site-nav__link site-nav__link--phone" href="tel:+17406182466">740.618.2466</a></li>
+      </ul>
+    </nav>
+
+    <a class="collection-pill" href="saved.html">
+      <!-- The words drop out below 23.5rem, where holding them squeezed the logo
+           to 51px. They stay in the DOM, so the link is still announced as
+           "My Collection / 03" — the count is what is lost visually last. -->
+      <span class="collection-pill__label">My Collection</span>
+      <span class="num-tabular">/ <span data-saved-count>03</span></span>
+    </a>
+
+  </div>
+</header>
+
+
+<main id="main">
+
+  <!-- ===================================================================
+       1 · THE CAR
+       One object, so the page can afford a dominant. The photograph is the
+       subject; the bone panel beside it holds the two facts the visitor came
+       for — what it is and what it costs.
+
+       The description and the specification sit in the SAME column as the
+       gallery rather than in a section below it. Split into two sections they
+       left 336px of trapped white under the photographs while the panel ran
+       on beside it — an empty column reads as a missing block, not as air.
+       =================================================================== -->
+  <section class="section section--below-header" aria-labelledby="vdpTitle">
+    <div class="wrap">
+
+      <div class="vdp-actions">
+        <a class="btn-back" href="inventory.html">
+          <span class="btn-back__arrow" aria-hidden="true"></span>Back to inventory
+        </a>
+        <span class="vdp-actions__spacer"></span>
+        <a class="btn-card" href="sms:+17406182466">
+          <span class="btn-card__icon btn-card__icon--text" aria-hidden="true"></span>Text
+        </a>
+        <button class="btn-card" type="button">
+          <span class="btn-card__icon btn-card__icon--share" aria-hidden="true"></span>Share
+        </button>
+        <button class="btn-card" type="button" data-vdp-save aria-pressed="false">
+          <span class="btn-card__icon btn-card__icon--save" aria-hidden="true"></span>Save
+        </button>
+      </div>
+
+      <div class="vdp">
+
+        <div class="vdp__main">
+
+          <div class="stage" data-stage>
+            <div class="stage__frame">
+              <img src="assets/img/inventory-1.jpg" alt="1965 Backdraft RT4B Roadster, three-quarter front"
+                   width="1200" height="750" data-stage-img fetchpriority="high">
+              <button class="btn-round stage__nav stage__nav--prev" type="button" data-stage-prev>
+                <span class="sr-only">Previous photograph</span>
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+              <button class="btn-round stage__nav stage__nav--next" type="button" data-stage-next>
+                <span class="sr-only">Next photograph</span>
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+              <p class="stage__index num-tabular" data-stage-index>1 / 6</p>
+            </div>
+
+            <!-- Real buttons, so the strip is keyboard-operable and each one
+                 announces which photograph it selects. -->
+            <div class="thumbs" role="group" aria-label="Photographs of this vehicle">
+              <button class="thumb" type="button" aria-current="true"
+                      data-thumb data-src="assets/img/inventory-1.jpg"
+                      data-alt="1965 Backdraft RT4B Roadster, three-quarter front">
+                <img src="assets/img/inventory-1.jpg" alt="View photograph 1: three-quarter front" width="220" height="138" loading="lazy">
+              </button>
+              <button class="thumb" type="button" aria-current="false"
+                      data-thumb data-src="assets/img/gallery-2.jpg"
+                      data-alt="1965 Backdraft RT4B Roadster, rear three-quarter">
+                <img src="assets/img/gallery-2.jpg" alt="View photograph 2: rear three-quarter" width="220" height="138" loading="lazy">
+              </button>
+              <button class="thumb" type="button" aria-current="false"
+                      data-thumb data-src="assets/img/gallery-3.jpg"
+                      data-alt="1965 Backdraft RT4B Roadster, profile, driver's side">
+                <img src="assets/img/gallery-3.jpg" alt="View photograph 3: profile, driver's side" width="220" height="138" loading="lazy">
+              </button>
+              <button class="thumb" type="button" aria-current="false"
+                      data-thumb data-src="assets/img/gallery-4.jpg"
+                      data-alt="1965 Backdraft RT4B Roadster, cockpit and instruments">
+                <img src="assets/img/gallery-4.jpg" alt="View photograph 4: cockpit and instruments" width="220" height="138" loading="lazy">
+              </button>
+              <button class="thumb" type="button" aria-current="false"
+                      data-thumb data-src="assets/img/gallery-5.jpg"
+                      data-alt="1965 Backdraft RT4B Roadster, engine bay">
+                <img src="assets/img/gallery-5.jpg" alt="View photograph 5: engine bay" width="220" height="138" loading="lazy">
+              </button>
+              <button class="thumb" type="button" aria-current="false"
+                      data-thumb data-src="assets/img/gallery-6.jpg"
+                      data-alt="1965 Backdraft RT4B Roadster, wheel and side pipe">
+                <img src="assets/img/gallery-6.jpg" alt="View photograph 6: wheel and side pipe" width="220" height="138" loading="lazy">
+              </button>
+            </div>
+          </div>
+
+          <nav class="jump" aria-label="On this page">
+            <a href="#description">Description</a>
+            <a href="#specification">Specification</a>
+            <a href="#enquire">Enquire</a>
+          </nav>
+
+          <h2 class="section-sub u-mt-6" id="description">Description</h2>
+          <p class="body-muted u-mt-5">This RT4B left the Backdraft floor in black over black leather
+            and has covered 62 miles since — delivery mileage, and every one of them logged. It is the
+            Godzilla car: Ford's 7.3-litre V8 in aluminium-headed form, 580 horsepower through a
+            five-speed manual and a limited-slip differential.</p>
+          <p class="body-muted u-mt-5">We inspected it on arrival, photographed it as it stands, and
+            have not corrected anything in the pictures. What the gallery shows is the car in the
+            building. The service file, the build sheet and the CARFAX report are on the desk and go
+            with it.</p>
+          <p class="body-muted u-mt-5">Delivery is available anywhere in the continental United States
+            on an enclosed transporter, and the car is inspected again on the truck and on arrival.</p>
+
+          <h2 class="section-sub u-mt-7" id="specification">Specification</h2>
+          <table class="spec-table">
+            <caption>As documented on arrival. Anything not listed was not fitted.</caption>
+            <tbody>
+              <tr><th scope="row">Engine</th><td>7.3L Ford Godzilla V8, aluminium heads</td></tr>
+              <tr><th scope="row">Output</th><td class="num-tabular">580 hp · 655 lb-ft</td></tr>
+              <tr><th scope="row">Transmission</th><td>Tremec TKX five-speed manual</td></tr>
+              <tr><th scope="row">Differential</th><td>Independent rear, limited slip, 3.31:1</td></tr>
+              <tr><th scope="row">Brakes</th><td>Wilwood four-piston, vented discs all round</td></tr>
+              <tr><th scope="row">Wheels</th><td>17-inch Halibrand-style, satin black</td></tr>
+              <tr><th scope="row">Exterior</th><td>Black, red centre stripe</td></tr>
+              <tr><th scope="row">Interior</th><td>Black leather, red stitching, roll hoops</td></tr>
+              <tr><th scope="row">Mileage</th><td class="num-tabular">62 mi</td></tr>
+              <tr><th scope="row">Stock number</th><td class="num-tabular">235612</td></tr>
+              <tr><th scope="row">VIN</th><td class="num-tabular">1FMJU1J82REA15386</td></tr>
+            </tbody>
+          </table>
+
+          <!-- A form, not a third pair of Call/Text buttons. The panel already
+               carries the immediate actions; this is the considered one, for a
+               visitor who wants to ask something rather than ring. -->
+          <h2 class="section-sub u-mt-7" id="enquire">Enquire about this car</h2>
+          <p class="body-muted u-mt-5">We answer every message ourselves — there is no call centre.
+            Tell us what you would like to know, or when you would like to see it.</p>
+
+          <form class="enquiry u-mt-6" method="post" action="#enquire">
+            <div class="field-pair">
+              <div class="field">
+                <label class="field__label" for="enqName">Your name</label>
+                <input class="control" id="enqName" name="name" type="text" autocomplete="name" required>
+              </div>
+              <div class="field">
+                <label class="field__label" for="enqPhone">Phone</label>
+                <input class="control" id="enqPhone" name="phone" type="tel" autocomplete="tel">
+              </div>
+            </div>
+            <div class="field u-mt-5">
+              <label class="field__label" for="enqEmail">Email</label>
+              <input class="control" id="enqEmail" name="email" type="email" autocomplete="email" required>
+            </div>
+            <div class="field u-mt-5">
+              <label class="field__label" for="enqMsg">Message</label>
+              <textarea class="control control--area" id="enqMsg" name="message" rows="4">I would like to know more about stock #235612.</textarea>
+            </div>
+            <p class="enquiry__legal">Stock #235612 is attached to this message, so you do not have to
+              quote it back to us.</p>
+            <button class="btn-hmc btn-hmc--primary btn-hmc--centred u-mt-5" type="submit">Send enquiry</button>
+          </form>
+
+        </div>
+
+        <aside class="vdp-panel" aria-labelledby="vdpTitle">
+          <h1 class="vdp-panel__title" id="vdpTitle">1965 Backdraft RT4B Roadster</h1>
+          <p class="vdp-panel__price num-tabular">$109,500</p>
+          <p class="vdp-panel__note">Price excludes tax, title, registration and documentation fees.</p>
+
+          <hr class="vdp-panel__rule">
+
+          <dl class="spec-pairs">
+            <div class="spec-pairs__row"><dt>Engine</dt><dd>7.3L 580 hp V8, Ford Godzilla</dd></div>
+            <div class="spec-pairs__row"><dt>Transmission</dt><dd>Manual, five-speed</dd></div>
+            <div class="spec-pairs__row"><dt>Exterior</dt><dd>Black with red centre stripe</dd></div>
+            <div class="spec-pairs__row"><dt>Mileage</dt><dd class="num-tabular">62 mi</dd></div>
+            <div class="spec-pairs__row"><dt>Stock</dt><dd class="num-tabular">235612</dd></div>
+          </dl>
+
+          <div class="vdp-panel__actions">
+            <a class="btn-hmc btn-hmc--secondary btn-hmc--centred" href="tel:+17406182466">Call 740.618.2466</a>
+            <a class="btn-hmc btn-hmc--dark btn-hmc--centred" href="#enquire">Schedule a test drive</a>
+          </div>
+        </aside>
+
+      </div>
+
+      <h2 class="section-sub u-mt-7">Next steps</h2>
+      <div class="next-steps">
+        <a class="next-step" href="index.html#trade">
+          <span class="next-step__title">Trade in</span>
+          <span class="next-step__body">Get a fair market value for the car you are driving now.</span>
+          <span class="next-step__go">Start a valuation →</span>
+        </a>
+        <a class="next-step" href="index.html#finance">
+          <span class="next-step__title">Finance</span>
+          <span class="next-step__body">Pre-approval in minutes, with no effect on your credit score.</span>
+          <span class="next-step__go">Get pre-approved →</span>
+        </a>
+        <a class="next-step" href="index.html#build">
+          <span class="next-step__title">Build your own</span>
+          <span class="next-step__body">Specify a roadster from the chassis up, exactly as you want it.</span>
+          <span class="next-step__go">Open the configurator →</span>
+        </a>
+        <a class="next-step" href="inventory.html">
+          <span class="next-step__title">See the rest</span>
+          <span class="next-step__body">Eleven more hand-built roadsters currently on the floor.</span>
+          <span class="next-step__go">Back to inventory →</span>
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+       10 · CONTACT
+       =================================================================== -->
+  <!-- Full-bleed by construction: the map is a place, and a place cropped into
+       a content column reads as a picture of a place. The panel beside it is the
+       only large warm field on the page, which is what makes the page resolve
+       here instead of trailing off. -->
+  <section class="contact" id="contact" aria-labelledby="contactTitle">
+    <div class="contact__map">
+      <iframe class="contact__map__frame"
+              title="Map showing Hinderer Motor Company at 1555 Hebron Rd, Heath, Ohio"
+              src="https://www.openstreetmap.org/export/embed.html?bbox=-82.4590%2C40.0215%2C-82.4190%2C40.0435&amp;layer=mapnik&amp;marker=40.0325%2C-82.4390"
+              loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <!-- The interactive frame cannot be a link, so the route to full
+           directions is stated separately and stays keyboard reachable. -->
+      <a class="contact__map__link"
+         href="https://www.openstreetmap.org/?mlat=40.0325&amp;mlon=-82.4390#map=15/40.0325/-82.4390"
+         target="_blank" rel="noopener">
+        Open directions
+        <span class="sr-only">— 1555 Hebron Rd, Heath, Ohio, opens in a new tab</span>
+      </a>
+    </div>
+
+    <div class="contact__panel">
+      <!-- Decorative: the word is already the section's heading for a reader
+           that cannot see it. -->
+      <span class="contact__spine" aria-hidden="true"><span>C</span><span>O</span><span>N</span><span>T</span><span>A</span><span>C</span><span>T</span><span>S</span></span>
+
+      <div class="contact__body">
+        <h2 class="sr-only" id="contactTitle">Contact Hinderer Motor Company</h2>
+
+        <div class="contact__item">
+          <p class="contact__label">
+            <svg class="contact__icon" viewBox="0 -960 960 960" aria-hidden="true" focusable="false" width="20" height="20"><path fill="currentColor" d="M798-120q-125 0-247-54.5T329-329Q229-429 174.5-551T120-798q0-18 12-30t30-12h162q14 0 25 9.5t13 22.5l26 140q2 16-1 27t-11 19l-97 98q20 37 47.5 71.5T387-386q31 31 65 57.5t72 48.5l94-94q9-9 23.5-13.5T670-390l138 28q14 4 23 14.5t9 23.5v162q0 18-12 30t-30 12ZM241-600l66-66-17-94h-89q5 41 14 81t26 79Zm358 358q39 17 79.5 27t81.5 13v-88l-94-19-67 67ZM241-600Zm358 358Z"/></svg>
+            Phone
+          </p>
+          <p class="contact__value">
+            <a class="num-tabular" href="tel:+17406182466">740.618.2466</a>
+          </p>
+        </div>
+
+        <div class="contact__item">
+          <p class="contact__label">
+            <svg class="contact__icon" viewBox="0 -960 960 960" aria-hidden="true" focusable="false" width="20" height="20"><path fill="currentColor" d="M480-480q33 0 56.5-23.5T560-560q0-33-23.5-56.5T480-640q-33 0-56.5 23.5T400-560q0 33 23.5 56.5T480-480Zm0 294q122-112 181-203.5T720-552q0-109-69.5-178.5T480-800q-101 0-170.5 69.5T240-552q0 71 59 162.5T480-186Zm0 106Q319-217 239.5-334.5T160-552q0-150 96.5-239T480-880q127 0 223.5 89T800-552q0 100-79.5 217.5T480-80Zm0-480Z"/></svg>
+            Address
+          </p>
+          <address class="contact__value">
+            Hinderer Motor Company<br>
+            1555 Hebron Rd<br>
+            Heath, OH 43056
+          </address>
+        </div>
+
+        <div class="contact__item">
+          <p class="contact__label">
+            <svg class="contact__icon" viewBox="0 -960 960 960" aria-hidden="true" focusable="false" width="20" height="20"><path fill="currentColor" d="M720-80q-50 0-85-35t-35-85q0-7 1-14.5t3-13.5L322-392q-17 15-38 23.5t-44 8.5q-50 0-85-35t-35-85q0-50 35-85t85-35q23 0 44 8.5t38 23.5l282-164q-2-6-3-13.5t-1-14.5q0-50 35-85t85-35q50 0 85 35t35 85q0 50-35 85t-85 35q-23 0-44-8.5T638-672L356-508q2 6 3 13.5t1 14.5q0 7-1 14.5t-3 13.5l282 164q17-15 38-23.5t44-8.5q50 0 85 35t35 85q0 50-35 85t-85 35Zm0-640q17 0 28.5-11.5T760-760q0-17-11.5-28.5T720-800q-17 0-28.5 11.5T680-760q0 17 11.5 28.5T720-720ZM240-440q17 0 28.5-11.5T280-480q0-17-11.5-28.5T240-520q-17 0-28.5 11.5T200-480q0 17 11.5 28.5T240-440Zm480 280q17 0 28.5-11.5T760-200q0-17-11.5-28.5T720-240q-17 0-28.5 11.5T680-200q0 17 11.5 28.5T720-160Zm0-600ZM240-480Zm480 280Z"/></svg>
+            Follow
+          </p>
+          <ul class="social contact__value">
+            <li><a href="#" aria-label="Hinderer Motor Company on Instagram"><img src="assets/icons/social-instagram.svg" alt="" aria-hidden="true" width="21" height="21"></a></li>
+            <li><a href="#" aria-label="Hinderer Motor Company on Facebook"><img src="assets/icons/social-facebook.svg" alt="" aria-hidden="true" width="21" height="21"></a></li>
+            <li><a href="#" aria-label="Hinderer Motor Company on X"><img src="assets/icons/social-x.svg" alt="" aria-hidden="true" width="21" height="21"></a></li>
+            <li><a href="#" aria-label="Hinderer Motor Company on YouTube"><img src="assets/icons/social-youtube.svg" alt="" aria-hidden="true" width="21" height="21"></a></li>
+          </ul>
+        </div>
+
+        <a class="btn-hmc btn-hmc--dark btn-hmc--centred btn-hmc--wide contact__cta" href="contact.html">Contact Us</a>
+      </div>
+    </div>
+  </section>
+
+
+</main>
+
+
+     SITE FOOTER — shared across every page.
+     ===================================================================== -->
+<footer class="site-footer">
+  <div class="wrap site-footer__inner">
+    <p>
+      Copyright © <span data-current-year>2024</span> Hinderer Motor Company. All Rights Reserved. |
+      <a href="sitemap.html">Sitemap</a> | <a href="privacy.html">Privacy</a>
+    </p>
+    <p>Powered By All Auto Network</p>
+  </div>
+</footer>
+
+
+<!-- Video lightbox — only opened by a control that really has a video -->
+<dialog class="dialog" id="videoModal" aria-labelledby="videoModalTitle">
+  <div class="dialog__head">
+    <h2 class="dialog__title" id="videoModalTitle">Video</h2>
+    <button type="button" class="dialog__close" data-dialog-close aria-label="Close video">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </div>
+  <div class="dialog__body">
+    <video id="videoModalPlayer" controls playsinline></video>
+  </div>
+</dialog>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>

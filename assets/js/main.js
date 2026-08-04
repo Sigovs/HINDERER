@@ -682,6 +682,47 @@
       });
     };
 
+    /* Range sliders ↔ the From/To fields. One value, two ways in: dragging a
+       handle writes the number into the field, typing a number moves the
+       handle. The two handles cannot cross — a "from" above its "to" is a
+       query that can never match anything, and the control should refuse it
+       rather than quietly return nothing. */
+    [].slice.call(facetForm.querySelectorAll('[data-range]')).forEach(function (group) {
+      var lo = group.querySelector('[data-range-min]');
+      var hi = group.querySelector('[data-range-max]');
+      var loField = facetForm.elements[lo.getAttribute('data-target')];
+      var hiField = facetForm.elements[hi.getAttribute('data-target')];
+
+      var push = function () {
+        if (+lo.value > +hi.value) {
+          /* Whichever handle moved is the one that stops. */
+          if (document.activeElement === lo) lo.value = hi.value;
+          else hi.value = lo.value;
+        }
+        /* An endpoint sitting on the extreme is NOT a filter — writing it into
+           the field would turn "no preference" into a bound and start
+           excluding rows the visitor never excluded. */
+        loField.value = (lo.value === lo.min) ? '' : lo.value;
+        hiField.value = (hi.value === hi.max) ? '' : hi.value;
+        apply();
+      };
+
+      lo.addEventListener('input', push);
+      hi.addEventListener('input', push);
+
+      var pull = function () {
+        if (loField.value !== '') lo.value = loField.value;
+        if (hiField.value !== '') hi.value = hiField.value;
+      };
+      loField.addEventListener('input', pull);
+      hiField.addEventListener('input', pull);
+
+      /* reset() restores the inputs but not this pairing. */
+      facetForm.addEventListener('reset', function () {
+        setTimeout(function () { lo.value = lo.min; hi.value = hi.max; }, 0);
+      });
+    });
+
     facetForm.addEventListener('change', apply);
     facetForm.addEventListener('input', apply);
 
@@ -720,6 +761,66 @@
 
     sortCards();
     apply();
+  }
+
+  /* -----------------------------------------------------------------------
+     Vehicle gallery (vehicle.html)
+
+     The thumbnails are real buttons carrying the full-size source, so with JS
+     off the strip is still six labelled controls and every photograph is still
+     in the document — nothing here is the only way to see an image.
+     ----------------------------------------------------------------------- */
+  var stage = document.querySelector('[data-stage]');
+
+  if (stage) {
+    var stageImg = stage.querySelector('[data-stage-img]');
+    var thumbs = [].slice.call(stage.querySelectorAll('[data-thumb]'));
+    var indexEl = stage.querySelector('[data-stage-index]');
+    var at = 0;
+
+    var show = function (i) {
+      at = (i + thumbs.length) % thumbs.length;
+      var t = thumbs[at];
+      stageImg.src = t.getAttribute('data-src');
+      stageImg.alt = t.getAttribute('data-alt') || '';
+      thumbs.forEach(function (b, n) {
+        b.setAttribute('aria-current', n === at ? 'true' : 'false');
+      });
+      if (indexEl) indexEl.textContent = (at + 1) + ' / ' + thumbs.length;
+      /* Keep the selected thumbnail in view — otherwise the arrows walk the
+         selection off the end of a strip that never scrolls. */
+      t.scrollIntoView({ behavior: motionOK ? 'smooth' : 'auto', block: 'nearest', inline: 'nearest' });
+    };
+
+    thumbs.forEach(function (b, n) {
+      b.addEventListener('click', function () { show(n); });
+    });
+
+    var prev = stage.querySelector('[data-stage-prev]');
+    var next = stage.querySelector('[data-stage-next]');
+    if (prev) prev.addEventListener('click', function () { show(at - 1); });
+    if (next) next.addEventListener('click', function () { show(at + 1); });
+
+    /* Arrow keys, but only once the gallery itself has focus — hijacking them
+       for the whole document would break scrolling everywhere else. */
+    stage.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowLeft') { show(at - 1); e.preventDefault(); }
+      if (e.key === 'ArrowRight') { show(at + 1); e.preventDefault(); }
+    });
+  }
+
+  /* Save on the detail page shares the header counter with the listing. */
+  var vdpSave = document.querySelector('[data-vdp-save]');
+  if (vdpSave) {
+    vdpSave.addEventListener('click', function () {
+      var on = vdpSave.getAttribute('aria-pressed') === 'true';
+      vdpSave.setAttribute('aria-pressed', on ? 'false' : 'true');
+      var c = document.querySelector('[data-saved-count]');
+      if (c) {
+        var n = Math.max(0, (parseInt(c.textContent, 10) || 0) + (on ? -1 : 1));
+        c.textContent = n < 10 ? '0' + n : String(n);
+      }
+    });
   }
 
 })();

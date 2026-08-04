@@ -96,6 +96,11 @@
      --------------------------------------------------------------------- */
   --rule:            rgb(var(--ink-rgb) / 0.12);
   --rule-strong:     rgb(var(--ink-rgb) / 0.28);
+  /* The same two hairlines for a light surface. A rule is a tonal step away
+     from its own ground, so on bone it steps DOWN — reusing the dark-ground
+     rule there produces a line that is invisible. */
+  --rule-inverse:        rgb(var(--bg-rgb) / 0.14);
+  --rule-inverse-strong: rgb(var(--bg-rgb) / 0.30);
   --rule-control:    #a0a0a0;   /*  3.78:1 on --bg-control — UI boundary floor */
   --focus:           #ffffff;   /* 16.83:1 on ground · 4.58:1 on copper */
 
