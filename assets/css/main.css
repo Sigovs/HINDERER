@@ -3217,7 +3217,7 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
    reads as a picture of a place. */
 .vdp-page .vdp,
 .vdp-page .photos,
-.vdp-page .vdp-actions { max-inline-size: 1280px; margin-inline: auto; }
+.vdp-page .vdp-actions { max-inline-size: 1120px; margin-inline: auto; }
 
 .vdp { display: grid; gap: var(--space-6); }
 .vdp__main { min-inline-size: 0; }
@@ -3228,7 +3228,11 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
 
 @media (min-width: 62rem) {
   .vdp {
-    grid-template-columns: minmax(0, 1fr) 24rem;
+    /* The reading column IS the left column. Capping the panel inside a wider
+       column instead left 200px of nothing between the text and the rail — the
+       hole moved, it did not close. Sized so the surface fills its column and
+       the column is the measure plus its own padding. */
+    grid-template-columns: minmax(0, 44rem) 24rem;
     /* Two rows, named by what sits in them. The photograph and the price panel
        share the first: one grid row, one height, so the panel ends where the
        image ends instead of hanging past its foot. */
@@ -3566,7 +3570,10 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
 
 .tabs__tab {
   min-block-size: 44px;
-  padding-inline: var(--space-5);
+  /* Six labels have to hold one line in a 704px column. At the wider inline
+     padding they came to 768px and the row broke, which puts one tab on a shelf
+     of its own — a bar that wraps stops reading as a set of choices. */
+  padding-inline: var(--space-4);
   border: 0;
   border-radius: var(--radius-2);
   background: transparent;
@@ -3623,10 +3630,9 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
    Figma's cream: the description runs to several hundred words and a light
    field that size in the middle of a dark page is a second hero. */
 .tabs__panels {
-  /* Sized to what is in it. At the column's full width the surface ran a third
-     wider than the reading measure, and an empty right third of a dark panel
-     reads as a block someone forgot to fill rather than as air. */
-  max-inline-size: calc(var(--measure) + var(--space-6) * 2);
+  /* No cap. The column is the measure now, so the surface fills it — capping
+     the surface inside a wider column is what put the hole between the columns
+     instead of inside the panel. */
   margin-block-start: 0;
   padding: var(--space-6);
   border: 1px solid var(--rule);
