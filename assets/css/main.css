@@ -3552,7 +3552,10 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
 .tabs__bar {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
+  /* END, not centre. The selected tab is taller than its neighbours by the
+     overlap that joins it to the surface, so centring the bar lifted the jump
+     link 9px above the row it belongs to. */
+  align-items: flex-end;
   gap: var(--space-2);
 }
 .tabs__list {
@@ -3587,20 +3590,32 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
 /* The selected tab and the panel are one shape. Its foot squares off and sits
    directly on the surface below with no gap, so the plate reads as growing out
    of the panel rather than floating above it. */
+/* One shape. The plate's foot squares off, it overlaps the surface by the
+   radius, and the surface's own top-left corner squares off to meet it — left
+   round, that corner showed from under the plate and the two read as separate
+   objects placed next to each other. */
 .tabs__tab[aria-selected="true"] {
   background: var(--slate);              /* 7.27:1 with the white label */
   color: var(--ink);
   border-end-start-radius: 0;
   border-end-end-radius: 0;
-  padding-block-end: var(--space-2);
-  margin-block-end: calc(var(--space-2) * -1);
+  padding-block-end: var(--space-3);
+  margin-block-end: calc(var(--space-3) * -1);
 }
 .tabs__bar { position: relative; z-index: 1; }
+.tabs__panels { border-start-start-radius: 0; }
 
 /* Looks like the tab beside it and behaves as a jump. It carries .tabs__tab,
    so there is one definition of what a tab looks like; this only removes the
    underline an anchor arrives with and states that it never becomes selected. */
-.tabs__tab--jump { text-decoration: none; }
+/* An <a> is inline, so min-block-size on .tabs__tab never applied to it: its
+   box came out shorter than the buttons beside it and the word sat higher in
+   the row even with their feet level. */
+.tabs__tab--jump {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
 .tabs__tab--jump:hover { background: rgb(var(--ink-rgb) / 0.06); color: var(--ink); }
 
 /* A SURFACE under the panels, so the tab bar has something to sit on and the
@@ -3608,6 +3623,10 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
    Figma's cream: the description runs to several hundred words and a light
    field that size in the middle of a dark page is a second hero. */
 .tabs__panels {
+  /* Sized to what is in it. At the column's full width the surface ran a third
+     wider than the reading measure, and an empty right third of a dark panel
+     reads as a block someone forgot to fill rather than as air. */
+  max-inline-size: calc(var(--measure) + var(--space-6) * 2);
   margin-block-start: 0;
   padding: var(--space-6);
   border: 1px solid var(--rule);
