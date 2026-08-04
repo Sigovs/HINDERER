@@ -3206,6 +3206,19 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
    axes, which read as a decision where one reads as an accident.
    ========================================================================= */
 
+/* The detail page runs narrower than the listing. One car and one column of
+   reading do not need the full 1564 content width: at that width the frame's own
+   proportion made the photograph nearly a metre tall and pushed the price panel
+   a long way from it. 1280 keeps the image large without it becoming the page.
+
+   Scoped to these three blocks, NOT to .wrap. Written as `.vdp-page .wrap` it
+   also caught the contact band at the foot of the page, which is full-bleed by
+   construction — the map is a place, and a place cropped into a content column
+   reads as a picture of a place. */
+.vdp-page .vdp,
+.vdp-page .photos,
+.vdp-page .vdp-actions { max-inline-size: 1280px; margin-inline: auto; }
+
 .vdp { display: grid; gap: var(--space-6); }
 .vdp__main { min-inline-size: 0; }
 /* The reading column is capped where reading happens, not where the grid ends
@@ -3347,10 +3360,14 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
   overflow: hidden;
   border-radius: var(--radius-3);
   background: var(--bg-raised);
-  /* The photographs are 1024x768, so 4:3 crops nothing — and the cap is what
-     stops that proportion turning into a two-metre image on a wide monitor. */
+  /* The photographs are 1024x768, so 4:3 crops nothing.
+
+     NO max-block-size here. With an aspect ratio AND a height cap, the cap wins
+     on the block axis and the ratio then drags the INLINE axis down with it —
+     the frame shrank to 725px inside an 1100px column and left a field of empty
+     page beside it. The image is width-driven; the container column is what
+     bounds it, and that is already capped at the page's own content width. */
   aspect-ratio: 4 / 3;
-  max-block-size: min(62vh, 34rem);
 }
 .stage__frame img {
   inline-size: 100%;
@@ -3807,14 +3824,6 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
   grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
   gap: var(--space-4);
 }
-@media (min-width: 62rem) {
-  /* In the rail they stack: the column is 24rem wide and four cards across it
-     would be four thumbnails. */
-  .promos { grid-template-columns: minmax(0, 1fr); align-content: start; }
-  .promo { min-block-size: 11rem; }
-  .promo__body { min-block-size: 11rem; gap: var(--space-4); }
-  .promo__title { font-size: var(--text-lead); max-inline-size: 14ch; }
-}
 
 .promo {
   position: relative;
@@ -3895,6 +3904,23 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
 .promo:focus-visible .promo__media { scale: 1.06; }
 .promo:hover .promo__cta { background: var(--accent-hover); }
 .promo:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
+
+@media (min-width: 62rem) {
+  /* In the rail they stack: the column is 24rem wide and four cards across it
+     would be four thumbnails. */
+  .promos { grid-template-columns: minmax(0, 1fr); align-content: start; }
+  /* Sized so the rail lands near the tab block beside it. At 11rem the four
+     cards ran 185px past the reading column and left that much dead page under
+     it — the rail is support, and support that outruns the thing it supports
+     is what leaves a hole in the middle of the page. */
+  /* Stacked, as the reference has them, at the height where four of them land
+     beside the reading column rather than 377px past it. Laid out side by side
+     instead they fitted, and the titles came out squeezed into three lines in a
+     12-character measure — fitting is not the only thing a card has to do. */
+  .promo { min-block-size: 10rem; }
+  .promo__body { min-block-size: 10rem; gap: var(--space-3); padding: var(--space-4); }
+  .promo__title { font-size: var(--text-lead); max-inline-size: 15ch; }
+}
 
 @media (prefers-reduced-motion: reduce) {
   .promo__media { transition: none; }
