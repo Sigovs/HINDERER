@@ -179,73 +179,121 @@
             </div>
           </div>
 
-          <nav class="jump" aria-label="On this page">
-            <a href="#description">Description</a>
-            <a href="#specification">Specification</a>
-            <a href="#enquire">Enquire</a>
-          </nav>
+          <!-- Tabs, as the Figma has them — but every panel stays in the
+               document. Without JS the tab bar is hidden and all four panels
+               render in order, so a visitor with no script and a search engine
+               both see the whole page. main.js is what turns them into tabs. -->
+          <div class="tabs" data-tabs>
+            <div class="tabs__list" role="tablist" aria-label="About this vehicle">
+              <button class="tabs__tab" type="button" role="tab" id="tab-description"
+                      aria-controls="panel-description" aria-selected="true">Description</button>
+              <button class="tabs__tab" type="button" role="tab" id="tab-specification"
+                      aria-controls="panel-specification" aria-selected="false" tabindex="-1">Specification</button>
+              <button class="tabs__tab" type="button" role="tab" id="tab-photos"
+                      aria-controls="panel-photos" aria-selected="false" tabindex="-1">Photos</button>
+              <button class="tabs__tab" type="button" role="tab" id="tab-enquire"
+                      aria-controls="panel-enquire" aria-selected="false" tabindex="-1">Enquire</button>
+            </div>
 
-          <h2 class="section-sub u-mt-6" id="description">Description</h2>
-          <p class="body-muted u-mt-5">This RT4B left the Backdraft floor in black over black leather
-            and has covered 62 miles since — delivery mileage, and every one of them logged. It is the
-            Godzilla car: Ford's 7.3-litre V8 in aluminium-headed form, 580 horsepower through a
-            five-speed manual and a limited-slip differential.</p>
-          <p class="body-muted u-mt-5">We inspected it on arrival, photographed it as it stands, and
-            have not corrected anything in the pictures. What the gallery shows is the car in the
-            building. The service file, the build sheet and the CARFAX report are on the desk and go
-            with it.</p>
-          <p class="body-muted u-mt-5">Delivery is available anywhere in the continental United States
-            on an enclosed transporter, and the car is inspected again on the truck and on arrival.</p>
+            <section class="tabs__panel" id="panel-description" role="tabpanel"
+                     aria-labelledby="tab-description" tabindex="0">
+              <h2 class="sr-only">Description</h2>
+            <p class="body-muted u-mt-5">This RT4B left the Backdraft floor in black over black leather
+              and has covered 62 miles since — delivery mileage, and every one of them logged. It is the
+              Godzilla car: Ford's 7.3-litre V8 in aluminium-headed form, 580 horsepower through a
+              five-speed manual and a limited-slip differential.</p>
+            <p class="body-muted u-mt-5">We inspected it on arrival, photographed it as it stands, and
+              have not corrected anything in the pictures. What the gallery shows is the car in the
+              building. The service file, the build sheet and the CARFAX report are on the desk and go
+              with it.</p>
+            <p class="body-muted u-mt-5">Delivery is available anywhere in the continental United States
+              on an enclosed transporter, and the car is inspected again on the truck and on arrival.</p>
+            </section>
 
-          <h2 class="section-sub u-mt-7" id="specification">Specification</h2>
-          <table class="spec-table">
-            <caption>As documented on arrival. Anything not listed was not fitted.</caption>
-            <tbody>
-              <tr><th scope="row">Engine</th><td>7.3L Ford Godzilla V8, aluminium heads</td></tr>
-              <tr><th scope="row">Output</th><td class="num-tabular">580 hp · 655 lb-ft</td></tr>
-              <tr><th scope="row">Transmission</th><td>Tremec TKX five-speed manual</td></tr>
-              <tr><th scope="row">Differential</th><td>Independent rear, limited slip, 3.31:1</td></tr>
-              <tr><th scope="row">Brakes</th><td>Wilwood four-piston, vented discs all round</td></tr>
-              <tr><th scope="row">Wheels</th><td>17-inch Halibrand-style, satin black</td></tr>
-              <tr><th scope="row">Exterior</th><td>Black, red centre stripe</td></tr>
-              <tr><th scope="row">Interior</th><td>Black leather, red stitching, roll hoops</td></tr>
-              <tr><th scope="row">Mileage</th><td class="num-tabular">62 mi</td></tr>
-              <tr><th scope="row">Stock number</th><td class="num-tabular">235612</td></tr>
-              <tr><th scope="row">VIN</th><td class="num-tabular">1FMJU1J82REA15386</td></tr>
-            </tbody>
-          </table>
+            <section class="tabs__panel" id="panel-specification" role="tabpanel"
+                     aria-labelledby="tab-specification" tabindex="0">
+              <h2 class="sr-only">Specification</h2>
+            <table class="spec-table">
+              <caption>As documented on arrival. Anything not listed was not fitted.</caption>
+              <tbody>
+                <tr><th scope="row">Engine</th><td>7.3L Ford Godzilla V8, aluminium heads</td></tr>
+                <tr><th scope="row">Output</th><td class="num-tabular">580 hp · 655 lb-ft</td></tr>
+                <tr><th scope="row">Transmission</th><td>Tremec TKX five-speed manual</td></tr>
+                <tr><th scope="row">Differential</th><td>Independent rear, limited slip, 3.31:1</td></tr>
+                <tr><th scope="row">Brakes</th><td>Wilwood four-piston, vented discs all round</td></tr>
+                <tr><th scope="row">Wheels</th><td>17-inch Halibrand-style, satin black</td></tr>
+                <tr><th scope="row">Exterior</th><td>Black, red centre stripe</td></tr>
+                <tr><th scope="row">Interior</th><td>Black leather, red stitching, roll hoops</td></tr>
+                <tr><th scope="row">Mileage</th><td class="num-tabular">62 mi</td></tr>
+                <tr><th scope="row">Stock number</th><td class="num-tabular">235612</td></tr>
+                <tr><th scope="row">VIN</th><td class="num-tabular">1FMJU1J82REA15386</td></tr>
+              </tbody>
+            </table>
+            </section>
 
-          <!-- A form, not a third pair of Call/Text buttons. The panel already
-               carries the immediate actions; this is the considered one, for a
-               visitor who wants to ask something rather than ring. -->
-          <h2 class="section-sub u-mt-7" id="enquire">Enquire about this car</h2>
-          <p class="body-muted u-mt-5">We answer every message ourselves — there is no call centre.
-            Tell us what you would like to know, or when you would like to see it.</p>
+            <section class="tabs__panel" id="panel-photos" role="tabpanel"
+                     aria-labelledby="tab-photos" tabindex="0">
+              <h2 class="sr-only">Photos</h2>
+  <!-- The same six photographs the stage carries, as a grid. Not a
+                   second set: the stage shows one at a time, this shows them at
+                   once, and both read the same six files. -->
+              <ul class="photo-grid list-bare">
+                <li><button class="photo-grid__item" type="button" data-photo="assets/img/inventory-1.jpg">
+                  <img src="assets/img/inventory-1.jpg" alt="Three-quarter front" width="600" height="375" loading="lazy">
+                </button></li>
+                <li><button class="photo-grid__item" type="button" data-photo="assets/img/gallery-2.jpg">
+                  <img src="assets/img/gallery-2.jpg" alt="Rear three-quarter" width="600" height="375" loading="lazy">
+                </button></li>
+                <li><button class="photo-grid__item" type="button" data-photo="assets/img/gallery-3.jpg">
+                  <img src="assets/img/gallery-3.jpg" alt="Profile, driver's side" width="600" height="375" loading="lazy">
+                </button></li>
+                <li><button class="photo-grid__item" type="button" data-photo="assets/img/gallery-4.jpg">
+                  <img src="assets/img/gallery-4.jpg" alt="Cockpit and instruments" width="600" height="375" loading="lazy">
+                </button></li>
+                <li><button class="photo-grid__item" type="button" data-photo="assets/img/gallery-5.jpg">
+                  <img src="assets/img/gallery-5.jpg" alt="Engine bay" width="600" height="375" loading="lazy">
+                </button></li>
+                <li><button class="photo-grid__item" type="button" data-photo="assets/img/gallery-6.jpg">
+                  <img src="assets/img/gallery-6.jpg" alt="Wheel and side pipe" width="600" height="375" loading="lazy">
+                </button></li>
+              </ul>
+            </section>
 
-          <form class="enquiry u-mt-6" method="post" action="#enquire">
-            <div class="field-pair">
-              <div class="field">
-                <label class="field__label" for="enqName">Your name</label>
-                <input class="control" id="enqName" name="name" type="text" autocomplete="name" required>
+            <section class="tabs__panel" id="panel-enquire" role="tabpanel"
+                     aria-labelledby="tab-enquire" tabindex="0">
+              <h2 class="sr-only">Enquire</h2>
+  <!-- A form, not a third pair of Call/Text buttons. The panel already
+                 carries the immediate actions; this is the considered one, for a
+                 visitor who wants to ask something rather than ring. -->
+                      <p class="body-muted u-mt-5">We answer every message ourselves — there is no call centre.
+              Tell us what you would like to know, or when you would like to see it.</p>
+
+            <form class="enquiry u-mt-6" method="post" action="#enquire">
+              <div class="field-pair">
+                <div class="field">
+                  <label class="field__label" for="enqName">Your name</label>
+                  <input class="control" id="enqName" name="name" type="text" autocomplete="name" required>
+                </div>
+                <div class="field">
+                  <label class="field__label" for="enqPhone">Phone</label>
+                  <input class="control" id="enqPhone" name="phone" type="tel" autocomplete="tel">
+                </div>
               </div>
-              <div class="field">
-                <label class="field__label" for="enqPhone">Phone</label>
-                <input class="control" id="enqPhone" name="phone" type="tel" autocomplete="tel">
+              <div class="field u-mt-5">
+                <label class="field__label" for="enqEmail">Email</label>
+                <input class="control" id="enqEmail" name="email" type="email" autocomplete="email" required>
               </div>
-            </div>
-            <div class="field u-mt-5">
-              <label class="field__label" for="enqEmail">Email</label>
-              <input class="control" id="enqEmail" name="email" type="email" autocomplete="email" required>
-            </div>
-            <div class="field u-mt-5">
-              <label class="field__label" for="enqMsg">Message</label>
-              <textarea class="control control--area" id="enqMsg" name="message" rows="4">I would like to know more about stock #235612.</textarea>
-            </div>
-            <p class="enquiry__legal">Stock #235612 is attached to this message, so you do not have to
-              quote it back to us.</p>
-            <button class="btn-hmc btn-hmc--primary btn-hmc--centred u-mt-5" type="submit">Send enquiry</button>
-          </form>
+              <div class="field u-mt-5">
+                <label class="field__label" for="enqMsg">Message</label>
+                <textarea class="control control--area" id="enqMsg" name="message" rows="4">I would like to know more about stock #235612.</textarea>
+              </div>
+              <p class="enquiry__legal">Stock #235612 is attached to this message, so you do not have to
+                quote it back to us.</p>
+              <button class="btn-hmc btn-hmc--primary btn-hmc--centred u-mt-5" type="submit">Send enquiry</button>
+            </form>
+            </section>
 
+          </div>
         </div>
 
         <aside class="vdp-panel" aria-labelledby="vdpTitle">
@@ -298,7 +346,9 @@
     </div>
   </section>
 
-       10 · CONTACT
+
+  <!-- ===================================================================
+       3 · CONTACT
        =================================================================== -->
   <!-- Full-bleed by construction: the map is a place, and a place cropped into
        a content column reads as a picture of a place. The panel beside it is the
@@ -372,6 +422,7 @@
 </main>
 
 
+<!-- =====================================================================
      SITE FOOTER — shared across every page.
      ===================================================================== -->
 <footer class="site-footer">

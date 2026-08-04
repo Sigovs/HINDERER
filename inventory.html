@@ -278,23 +278,16 @@
 
                 <fieldset class="facet bare">
                   <legend class="facet__legend">Availability</legend>
-                  <div class="switch-row switch-row--inline">
-                    <label class="switch">
-                      <input type="checkbox" name="status" value="new" checked data-facet="status">
-                      <span class="switch__track" aria-hidden="true"></span>
-                      <span class="switch__label">New</span>
-                    </label>
-                    <label class="switch">
-                      <input type="checkbox" name="status" value="just" checked data-facet="status">
-                      <span class="switch__track" aria-hidden="true"></span>
-                      <span class="switch__label">Just in</span>
-                    </label>
-                    <label class="switch">
-                      <input type="checkbox" name="status" value="sold" checked data-facet="status">
-                      <span class="switch__track" aria-hidden="true"></span>
-                      <span class="switch__label">Sold</span>
-                    </label>
-                  </div>
+                  <!-- ONE switch, not three. The panel opens with New / Used /
+                       Certified, and a second row of three switches down here
+                       read as the same question asked twice — both were about
+                       how new the car is. What a buyer actually wants from this
+                       facet is to stop being shown cars they cannot have. -->
+                  <label class="switch switch--single">
+                    <input type="checkbox" name="hideSold" value="1" data-facet="hide-sold">
+                    <span class="switch__track" aria-hidden="true"></span>
+                    <span class="switch__label">Hide sold vehicles</span>
+                  </label>
                 </fieldset>
               </details>
             </form>

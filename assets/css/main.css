@@ -2633,12 +2633,16 @@ p + p { margin-block-start: var(--space-5); }
 .facet:first-of-type { padding-block-start: 0; }
 .facet:last-of-type { border-block-end: 0; }
 
-/* Sentence case, and tracked like reading rather than like a label. The Figma
-   sets these as "Year Range" and "Select Make" — plain words. Uppercase at
-   0.12em turned a field-group name into an editorial rubric: it announced
-   louder than the control under it and spread "VEHICLE" across half the panel.
-   The eyebrow keeps that treatment because an eyebrow IS a rubric; a legend
-   inside an instrument is not. */
+/* A GROUP HEADING: bold caps at the label size, tracked at --track-caps.
+   Uppercase needs its counters opened or they jam, but only one notch —
+   --track-label at 0.12em is the eyebrow's treatment and it spread "VEHICLE"
+   across half the panel while announcing louder than the control beneath it.
+   0.03em is the difference between caps that hold together and caps that
+   shout.
+
+   The FIELD captions under it stay sentence case deliberately. Give a caption
+   the same treatment as the heading above it and the heading stops out-ranking
+   the fields it contains — the group loses its head. */
 /* A <legend> is not laid out like anything else in CSS: the UA lifts it onto
    the fieldset's top border and its own padding-block-start applies BELOW it.
    That is why the group separation measured 0 above the word and 32 below it —
@@ -2649,9 +2653,10 @@ p + p { margin-block-start: var(--space-5); }
   float: inline-start;
   inline-size: 100%;
   padding: 0;
-  font-size: var(--text-sm);
+  font-size: var(--text-xs);
   font-weight: var(--weight-label);
-  letter-spacing: var(--track-body);
+  letter-spacing: var(--track-caps);
+  text-transform: uppercase;
   line-height: var(--lh-tight);
   color: var(--ink-inverse);
 }
@@ -2975,6 +2980,13 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
   font-size: var(--text-sm);
   order: -1;   /* the word first, the control under it */
 }
+
+/* One switch, not a row. Deliberately shaped unlike .switch-row--inline: the
+   panel already opens with three switches in a row, and a second row of three
+   further down read as the same control asked twice — which is what it very
+   nearly was. */
+.switch--single { gap: var(--space-3); }
+.switch--single .switch__label { font-size: var(--text-body); }
 
 @media (prefers-reduced-motion: reduce) {
   .switch__track,
@@ -3424,6 +3436,96 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
               background-color var(--dur-1) var(--ease-out);
 }
 .jump a:hover { color: var(--ink); background: rgb(var(--ink-rgb) / 0.06); }
+
+/* ---- tabs ---------------------------------------------------------------
+   The Figma's own device, built so it costs nothing. Every panel is in the
+   document; without JS the bar is hidden and all four render in order, so a
+   search engine and a visitor with no script see the whole page. Script is
+   what turns them into tabs — which is the only honest way to use a control
+   that hides content.
+   ------------------------------------------------------------------------- */
+.tabs { margin-block-start: var(--space-6); }
+
+.tabs__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  padding-block-end: var(--space-3);
+  border-block-end: 1px solid var(--rule);
+}
+
+.tabs__tab {
+  min-block-size: 44px;
+  padding-inline: var(--space-5);
+  border: 0;
+  border-radius: var(--radius-2);
+  background: transparent;
+  /* Copper, as the Figma has the resting tabs — and --accent-ink rather than
+     --accent, because at this size the darker copper is 3.67:1 and illegal. */
+  color: var(--accent-ink);              /* 5.34:1 */
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  letter-spacing: var(--track-caps);
+  text-transform: uppercase;
+  white-space: nowrap;                   /* the Figma's own tabs broke "Descript / ion" */
+  cursor: pointer;
+  transition: background-color var(--dur-1) var(--ease-out),
+              color var(--dur-1) var(--ease-out);
+}
+.tabs__tab:hover { background: rgb(var(--ink-rgb) / 0.06); color: var(--ink); }
+
+/* Selected is carried by ground AND ink, not by ground alone: a filled tab that
+   only changes colour is invisible to anyone who cannot separate copper from
+   white, and this is the control that decides what the page is showing. */
+.tabs__tab[aria-selected="true"] {
+  background: var(--slate);              /* 7.27:1 with the white label */
+  color: var(--ink);
+}
+
+.tabs__panel { padding-block-start: var(--space-6); }
+.tabs__panel:focus-visible { outline: 2px solid var(--focus); outline-offset: 4px; }
+
+/* No script: no tabs. The bar would be a row of controls that do nothing, and
+   the panels are already all visible, which is the correct fallback. */
+.tabs__list { display: none; }
+.js .tabs__list,
+[data-ds-tabs] .tabs__list { display: flex; }   /* the DS specimen has no panels */
+.js .tabs__panel[hidden] { display: none; }
+
+/* ---- photo grid ---------------------------------------------------------
+   The same six files the stage carries, shown at once rather than one at a
+   time. Clicking one sends it to the stage instead of opening a lightbox —
+   the stage IS the large view, and a second large view would be a second
+   answer to the same question. */
+.photo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: var(--space-4);
+}
+.photo-grid__item {
+  display: block;
+  inline-size: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-3);
+  overflow: hidden;
+  background: var(--bg-raised);
+  cursor: zoom-in;
+  line-height: var(--lh-none);
+}
+.photo-grid__item img {
+  inline-size: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  display: block;
+  transition: scale var(--dur-4) var(--ease-out);
+}
+.photo-grid__item:hover img,
+.photo-grid__item:focus-visible img { scale: 1.05; }
+
+@media (prefers-reduced-motion: reduce) {
+  .photo-grid__item img { transition: none; }
+}
 
 /* ---- full specification ------------------------------------------------- */
 .spec-table {

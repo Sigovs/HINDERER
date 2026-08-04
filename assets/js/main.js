@@ -627,9 +627,8 @@
       var milesCap = bound('milesTo', Infinity);
       if (num(card, 'data-miles') > milesCap) return false;
 
-      var states = [].slice.call(facetForm.querySelectorAll('[data-facet="status"]:checked'))
-                     .map(function (i) { return i.value; });
-      if (states.length && states.indexOf(card.getAttribute('data-status')) === -1) return false;
+      var hideSold = facetForm.querySelector('[data-facet="hide-sold"]');
+      if (hideSold && hideSold.checked && card.getAttribute('data-status') === 'sold') return false;
 
       var make = facetForm.elements.make ? facetForm.elements.make.value : '';
       if (make && card.getAttribute('data-make') !== make) return false;
@@ -644,7 +643,8 @@
        is the only condition under which Clear has work to do. */
     var isFiltered = function () {
       if (facetForm.querySelectorAll('[data-facet="condition"]:not(:checked)').length) return true;
-      if (facetForm.querySelectorAll('[data-facet="status"]:not(:checked)').length) return true;
+      var hs = facetForm.querySelector('[data-facet="hide-sold"]');
+      if (hs && hs.checked) return true;
       var names = ['yearFrom', 'yearTo', 'priceFrom', 'priceTo', 'milesTo', 'make', 'model'];
       for (var i = 0; i < names.length; i++) {
         var el = facetForm.elements[names[i]];
@@ -836,6 +836,71 @@
         var n = Math.max(0, (parseInt(c.textContent, 10) || 0) + (on ? -1 : 1));
         c.textContent = n < 10 ? '0' + n : String(n);
       }
+    });
+  }
+
+  /* -----------------------------------------------------------------------
+     Tabs (vehicle.html)
+
+     Progressive by construction: the panels are all in the document and all
+     visible until this runs. Script is what hides three of them, which is the
+     only honest way to ship a control that hides content — with JS off or a
+     crawler reading the page, nothing is behind a click.
+     ----------------------------------------------------------------------- */
+  var tabsRoot = document.querySelector('[data-tabs]');
+
+  if (tabsRoot) {
+    var tabs = [].slice.call(tabsRoot.querySelectorAll('[role="tab"]'));
+    var panels = tabs.map(function (t) { return document.getElementById(t.getAttribute('aria-controls')); });
+
+    var select = function (i, moveFocus) {
+      tabs.forEach(function (t, n) {
+        var on = n === i;
+        t.setAttribute('aria-selected', on ? 'true' : 'false');
+        /* Roving tabindex: one stop for the whole bar, then arrows inside it.
+           Six tabs each taking a tab stop is six presses to get past a control
+           the visitor may not want at all. */
+        t.tabIndex = on ? 0 : -1;
+        if (panels[n]) panels[n].hidden = !on;
+      });
+      if (moveFocus) tabs[i].focus();
+    };
+
+    tabs.forEach(function (t, i) {
+      t.addEventListener('click', function () { select(i); });
+      t.addEventListener('keydown', function (e) {
+        var last = tabs.length - 1;
+        if (e.key === 'ArrowRight') { select(i === last ? 0 : i + 1, true); e.preventDefault(); }
+        if (e.key === 'ArrowLeft')  { select(i === 0 ? last : i - 1, true); e.preventDefault(); }
+        if (e.key === 'Home')       { select(0, true); e.preventDefault(); }
+        if (e.key === 'End')        { select(last, true); e.preventDefault(); }
+      });
+    });
+
+    /* A link to a panel's own id must open that panel, or the anchor lands on
+       something display:none and the page appears not to have moved. */
+    var openFromHash = function () {
+      var id = location.hash.replace('#', '');
+      if (!id) return;
+      var n = panels.findIndex ? panels.findIndex(function (p) { return p && p.id === 'panel-' + id; }) : -1;
+      if (n > -1) select(n);
+    };
+    window.addEventListener('hashchange', openFromHash);
+
+    select(0);
+    openFromHash();
+
+    /* The Photos grid sends its choice to the stage above rather than opening a
+       lightbox: the stage is already the large view, and a second one would be
+       a second answer to the same question. */
+    [].slice.call(tabsRoot.querySelectorAll('[data-photo]')).forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var src = btn.getAttribute('data-photo');
+        var thumb = document.querySelector('[data-thumb][data-src="' + src + '"]');
+        if (thumb) thumb.click();
+        var stageEl = document.querySelector('[data-stage]');
+        if (stageEl) stageEl.scrollIntoView({ behavior: motionOK ? 'smooth' : 'auto', block: 'center' });
+      });
     });
   }
 

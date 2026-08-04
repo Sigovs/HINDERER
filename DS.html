@@ -50,6 +50,7 @@
       <a href="#motion">Motion</a>
       <a href="#buttons">Buttons</a>
       <a href="#cards">Cards</a>
+      <a href="#tabs">Tabs</a>
       <a href="#controls">Controls</a>
       <a href="#blocks">Blocks</a>
       <a href="#responsive">Responsive</a>
@@ -459,7 +460,7 @@
           <tr><td><code>--track-display</code></td><td>-0.022em</td><td>hero, section titles</td></tr>
           <tr><td><code>--track-heading</code></td><td>-0.006em</td><td>sub-heads</td></tr>
           <tr><td><code>--track-body</code></td><td>0.005em</td><td>reading, nav</td></tr>
-          <tr><td><code>--track-caps</code></td><td>0.03em</td><td>uppercase 14 → 24: buttons, step and option titles, status</td></tr>
+          <tr><td><code>--track-caps</code></td><td>0.03em</td><td>uppercase 14 → 24: buttons, step and option titles, status, <strong>field-group headings</strong></td></tr>
           <tr><td><code>--track-label</code></td><td>0.12em</td><td>the 14px eyebrow</td></tr>
           <tr><td><code>--track-label-wide</code></td><td>0.22em</td><td>the same label role on the contact panel, opened further</td></tr>
           <tr><td><code>--track-num</code></td><td>0.06em</td><td>figures read aloud — phone, stock</td></tr>
@@ -1147,6 +1148,14 @@
               </div>
             </fieldset>
             <fieldset class="facet bare">
+              <legend class="facet__legend">Availability</legend>
+              <label class="switch switch--single">
+                <input type="checkbox">
+                <span class="switch__track" aria-hidden="true"></span>
+                <span class="switch__label">Hide sold vehicles</span>
+              </label>
+            </fieldset>
+            <fieldset class="facet bare">
               <legend class="facet__legend">Vehicle</legend>
               <div class="field">
                 <label class="field__label" for="dsBoneMake">Make</label>
@@ -1181,11 +1190,24 @@
         its value are separated by size, weight and register instead of by tone.
       </p>
       <p class="ds-note">
-        <strong>A legend inside an instrument is not an eyebrow.</strong> These
-        read "Year" and "Vehicle" in sentence case at body tracking. Set as
-        uppercase at <code>--track-label</code> they announced louder than the
-        control beneath them and spread a seven-letter word across half the
-        panel. The eyebrow keeps that treatment because an eyebrow IS a rubric.
+        <strong>A group heading is bold caps at <code>--track-caps</code>, and a
+        field caption under it is not.</strong> Uppercase needs its counters
+        opened or they jam — but one notch, not the eyebrow's
+        <code>--track-label</code> at 0.12em, which spread a seven-letter word
+        across half the panel and announced louder than the control beneath it.
+        The captions inside a group stay sentence case on purpose: give a
+        caption the heading's treatment and the heading stops out-ranking the
+        fields it contains, and the group loses its head.
+      </p>
+      <p class="ds-note ds-note--stop">
+        <strong>Two facets that look alike will be read as one.</strong> This
+        panel opened with three switches in a row and, further down, carried a
+        second row of three — New / Used / Certified above, New / Just in / Sold
+        below. Same shape, same count, and both about how new the car is. The
+        lower one is now a single switch of a different shape asking the
+        question a buyer actually has: <em>stop showing me cars I cannot have</em>.
+        When two controls mirror each other, check first whether they are asking
+        the same thing.
       </p>
     </div>
 
@@ -1211,6 +1233,57 @@
         interval, like every other group on the site.
       </p>
     </div>
+  </section>
+
+
+  <!-- =================================================================
+       TABS
+       ================================================================= -->
+  <section class="ds-section" id="tabs">
+    <h2 class="ds-section__title">Tabs</h2>
+    <p class="ds-section__note">
+      A control that hides content, which is why it is built to cost nothing:
+      every panel is in the document and all of them are visible until the
+      script runs. Script is what hides three — so with JS off, and to a search
+      engine, the whole page is there. A tab set that ships its panels behind a
+      click is a page that only exists for people running your JavaScript.
+    </p>
+
+    <div class="ds-stage">
+      <div class="tabs" data-ds-tabs>
+        <div class="tabs__list" role="tablist" aria-label="Specimen">
+          <button class="tabs__tab" type="button" role="tab" aria-selected="true">Description</button>
+          <button class="tabs__tab" type="button" role="tab" aria-selected="false" tabindex="-1">Specification</button>
+          <button class="tabs__tab" type="button" role="tab" aria-selected="false" tabindex="-1">Photos</button>
+        </div>
+      </div>
+    </div>
+    <p class="ds-item__caption">.tabs · .tabs__list · .tabs__tab · .tabs__panel</p>
+
+    <p class="ds-note">
+      <strong>Selected is carried by ground AND ink, never by ground alone.</strong>
+      Copper on the ground at rest — <code>--accent-ink</code>, 5.34:1, because
+      <code>--accent</code> is 3.67:1 and illegal at this size — and slate with
+      a white label when selected, 7.27:1. This is the control that decides what
+      the page is showing; a difference only a colour-separating eye can read is
+      not a difference.
+    </p>
+
+    <p class="ds-note">
+      <strong>One tab stop for the bar, then arrows inside it.</strong> Roving
+      tabindex: six tabs each taking their own stop is six presses to get past a
+      control the visitor may not want at all. Left/Right move and select, Home
+      and End jump to the ends. And a link to a panel's own id opens that
+      panel — otherwise the anchor lands on something <code>display: none</code>
+      and the page appears not to have moved.
+    </p>
+
+    <p class="ds-note ds-note--stop">
+      <strong>A tab whose panel is empty is the same lie as a link to nowhere.</strong>
+      The Figma's set carries Videos and Buy Now; this site has no film for a
+      vehicle and no checkout, so those two are not built. Tabs are added when
+      there is something behind them.
+    </p>
   </section>
 
 
