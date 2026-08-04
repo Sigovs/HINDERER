@@ -329,8 +329,13 @@
 
   /* -----------------------------------------------------------------------
      Footer year
+
+     The hook is data-current-year, not data-year. The generic name was a
+     global selector owning one of the commonest words in the document: the
+     moment the inventory cards started carrying the car's model year, every
+     one of them had its entire contents replaced with 2026.
      ----------------------------------------------------------------------- */
-  document.querySelectorAll('[data-year]').forEach(function (el) {
+  document.querySelectorAll('[data-current-year]').forEach(function (el) {
     el.textContent = String(new Date().getFullYear());
   });
 
@@ -570,6 +575,151 @@
         paintCount();
       });
     });
+  }
+
+  /* -----------------------------------------------------------------------
+     Search results (inventory.html)
+
+     Facets and sort run over the DOM rather than over a data model, because
+     the cards ARE the data here: the twelve <li> carry data-status, -price,
+     -year, -miles, -make and -model, so a filter reads what the page already
+     says instead of a second copy that can disagree with it.
+
+     Everything is progressive: with JS off the twelve cards render, the
+     selects are ordinary selects, and the form falls back to a GET the server
+     can answer. Nothing is hidden by markup.
+     ----------------------------------------------------------------------- */
+  var facetForm = document.querySelector('[data-facets]');
+  var resultList = document.querySelector('[data-results]');
+
+  if (facetForm && resultList) {
+    var cards = [].slice.call(resultList.querySelectorAll('.vehicle'));
+    var emptyEl = document.querySelector('[data-results-empty]');
+    var countEl = document.querySelector('[data-result-count]');
+    var nounEl = document.querySelector('[data-result-noun]');
+    var pagerEl = document.querySelector('.pager__state');
+    var sortEl = document.querySelector('[data-sort]');
+    var clearBtns = [].slice.call(document.querySelectorAll('[data-facets-clear]'));
+    var facetsPanel = document.getElementById('facets');
+    var num = function (el, attr) { return parseInt(el.getAttribute(attr), 10) || 0; };
+
+    /* A range endpoint left blank is not a filter. Reading it as 0 is what
+       makes an empty "price from" field quietly exclude every car. */
+    var bound = function (name, fallback) {
+      var el = facetForm.elements[name];
+      if (!el || el.value === '') return fallback;
+      var v = parseInt(el.value, 10);
+      return isNaN(v) ? fallback : v;
+    };
+
+    var matches = function (card) {
+      var wanted = [].slice.call(facetForm.querySelectorAll('[data-facet="status"]:checked'))
+                     .map(function (i) { return i.value; });
+      if (wanted.indexOf(card.getAttribute('data-status')) === -1) return false;
+
+      var year = num(card, 'data-year');
+      if (year < bound('yearFrom', -Infinity) || year > bound('yearTo', Infinity)) return false;
+
+      var price = num(card, 'data-price');
+      if (price < bound('priceFrom', -Infinity) || price > bound('priceTo', Infinity)) return false;
+
+      var make = facetForm.elements.make ? facetForm.elements.make.value : '';
+      if (make && card.getAttribute('data-make') !== make) return false;
+
+      var model = facetForm.elements.model ? facetForm.elements.model.value : '';
+      if (model && card.getAttribute('data-model') !== model) return false;
+
+      return true;
+    };
+
+    /* True when the query is anything other than "show me everything", which
+       is the only condition under which Clear has work to do. */
+    var isFiltered = function () {
+      if (facetForm.querySelectorAll('[data-facet="status"]:not(:checked)').length) return true;
+      var names = ['yearFrom', 'yearTo', 'priceFrom', 'priceTo', 'make', 'model'];
+      for (var i = 0; i < names.length; i++) {
+        var el = facetForm.elements[names[i]];
+        if (el && el.value !== '') return true;
+      }
+      return false;
+    };
+
+    var sortCards = function () {
+      if (!sortEl) return;
+      var mode = sortEl.value;
+      var by = {
+        'price-asc':  function (a, b) { return num(a, 'data-price') - num(b, 'data-price'); },
+        'price-desc': function (a, b) { return num(b, 'data-price') - num(a, 'data-price'); },
+        'year-desc':  function (a, b) { return num(b, 'data-year') - num(a, 'data-year'); },
+        'miles-asc':  function (a, b) { return num(a, 'data-miles') - num(b, 'data-miles'); }
+      }[mode];
+      if (!by) return;
+      /* One fragment, one reflow — appending twelve nodes one at a time makes
+         the whole grid jump while it re-lays out. */
+      var frag = document.createDocumentFragment();
+      cards.slice().sort(by).forEach(function (c) { frag.appendChild(c); });
+      resultList.appendChild(frag);
+    };
+
+    var apply = function () {
+      var shown = 0;
+      cards.forEach(function (c) {
+        var ok = matches(c);
+        c.hidden = !ok;
+        if (ok) shown++;
+      });
+
+      if (countEl) countEl.textContent = shown < 10 ? '0' + shown : String(shown);
+      if (nounEl) nounEl.textContent = shown === 1 ? 'vehicle' : 'vehicles';
+      if (pagerEl) {
+        pagerEl.innerHTML = '<span class="num-tabular">' + shown + '</span> of ' +
+                            '<span class="num-tabular">' + cards.length + '</span> shown';
+        pagerEl.parentNode.hidden = shown === 0;
+      }
+      if (emptyEl) emptyEl.hidden = shown !== 0;
+      clearBtns.forEach(function (b) {
+        if (b.classList.contains('facets__clear')) b.hidden = !isFiltered();
+      });
+    };
+
+    facetForm.addEventListener('change', apply);
+    facetForm.addEventListener('input', apply);
+
+    /* The button is not decorative: it takes the visitor to the results. On one
+       column the panel is a disclosure sitting on top of them, so it closes it
+       first — otherwise "Find your car" leaves you looking at the same form. */
+    facetForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      apply();
+      if (facetsPanel && window.matchMedia('(max-width: 61.99rem)').matches) {
+        facetsPanel.open = false;
+      }
+      var bar = document.querySelector('.results-bar');
+      if (bar) bar.scrollIntoView({ behavior: motionOK ? 'smooth' : 'auto', block: 'start' });
+    });
+
+    clearBtns.forEach(function (b) {
+      b.addEventListener('click', function () {
+        facetForm.reset();
+        /* reset() restores the checked ATTRIBUTE, which is what we want, but it
+           lands after this handler — so apply runs on the next tick. */
+        setTimeout(apply, 0);
+      });
+    });
+
+    if (sortEl) {
+      sortEl.addEventListener('change', function () { sortCards(); apply(); });
+    }
+
+    /* The panel is open in the markup so a no-JS visitor sees every filter.
+       Only once the script has run — and only where it overlays the results —
+       does it start closed. */
+    if (facetsPanel && window.matchMedia('(max-width: 61.99rem)').matches) {
+      facetsPanel.open = false;
+    }
+
+    sortCards();
+    apply();
   }
 
 })();

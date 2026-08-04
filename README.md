@@ -15,6 +15,7 @@ npx serve .          # or: python -m http.server
 | File | What it is |
 |---|---|
 | `index.html` | The home page, and the master every other page is copied from |
+| `inventory.html` | The search-results page — facets, sort, twelve cards, empty state |
 | `DS.html` | **The design system, rendered by the site's own stylesheets.** Tokens, ramps, rhythm, motion and every component, plus the rules a change has to keep and an honest list of what the system does not have yet. `noindex`. Read it before adding a page. |
 
 The three numbered scope-ladder pages (`index1–3`) and the `variant-a/b/c.css`
@@ -57,7 +58,13 @@ which existed only to regenerate them, and the pinned trade-in sequence in
    `aria-current="page"` onto the nav item for that page.
 3. Keep `<!-- SITE FOOTER -->` and the video-lightbox block verbatim.
 4. Replace only the numbered `<section>` blocks inside `<main>`.
-5. Update `<title>`, `<meta name="description">` and the `#main` heading.
+5. Put `section--below-header` on the FIRST section. The header is fixed, so
+   without it the page opens 84px underneath its own navigation. Only the home
+   page is exempt, because the hero carries its own clearance.
+6. Drop the hero `preload` links unless the new page has a hero of its own.
+7. Make the nav's in-page anchors absolute (`index.html#build`), and move
+   `aria-current="page"` onto this page's nav item.
+8. Update `<title>`, `<meta name="description">` and the `#main` heading.
 
 Every section is self-contained and numbered in both `index.html` and
 `main.css`, so a section can be lifted into another page without pulling

@@ -17,7 +17,7 @@
      2. Grid
      3. Rhythm — the semantic intervals
      4. Flow utilities
-     5. Screen-reader and reset utilities
+     5. Screen-reader, control and reset utilities
      6. Dialog (replaces the Bootstrap modal)
    ========================================================================= */
 
@@ -140,6 +140,13 @@
 }
 .section--flush-top    { padding-block-start: 0; }
 .section--flush-bottom { padding-block-end: 0; }
+
+/* The header is fixed, so it is not in the flow and a page that opens with a
+   section rather than a hero starts 84px underneath it. The hero carries its
+   own clearance; every other first section takes this. Required on the FIRST
+   section of any page that is not the home page — the interval is the header
+   plus the ordinary opening interval, so the page still opens on rhythm. */
+.section--below-header { padding-block-start: calc(var(--header-h) + var(--space-8)); }
 /* The inventory rail follows the hero's own downward hand-off, so it takes a
    shorter interval than a section that has to introduce itself. */
 .section--tight-top    { padding-block-start: var(--space-8); }
@@ -167,6 +174,26 @@
 /* =========================================================================
    5. RESET UTILITIES
    ========================================================================= */
+
+/* Form controls do not inherit type from their ancestor — every browser
+   substitutes its own UI font and its own size. Left alone, this page rendered
+   its buttons in 13px Arial: a fourth voice nobody chose, arriving through a
+   default rather than a decision, and below the 14px floor as well.
+   `font: inherit` is the whole fix and it belongs here rather than on each
+   component, because the next control added must not have to remember it. */
+button,
+input,
+select,
+textarea,
+optgroup {
+  font: inherit;
+  letter-spacing: inherit;
+  color: inherit;
+}
+
+/* Safari refuses the inherited colour on a disabled control and paints its own
+   grey, which then fails contrast against our grounds. Say it explicitly. */
+:disabled { color: inherit; opacity: 1; }
 
 /* figure and ul carry UA margins that fight the flow rules above. */
 .bare { margin: 0; padding: 0; }

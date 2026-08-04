@@ -50,6 +50,7 @@
       <a href="#motion">Motion</a>
       <a href="#buttons">Buttons</a>
       <a href="#cards">Cards</a>
+      <a href="#controls">Controls</a>
       <a href="#blocks">Blocks</a>
       <a href="#responsive">Responsive</a>
       <a href="#gaps">Known gaps</a>
@@ -951,6 +952,109 @@
 
 
   <!-- =================================================================
+       FORM CONTROLS
+       ================================================================= -->
+  <section class="ds-section" id="controls">
+    <h2 class="ds-section__title">Form controls</h2>
+    <p class="ds-section__note">
+      Built as a set for the inventory page rather than invented inside it — a
+      control designed on one screen is how a second visual language gets in.
+      One ground, one border, one focus behaviour, declared once, so a select
+      and a text input cannot drift apart. Every one clears the 44px target
+      floor.
+    </p>
+
+    <p class="ds-note ds-note--stop">
+      <strong>The reset that had to come first.</strong> Controls do not inherit
+      type from their ancestor — every browser substitutes its own UI font at its
+      own size, and this page was rendering its buttons in 13px Arial: a fourth
+      voice nobody chose, arriving through a default rather than a decision, and
+      under the 14px floor as well. <code>button, input, select, textarea,
+      optgroup { font: inherit }</code> lives in <code>system.css</code> so the
+      next control added does not have to remember it.
+    </p>
+
+    <div class="ds-group">
+      <h3 class="ds-group__title">Text, number and select</h3>
+      <div class="ds-stage">
+        <div class="field-pair" style="max-inline-size: 26rem">
+          <div class="field">
+            <label class="field__label" for="dsFrom">From</label>
+            <input class="control" id="dsFrom" type="number" placeholder="1962">
+          </div>
+          <div class="field">
+            <label class="field__label" for="dsTo">To</label>
+            <input class="control" id="dsTo" type="number" placeholder="2026">
+          </div>
+        </div>
+        <div class="field u-mt-5" style="max-inline-size: 26rem">
+          <label class="field__label" for="dsSelect">Make</label>
+          <span class="select">
+            <select class="control" id="dsSelect">
+              <option>All makes</option>
+              <option>Backdraft</option>
+              <option>Shelby</option>
+            </select>
+          </span>
+        </div>
+      </div>
+      <p class="ds-item__caption">
+        .field · .field__label · .control · .field-pair. The select's UA arrow
+        cannot be styled, so it is removed and redrawn as a caret in the page's
+        own ink — inline SVG in a data URI, because a stylesheet cannot reach an
+        icon file and still be one request.
+      </p>
+    </div>
+
+    <div class="ds-group">
+      <h3 class="ds-group__title">Switch</h3>
+      <div class="ds-stage">
+        <div class="switch-row">
+          <label class="switch">
+            <input type="checkbox" checked>
+            <span class="switch__track" aria-hidden="true"></span>
+            <span class="switch__label">New arrivals</span>
+          </label>
+          <label class="switch">
+            <input type="checkbox">
+            <span class="switch__track" aria-hidden="true"></span>
+            <span class="switch__label">Sold</span>
+          </label>
+        </div>
+      </div>
+      <p class="ds-item__caption">
+        .switch — a real checkbox with the box hidden, so it is keyboard-operable
+        and announced correctly without a single ARIA attribute. The state lives
+        in the element, not in a class a script has to keep in sync.
+      </p>
+    </div>
+
+    <div class="ds-group">
+      <h3 class="ds-group__title">Fieldset — the grouping</h3>
+      <div class="ds-stage">
+        <fieldset class="facet bare" style="max-inline-size: 26rem">
+          <legend class="facet__legend">Availability</legend>
+          <div class="switch-row">
+            <label class="switch">
+              <input type="checkbox" checked>
+              <span class="switch__track" aria-hidden="true"></span>
+              <span class="switch__label">Just in</span>
+            </label>
+          </div>
+        </fieldset>
+      </div>
+      <p class="ds-item__caption">
+        .facet · .facet__legend. A fieldset is the right element — it is what
+        groups controls under one label for a screen reader — but it arrives with
+        a UA border on all four sides and a legend notched into it. Both are
+        stripped; the grouping is carried by one rule underneath and by the
+        interval, like every other group on the site.
+      </p>
+    </div>
+  </section>
+
+
+  <!-- =================================================================
        BLOCKS
        ================================================================= -->
   <section class="ds-section" id="blocks">
@@ -1097,13 +1201,6 @@
     </p>
 
     <p class="ds-note">
-      <strong>No form controls.</strong> Figma has an Input Field component with a
-      focus ring; the site has no form yet, so nothing here implements it. The
-      focus token (<code>--focus</code>) exists and is honoured by every control
-      that does ship.
-    </p>
-
-    <p class="ds-note">
       <strong>The reviews rail is not covered by <code>prefers-reduced-motion</code>.</strong>
       Its drag and its arrow travel still animate when the OS asks for less motion.
       Everything else on the page is switched off.
@@ -1111,7 +1208,7 @@
 
     <p class="ds-note">
       <strong>Content is placeholder.</strong> One vehicle photograph stands in for
-      all eight cards, and the titles, prices, mileage and stock numbers are not a
+      every card on both the home page and the inventory page, and the titles, prices, mileage and stock numbers are not a
       real feed. Two section images ship uncompressed at 1.7MB and 2.0MB.
     </p>
   </section>

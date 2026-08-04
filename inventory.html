@@ -1,0 +1,709 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Inventory — Hinderer Motor Company</title>
+  <meta name="description" content="Every hand-built roadster currently on the floor at Hinderer Motor Company in Heath, Ohio. Filter by condition, year, price, make and model.">
+  <meta name="theme-color" content="#1f1d19">
+
+  <link rel="icon" href="assets/img/logo-hinderer.png" sizes="any">
+  <!-- No hero preload: this page has no hero. The first paint here is twelve
+       card thumbnails, and they are lazy by design — preloading anything above
+       them would only delay the one image the visitor actually scrolls to. -->
+
+  <!-- Two voices: Oswald carries headline mass, Inter carries reading and
+       data. Degular (licensed, not supplied) leads --font-display in
+       tokens.css and takes over the moment its @font-face lands — no markup
+       change required. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=Oswald:wght@300;400;500;600&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- The cascade, in the order it must load:
+       tokens  → the values, and the only place a raw value is written
+       system  → layout, rhythm, utilities (this replaced Bootstrap)
+       main    → the components
+       oswald  → the display-face layer, one link away from being removed -->
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/system.css">
+  <link rel="stylesheet" href="assets/css/main.css">
+  <!-- The display face, kept as its own layer rather than folded into main.css:
+       it is applied last and can be lifted out in one line if the face changes.
+       Every new page loads these four, in this order. -->
+  <link rel="stylesheet" href="assets/css/display-oswald.css">
+
+  <!-- Marks that scripting is available, before first paint. Only then does
+       the mobile nav collapse behind its toggle; without JS it renders as a
+       stacked list and every destination stays reachable. -->
+  <script>document.documentElement.className += " js";</script>
+</head>
+
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<!-- =====================================================================
+     SITE HEADER — shared across every page. Copy verbatim into new pages
+     and change only the aria-current on the active nav item.
+     ===================================================================== -->
+<header class="site-header" id="siteHeader">
+  <div class="wrap site-header__inner">
+
+    <a class="brand" href="index.html" aria-label="Hinderer Motor Company — home">
+      <img class="brand__mark" src="assets/img/logo-hinderer.png"
+           alt="The Hinderer Motor Company — we love what moves you" width="272" height="94">
+    </a>
+
+    <button class="nav-toggle" type="button"
+            aria-expanded="false" aria-controls="siteNav" data-nav-toggle>
+      <span class="sr-only">Menu</span>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </button>
+
+    <nav class="site-nav" id="siteNav" aria-label="Primary">
+      <ul class="site-nav__list">
+        <li><a class="site-nav__link" href="inventory.html" aria-current="page">Inventory</a></li>
+        <li><a class="site-nav__link" href="index.html#build">Build</a></li>
+        <li><a class="site-nav__link" href="index.html#trade">Trade In</a></li>
+        <li><a class="site-nav__link" href="index.html#about">Who We Are</a></li>
+        <li><a class="site-nav__link site-nav__link--phone" href="tel:+17406182466">740.618.2466</a></li>
+      </ul>
+    </nav>
+
+    <a class="collection-pill" href="saved.html">
+      <!-- The words drop out below 23.5rem, where holding them squeezed the logo
+           to 51px. They stay in the DOM, so the link is still announced as
+           "My Collection / 03" — the count is what is lost visually last. -->
+      <span class="collection-pill__label">My Collection</span>
+      <span class="num-tabular">/ <span data-saved-count>03</span></span>
+    </a>
+
+  </div>
+</header>
+
+
+
+<main id="main">
+
+  <!-- ===================================================================
+       1 · PAGE HEAD
+       The page states what it is before it states how many. A results page
+       whose first mass is a filter panel has made the apparatus the subject.
+       =================================================================== -->
+  <section class="section section--below-header section--flush-bottom" aria-labelledby="srpTitle">
+    <div class="wrap">
+      <div class="stack" data-scene>
+        <p class="eyebrow" data-rise="left">Current inventory</p>
+        <h1 class="section-title" id="srpTitle" data-rise="left">Hand-Built. In Stock.</h1>
+        <p class="section-sub" data-rise="left">Every roadster on the floor right now.</p>
+        <p class="body-muted" data-rise="left">Each car is inspected, documented and photographed before it
+          is listed. What you see here is what is in the building — nothing is ordered in
+          against a picture.</p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ===================================================================
+       2 · RESULTS
+       The list is the subject; the facets are apparatus and stay subordinate
+       to it in width, tone and mass.
+       =================================================================== -->
+  <!-- Tight top: the head and the list are one thought, not two chapters. At
+       the full section interval the page opened with 128px of nothing between
+       the sentence describing the inventory and the inventory itself. -->
+  <section class="section section--tight-top" aria-labelledby="resultsTitle">
+    <div class="wrap">
+      <h2 class="sr-only" id="resultsTitle">Search results</h2>
+
+      <div class="srp">
+
+        <!-- A <details> so one column gets a real disclosure with no script;
+             `open` is removed by main.js only on small viewports, so with JS
+             off every filter is present and usable. -->
+        <details class="facets srp__facets" id="facets" open>
+          <summary>Filter<span class="sr-only"> the inventory</span></summary>
+
+          <div class="facets__inner">
+            <p class="facets__title">Filter by</p>
+
+            <form data-facets>
+              <fieldset class="facet bare">
+                <legend class="facet__legend">Availability</legend>
+                <!-- These three are the states the cards actually carry. The Figma
+                     offers New / Used / Certified, which describe no data this
+                     inventory holds — a switch that filters nothing is worse than
+                     no switch, because it makes the visitor doubt the result. -->
+                <div class="switch-row">
+                  <label class="switch">
+                    <input type="checkbox" name="status" value="new" checked data-facet="status">
+                    <span class="switch__track" aria-hidden="true"></span>
+                    <span class="switch__label">New arrivals</span>
+                  </label>
+                  <label class="switch">
+                    <input type="checkbox" name="status" value="just" checked data-facet="status">
+                    <span class="switch__track" aria-hidden="true"></span>
+                    <span class="switch__label">Just in</span>
+                  </label>
+                  <label class="switch">
+                    <input type="checkbox" name="status" value="sold" checked data-facet="status">
+                    <span class="switch__track" aria-hidden="true"></span>
+                    <span class="switch__label">Sold</span>
+                  </label>
+                </div>
+              </fieldset>
+
+              <fieldset class="facet bare">
+                <legend class="facet__legend">Year</legend>
+                <div class="field-pair">
+                  <div class="field">
+                    <label class="field__label" for="yearFrom">From</label>
+                    <input class="control" id="yearFrom" name="yearFrom" type="number"
+                           inputmode="numeric" min="1962" max="2026" placeholder="1962">
+                  </div>
+                  <div class="field">
+                    <label class="field__label" for="yearTo">To</label>
+                    <input class="control" id="yearTo" name="yearTo" type="number"
+                           inputmode="numeric" min="1962" max="2026" placeholder="2026">
+                  </div>
+                </div>
+              </fieldset>
+
+              <fieldset class="facet bare">
+                <legend class="facet__legend">Price</legend>
+                <div class="field-pair">
+                  <div class="field">
+                    <label class="field__label" for="priceFrom">From</label>
+                    <input class="control" id="priceFrom" name="priceFrom" type="number"
+                           inputmode="numeric" min="0" step="1000" placeholder="$60,000">
+                  </div>
+                  <div class="field">
+                    <label class="field__label" for="priceTo">To</label>
+                    <input class="control" id="priceTo" name="priceTo" type="number"
+                           inputmode="numeric" min="0" step="1000" placeholder="$200,000">
+                  </div>
+                </div>
+              </fieldset>
+
+              <fieldset class="facet bare">
+                <legend class="facet__legend">Vehicle</legend>
+                <div class="field">
+                  <label class="field__label" for="make">Make</label>
+                  <span class="select">
+                    <select class="control" id="make" name="make">
+                      <option value="">All makes</option>
+                      <option>Backdraft</option>
+                      <option>Shelby</option>
+                      <option>Superformance</option>
+                    </select>
+                  </span>
+                </div>
+                <div class="field u-mt-5">
+                  <label class="field__label" for="model">Model</label>
+                  <span class="select">
+                    <select class="control" id="model" name="model">
+                      <option value="">All models</option>
+                      <option>RT3 Roadster</option>
+                      <option>RT4B Roadster</option>
+                      <option>427 S/C Replica</option>
+                      <option>Cobra Replica</option>
+                    </select>
+                  </span>
+                </div>
+              </fieldset>
+
+              <div class="facets__actions">
+                <button class="btn-hmc btn-hmc--primary btn-hmc--centred" type="submit">Find your car</button>
+                <button class="facets__clear" type="reset" data-facets-clear hidden>Clear all filters</button>
+              </div>
+            </form>
+          </div>
+        </details>
+
+        <div class="srp__results">
+
+          <div class="results-bar">
+            <p class="results-bar__count">
+              <strong class="num-tabular" data-result-count>12</strong>
+              <span data-result-noun>vehicles</span> available
+            </p>
+            <div class="results-bar__sort">
+              <label class="field__label" for="sort">Sort by</label>
+              <span class="select">
+                <select class="control" id="sort" data-sort>
+                  <option value="price-asc">Price: low to high</option>
+                  <option value="price-desc">Price: high to low</option>
+                  <option value="year-desc">Year: newest first</option>
+                  <option value="miles-asc">Mileage: lowest first</option>
+                </select>
+              </span>
+            </div>
+          </div>
+
+          <ul class="results list-bare" data-results>
+            <li class="vehicle vehicle--new" data-status="new"
+                data-price="109500" data-year="1965" data-make="Backdraft" data-model="RT4B Roadster" data-miles="62">
+              <div class="vehicle__media">
+                <img src="assets/img/inventory-1.jpg" alt="1965 Backdraft RT4B Roadster" width="381" height="278" loading="lazy">
+                <p class="vehicle__status">New!</p>
+                <button class="vehicle__save" type="button" aria-pressed="false">
+                  <span class="sr-only">Save this vehicle</span>
+                  <span class="vehicle__save-icon" aria-hidden="true"></span>
+                </button>
+              </div>
+              <div class="vehicle__body">
+                <h3 class="vehicle__title"><a href="vehicle.html">1965 Backdraft RT4B Roadster</a></h3>
+                <p class="vehicle__price">$109,500</p>
+                <p class="vehicle__meta">
+                  <span class="num-tabular">62 mi</span>
+                  <span class="vehicle__meta-sep" aria-hidden="true">|</span>
+                  <span class="num-tabular">Stock #235612</span>
+                </p>
+                <div class="vehicle__actions">
+                  <a class="btn-card" href="sms:+17406182466">
+                    <span class="btn-card__icon btn-card__icon--text" aria-hidden="true"></span>Text
+                  </a>
+                  <button class="btn-card" type="button">
+                    <span class="btn-card__icon btn-card__icon--share" aria-hidden="true"></span>Share
+                  </button>
+                </div>
+              </div>
+            </li>
+            <li class="vehicle vehicle--just" data-status="just"
+                data-price="98750" data-year="1966" data-make="Roadster" data-model="427 S/C Replica" data-miles="3420">
+              <div class="vehicle__media">
+                <img src="assets/img/inventory-1.jpg" alt="1966 Roadster 427 S/C Replica" width="381" height="278" loading="lazy">
+                <p class="vehicle__status">Just in</p>
+                <button class="vehicle__save" type="button" aria-pressed="false">
+                  <span class="sr-only">Save this vehicle</span>
+                  <span class="vehicle__save-icon" aria-hidden="true"></span>
+                </button>
+              </div>
+              <div class="vehicle__body">
+                <h3 class="vehicle__title"><a href="vehicle.html">1966 Roadster 427 S/C Replica</a></h3>
+                <p class="vehicle__price">$98,750</p>
+                <p class="vehicle__meta">
+                  <span class="num-tabular">3,420 mi</span>
+                  <span class="vehicle__meta-sep" aria-hidden="true">|</span>
+                  <span class="num-tabular">Stock #235588</span>
+                </p>
+                <div class="vehicle__actions">
+                  <a class="btn-card" href="sms:+17406182466">
+                    <span class="btn-card__icon btn-card__icon--text" aria-hidden="true"></span>Text
+                  </a>
+                  <button class="btn-card" type="button">
+                    <span class="btn-card__icon btn-card__icon--share" aria-hidden="true"></span>Share
+                  </button>
+                </div>
+              </div>
+            </li>
+            <li class="vehicle vehicle--sold" data-status="sold"
+                data-price="92995" data-year="1965" data-make="Shelby" data-model="Cobra Replica" data-miles="1184">
+              <div class="vehicle__media">
+                <img src="assets/img/inventory-1.jpg" alt="1965 Roadster Shelby Cobra Replica" width="381" height="278" loading="lazy">
+                <p class="vehicle__status">Sold!</p>
+                <button class="vehicle__save" type="button" aria-pressed="false">
+                  <span class="sr-only">Save this vehicle</span>
+                  <span class="vehicle__save-icon" aria-hidden="true"></span>
+                </button>
+              </div>
+              <div class="vehicle__body">
+                <h3 class="vehicle__title"><a href="vehicle.html">1965 Roadster Shelby Cobra Replica</a></h3>
+                <p class="vehicle__price">$92,995</p>
+                <p class="vehicle__meta">
+                  <span class="num-tabular">1,184 mi</span>
+                  <span class="vehicle__meta-sep" aria-hidden="true">|</span>
+                  <span class="num-tabular">Stock #235455</span>
+                </p>
+                <div class="vehicle__actions">
+                  <a class="btn-card" href="sms:+17406182466">
+                    <span class="btn-card__icon btn-card__icon--text" aria-hidden="true"></span>Text
+                  </a>
+                  <button class="btn-card" type="button">
+                    <span class="btn-card__icon btn-card__icon--share" aria-hidden="true"></span>Share
+                  </button>
+                </div>
+              </div>
+            </li>
+            <li class="vehicle vehicle--new" data-status="new"
+                data-price="114900" data-year="1967" data-make="Backdraft" data-model="RT3 Roadster" data-miles="118">
+              <div class="vehicle__media">
+                <img src="assets/img/inventory-1.jpg" alt="1967 Backdraft RT3 Roadster" width="381" height="278" loading="lazy">
+                <p class="vehicle__status">New!</p>
+                <button class="vehicle__save" type="button" aria-pressed="false">
+                  <span class="sr-only">Save this vehicle</span>
+                  <span class="vehicle__save-icon" aria-hidden="true"></span>
+                </button>
+              </div>
+              <div class="vehicle__body">
+                <h3 class="vehicle__title"><a href="vehicle.html">1967 Backdraft RT3 Roadster</a></h3>
+                <p class="vehicle__price">$114,900</p>
+                <p class="vehicle__meta">
+                  <span class="num-tabular">118 mi</span>
+                  <span class="vehicle__meta-sep" aria-hidden="true">|</span>
+                  <span class="num-tabular">Stock #235701</span>
+                </p>
+                <div class="vehicle__actions">
+                  <a class="btn-card" href="sms:+17406182466">
+                    <span class="btn-card__icon btn-card__icon--text" aria-hidden="true"></span>Text
+                  </a>
+                  <button class="btn-card" type="button">
+                    <span class="btn-card__icon btn-card__icon--share" aria-hidden="true"></span>Share
+                  </button>
+                </div>
+              </div>
+            </li>
+            <li class="vehicle vehicle--just" data-status="just"
+                data-price="104250" data-year="1964" data-make="Superformance" data-model="MkIII Roadster" data-miles="7960">
+              <div class="vehicle__media">
+                <img src="assets/img/inventory-1.jpg" alt="1964 Superformance MkIII Roadster" width="381" height="278" loading="lazy">
+                <p class="vehicle__status">Just in</p>
+                <button class="vehicle__save" type="button" aria-pressed="false">
+                  <span class="sr-only">Save this vehicle</span>
+                  <span class="vehicle__save-icon" aria-hidden="true"></span>
+                </button>
+              </div>
+              <div class="vehicle__body">
+                <h3 class="vehicle__title"><a href="vehicle.html">1964 Superformance MkIII Roadster</a></h3>
+                <p class="vehicle__price">$104,250</p>
+                <p class="vehicle__meta">
+                  <span class="num-tabular">7,960 mi</span>
+                  <span class="vehicle__meta-sep" aria-hidden="true">|</span>
+                  <span class="num-tabular">Stock #235533</span>
+                </p>
+                <div class="vehicle__actions">
+                  <a class="btn-card" href="sms:+17406182466">
+                    <span class="btn-card__icon btn-card__icon--text" aria-hidden="true"></span>Text
+                  </a>
+                  <button class="btn-card" type="button">
+                    <span class="btn-card__icon btn-card__icon--share" aria-hidden="true"></span>Share
+                  </button>
+                </div>
+              </div>
+            </li>
+            <li class="vehicle vehicle--new" data-status="new"
+                data-price="101800" data-year="1965" data-make="Backdraft" data-model="RT3 Roadster" data-miles="240">
+              <div class="vehicle__media">
+                <img src="assets/img/inventory-1.jpg" alt="1965 Backdraft RT3 Roadster" width="381" height="278" loading="lazy">
+                <p class="vehicle__status">New!</p>
+                <button class="vehicle__save" type="button" aria-pressed="false">
+                  <span class="sr-only">Save this vehicle</span>
+                  <span class="vehicle__save-icon" aria-hidden="true"></span>
+                </button>
+              </div>
+              <div class="vehicle__body">
+                <h3 class="vehicle__title"><a href="vehicle.html">1965 Backdraft RT3 Roadster</a></h3>
+                <p class="vehicle__price">$101,800</p>
+                <p class="vehicle__meta">
+                  <span class="num-tabular">240 mi</span>
+                  <span class="vehicle__meta-sep" aria-hidden="true">|</span>
+                  <span class="num-tabular">Stock #235644</span>
+                </p>
+                <div class="vehicle__actions">
+                  <a class="btn-card" href="sms:+17406182466">
+                    <span class="btn-card__icon btn-card__icon--text" aria-hidden="true"></span>Text
+                  </a>
+                  <button class="btn-card" type="button">
+                    <span class="btn-card__icon btn-card__icon--share" aria-hidden="true"></span>Share
+                  </button>
+                </div>
+              </div>
+            </li>
+            <li class="vehicle vehicle--sold" data-status="sold"
+                data-price="88400" data-year="1966" data-make="Shelby" data-model="Cobra Replica" data-miles="12480">
+              <div class="vehicle__media">
+                <img src="assets/img/inventory-1.jpg" alt="1966 Shelby Cobra 289 Replica" width="381" height="278" loading="lazy">
+                <p class="vehicle__status">Sold!</p>
+                <button class="vehicle__save" type="button" aria-pressed="false">
+                  <span class="sr-only">Save this vehicle</span>
+                  <span class="vehicle__save-icon" aria-hidden="true"></span>
+                </button>
+              </div>
+              <div class="vehicle__body">
+                <h3 class="vehicle__title"><a href="vehicle.html">1966 Shelby Cobra 289 Replica</a></h3>
+                <p class="vehicle__price">$88,400</p>
+                <p class="vehicle__meta">
+                  <span class="num-tabular">12,480 mi</span>
+                  <span class="vehicle__meta-sep" aria-hidden="true">|</span>
+                  <span class="num-tabular">Stock #235410</span>
+                </p>
+                <div class="vehicle__actions">
+                  <a class="btn-card" href="sms:+17406182466">
+                    <span class="btn-card__icon btn-card__icon--text" aria-hidden="true"></span>Text
+                  </a>
+                  <button class="btn-card" type="button">
+                    <span class="btn-card__icon btn-card__icon--share" aria-hidden="true"></span>Share
+                  </button>
+                </div>
+              </div>
+            </li>
+            <li class="vehicle vehicle--just" data-status="just"
+                data-price="119750" data-year="1968" data-make="Backdraft" data-model="RT4B Roadster" data-miles="1902">
+              <div class="vehicle__media">
+                <img src="assets/img/inventory-1.jpg" alt="1968 Backdraft RT4B Roadster" width="381" height="278" loading="lazy">
+                <p class="vehicle__status">Just in</p>
+                <button class="vehicle__save" type="button" aria-pressed="false">
+                  <span class="sr-only">Save this vehicle</span>
+                  <span class="vehicle__save-icon" aria-hidden="true"></span>
+                </button>
+              </div>
+              <div class="vehicle__body">
+                <h3 class="vehicle__title"><a href="vehicle.html">1968 Backdraft RT4B Roadster</a></h3>
+                <p class="vehicle__price">$119,750</p>
+                <p class="vehicle__meta">
+                  <span class="num-tabular">1,902 mi</span>
+                  <span class="vehicle__meta-sep" aria-hidden="true">|</span>
+                  <span class="num-tabular">Stock #235755</span>
+                </p>
+                <div class="vehicle__actions">
+                  <a class="btn-card" href="sms:+17406182466">
+                    <span class="btn-card__icon btn-card__icon--text" aria-hidden="true"></span>Text
+                  </a>
+                  <button class="btn-card" type="button">
+                    <span class="btn-card__icon btn-card__icon--share" aria-hidden="true"></span>Share
+                  </button>
+                </div>
+              </div>
+            </li>
+            <li class="vehicle vehicle--new" data-status="new"
+                data-price="132500" data-year="1965" data-make="Superformance" data-model="MkIII-R" data-miles="44">
+              <div class="vehicle__media">
+                <img src="assets/img/inventory-1.jpg" alt="1965 Superformance MkIII-R" width="381" height="278" loading="lazy">
+                <p class="vehicle__status">New!</p>
+                <button class="vehicle__save" type="button" aria-pressed="false">
+                  <span class="sr-only">Save this vehicle</span>
+                  <span class="vehicle__save-icon" aria-hidden="true"></span>
+                </button>
+              </div>
+              <div class="vehicle__body">
+                <h3 class="vehicle__title"><a href="vehicle.html">1965 Superformance MkIII-R</a></h3>
+                <p class="vehicle__price">$132,500</p>
+                <p class="vehicle__meta">
+                  <span class="num-tabular">44 mi</span>
+                  <span class="vehicle__meta-sep" aria-hidden="true">|</span>
+                  <span class="num-tabular">Stock #235788</span>
+                </p>
+                <div class="vehicle__actions">
+                  <a class="btn-card" href="sms:+17406182466">
+                    <span class="btn-card__icon btn-card__icon--text" aria-hidden="true"></span>Text
+                  </a>
+                  <button class="btn-card" type="button">
+                    <span class="btn-card__icon btn-card__icon--share" aria-hidden="true"></span>Share
+                  </button>
+                </div>
+              </div>
+            </li>
+            <li class="vehicle vehicle--sold" data-status="sold"
+                data-price="94900" data-year="1964" data-make="Roadster" data-model="427 S/C Replica" data-miles="9310">
+              <div class="vehicle__media">
+                <img src="assets/img/inventory-1.jpg" alt="1964 Roadster 427 S/C Replica" width="381" height="278" loading="lazy">
+                <p class="vehicle__status">Sold!</p>
+                <button class="vehicle__save" type="button" aria-pressed="false">
+                  <span class="sr-only">Save this vehicle</span>
+                  <span class="vehicle__save-icon" aria-hidden="true"></span>
+                </button>
+              </div>
+              <div class="vehicle__body">
+                <h3 class="vehicle__title"><a href="vehicle.html">1964 Roadster 427 S/C Replica</a></h3>
+                <p class="vehicle__price">$94,900</p>
+                <p class="vehicle__meta">
+                  <span class="num-tabular">9,310 mi</span>
+                  <span class="vehicle__meta-sep" aria-hidden="true">|</span>
+                  <span class="num-tabular">Stock #235388</span>
+                </p>
+                <div class="vehicle__actions">
+                  <a class="btn-card" href="sms:+17406182466">
+                    <span class="btn-card__icon btn-card__icon--text" aria-hidden="true"></span>Text
+                  </a>
+                  <button class="btn-card" type="button">
+                    <span class="btn-card__icon btn-card__icon--share" aria-hidden="true"></span>Share
+                  </button>
+                </div>
+              </div>
+            </li>
+            <li class="vehicle vehicle--just" data-status="just"
+                data-price="97600" data-year="1967" data-make="Shelby" data-model="Cobra Replica" data-miles="5140">
+              <div class="vehicle__media">
+                <img src="assets/img/inventory-1.jpg" alt="1967 Shelby Cobra Replica" width="381" height="278" loading="lazy">
+                <p class="vehicle__status">Just in</p>
+                <button class="vehicle__save" type="button" aria-pressed="false">
+                  <span class="sr-only">Save this vehicle</span>
+                  <span class="vehicle__save-icon" aria-hidden="true"></span>
+                </button>
+              </div>
+              <div class="vehicle__body">
+                <h3 class="vehicle__title"><a href="vehicle.html">1967 Shelby Cobra Replica</a></h3>
+                <p class="vehicle__price">$97,600</p>
+                <p class="vehicle__meta">
+                  <span class="num-tabular">5,140 mi</span>
+                  <span class="vehicle__meta-sep" aria-hidden="true">|</span>
+                  <span class="num-tabular">Stock #235620</span>
+                </p>
+                <div class="vehicle__actions">
+                  <a class="btn-card" href="sms:+17406182466">
+                    <span class="btn-card__icon btn-card__icon--text" aria-hidden="true"></span>Text
+                  </a>
+                  <button class="btn-card" type="button">
+                    <span class="btn-card__icon btn-card__icon--share" aria-hidden="true"></span>Share
+                  </button>
+                </div>
+              </div>
+            </li>
+            <li class="vehicle vehicle--new" data-status="new"
+                data-price="106400" data-year="1966" data-make="Backdraft" data-model="RT3 Roadster" data-miles="310">
+              <div class="vehicle__media">
+                <img src="assets/img/inventory-1.jpg" alt="1966 Backdraft RT3 Roadster" width="381" height="278" loading="lazy">
+                <p class="vehicle__status">New!</p>
+                <button class="vehicle__save" type="button" aria-pressed="false">
+                  <span class="sr-only">Save this vehicle</span>
+                  <span class="vehicle__save-icon" aria-hidden="true"></span>
+                </button>
+              </div>
+              <div class="vehicle__body">
+                <h3 class="vehicle__title"><a href="vehicle.html">1966 Backdraft RT3 Roadster</a></h3>
+                <p class="vehicle__price">$106,400</p>
+                <p class="vehicle__meta">
+                  <span class="num-tabular">310 mi</span>
+                  <span class="vehicle__meta-sep" aria-hidden="true">|</span>
+                  <span class="num-tabular">Stock #235690</span>
+                </p>
+                <div class="vehicle__actions">
+                  <a class="btn-card" href="sms:+17406182466">
+                    <span class="btn-card__icon btn-card__icon--text" aria-hidden="true"></span>Text
+                  </a>
+                  <button class="btn-card" type="button">
+                    <span class="btn-card__icon btn-card__icon--share" aria-hidden="true"></span>Share
+                  </button>
+                </div>
+              </div>
+            </li>
+          </ul>
+
+          <!-- Shown by main.js when a filter leaves nothing. Never rendered
+               empty: a results page that goes silently blank reads as broken. -->
+          <div class="results-empty" data-results-empty hidden>
+            <p class="results-empty__title">Nothing matches that</p>
+            <p class="results-empty__body">No car on the floor fits every filter at once. Widen the
+              year or price range, or clear the filters and start from the whole lot.</p>
+            <button class="btn-hmc btn-hmc--secondary btn-hmc--centred" type="button" data-facets-clear>Clear all filters</button>
+          </div>
+
+          <div class="pager">
+            <p class="pager__state"><span class="num-tabular">12</span> of <span class="num-tabular">12</span> shown</p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ===================================================================
+       10 · CONTACT
+       =================================================================== -->
+  <!-- Full-bleed by construction: the map is a place, and a place cropped into
+       a content column reads as a picture of a place. The panel beside it is the
+       only large warm field on the page, which is what makes the page resolve
+       here instead of trailing off. -->
+  <section class="contact" id="contact" aria-labelledby="contactTitle">
+    <div class="contact__map">
+      <iframe class="contact__map__frame"
+              title="Map showing Hinderer Motor Company at 1555 Hebron Rd, Heath, Ohio"
+              src="https://www.openstreetmap.org/export/embed.html?bbox=-82.4590%2C40.0215%2C-82.4190%2C40.0435&amp;layer=mapnik&amp;marker=40.0325%2C-82.4390"
+              loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <!-- The interactive frame cannot be a link, so the route to full
+           directions is stated separately and stays keyboard reachable. -->
+      <a class="contact__map__link"
+         href="https://www.openstreetmap.org/?mlat=40.0325&amp;mlon=-82.4390#map=15/40.0325/-82.4390"
+         target="_blank" rel="noopener">
+        Open directions
+        <span class="sr-only">— 1555 Hebron Rd, Heath, Ohio, opens in a new tab</span>
+      </a>
+    </div>
+
+    <div class="contact__panel">
+      <!-- Decorative: the word is already the section's heading for a reader
+           that cannot see it. -->
+      <span class="contact__spine" aria-hidden="true"><span>C</span><span>O</span><span>N</span><span>T</span><span>A</span><span>C</span><span>T</span><span>S</span></span>
+
+      <div class="contact__body">
+        <h2 class="sr-only" id="contactTitle">Contact Hinderer Motor Company</h2>
+
+        <div class="contact__item">
+          <p class="contact__label">
+            <svg class="contact__icon" viewBox="0 -960 960 960" aria-hidden="true" focusable="false" width="20" height="20"><path fill="currentColor" d="M798-120q-125 0-247-54.5T329-329Q229-429 174.5-551T120-798q0-18 12-30t30-12h162q14 0 25 9.5t13 22.5l26 140q2 16-1 27t-11 19l-97 98q20 37 47.5 71.5T387-386q31 31 65 57.5t72 48.5l94-94q9-9 23.5-13.5T670-390l138 28q14 4 23 14.5t9 23.5v162q0 18-12 30t-30 12ZM241-600l66-66-17-94h-89q5 41 14 81t26 79Zm358 358q39 17 79.5 27t81.5 13v-88l-94-19-67 67ZM241-600Zm358 358Z"/></svg>
+            Phone
+          </p>
+          <p class="contact__value">
+            <a class="num-tabular" href="tel:+17406182466">740.618.2466</a>
+          </p>
+        </div>
+
+        <div class="contact__item">
+          <p class="contact__label">
+            <svg class="contact__icon" viewBox="0 -960 960 960" aria-hidden="true" focusable="false" width="20" height="20"><path fill="currentColor" d="M480-480q33 0 56.5-23.5T560-560q0-33-23.5-56.5T480-640q-33 0-56.5 23.5T400-560q0 33 23.5 56.5T480-480Zm0 294q122-112 181-203.5T720-552q0-109-69.5-178.5T480-800q-101 0-170.5 69.5T240-552q0 71 59 162.5T480-186Zm0 106Q319-217 239.5-334.5T160-552q0-150 96.5-239T480-880q127 0 223.5 89T800-552q0 100-79.5 217.5T480-80Zm0-480Z"/></svg>
+            Address
+          </p>
+          <address class="contact__value">
+            Hinderer Motor Company<br>
+            1555 Hebron Rd<br>
+            Heath, OH 43056
+          </address>
+        </div>
+
+        <div class="contact__item">
+          <p class="contact__label">
+            <svg class="contact__icon" viewBox="0 -960 960 960" aria-hidden="true" focusable="false" width="20" height="20"><path fill="currentColor" d="M720-80q-50 0-85-35t-35-85q0-7 1-14.5t3-13.5L322-392q-17 15-38 23.5t-44 8.5q-50 0-85-35t-35-85q0-50 35-85t85-35q23 0 44 8.5t38 23.5l282-164q-2-6-3-13.5t-1-14.5q0-50 35-85t85-35q50 0 85 35t35 85q0 50-35 85t-85 35q-23 0-44-8.5T638-672L356-508q2 6 3 13.5t1 14.5q0 7-1 14.5t-3 13.5l282 164q17-15 38-23.5t44-8.5q50 0 85 35t35 85q0 50-35 85t-85 35Zm0-640q17 0 28.5-11.5T760-760q0-17-11.5-28.5T720-800q-17 0-28.5 11.5T680-760q0 17 11.5 28.5T720-720ZM240-440q17 0 28.5-11.5T280-480q0-17-11.5-28.5T240-520q-17 0-28.5 11.5T200-480q0 17 11.5 28.5T240-440Zm480 280q17 0 28.5-11.5T760-200q0-17-11.5-28.5T720-240q-17 0-28.5 11.5T680-200q0 17 11.5 28.5T720-160Zm0-600ZM240-480Zm480 280Z"/></svg>
+            Follow
+          </p>
+          <ul class="social contact__value">
+            <li><a href="#" aria-label="Hinderer Motor Company on Instagram"><img src="assets/icons/social-instagram.svg" alt="" aria-hidden="true" width="21" height="21"></a></li>
+            <li><a href="#" aria-label="Hinderer Motor Company on Facebook"><img src="assets/icons/social-facebook.svg" alt="" aria-hidden="true" width="21" height="21"></a></li>
+            <li><a href="#" aria-label="Hinderer Motor Company on X"><img src="assets/icons/social-x.svg" alt="" aria-hidden="true" width="21" height="21"></a></li>
+            <li><a href="#" aria-label="Hinderer Motor Company on YouTube"><img src="assets/icons/social-youtube.svg" alt="" aria-hidden="true" width="21" height="21"></a></li>
+          </ul>
+        </div>
+
+        <a class="btn-hmc btn-hmc--dark btn-hmc--centred btn-hmc--wide contact__cta" href="contact.html">Contact Us</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+
+<!-- =====================================================================
+     SITE FOOTER — shared across every page.
+     ===================================================================== -->
+<footer class="site-footer">
+  <div class="wrap site-footer__inner">
+    <p>
+      Copyright © <span data-current-year>2024</span> Hinderer Motor Company. All Rights Reserved. |
+      <a href="sitemap.html">Sitemap</a> | <a href="privacy.html">Privacy</a>
+    </p>
+    <p>Powered By All Auto Network</p>
+  </div>
+</footer>
+
+
+<!-- Video lightbox — only opened by a control that really has a video -->
+<dialog class="dialog" id="videoModal" aria-labelledby="videoModalTitle">
+  <div class="dialog__head">
+    <h2 class="dialog__title" id="videoModalTitle">Video</h2>
+    <button type="button" class="dialog__close" data-dialog-close aria-label="Close video">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </div>
+  <div class="dialog__body">
+    <video id="videoModalPlayer" controls playsinline></video>
+  </div>
+</dialog>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>
