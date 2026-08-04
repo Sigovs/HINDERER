@@ -27,3 +27,7 @@ dist/
 .playwright-mcp/
 *-after.jpeg
 *-before.jpeg
+
+# Source artwork dropped in for conversion. The optimised JPEGs beside it are
+# what the pages load; these are 8MB of PNG and must not ship.
+assets/img/vdp page/

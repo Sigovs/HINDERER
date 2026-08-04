@@ -340,6 +340,14 @@ p + p { margin-block-start: var(--space-5); }
    column width and only the wordmark inside it shrinks. Horizontal drift is
    what makes a menu need re-finding; a little vertical give does not. */
 .site-header.is-scrolled { --header-h: 96px; }
+/* Once the page has moved, the header is over content rather than over the top
+   of it, and a bar floating on a photograph with no edge reads as part of the
+   photograph. Soft and wide: the shadow states elevation, it does not draw a
+   line — a hard edge here would compete with the hairline the header already
+   carries. */
+.site-header.is-scrolled {
+  box-shadow: 0 10px 30px -18px rgb(var(--shadow-rgb) / 0.85);
+}
 .site-header.is-scrolled .site-header__inner { padding-block: var(--space-2); }
 .site-header.is-scrolled .brand__mark { inline-size: clamp(150px, 12vw, 200px); }
 .site-header.is-scrolled .collection-pill { padding-block: var(--space-2); min-block-size: 40px; }
@@ -3208,9 +3216,49 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
 @media (min-width: 62rem) {
   .vdp {
     grid-template-columns: minmax(0, 1fr) 24rem;
-    gap: var(--space-6) var(--space-8);
+    /* Two rows, named by what sits in them. The photograph and the price panel
+       share the first: one grid row, one height, so the panel ends where the
+       image ends instead of hanging past its foot. */
+    gap: var(--space-6);
     align-items: start;
   }
+  /* No rows. Two columns, each flowing at its own length — with rows the
+     taller of the two set the height of the first, and the tab bar had to wait
+     for the price panel to finish. */
+  .vdp__rail { display: grid; gap: var(--space-6); align-content: start; }
+}
+
+/* ---- lit from both sides ------------------------------------------------
+   Two sources, one per edge, and neither is a circle. A radial with equal radii
+   reads as a spotlight someone aimed; two overlapping ellipses at different
+   sizes and slightly different centres read as light falling — which is the
+   only kind of glow that belongs behind a photograph of a car.
+
+   Bounded to the top of the page by the positioning area, same as the listing:
+   the gallery below is the subject and a glow running its full length would sit
+   behind every photograph in it.
+   ------------------------------------------------------------------------- */
+.lit-sides {
+  background:
+    /* left, the larger and lower of the two */
+    radial-gradient(38% 30% at -8% 14%,
+      rgb(var(--accent-rgb) / 0.17) 0%,
+      rgb(var(--accent-rgb) / 0.06) 44%,
+      rgb(var(--bg-rgb) / 0) 72%),
+    radial-gradient(22% 46% at 4% 30%,
+      rgb(var(--accent-rgb) / 0.10) 0%,
+      rgb(var(--bg-rgb) / 0) 68%),
+    /* right, tighter and higher, so the two do not mirror each other */
+    radial-gradient(30% 26% at 106% 6%,
+      rgb(var(--accent-rgb) / 0.15) 0%,
+      rgb(var(--accent-rgb) / 0.05) 42%,
+      rgb(var(--bg-rgb) / 0) 70%),
+    radial-gradient(18% 40% at 96% 22%,
+      rgb(var(--accent-rgb) / 0.09) 0%,
+      rgb(var(--bg-rgb) / 0) 66%),
+    var(--bg);
+  background-repeat: no-repeat;
+  background-size: 100% 1500px, 100% 1500px, 100% 1500px, 100% 1500px, auto;
 }
 
 /* ---- action bar ---------------------------------------------------------
@@ -3356,15 +3404,17 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
 
 /* ---- the bone panel ----------------------------------------------------- */
 .vdp-panel {
-  padding: var(--space-6);
+  padding: var(--space-5);
   border-radius: var(--radius-3);
   background: var(--bg-card);
   color: var(--ink-inverse);
 }
 @media (min-width: 62rem) {
-  /* Sticky, because the specification is what the visitor checks against every
-     photograph they scroll through. */
-  .vdp-panel { position: sticky; inset-block-start: calc(var(--header-h) + var(--space-5)); }
+  /* Its OWN length. Stretched to the row it matched the photograph exactly and
+     bought that with a hole: the actions were pushed to the foot and everything
+     between the last spec row and the buttons was empty panel. A card that ends
+     where its content ends is worth more than two columns ending on one line. */
+
 }
 
 /* The name out-ranks nothing else on the page, but it must not be dwarfed by
@@ -3402,15 +3452,21 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
 
 .vdp-panel__rule {
   block-size: 2px;
-  margin-block: var(--space-5);
+  margin-block: var(--space-4);
   background: var(--accent);
   border: 0;
 }
 
 /* Label and value: four axes apart, because tone cannot carry it here. */
-.spec-pairs { display: grid; gap: var(--space-4); margin: 0; }
+.spec-pairs { display: grid; gap: var(--space-3); margin: 0; }
 .spec-pairs__row { display: grid; gap: var(--space-1); }
+/* The display voice, not the body one. Inter Tight stops at 600 and these
+   labels needed to read heavier than the values beneath them; Oswald at the
+   same weight is condensed, so it is denser on the line without being larger —
+   which is the difference between a label with presence and a label shouting.
+   The contact panel's labels already work this way. */
 .spec-pairs dt {
+  font-family: var(--font-display);
   font-size: var(--text-xs);
   font-weight: var(--weight-label);
   letter-spacing: var(--track-caps);
@@ -3425,7 +3481,7 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
 }
 .spec-pairs dd.num-tabular { letter-spacing: var(--track-num); }
 
-.vdp-panel__actions { display: grid; gap: var(--space-3); margin-block-start: var(--gap-cta-text); }
+.vdp-panel__actions { display: grid; gap: var(--space-3); margin-block-start: var(--space-6); }
 
 /* ---- jump nav -----------------------------------------------------------
    Not tabs. The Figma hides Description, Premium options, Photos, Videos, Buy
@@ -3466,12 +3522,18 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
    ------------------------------------------------------------------------- */
 .tabs { margin-block-start: var(--space-6); }
 
+/* The bar holds the tablist and the jump link on one line: they read as one
+   row of choices even though only five of the six switch a panel. */
+.tabs__bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-4);
+}
 .tabs__list {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-2);
-  padding-block-end: var(--space-3);
-  border-block-end: 1px solid var(--rule);
 }
 
 .tabs__tab {
@@ -3502,7 +3564,54 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
   color: var(--ink);
 }
 
-.tabs__panel { padding-block-start: var(--space-6); }
+/* The jump link is not a tab and does not look like one: no selected state,
+   because it never becomes the thing you are looking at — it moves you to it. */
+.tabs__jump {
+  min-block-size: 44px;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-inline-start: auto;
+  padding-inline: var(--space-4);
+  color: var(--ink-muted);
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  letter-spacing: var(--track-caps);
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-underline-offset: 0.3em;
+  transition: color var(--dur-1) var(--ease-out);
+}
+.tabs__jump:hover { color: var(--ink); }
+.tabs__jump::after {
+  content: "";
+  inline-size: 12px;
+  block-size: 12px;
+  background: currentColor;
+  clip-path: polygon(50% 72%, 6% 26%, 18% 14%, 50% 46%, 82% 14%, 94% 26%);
+}
+
+/* A SURFACE under the panels, so the tab bar has something to sit on and the
+   reading column stops floating on the page ground. Dark rather than the
+   Figma's cream: the description runs to several hundred words and a light
+   field that size in the middle of a dark page is a second hero. */
+.tabs__panels {
+  padding: var(--space-6);
+  border: 1px solid var(--rule);
+  border-start-start-radius: 0;
+  border-radius: var(--radius-3);
+  background: var(--bg-raised);
+}
+
+
+.tabs__panel { padding-block-start: 0; }
+/* An inline link in body copy had no colour rule and was falling through to the
+   UA default — browser blue, in the middle of a warm near-black page. */
+.tabs__panel a:not(.btn-hmc):not(.btn-card) {
+  color: var(--accent-ink);            /* 5.34:1 */
+  text-underline-offset: 0.2em;
+}
+.tabs__panel a:not(.btn-hmc):not(.btn-card):hover { color: var(--ink); }
 /* The measure cap has to reach inside the panels. .vdp__main > p stops at the
    panel boundary, and a description tab is exactly where long copy lands. */
 .tabs__panel > p,
@@ -3518,7 +3627,9 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
    the panels are already all visible, which is the correct fallback. */
 .tabs__list { display: none; }
 .js .tabs__list,
-[data-ds-tabs] .tabs__list { display: flex; }   /* the DS specimen has no panels */
+[data-ds-tabs] .tabs__list { display: flex; }
+.tabs__bar { display: none; }
+.js .tabs__bar { display: flex; }   /* the DS specimen has no panels */
 .js .tabs__panel[hidden] { display: none; }
 
 /* ---- buy summary --------------------------------------------------------
@@ -3585,6 +3696,8 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
   font-size: var(--text-body);
   color: var(--ink);
 }
+
+.photos { margin-block-start: var(--space-9); scroll-margin-block-start: calc(var(--header-h) + var(--space-6)); }
 
 /* ---- photo mosaic -------------------------------------------------------
    The Figma's composition: six cells at four different shapes, not six crops of
@@ -3697,7 +3810,14 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
   gap: var(--space-4);
-  margin-block-start: var(--space-text-obj);
+}
+@media (min-width: 62rem) {
+  /* In the rail they stack: the column is 24rem wide and four cards across it
+     would be four thumbnails. */
+  .promos { grid-template-columns: minmax(0, 1fr); align-content: start; }
+  .promo { min-block-size: 11rem; }
+  .promo__body { min-block-size: 11rem; gap: var(--space-4); }
+  .promo__title { font-size: var(--text-lead); max-inline-size: 14ch; }
 }
 
 .promo {

@@ -88,7 +88,7 @@
 </header>
 
 
-<main id="main">
+<main id="main" class="lit-sides">
 
   <!-- ===================================================================
        1 · THE CAR
@@ -120,300 +120,259 @@
         </button>
       </div>
 
+      <!-- Two columns, each flowing at its own length. Not a two-row grid: with
+           rows, the taller column set the height of the first row and the tabs
+           had to wait for the price panel to finish — a column of empty page
+           between the thumbnails and the tab bar. A card that ends where its
+           content ends is worth more than two columns ending on one line. -->
       <div class="vdp">
 
         <div class="vdp__main">
 
-          <div class="stage" data-stage>
-            <div class="stage__frame">
-              <img src="assets/img/vehicle-1.jpg" alt="1965 Backdraft RT4B Roadster, three-quarter front"
-                   width="1200" height="750" data-stage-img fetchpriority="high">
-              <button class="btn-round stage__nav stage__nav--prev" type="button" data-stage-prev>
-                <span class="sr-only">Previous photograph</span>
-                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </button>
-              <button class="btn-round stage__nav stage__nav--next" type="button" data-stage-next>
-                <span class="sr-only">Next photograph</span>
-                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </button>
-              <p class="stage__index num-tabular" data-stage-index>1 / 6</p>
-            </div>
-
-            <!-- Real buttons, so the strip is keyboard-operable and each one
-                 announces which photograph it selects. -->
-            <div class="thumbs" role="group" aria-label="Photographs of this vehicle">
-              <button class="thumb" type="button" aria-current="true"
-                      data-thumb data-src="assets/img/vehicle-1.jpg"
-                      data-alt="1965 Backdraft RT4B Roadster, three-quarter front">
-                <img src="assets/img/vehicle-1.jpg" alt="View photograph 1: three-quarter front" width="220" height="165" loading="lazy">
-              </button>
-              <button class="thumb" type="button" aria-current="false"
-                      data-thumb data-src="assets/img/vehicle-2.jpg"
-                      data-alt="1965 Backdraft RT4B Roadster, profile, driver's side">
-                <img src="assets/img/vehicle-2.jpg" alt="View photograph 2: profile, driver's side" width="220" height="165" loading="lazy">
-              </button>
-              <button class="thumb" type="button" aria-current="false"
-                      data-thumb data-src="assets/img/vehicle-3.jpg"
-                      data-alt="1965 Backdraft RT4B Roadster, rear three-quarter with the Hinderer badge">
-                <img src="assets/img/vehicle-3.jpg" alt="View photograph 3: rear three-quarter with the Hinderer badge" width="220" height="165" loading="lazy">
-              </button>
-              <button class="thumb" type="button" aria-current="false"
-                      data-thumb data-src="assets/img/vehicle-4.jpg"
-                      data-alt="1965 Backdraft RT4B Roadster, cockpit, seats and shifter">
-                <img src="assets/img/vehicle-4.jpg" alt="View photograph 4: cockpit, seats and shifter" width="220" height="165" loading="lazy">
-              </button>
-              <button class="thumb" type="button" aria-current="false"
-                      data-thumb data-src="assets/img/vehicle-5.jpg"
-                      data-alt="1965 Backdraft RT4B Roadster, door pocket and inner trim">
-                <img src="assets/img/vehicle-5.jpg" alt="View photograph 5: door pocket and inner trim" width="220" height="165" loading="lazy">
-              </button>
-              <button class="thumb" type="button" aria-current="false"
-                      data-thumb data-src="assets/img/vehicle-6.jpg"
-                      data-alt="1965 Backdraft RT4B Roadster, side profile with the aero screen">
-                <img src="assets/img/vehicle-6.jpg" alt="View photograph 6: side profile with the aero screen" width="220" height="165" loading="lazy">
-              </button>
-            </div>
+        <div class="stage" data-stage>
+          <div class="stage__frame">
+            <img src="assets/img/vehicle-1.jpg" alt="1965 Backdraft RT4B Roadster, three-quarter front"
+                 width="1200" height="750" data-stage-img fetchpriority="high">
+            <button class="btn-round stage__nav stage__nav--prev" type="button" data-stage-prev>
+              <span class="sr-only">Previous photograph</span>
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <button class="btn-round stage__nav stage__nav--next" type="button" data-stage-next>
+              <span class="sr-only">Next photograph</span>
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <p class="stage__index num-tabular" data-stage-index>1 / 6</p>
           </div>
 
-          <!-- Tabs, as the Figma has them — but every panel stays in the
-               document. Without JS the tab bar is hidden and all four panels
-               render in order, so a visitor with no script and a search engine
-               both see the whole page. main.js is what turns them into tabs. -->
-          <!-- Six tabs, as the Figma has them, and six panels with something
-               behind each: a tab whose panel is empty is the same lie as a link
-               to nowhere. Every panel stays in the document — without JS the bar
-               is hidden and all six render in order, so a visitor with no script
-               and a search engine both see the whole page. -->
-          <div class="tabs" data-tabs>
+          <!-- Real buttons, so the strip is keyboard-operable and each one
+               announces which photograph it selects. -->
+          <div class="thumbs" role="group" aria-label="Photographs of this vehicle">
+            <button class="thumb" type="button" aria-current="true"
+                    data-thumb data-src="assets/img/vehicle-1.jpg"
+                    data-alt="1965 Backdraft RT4B Roadster, three-quarter front">
+              <img src="assets/img/vehicle-1.jpg" alt="View photograph 1: three-quarter front" width="220" height="165" loading="lazy">
+            </button>
+            <button class="thumb" type="button" aria-current="false"
+                    data-thumb data-src="assets/img/vehicle-2.jpg"
+                    data-alt="1965 Backdraft RT4B Roadster, profile, driver's side">
+              <img src="assets/img/vehicle-2.jpg" alt="View photograph 2: profile, driver's side" width="220" height="165" loading="lazy">
+            </button>
+            <button class="thumb" type="button" aria-current="false"
+                    data-thumb data-src="assets/img/vehicle-3.jpg"
+                    data-alt="1965 Backdraft RT4B Roadster, rear three-quarter with the Hinderer badge">
+              <img src="assets/img/vehicle-3.jpg" alt="View photograph 3: rear three-quarter with the Hinderer badge" width="220" height="165" loading="lazy">
+            </button>
+            <button class="thumb" type="button" aria-current="false"
+                    data-thumb data-src="assets/img/vehicle-4.jpg"
+                    data-alt="1965 Backdraft RT4B Roadster, cockpit, seats and shifter">
+              <img src="assets/img/vehicle-4.jpg" alt="View photograph 4: cockpit, seats and shifter" width="220" height="165" loading="lazy">
+            </button>
+            <button class="thumb" type="button" aria-current="false"
+                    data-thumb data-src="assets/img/vehicle-5.jpg"
+                    data-alt="1965 Backdraft RT4B Roadster, door pocket and inner trim">
+              <img src="assets/img/vehicle-5.jpg" alt="View photograph 5: door pocket and inner trim" width="220" height="165" loading="lazy">
+            </button>
+            <button class="thumb" type="button" aria-current="false"
+                    data-thumb data-src="assets/img/vehicle-6.jpg"
+                    data-alt="1965 Backdraft RT4B Roadster, side profile with the aero screen">
+              <img src="assets/img/vehicle-6.jpg" alt="View photograph 6: side profile with the aero screen" width="220" height="165" loading="lazy">
+            </button>
+          </div>
+        </div>
+
+        <div class="tabs" data-tabs>
+          <div class="tabs__bar">
             <div class="tabs__list" role="tablist" aria-label="About this vehicle">
-              <button class="tabs__tab" type="button" role="tab" id="tab-description"
-                      aria-controls="panel-description" aria-selected="true">Description</button>
-              <button class="tabs__tab" type="button" role="tab" id="tab-options"
-                      aria-controls="panel-options" aria-selected="false" tabindex="-1">Premium options</button>
-              <button class="tabs__tab" type="button" role="tab" id="tab-photos"
-                      aria-controls="panel-photos" aria-selected="false" tabindex="-1">Photos</button>
-              <button class="tabs__tab" type="button" role="tab" id="tab-videos"
-                      aria-controls="panel-videos" aria-selected="false" tabindex="-1">Videos</button>
-              <button class="tabs__tab" type="button" role="tab" id="tab-buy"
-                      aria-controls="panel-buy" aria-selected="false" tabindex="-1">Buy Now</button>
-              <button class="tabs__tab" type="button" role="tab" id="tab-contact"
-                      aria-controls="panel-contact" aria-selected="false" tabindex="-1">Contact us</button>
+            <button class="tabs__tab" type="button" role="tab" id="tab-description"
+                    aria-controls="panel-description" aria-selected="true">Description</button>
+            <button class="tabs__tab" type="button" role="tab" id="tab-options"
+                    aria-controls="panel-options" aria-selected="false" tabindex="-1">Premium options</button>
+            <button class="tabs__tab" type="button" role="tab" id="tab-videos"
+                    aria-controls="panel-videos" aria-selected="false" tabindex="-1">Videos</button>
+            <button class="tabs__tab" type="button" role="tab" id="tab-buy"
+                    aria-controls="panel-buy" aria-selected="false" tabindex="-1">Buy Now</button>
+            <button class="tabs__tab" type="button" role="tab" id="tab-contact"
+                    aria-controls="panel-contact" aria-selected="false" tabindex="-1">Contact us</button>
             </div>
 
-            <section class="tabs__panel" id="panel-description" role="tabpanel"
-                     aria-labelledby="tab-description" tabindex="0">
-              <h2 class="sr-only">Description</h2>
-              <!-- Real listing copy, at the length one actually runs. Two
-                   paragraphs that came with it are not here: "Long blocks of
-                   text can be overwhelming…" and "Better SEO: organized, clean
-                   content…" are notes to whoever writes the copy, not the copy,
-                   and a live page that prints its own content brief has stopped
-                   being a page about a car.
-
-                   The facts are reconciled to this listing: the source text
-                   named a 2022 Carmine, a different dealership and a different
-                   phone number. Two phone numbers on one page is not a detail,
-                   it is a visitor calling the wrong company. -->
-              <p class="body-muted">1965 Backdraft Cobra RT4B in Carmine Red over black leather. Clean
-                CARFAX. Thank you for taking the time to look at this good-looking RT4B. Hinderer
-                Motor Company in Heath, Ohio treats the needs of each individual customer with
-                paramount concern. We know that you have high expectations, and as a dealer we enjoy
-                the challenge of meeting and exceeding those standards each and every time.</p>
-
-              <p class="body-muted">Allow us to demonstrate our commitment to excellence. Our
-                experienced sales staff is eager to share its knowledge and enthusiasm with you. We
-                encourage you to browse our online inventory, schedule a test drive and investigate
-                financing options.</p>
-
-              <p class="body-muted">You can also request more information about a vehicle using our
-                online form or by calling <a href="tel:+17406182466">740.618.2466</a>. Price shown
-                excludes tax, license, registration, title, documentation fees, insurance and any
-                dealer-installed equipment. While we make every effort to ensure the data listed here
-                is correct, there may be instances where some of the factory rebates, incentives,
-                options or vehicle features are listed incorrectly, as we take data from several
-                sources.</p>
-
-              <p class="body-muted">Please confirm the details of this vehicle — including which
-                factory rebates you may or may not qualify for — with us before you travel, so that
-                what you are told and what is on the floor are the same thing.</p>
-            </section>
-
-            <section class="tabs__panel" id="panel-options" role="tabpanel"
-                     aria-labelledby="tab-options" tabindex="0">
-              <h2 class="sr-only">Premium options</h2>
-<p class="body-muted body-muted--intro">Fitted to this car and documented on the build sheet.
-              Anything not listed here was not specified.</p>
-            <ul class="options list-bare">
-              <li class="options__item">Wilwood four-piston brakes, vented discs all round</li>
-              <li class="options__item">Tremec TKX five-speed manual</li>
-              <li class="options__item">Limited-slip differential, 3.31:1</li>
-              <li class="options__item">17-inch Halibrand-style wheels, satin black</li>
-              <li class="options__item">Stainless side pipes</li>
-              <li class="options__item">Black leather with red stitching</li>
-              <li class="options__item">Twin roll hoops</li>
-              <li class="options__item">Quick-release steering wheel</li>
-            </ul>
-
-            <h3 class="section-sub u-mt-7">Full specification</h3>
-            <table class="spec-table">
-              <caption>As documented on arrival. Anything not listed was not fitted.</caption>
-              <tbody>
-                <tr><th scope="row">Engine</th><td>7.3L Ford Godzilla V8, aluminium heads</td></tr>
-                <tr><th scope="row">Output</th><td class="num-tabular">580 hp · 655 lb-ft</td></tr>
-                <tr><th scope="row">Transmission</th><td>Tremec TKX five-speed manual</td></tr>
-                <tr><th scope="row">Differential</th><td>Independent rear, limited slip, 3.31:1</td></tr>
-                <tr><th scope="row">Brakes</th><td>Wilwood four-piston, vented discs all round</td></tr>
-                <tr><th scope="row">Wheels</th><td>17-inch Halibrand-style, satin black</td></tr>
-                <tr><th scope="row">Exterior</th><td>Carmine Red, black centre stripe</td></tr>
-                <tr><th scope="row">Interior</th><td>Black leather, red stitching, roll hoops</td></tr>
-                <tr><th scope="row">Mileage</th><td class="num-tabular">62 mi</td></tr>
-                <tr><th scope="row">Stock number</th><td class="num-tabular">235612</td></tr>
-                <tr><th scope="row">VIN</th><td class="num-tabular">1FMJU1J82REA15386</td></tr>
-              </tbody>
-            </table>
-            </section>
-
-            <section class="tabs__panel" id="panel-photos" role="tabpanel"
-                     aria-labelledby="tab-photos" tabindex="0">
-              <h2 class="sr-only">Photos</h2>
-  <!-- The same six photographs the stage carries, as a grid. Not a
-                   second set: the stage shows one at a time, this shows them at
-                   once, and both read the same six files. -->
-              <!-- The Figma's mosaic: a fixed six-cell composition rather than a
-                 uniform grid. Each tile keeps the crop the photograph was shot
-                 at — a cockpit is not the same shape as a side profile, and
-                 forcing six different subjects through one aspect ratio is how
-                 a gallery stops looking like a set of photographs and starts
-                 looking like a contact sheet. -->
-            <ul class="photo-mosaic list-bare">
-              <li class="photo-mosaic__cell photo-mosaic__cell--a">
-                <button class="photo-mosaic__item" type="button" data-photo="assets/img/vehicle-1.jpg">
-                  <img src="assets/img/vehicle-1.jpg" alt="Three-quarter front" width="1024" height="768" loading="lazy">
-                  <span class="sr-only">Show this photograph full size</span>
-                </button>
-              </li>
-              <li class="photo-mosaic__cell photo-mosaic__cell--b">
-                <button class="photo-mosaic__item" type="button" data-photo="assets/img/vehicle-2.jpg">
-                  <img src="assets/img/vehicle-2.jpg" alt="Profile, driver's side" width="1024" height="768" loading="lazy">
-                  <span class="sr-only">Show this photograph full size</span>
-                </button>
-              </li>
-              <li class="photo-mosaic__cell photo-mosaic__cell--c">
-                <button class="photo-mosaic__item" type="button" data-photo="assets/img/vehicle-3.jpg">
-                  <img src="assets/img/vehicle-3.jpg" alt="Rear three-quarter with the Hinderer badge" width="1024" height="768" loading="lazy">
-                  <span class="sr-only">Show this photograph full size</span>
-                </button>
-              </li>
-              <li class="photo-mosaic__cell photo-mosaic__cell--d">
-                <button class="photo-mosaic__item" type="button" data-photo="assets/img/vehicle-4.jpg">
-                  <img src="assets/img/vehicle-4.jpg" alt="Cockpit, seats and shifter" width="1024" height="768" loading="lazy">
-                  <span class="sr-only">Show this photograph full size</span>
-                </button>
-              </li>
-              <li class="photo-mosaic__cell photo-mosaic__cell--e">
-                <button class="photo-mosaic__item" type="button" data-photo="assets/img/vehicle-5.jpg">
-                  <img src="assets/img/vehicle-5.jpg" alt="Door pocket and inner trim" width="1024" height="768" loading="lazy">
-                  <span class="sr-only">Show this photograph full size</span>
-                </button>
-              </li>
-              <li class="photo-mosaic__cell photo-mosaic__cell--f">
-                <button class="photo-mosaic__item" type="button" data-photo="assets/img/vehicle-6.jpg">
-                  <img src="assets/img/vehicle-6.jpg" alt="Side profile with the aero screen" width="1024" height="768" loading="lazy">
-                  <span class="sr-only">Show this photograph full size</span>
-                </button>
-              </li>
-            </ul>
-            </section>
-
-            <section class="tabs__panel" id="panel-videos" role="tabpanel"
-                     aria-labelledby="tab-videos" tabindex="0">
-              <h2 class="sr-only">Videos</h2>
-<!-- No film exists for this car, and a Videos tab that opens an empty
-                 panel is the same lie as a link to nowhere. So the panel states
-                 the fact and offers the thing a visitor actually wants from it:
-                 someone to go and shoot it. -->
-            <p class="body-muted">We have not filmed this car yet. Our walkarounds are shot to order
-              rather than in a batch, so what you get is the car as it stands on the day you ask —
-              cold start, side pipes, panel gaps, the lot.</p>
-            <p class="body-muted u-mt-5">Ask for one and we will send it the same week, usually within
-              two days.</p>
-            <div class="u-mt-6" style="display: grid; gap: var(--space-3); max-inline-size: 22rem">
-              <a class="btn-hmc btn-hmc--primary btn-hmc--centred" href="sms:+17406182466">Request a walkaround</a>
-              <a class="btn-hmc btn-hmc--ghost btn-hmc--centred" href="index.html#about">Watch the workshop film</a>
+            <!-- Photos is not a tab. The gallery is a permanent full-width
+                 block below, so a panel here would be a second copy of it; this
+                 is a link to where it already is. It sits in the same bar
+                 because that is where a visitor looks for it, and OUTSIDE the
+                 tablist, because a list of tabs containing something that is
+                 not a tab is a lie told to a screen reader. -->
+            <a class="tabs__jump" href="#photos">Photos</a>
             </div>
-            </section>
 
-            <section class="tabs__panel" id="panel-buy" role="tabpanel"
-                     aria-labelledby="tab-buy" tabindex="0">
-              <h2 class="sr-only">Buy Now</h2>
-<dl class="buy-summary">
-              <div class="buy-summary__row">
-                <dt>Our price</dt>
-                <dd class="buy-summary__price num-tabular">$109,500</dd>
-              </div>
-              <div class="buy-summary__row">
-                <dt>Deposit to hold</dt>
-                <dd class="num-tabular">$2,500, refundable for 7 days</dd>
-              </div>
-              <div class="buy-summary__row">
-                <dt>Delivery</dt>
-                <dd>Enclosed transport, continental US, quoted per address</dd>
-              </div>
-              <div class="buy-summary__row">
-                <dt>Not included</dt>
-                <dd>Tax, title, registration and documentation fees</dd>
-              </div>
-            </dl>
-            <p class="body-muted u-mt-6">Nothing here is bought online. A car at this price is bought
-              after a conversation and, wherever possible, after you have sat in it — so these are the
-              two ways to start one.</p>
-            <div class="u-mt-6" style="display: grid; gap: var(--space-3); max-inline-size: 22rem">
-              <a class="btn-hmc btn-hmc--primary btn-hmc--centred" href="index.html#finance">Get pre-approved</a>
-              <a class="btn-hmc btn-hmc--secondary btn-hmc--centred" href="tel:+17406182466">Call 740.618.2466</a>
+          <div class="tabs__panels">
+
+          <section class="tabs__panel" id="panel-description" role="tabpanel"
+                   aria-labelledby="tab-description" tabindex="0">
+            <h2 class="sr-only">Description</h2>
+            <!-- Real listing copy, at the length one actually runs. Two
+                 paragraphs that came with it are not here: "Long blocks of
+                 text can be overwhelming…" and "Better SEO: organized, clean
+                 content…" are notes to whoever writes the copy, not the copy,
+                 and a live page that prints its own content brief has stopped
+                 being a page about a car.
+
+                 The facts are reconciled to this listing: the source text
+                 named a 2022 Carmine, a different dealership and a different
+                 phone number. Two phone numbers on one page is not a detail,
+                 it is a visitor calling the wrong company. -->
+            <p class="body-muted">1965 Backdraft Cobra RT4B in Carmine Red over black leather. Clean
+              CARFAX. Thank you for taking the time to look at this good-looking RT4B. Hinderer
+              Motor Company in Heath, Ohio treats the needs of each individual customer with
+              paramount concern. We know that you have high expectations, and as a dealer we enjoy
+              the challenge of meeting and exceeding those standards each and every time.</p>
+
+            <p class="body-muted">Allow us to demonstrate our commitment to excellence. Our
+              experienced sales staff is eager to share its knowledge and enthusiasm with you. We
+              encourage you to browse our online inventory, schedule a test drive and investigate
+              financing options.</p>
+
+            <p class="body-muted">You can also request more information about a vehicle using our
+              online form or by calling <a href="tel:+17406182466">740.618.2466</a>. Price shown
+              excludes tax, license, registration, title, documentation fees, insurance and any
+              dealer-installed equipment. While we make every effort to ensure the data listed here
+              is correct, there may be instances where some of the factory rebates, incentives,
+              options or vehicle features are listed incorrectly, as we take data from several
+              sources.</p>
+
+            <p class="body-muted">Please confirm the details of this vehicle — including which
+              factory rebates you may or may not qualify for — with us before you travel, so that
+              what you are told and what is on the floor are the same thing.</p>
+          </section>
+
+          <section class="tabs__panel" id="panel-options" role="tabpanel"
+                   aria-labelledby="tab-options" tabindex="0">
+            <h2 class="sr-only">Premium options</h2>
+        <p class="body-muted body-muted--intro">Fitted to this car and documented on the build sheet.
+            Anything not listed here was not specified.</p>
+          <ul class="options list-bare">
+            <li class="options__item">Wilwood four-piston brakes, vented discs all round</li>
+            <li class="options__item">Tremec TKX five-speed manual</li>
+            <li class="options__item">Limited-slip differential, 3.31:1</li>
+            <li class="options__item">17-inch Halibrand-style wheels, satin black</li>
+            <li class="options__item">Stainless side pipes</li>
+            <li class="options__item">Black leather with red stitching</li>
+            <li class="options__item">Twin roll hoops</li>
+            <li class="options__item">Quick-release steering wheel</li>
+          </ul>
+
+          <h3 class="section-sub u-mt-7">Full specification</h3>
+          <table class="spec-table">
+            <caption>As documented on arrival. Anything not listed was not fitted.</caption>
+            <tbody>
+              <tr><th scope="row">Engine</th><td>7.3L Ford Godzilla V8, aluminium heads</td></tr>
+              <tr><th scope="row">Output</th><td class="num-tabular">580 hp · 655 lb-ft</td></tr>
+              <tr><th scope="row">Transmission</th><td>Tremec TKX five-speed manual</td></tr>
+              <tr><th scope="row">Differential</th><td>Independent rear, limited slip, 3.31:1</td></tr>
+              <tr><th scope="row">Brakes</th><td>Wilwood four-piston, vented discs all round</td></tr>
+              <tr><th scope="row">Wheels</th><td>17-inch Halibrand-style, satin black</td></tr>
+              <tr><th scope="row">Exterior</th><td>Carmine Red, black centre stripe</td></tr>
+              <tr><th scope="row">Interior</th><td>Black leather, red stitching, roll hoops</td></tr>
+              <tr><th scope="row">Mileage</th><td class="num-tabular">62 mi</td></tr>
+              <tr><th scope="row">Stock number</th><td class="num-tabular">235612</td></tr>
+              <tr><th scope="row">VIN</th><td class="num-tabular">1FMJU1J82REA15386</td></tr>
+            </tbody>
+          </table>
+          </section>
+
+          <section class="tabs__panel" id="panel-videos" role="tabpanel"
+                   aria-labelledby="tab-videos" tabindex="0">
+            <h2 class="sr-only">Videos</h2>
+        <!-- No film exists for this car, and a Videos tab that opens an empty
+               panel is the same lie as a link to nowhere. So the panel states
+               the fact and offers the thing a visitor actually wants from it:
+               someone to go and shoot it. -->
+          <p class="body-muted">We have not filmed this car yet. Our walkarounds are shot to order
+            rather than in a batch, so what you get is the car as it stands on the day you ask —
+            cold start, side pipes, panel gaps, the lot.</p>
+          <p class="body-muted u-mt-5">Ask for one and we will send it the same week, usually within
+            two days.</p>
+          <div class="u-mt-6" style="display: grid; gap: var(--space-3); max-inline-size: 22rem">
+            <a class="btn-hmc btn-hmc--primary btn-hmc--centred" href="sms:+17406182466">Request a walkaround</a>
+            <a class="btn-hmc btn-hmc--ghost btn-hmc--centred" href="index.html#about">Watch the workshop film</a>
+          </div>
+          </section>
+
+          <section class="tabs__panel" id="panel-buy" role="tabpanel"
+                   aria-labelledby="tab-buy" tabindex="0">
+            <h2 class="sr-only">Buy Now</h2>
+        <dl class="buy-summary">
+            <div class="buy-summary__row">
+              <dt>Our price</dt>
+              <dd class="buy-summary__price num-tabular">$109,500</dd>
+          </div>
+            <div class="buy-summary__row">
+              <dt>Deposit to hold</dt>
+              <dd class="num-tabular">$2,500, refundable for 7 days</dd>
             </div>
-            </section>
+            <div class="buy-summary__row">
+              <dt>Delivery</dt>
+              <dd>Enclosed transport, continental US, quoted per address</dd>
+            </div>
+            <div class="buy-summary__row">
+              <dt>Not included</dt>
+              <dd>Tax, title, registration and documentation fees</dd>
+            </div>
+          </dl>
+          <p class="body-muted u-mt-6">Nothing here is bought online. A car at this price is bought
+            after a conversation and, wherever possible, after you have sat in it — so these are the
+            two ways to start one.</p>
+          <div class="u-mt-6" style="display: grid; gap: var(--space-3); max-inline-size: 22rem">
+            <a class="btn-hmc btn-hmc--primary btn-hmc--centred" href="index.html#finance">Get pre-approved</a>
+            <a class="btn-hmc btn-hmc--secondary btn-hmc--centred" href="tel:+17406182466">Call 740.618.2466</a>
+          </div>
+          </section>
 
-            <section class="tabs__panel" id="panel-contact" role="tabpanel"
-                     aria-labelledby="tab-contact" tabindex="0">
-              <h2 class="sr-only">Contact us</h2>
-  <!-- A form, not a third pair of Call/Text buttons. The panel already
-                 carries the immediate actions; this is the considered one, for a
-                 visitor who wants to ask something rather than ring. -->
-                      <p class="body-muted u-mt-5">We answer every message ourselves — there is no call centre.
-              Tell us what you would like to know, or when you would like to see it.</p>
+          <section class="tabs__panel" id="panel-contact" role="tabpanel"
+                   aria-labelledby="tab-contact" tabindex="0">
+            <h2 class="sr-only">Contact us</h2>
+          <!-- A form, not a third pair of Call/Text buttons. The panel already
+               carries the immediate actions; this is the considered one, for a
+               visitor who wants to ask something rather than ring. -->
+                    <p class="body-muted u-mt-5">We answer every message ourselves — there is no call centre.
+            Tell us what you would like to know, or when you would like to see it.</p>
 
-            <form class="enquiry u-mt-6" method="post" action="#enquire">
-              <div class="field-pair">
-                <div class="field">
-                  <label class="field__label" for="enqName">Your name</label>
-                  <input class="control" id="enqName" name="name" type="text" autocomplete="name" required>
-                </div>
-                <div class="field">
-                  <label class="field__label" for="enqPhone">Phone</label>
-                  <input class="control" id="enqPhone" name="phone" type="tel" autocomplete="tel">
-                </div>
+          <form class="enquiry u-mt-6" method="post" action="#enquire">
+            <div class="field-pair">
+              <div class="field">
+                <label class="field__label" for="enqName">Your name</label>
+                <input class="control" id="enqName" name="name" type="text" autocomplete="name" required>
               </div>
-              <div class="field u-mt-5">
-                <label class="field__label" for="enqEmail">Email</label>
-                <input class="control" id="enqEmail" name="email" type="email" autocomplete="email" required>
+              <div class="field">
+                <label class="field__label" for="enqPhone">Phone</label>
+                <input class="control" id="enqPhone" name="phone" type="tel" autocomplete="tel">
               </div>
-              <div class="field u-mt-5">
-                <label class="field__label" for="enqMsg">Message</label>
-                <textarea class="control control--area" id="enqMsg" name="message" rows="4">I would like to know more about stock #235612.</textarea>
-              </div>
-              <p class="enquiry__legal">Stock #235612 is attached to this message, so you do not have to
-                quote it back to us.</p>
-              <button class="btn-hmc btn-hmc--primary btn-hmc--centred u-mt-5" type="submit">Send enquiry</button>
-            </form>
-            </section>
+            </div>
+            <div class="field u-mt-5">
+              <label class="field__label" for="enqEmail">Email</label>
+              <input class="control" id="enqEmail" name="email" type="email" autocomplete="email" required>
+            </div>
+            <div class="field u-mt-5">
+              <label class="field__label" for="enqMsg">Message</label>
+              <textarea class="control control--area" id="enqMsg" name="message" rows="4">I would like to know more about stock #235612.</textarea>
+            </div>
+            <p class="enquiry__legal">Stock #235612 is attached to this message, so you do not have to
+              quote it back to us.</p>
+            <button class="btn-hmc btn-hmc--primary btn-hmc--centred u-mt-5" type="submit">Send enquiry</button>
+          </form>
+          </section>
 
           </div>
 
         </div>
+
+        </div>
+
+
+        <div class="vdp__rail">
 
         <aside class="vdp-panel" aria-labelledby="vdpTitle">
           <h1 class="vdp-panel__title" id="vdpTitle">1965 Backdraft RT4B Roadster</h1>
@@ -436,48 +395,95 @@
           </div>
         </aside>
 
+        <ul class="promos list-bare">
+          <li><a class="promo" href="index.html#nationwide">
+            <img class="promo__media" src="assets/img/promo-delivery.jpg"
+                 alt="" aria-hidden="true" width="800" height="500" loading="lazy">
+            <span class="promo__body">
+              <span class="promo__title">Ask us about Nationwide White Glove delivery</span>
+              <span class="promo__cta">Learn more</span>
+            </span>
+          </a></li>
+          <li><a class="promo" href="index.html#trade">
+            <img class="promo__media" src="assets/img/promo-trade.jpg"
+                 alt="" aria-hidden="true" width="800" height="500" loading="lazy">
+            <span class="promo__body">
+              <span class="promo__title">Upgrade to your dream car today!</span>
+              <span class="promo__cta">Start trade in</span>
+            </span>
+          </a></li>
+          <li><a class="promo" href="index.html#finance">
+            <img class="promo__media" src="assets/img/promo-finance.jpg"
+                 alt="" aria-hidden="true" width="800" height="500" loading="lazy">
+            <span class="promo__body">
+              <span class="promo__title">We offer financing services</span>
+              <span class="promo__cta">Get approved!</span>
+            </span>
+          </a></li>
+          <li><a class="promo" href="index.html#build">
+            <img class="promo__media" src="assets/img/promo-build.jpg"
+                 alt="" aria-hidden="true" width="800" height="500" loading="lazy">
+            <span class="promo__body">
+              <span class="promo__title">Build your own ultimate driving machine</span>
+              <span class="promo__cta">Build now!</span>
+            </span>
+          </a></li>
+        </ul>
+
+        </div>
+
       </div>
 
-      <!-- The old site's four promo cards, back with their photography. They
-           were a plain text strip for a while and the strip was the wrong call:
-           these are the four other things the company does, and each one is a
-           place, a person or a car — they are photographs by nature. Every one
-           carries a scrim so the label sits on ink, not on whatever the
-           photograph happens to be doing behind it. -->
-      <ul class="promos list-bare">
-        <li><a class="promo" href="index.html#nationwide">
-          <img class="promo__media" src="assets/img/promo-delivery.jpg"
-               alt="" aria-hidden="true" width="800" height="500" loading="lazy">
-          <span class="promo__body">
-            <span class="promo__title">Ask us about Nationwide White Glove delivery</span>
-            <span class="promo__cta">Learn more</span>
-          </span>
-        </a></li>
-        <li><a class="promo" href="index.html#trade">
-          <img class="promo__media" src="assets/img/promo-trade.jpg"
-               alt="" aria-hidden="true" width="800" height="500" loading="lazy">
-          <span class="promo__body">
-            <span class="promo__title">Upgrade to your dream car today!</span>
-            <span class="promo__cta">Start trade in</span>
-          </span>
-        </a></li>
-        <li><a class="promo" href="index.html#finance">
-          <img class="promo__media" src="assets/img/promo-finance.jpg"
-               alt="" aria-hidden="true" width="800" height="500" loading="lazy">
-          <span class="promo__body">
-            <span class="promo__title">We offer financing services</span>
-            <span class="promo__cta">Get approved!</span>
-          </span>
-        </a></li>
-        <li><a class="promo" href="index.html#build">
-          <img class="promo__media" src="assets/img/promo-build.jpg"
-               alt="" aria-hidden="true" width="800" height="500" loading="lazy">
-          <span class="promo__body">
-            <span class="promo__title">Build your own ultimate driving machine</span>
-            <span class="promo__cta">Build now!</span>
-          </span>
-        </a></li>
-      </ul>
+      <!-- The gallery, full width and permanent. The bar above links down to it. -->
+      <section class="photos" id="photos" aria-labelledby="photosTitle">
+        <h2 class="section-sub" id="photosTitle">Photographs</h2>
+        <!-- The Figma's mosaic: a fixed six-cell composition rather than a
+             uniform grid. Each tile keeps the crop the photograph was shot
+             at — a cockpit is not the same shape as a side profile, and
+             forcing six different subjects through one aspect ratio is how
+             a gallery stops looking like a set of photographs and starts
+             looking like a contact sheet. -->
+        <ul class="photo-mosaic list-bare">
+          <li class="photo-mosaic__cell photo-mosaic__cell--a">
+            <button class="photo-mosaic__item" type="button" data-photo="assets/img/vehicle-1.jpg">
+              <img src="assets/img/vehicle-1.jpg" alt="Three-quarter front" width="1024" height="768" loading="lazy">
+              <span class="sr-only">Show this photograph full size</span>
+            </button>
+          </li>
+          <li class="photo-mosaic__cell photo-mosaic__cell--b">
+            <button class="photo-mosaic__item" type="button" data-photo="assets/img/vehicle-2.jpg">
+              <img src="assets/img/vehicle-2.jpg" alt="Profile, driver's side" width="1024" height="768" loading="lazy">
+              <span class="sr-only">Show this photograph full size</span>
+            </button>
+          </li>
+          <li class="photo-mosaic__cell photo-mosaic__cell--c">
+            <button class="photo-mosaic__item" type="button" data-photo="assets/img/vehicle-3.jpg">
+              <img src="assets/img/vehicle-3.jpg" alt="Rear three-quarter with the Hinderer badge" width="1024" height="768" loading="lazy">
+              <span class="sr-only">Show this photograph full size</span>
+            </button>
+          </li>
+          <li class="photo-mosaic__cell photo-mosaic__cell--d">
+            <button class="photo-mosaic__item" type="button" data-photo="assets/img/vehicle-4.jpg">
+              <img src="assets/img/vehicle-4.jpg" alt="Cockpit, seats and shifter" width="1024" height="768" loading="lazy">
+              <span class="sr-only">Show this photograph full size</span>
+            </button>
+          </li>
+          <li class="photo-mosaic__cell photo-mosaic__cell--e">
+            <button class="photo-mosaic__item" type="button" data-photo="assets/img/vehicle-5.jpg">
+              <img src="assets/img/vehicle-5.jpg" alt="Door pocket and inner trim" width="1024" height="768" loading="lazy">
+              <span class="sr-only">Show this photograph full size</span>
+            </button>
+          </li>
+          <li class="photo-mosaic__cell photo-mosaic__cell--f">
+            <button class="photo-mosaic__item" type="button" data-photo="assets/img/vehicle-6.jpg">
+              <img src="assets/img/vehicle-6.jpg" alt="Side profile with the aero screen" width="1024" height="768" loading="lazy">
+              <span class="sr-only">Show this photograph full size</span>
+            </button>
+          </li>
+        </ul>
+      </section>
+
+
 
     </div>
   </section>
