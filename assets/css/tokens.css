@@ -13,13 +13,19 @@
      --------------------------------------------------------------------- */
   --bg:              #1f1d19;   /* page ground */
   --bg-raised:       #221f20;   /* inventory card title band */
+  --bg-hover:        #262223;   /* one tonal step above raised — vehicle card hover */
   --bg-plate:        #3e2e1e;   /* step-card gradient, warm top stop */
+  --bg-panel:        #33312d;   /* build panel gradient, cool top stop */
+  /* Deeper than the ground and still warm. The page has no neutral black in
+     it anywhere — #000 beside this ground reads blue, which is exactly the
+     cheapness the warm near-black was chosen to avoid. Used for scrims over
+     photography and for the ink button's hover. 18.87:1 with white. */
+  --bg-deep:         #141310;
   --bg-card:         #f2efe9;   /* warm bone — the vehicle card. Pure #fff is
                                    absent rather than neutral and buzzed against
                                    the warm near-black ground. 14.66:1 with ink. */
   --bg-card-plain:   #ffffff;   /* review cards, which are quotations on paper */
   --bg-control:      #434343;   /* card action buttons */
-  --bg-scrim:        #1f1d19;   /* scrim colour over photography */
 
   /* ---------------------------------------------------------------------
      INK  — ratios measured against --bg (#1f1d19)
@@ -41,7 +47,9 @@
   --accent:          #a86537;   /*  3.67:1 — display ≥24px + solid fills only */
   --accent-ink:      #c8813f;   /*  5.34:1 — copper text below 24px */
   --accent-hover:    #b97240;   /*  4.32:1 — control hover */
-  --accent-glow:     #e07921;   /*  5.55:1 — hero radial, decorative */
+  --accent-glow:     #e07921;   /*  5.55:1 — hero radial. Referenced only through
+                                   its channel form --glow-rgb; kept in hex so the
+                                   palette shows the colour it is a tint of. */
 
   /* ---------------------------------------------------------------------
      SECONDARY — slate green. Sits opposite copper on the wheel and is the
@@ -52,10 +60,42 @@
   --slate-lift:      #5f7673;   /*  4.85:1 with white label — hover/panel top */
 
   /* ---------------------------------------------------------------------
+     TELEPHONE — the one gradient on the page, and the only hue outside the
+     copper/slate pair. It reads as a live line rather than a link, which is
+     the point: a call is not a page. The Figma ramp ended at #2B6459, which is
+     2.46:1 on the ground and legal nowhere; the end stop is lifted so both
+     ends clear AA.
+     --------------------------------------------------------------------- */
+  --tel:             #00998c;   /*  4.87:1 as text · 4.76:1 as hover ground */
+  --tel-lift:        #00b7a9;   /*  6.77:1 — gradient start */
+
+  /* A warm wash laid over photography in soft-light. Not a surface and not a
+     text colour — it only ever tints an image. */
+  --wash-warm:       #6f501e;
+
+  /* ---------------------------------------------------------------------
+     CHANNEL FORMS — an alpha cannot be taken from a hex, so any colour that
+     is used translucently is also published as bare channels. Written as
+     rgb(var(--x-rgb) / 0.5). If a value exists in both forms they must move
+     together; nothing here may be redefined locally.
+     --------------------------------------------------------------------- */
+  --bg-rgb:         31 29 25;    /* = --bg */
+  --bg-deep-rgb:    20 19 16;    /* = --bg-deep */
+  --ink-rgb:        255 255 255; /* = --ink */
+  --accent-rgb:     168 101 55;  /* = --accent */
+  --accent-ink-rgb: 200 129 63;  /* = --accent-ink */
+  /* The hero radial is one light source falling off through three stops, so
+     the two inner ones are lighter tints of the glow rather than new hues. */
+  --glow-in-rgb:  240 188 144;  /* radial centre */
+  --glow-mid-rgb: 232 155 89;
+  --glow-rgb:     224 121 33;   /* = --accent-glow, the outer stop */
+  --shadow-rgb:   0 0 0;
+
+  /* ---------------------------------------------------------------------
      RULES, BORDERS, FOCUS
      --------------------------------------------------------------------- */
-  --rule:            rgb(255 255 255 / 0.12);
-  --rule-strong:     rgb(255 255 255 / 0.28);
+  --rule:            rgb(var(--ink-rgb) / 0.12);
+  --rule-strong:     rgb(var(--ink-rgb) / 0.28);
   --rule-control:    #a0a0a0;   /*  3.78:1 on --bg-control — UI boundary floor */
   --focus:           #ffffff;   /* 16.83:1 on ground · 4.58:1 on copper */
 
@@ -75,11 +115,16 @@
 
   /* A third voice, and it has to earn the seat (typography I8). Oswald announces
      and Inter Tight informs; neither of them VALUES anything. In an auction
-     catalogue the lot's price and its one line of positioning are set in a
-     serif while the rubrics and the metadata stay sans — the change of face is
-     what marks "this is the object and what it costs" apart from "this is how
-     the page is organised". Bounded to exactly those two roles: prices and the
-     drive line. It never touches body copy, labels or navigation. */
+     catalogue the lot's price is set in a serif while the rubrics and the
+     metadata stay sans — the change of face is what marks "this is what the
+     object costs" apart from "this is how the page is organised".
+
+     BOUNDED TO ONE ROLE: .vehicle__price. It appears on the vehicle card and
+     nowhere else — not in section headings, not in a standfirst, not in body
+     copy, labels or navigation. A section that wants a second rank under its
+     title uses .section-sub in the display voice, like every other section on
+     the page. Adding a second serif role is a change to the system, not a
+     local decision. */
   --font-serif: "Playfair Display", "Iowan Old Style", Georgia, serif;
   --font-display: "Degular", "Hanken Grotesk", "Inter Tight", system-ui, -apple-system, sans-serif;
 
@@ -100,6 +145,12 @@
   --text-lead:    clamp(1.0625rem, 0.40vw + 0.95rem, 1.25rem);     /* 17 → 20 */
   --text-btn:     clamp(1.125rem, 0.55vw + 0.95rem, 1.4375rem);    /* 18 → 23 */
   --text-h3:      clamp(1.375rem, 0.90vw + 1.1rem, 1.75rem);       /* 22 → 28 */
+  /* Two documented additions, both roles the ramp genuinely did not carry.
+     The price sits between h3 and h2 because it must out-rank the car's own
+     title without reaching the section heading; the spine is a vertical rule
+     of caps read as texture, so it is sized to the block, not to the ramp. */
+  --text-price:   clamp(1.5rem, 0.70vw + 1.3rem, 1.875rem);        /* 24 → 30 */
+  --text-spine:   clamp(2rem, 2.80vw, 2.75rem);                    /* 32 → 44 */
   --text-h2:      clamp(1.625rem, 1.40vw + 1.2rem, 2.125rem);      /* 26 → 34 */
   --text-hero-2:  clamp(1.875rem, 2.40vw + 1.2rem, 3.25rem);       /* 30 → 52 */
   --text-display: clamp(2.5rem, 3.60vw + 1.4rem, 4rem);            /* 40 → 64 */
@@ -117,16 +168,31 @@
   --weight-body:    400;
   --weight-label:   600;   /* 14px labels — small type needs the compensation */
 
-  --lh-display:   1.04;
-  --lh-heading:   1.14;
-  --lh-body:      1.65;
-  --lh-tight:     1.2;
+  /* Leading tightens as the type grows — long lines of large type need less
+     of it, small reading type needs more. Six steps, and they are the only
+     six: the build had four tokens and ten different values in the CSS, which
+     is how .lead ended up at 1.55 and the paragraph beside it at 1.45.
+     (line-height: 0 on an icon slot is a layout reset, not a type value.) */
+  --lh-none:      1;      /* single-line caps — status pill, spine */
+  --lh-display:   1.04;   /* 40px and up */
+  --lh-heading:   1.14;   /* 22 → 34 */
+  --lh-tight:     1.2;    /* sub-heads, clamped card titles */
+  --lh-lead:      1.5;    /* 17 → 20 reading — lead, standfirst, contact value */
+  --lh-body:      1.65;   /* 14 → 16 reading */
 
   /* Tracking tightens as the type grows, for the same optical reason */
   --track-display: -0.022em;
   --track-heading: -0.006em;
   --track-body:    0.005em;
-  --track-label:   0.12em;
+  --track-caps:    0.03em;   /* uppercase 14 → 24: buttons, step and option titles */
+  --track-label:   0.12em;   /* the 14px eyebrow */
+  /* The same 14px label role, opened further. It exists because the contact
+     panel sets label and value one above the other on a copper ground, where
+     0.12em left the two reading as one block of text; the wider track is what
+     makes the label read as a rubric. Only the contact panel uses it — an
+     eyebrow in the page flow stays at --track-label. */
+  --track-label-wide: 0.22em;
+  --track-num:     0.06em;   /* figures read aloud — phone, stock */
 
   /* Reading measures — long lines hurt reading in any aesthetic */
   --measure:       68ch;
@@ -184,7 +250,7 @@
   --radius-1:  3px;    /* card action buttons */
   --radius-2:  4px;    /* primary/secondary buttons */
   --radius-3:  10px;   /* media panels, review cards, map */
-  --radius-4:  20px;   /* trade-in step plates */
+  --radius-4:  20px;   /* trade-in step plates, build panel */
   --radius-pill: 999px;
 
   /* A shadow is a claim about elevation, so only things that genuinely sit
@@ -192,9 +258,30 @@
      every plate, band and card; those elements sit *in* the page, not above
      it, so the separation is carried by a hairline and a tonal step instead
      — which is also what keeps a dark page from going mushy.
-     Kept: the contact panel (it really overlaps the map) and the modal. */
-  --shadow-float: 0 8px 24px -8px rgb(0 0 0 / 0.55);   /* floating layers only */
-  --shadow-deep:  0 24px 60px -24px rgb(0 0 0 / 0.75); /* panel over media */
+
+     Exactly one thing on the page floats at rest, and it is the modal — which
+     genuinely sits above everything. --shadow-float, the second resting step,
+     was declared and documented and used by nothing once the contact block
+     went full-bleed, so it is gone rather than left as an API that resolves to
+     a shadow no one has seen. Restore it when a second floating layer arrives.
+     --------------------------------------------------------------------- */
+  --shadow-deep: 0 24px 60px -24px rgb(var(--shadow-rgb) / 0.75);  /* modal */
+
+  /* The four below are RAISED-BY-INTERACTION: nothing
+     wears them until the pointer or a selection puts it above its neighbours.
+     They are tokens rather than inline values because a hover shadow that
+     differs card-to-card is the fastest way for a dark page to look assembled
+     from parts. --shadow-none is the transparent base a transition needs;
+     box-shadow cannot animate from the keyword `none`. */
+  --shadow-none:  0 0 0 rgb(var(--shadow-rgb) / 0);
+  --shadow-lift:  0 18px 44px -12px rgb(var(--shadow-rgb) / 0.62);  /* vehicle card */
+  --shadow-nudge: 0 16px 32px -18px rgb(var(--shadow-rgb) / 0.7);   /* step plate */
+  --shadow-pop:   0 32px 64px -24px rgb(var(--shadow-rgb) / 0.8),
+                  0 6px 18px -8px rgb(var(--shadow-rgb) / 0.5);     /* selected review */
+
+  /* Cast upward. The one moment on the page where two sections genuinely
+     occupy the same space, so it states a true fact about which is on top. */
+  --shadow-scene: 0 -28px 60px -24px rgb(var(--shadow-rgb) / 0.75);
 
   /* ---------------------------------------------------------------------
      MOTION — the scale exists now so the animation pass has one source.
@@ -205,6 +292,8 @@
   --dur-3: 0.4s;
   --dur-4: 1.2s;
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  /* Declared, not yet used: nothing on the page exits. Kept because entering
+     and exiting are a pair — a dev adding a dismiss must not invent a curve. */
   --ease-in:  cubic-bezier(0.55, 0, 1, 0.45);
 
   /* Height of the persistent header — counted as a mass, used for

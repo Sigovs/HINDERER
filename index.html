@@ -9,7 +9,13 @@
   <meta name="theme-color" content="#1f1d19">
 
   <link rel="icon" href="assets/img/logo-hinderer.png" sizes="any">
-  <link rel="preload" as="image" href="assets/img/hero-cobra.jpg" fetchpriority="high">
+  <!-- Each viewport preloads only its own hero. Without the media conditions a
+       phone would fetch both files and spend its first bytes on the one it will
+       never paint. -->
+  <link rel="preload" as="image" href="assets/img/hero-cobra.jpg"
+        media="(min-width: 48rem)" fetchpriority="high">
+  <link rel="preload" as="image" href="assets/img/mobile_hero.jpg"
+        media="(max-width: 47.99rem)" fetchpriority="high">
 
   <!-- Two voices: Oswald carries headline mass, Inter carries reading and
        data. Degular (licensed, not supplied) leads --font-display in
@@ -27,8 +33,9 @@
   <link rel="stylesheet" href="assets/css/tokens.css">
   <link rel="stylesheet" href="assets/css/system.css">
   <link rel="stylesheet" href="assets/css/main.css">
-  <!-- Display face under trial: Oswald. index1–3 stay on the previous stack,
-       so the two can be compared side by side. Remove this one line to revert. -->
+  <!-- The display face, kept as its own layer rather than folded into main.css:
+       it is applied last and can be lifted out in one line if the face changes.
+       Every new page loads these four, in this order. -->
   <link rel="stylesheet" href="assets/css/display-oswald.css">
 
   <!-- Marks that scripting is available, before first paint. Only then does
@@ -71,7 +78,11 @@
     </nav>
 
     <a class="collection-pill" href="saved.html">
-      My Collection <span class="num-tabular">/ <span data-saved-count>03</span></span>
+      <!-- The words drop out below 23.5rem, where holding them squeezed the logo
+           to 51px. They stay in the DOM, so the link is still announced as
+           "My Collection / 03" — the count is what is lost visually last. -->
+      <span class="collection-pill__label">My Collection</span>
+      <span class="num-tabular">/ <span data-saved-count>03</span></span>
     </a>
 
   </div>
@@ -84,10 +95,20 @@
        1 · HERO
        =================================================================== -->
   <section class="hero" aria-labelledby="heroTitle">
+    <!-- Art direction, not a resize: the 1920×796 landscape crop has nothing
+         left of the car once the frame turns portrait, so the phone gets its
+         own 440×956 frame where the car sits in the upper third and the ground
+         falls away beneath it — which is where the headline and the two tall
+         CTAs land. One <picture>, so only the matching file is ever fetched. -->
     <div class="hero__media">
-      <img src="assets/img/hero-cobra.jpg"
-           alt="A blue Backdraft roadster with a white racing stripe parked against a painted brick wall"
-           width="1920" height="796" fetchpriority="high">
+      <picture>
+        <source media="(max-width: 47.99rem)"
+                srcset="assets/img/mobile_hero.jpg"
+                width="440" height="956">
+        <img src="assets/img/hero-cobra.jpg"
+             alt="A blue Backdraft roadster with a white racing stripe parked against a painted brick wall"
+             width="1920" height="796" fetchpriority="high">
+      </picture>
     </div>
 
     <div class="wrap hero__content">
@@ -122,10 +143,12 @@
       <div class="rail-head">
         <div class="rail-head__text">
           <p class="eyebrow">Current inventory</p>
-          <!-- The heading names the promise; the serif line underneath states
-               what the promise is for. Two ranks, one thought. -->
+          <!-- The heading names the promise; the line underneath states what
+               the promise is for. Two ranks, one thought — and it is the same
+               .section-sub every other section on the page uses, so the serif
+               stays where it was earned: on the price, inside the card. -->
           <h2 class="section-title" id="inventoryTitle">Precision. Engineered.</h2>
-          <p class="rail-head__drive">Built for the Road. Made to Be Driven.</p>
+          <p class="section-sub">Built for the Road. Made to Be Driven.</p>
           <p class="rail-head__note">Hand-built Backdraft Roadsters. Curated. Verified.
             Ready for its next chapter.</p>
         </div>

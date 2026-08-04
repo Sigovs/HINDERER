@@ -28,13 +28,22 @@ calls under *Judgment calls*.
 
 ## Project-specific rules
 
-- **`index.html` is the sterile master.** Every new page is a copy of it. The
-  three numbered pages are cumulative scope layers (`variant-a/b/c.css`) —
-  regenerate them with `node tools/build-variants.mjs`, never hand-edit three
-  files.
+- **[DS.html](DS.html) is the contract — read it before touching a component.**
+  It is rendered by the site's own stylesheets, so it cannot drift: tokens,
+  ramps, rhythm, motion, every component, the five rules a change has to keep,
+  and an honest list of what the system does not have. If a change makes DS.html
+  wrong, the change is not finished.
+- **`index.html` is the sterile master.** Every new page is a copy of it, loading
+  the same four stylesheets in the same order. The section blocks inside `<main>`
+  are what gets replaced; the header, footer and lightbox are kept verbatim.
 - **Tokens first.** Colour, type, space, radius and motion values live in
-  [assets/css/tokens.css](assets/css/tokens.css). No magic numbers in
-  `main.css`; nothing variant-specific in `tokens.css`, `main.css` or `main.js`.
-- **`index3.html` is a REDESIGN** — its macro needs re-approval before it ships.
-  `index.html`, `index1.html`, `index2.html` are REFRESH mandate.
+  [assets/css/tokens.css](assets/css/tokens.css). Below that file there is
+  **no raw value at all** — no hex, no `rgb(31 29 25 / .5)`, no `37px`, no
+  `line-height: 1.45`. Alpha comes from a channel token
+  (`rgb(var(--bg-rgb) / 0.55)`), never from a new colour. A token nothing uses
+  gets deleted, not kept for later.
+- **Three voices, and the serif has exactly one role.** Oswald announces, Inter
+  Tight informs, Playfair values — and Playfair appears on `.vehicle__price`
+  and nowhere else. A section wanting a second rank under its title uses
+  `.section-sub`, like every other section.
 - `ASSETS DO NOT COPY TO GIT/` is the client hand-off folder and stays out of git.

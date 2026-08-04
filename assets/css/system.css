@@ -206,7 +206,7 @@
 }
 
 .dialog::backdrop {
-  background: rgb(15 14 12 / 0.86);
+  background: rgb(var(--bg-deep-rgb) / 0.88);
 }
 
 .dialog__head {
@@ -243,7 +243,7 @@
     background-color var(--dur-1) var(--ease-out),
     border-color     var(--dur-1) var(--ease-out);
 }
-.dialog__close:hover { background: rgb(255 255 255 / 0.08); border-color: var(--ink); }
+.dialog__close:hover { background: rgb(var(--ink-rgb) / 0.08); border-color: var(--ink); }
 .dialog__close svg   { inline-size: 18px; block-size: 18px; }
 
 .dialog__body { display: block; }

@@ -176,7 +176,7 @@ p + p { margin-block-start: var(--space-5); }
 
 .lead {
   font-size: var(--text-lead);
-  line-height: 1.55;
+  line-height: var(--lh-lead);
   color: var(--ink);
   max-inline-size: var(--measure);
 }
@@ -201,7 +201,7 @@ p + p { margin-block-start: var(--space-5); }
    stays readable at length. */
 .standfirst {
   font-size: var(--text-lead);
-  line-height: 1.45;
+  line-height: var(--lh-lead);
   color: var(--accent-ink);
   max-inline-size: var(--measure-tight);
 }
@@ -243,7 +243,7 @@ p + p { margin-block-start: var(--space-5); }
      descender variation the eye reads word shapes by, so it stops at labels
      and never reaches a lead, a body or a caption. */
   text-transform: uppercase;
-  letter-spacing: 0.02em;
+  letter-spacing: var(--track-caps);
   text-align: start;
   text-decoration: none;
   cursor: pointer;
@@ -300,14 +300,14 @@ p + p { margin-block-start: var(--space-5); }
   padding: 0;
   border: 1px solid var(--rule-strong);
   border-radius: var(--radius-pill);
-  background: rgb(31 29 25 / 0.55);
+  background: rgb(var(--bg-rgb) / 0.55);
   color: var(--ink);
   cursor: pointer;
   transition:
     background-color var(--dur-1) var(--ease-out),
     border-color     var(--dur-1) var(--ease-out);
 }
-.btn-round:hover { background: rgb(31 29 25 / 0.85); border-color: var(--ink); }
+.btn-round:hover { background: rgb(var(--bg-rgb) / 0.85); border-color: var(--ink); }
 .btn-round svg   { inline-size: 22px; block-size: 22px; }
 
 
@@ -320,7 +320,7 @@ p + p { margin-block-start: var(--space-5); }
   inset-block-start: 0;
   inset-inline: 0;
   z-index: 100;
-  background: linear-gradient(to bottom, rgb(31 29 25 / 0.82), rgb(31 29 25 / 0));
+  background: linear-gradient(to bottom, rgb(var(--bg-rgb) / 0.82), rgb(var(--bg-rgb) / 0));
   transition: background-color var(--dur-2) var(--ease-out);
 }
 
@@ -372,7 +372,8 @@ p + p { margin-block-start: var(--space-5); }
 .brand {
   flex: 0 0 clamp(180px, 18vw, 272px);   /* the slot, held at full-size width */
   display: block;
-  line-height: 0;
+  line-height: 0;   /* kills the inline descender gap under the mark — a layout
+                       reset, not a type value, so it takes no --lh token */
 }
 .brand__mark {
   inline-size: clamp(180px, 18vw, 272px);
@@ -388,7 +389,11 @@ p + p { margin-block-start: var(--space-5); }
 .site-nav__list {
   display: flex;
   align-items: center;
-  gap: 40px;                       /* the Figma nav interval */
+  /* The Figma sets 40 here, which is on no scale the rest of the page uses.
+     Taken up to the 48 step rather than down to 32: there is room for it at
+     every width where this row exists, and a nav that is the one component
+     measuring in its own units is how a scale stops being a scale. */
+  gap: var(--space-7);
   margin: 0;
   padding: 0;
   list-style: none;
@@ -405,7 +410,7 @@ p + p { margin-block-start: var(--space-5); }
   font-family: var(--font-display);
   font-size: var(--text-sm);
   line-height: var(--lh-body);
-  letter-spacing: 0.005em;
+  letter-spacing: var(--track-body);
   text-transform: uppercase;
   text-decoration: none;
   transition: color var(--dur-1) var(--ease-out);
@@ -439,7 +444,7 @@ p + p { margin-block-start: var(--space-5); }
    #2B6459, which is 2.46:1 on the ground — legal nowhere. The end stop is
    lifted to #00998C so both ends clear AA: 6.77:1 → 4.87:1. */
 .site-nav__link--phone {
-  background-image: linear-gradient(90deg, #00b7a9 0%, #00998c 100%);
+  background-image: linear-gradient(90deg, var(--tel-lift) 0%, var(--tel) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -451,7 +456,7 @@ p + p { margin-block-start: var(--space-5); }
 .site-nav__link--phone {
   padding-inline: var(--space-3);
   margin-inline: calc(var(--space-3) * -1);
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   transition: background-color var(--dur-1) var(--ease-out),
               color var(--dur-1) var(--ease-out);
 }
@@ -460,7 +465,7 @@ p + p { margin-block-start: var(--space-5); }
 .site-nav__link--phone:hover,
 .site-nav__link--phone:focus-visible {
   background-image: none;
-  background-color: #00998c;
+  background-color: var(--tel);
   -webkit-background-clip: border-box;
   background-clip: border-box;
   color: var(--ink-inverse);
@@ -495,7 +500,7 @@ p + p { margin-block-start: var(--space-5); }
 }
 .collection-pill:hover {
   border-color: var(--ink);
-  background: rgb(255 255 255 / 0.04);
+  background: rgb(var(--ink-rgb) / 0.04);
 }
 .collection-pill .num-tabular { color: var(--accent-ink); }
 
@@ -511,7 +516,19 @@ p + p { margin-block-start: var(--space-5); }
 }
 
 @media (max-width: 61.99rem) {
-  .nav-toggle { display: inline-grid; place-items: center; }
+  /* Sized and pinned, not just shown. As a shrinkable flex item beside the
+     logo and the counter it was being squeezed to an 18px box with its own
+     icon crushed to nothing — a bordered empty square where the menu should
+     be, and an 18px target where 44 is the floor. */
+  .nav-toggle {
+    display: inline-grid;
+    place-items: center;
+    flex: 0 0 auto;
+    inline-size: 44px;
+    block-size: 44px;
+    padding: 0;
+  }
+  .nav-toggle svg { inline-size: 24px; block-size: 24px; flex: 0 0 auto; }
   .site-nav {
     position: absolute;
     inset-block-start: 100%;
@@ -537,7 +554,27 @@ p + p { margin-block-start: var(--space-5); }
      counter being dropped into the burger — it is a real means of the task
      and has to survive the breakpoint. */
   .site-header__inner { gap: var(--space-3); }
-  .brand__mark { inline-size: clamp(128px, 34vw, 180px); }
+  /* The fixed slot exists so the desktop header can shrink the mark without
+     the nav shifting. There is no shrink on one column, and holding 180px
+     there pushed the counter 44px off the right edge — where it was clipped,
+     not scrolled, so it simply was not there. The slot follows the mark. */
+  .brand { flex: 0 1 auto; min-inline-size: 0; }
+  .brand__mark { inline-size: clamp(128px, 34vw, 180px); max-inline-size: 100%; }
+  /* Three masses, and below this width one of them has to give. The counter
+     keeps its number and loses its words rather than the identity being
+     reduced to an illegible 51px — and it is hidden the accessible way, so a
+     screen reader still reads the whole label. */
+  @media (max-width: 23.5rem) {
+    .collection-pill__label {
+      position: absolute;
+      inline-size: 1px;
+      block-size: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+    .collection-pill { padding-inline: var(--space-4); }
+  }
   .collection-pill {
     padding-inline: var(--space-3);
     font-size: var(--text-xs);
@@ -585,10 +622,10 @@ p + p { margin-block-start: var(--space-5); }
   z-index: -2;
   background:
     linear-gradient(to right,
-      rgb(20 19 16 / 0.88) 0%,
-      rgb(20 19 16 / 0.62) 34%,
-      rgb(20 19 16 / 0.10) 62%,
-      rgb(20 19 16 / 0) 78%);
+      rgb(var(--bg-deep-rgb) / 0.88) 0%,
+      rgb(var(--bg-deep-rgb) / 0.62) 34%,
+      rgb(var(--bg-deep-rgb) / 0.10) 62%,
+      rgb(var(--bg-deep-rgb) / 0) 78%);
 }
 
 /* The warm radial and the hand-off into the page ground, both from the Figma */
@@ -600,11 +637,11 @@ p + p { margin-block-start: var(--space-5); }
   pointer-events: none;
   background:
     radial-gradient(58% 46% at 62% 34%,
-      rgb(240 188 144 / 0.20) 0%,
-      rgb(232 155 89 / 0.10) 55%,
-      rgb(224 121 33 / 0) 100%),
+      rgb(var(--glow-in-rgb) / 0.20) 0%,
+      rgb(var(--glow-mid-rgb) / 0.10) 55%,
+      rgb(var(--glow-rgb) / 0) 100%),
     linear-gradient(to bottom,
-      rgb(31 29 25 / 0) 68%,
+      rgb(var(--bg-rgb) / 0) 68%,
       var(--bg) 100%);
 }
 
@@ -620,7 +657,7 @@ p + p { margin-block-start: var(--space-5); }
 .hero__title span {
   display: block;
   font-size: var(--text-hero-2);
-  line-height: 1.1;
+  line-height: var(--lh-display);
 }
 
 .hero__tagline {
@@ -631,16 +668,27 @@ p + p { margin-block-start: var(--space-5); }
 
 
 @media (max-width: 47.99rem) {
-  .hero { min-block-size: 0; padding-block-end: var(--space-8); }
-  /* One column cannot hold the desktop crop, so the crop is re-decided:
-     the frame moves to the car's nose and front wheel, which is the part
-     that still reads as a Cobra at 390px. */
-  .hero__media img { object-position: 57% 52%; }
+  /* The portrait file IS the composition — car in the upper third, ground
+     falling to near-black beneath it — so the phone hero stops being a short
+     band with type laid across the vehicle and becomes the full frame it was
+     cut for. Content moves to the end of the grid: the car reads clean above
+     the headline instead of behind the two CTAs. */
+  .hero {
+    min-block-size: 100svh;
+    align-items: end;
+    padding-block: calc(var(--header-h) + var(--space-6)) var(--space-8);
+  }
+  .hero__media img { object-position: 50% 0%; }
+  /* The file carries its own falloff, so the page scrim only lifts the top for
+     the header and deepens the foot under the type. Laying the desktop's
+     three-stop gradient over it doubled the darkness through the middle and
+     flattened the car out of its own frame. */
   .hero::before {
     background: linear-gradient(to bottom,
-      rgb(20 19 16 / 0.72) 0%,
-      rgb(20 19 16 / 0.55) 45%,
-      rgb(20 19 16 / 0.85) 100%);
+      rgb(var(--bg-deep-rgb) / 0.55) 0%,
+      rgb(var(--bg-deep-rgb) / 0.10) 32%,
+      rgb(var(--bg-deep-rgb) / 0.55) 62%,
+      rgb(var(--bg-deep-rgb) / 0.80) 100%);
   }
 }
 
@@ -656,27 +704,22 @@ p + p { margin-block-start: var(--space-5); }
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
+  /* Wraps, because at 320px the two arrows overhung the right edge by 3px and
+     put a horizontal scrollbar under the whole page. They drop to their own
+     line instead. */
+  flex-wrap: wrap;
   gap: var(--space-5);
   padding-block-end: var(--space-6);
 }
 
 .rail-head__text { max-inline-size: 46rem; }
-.rail-head .eyebrow { margin-block-end: var(--space-3); }
+.rail-head .eyebrow { margin-block-end: var(--space-text); }
 
-/* THE SERIF, ROLE TWO — the drive line.
-   The heading above states the category; this states what it is FOR. Sentence
-   case against the title's caps and a serif against its condensed sans, so the
-   two read as one thought in two registers rather than as two headings
-   competing. It is one line by design: at two it stops being a coda and starts
-   being body copy in the wrong face. */
-.rail-head__drive {
-  margin-block-start: var(--space-3);
-  font-family: var(--font-serif);
-  font-size: clamp(1.25rem, 0.9vw + 1.05rem, 1.75rem);
-  font-weight: var(--weight-body);
-  line-height: 1.25;
-  color: var(--ink);
-}
+/* The sub-line under the section title. It was briefly set in the serif, which
+   gave the page a second serif role and made the inventory heading behave
+   unlike every other heading on the site; the serif now belongs to the price
+   alone. Only the interval is declared here — the voice is .section-sub. */
+.rail-head__text .section-sub { margin-block-start: var(--space-text); }
 
 .rail-head__note {
   margin-block-start: var(--space-4);
@@ -711,7 +754,7 @@ p + p { margin-block-start: var(--space-5); }
   min-block-size: 44px;
   padding: var(--space-2) var(--space-6);
   border: 1px solid var(--rule-strong);
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   background: transparent;
   color: var(--ink);
   font-family: var(--font-display);
@@ -835,9 +878,9 @@ p + p { margin-block-start: var(--space-5); }
   block-size: 55%;
   pointer-events: none;
   background: linear-gradient(to bottom,
-    rgb(31 29 25 / 0) 0%,
-    rgb(31 29 25 / 0.45) 55%,
-    rgb(31 29 25 / 0.92) 100%);
+    rgb(var(--bg-rgb) / 0) 0%,
+    rgb(var(--bg-rgb) / 0.45) 55%,
+    rgb(var(--bg-rgb) / 0.92) 100%);
 }
 .vehicle__media img {
   inline-size: 100%;
@@ -864,9 +907,9 @@ p + p { margin-block-start: var(--space-5); }
   inline-size: 44px;
   block-size: 44px;
   padding: 0;
-  border: 1px solid rgb(255 255 255 / 0.22);
-  border-radius: 999px;
-  background: rgb(31 29 25 / 0.55);
+  border: 1px solid rgb(var(--ink-rgb) / 0.22);
+  border-radius: var(--radius-pill);
+  background: rgb(var(--bg-rgb) / 0.55);
   backdrop-filter: blur(6px);
   color: var(--ink);
   cursor: pointer;
@@ -876,7 +919,7 @@ p + p { margin-block-start: var(--space-5); }
 }
 .vehicle__save:hover,
 .vehicle__save:focus-visible {
-  background: rgb(31 29 25 / 0.82);
+  background: rgb(var(--bg-rgb) / 0.82);
   border-color: var(--ink);
 }
 
@@ -893,7 +936,7 @@ p + p { margin-block-start: var(--space-5); }
 .vehicle__save[aria-pressed="true"] {
   background: var(--accent);
   border-color: var(--accent);
-  color: #fff;
+  color: var(--ink);
 }
 
 /* Status names the state in words as well as in colour, and sits on the
@@ -924,8 +967,8 @@ p + p { margin-block-start: var(--space-5); }
   color: var(--ink);
   font-family: var(--font-display);
   font-size: var(--text-sm);
-  line-height: 1;
-  letter-spacing: 0.04em;
+  line-height: var(--lh-none);
+  letter-spacing: var(--track-caps);
   text-align: center;
   text-transform: uppercase;
 }
@@ -969,7 +1012,7 @@ p + p { margin-block-start: var(--space-5); }
   font-size: var(--text-lead);
   font-weight: var(--weight-body);
   letter-spacing: var(--track-body);
-  line-height: 1.25;
+  line-height: var(--lh-tight);
   color: var(--ink-muted);                     /* 6.99:1 */
   transition: color var(--dur-2) var(--ease-out);
 }
@@ -993,7 +1036,7 @@ p + p { margin-block-start: var(--space-5); }
   padding-inline: var(--card-pad);
   border-block-start: 1px solid var(--rule);
   font-family: var(--font-serif);
-  font-size: clamp(1.5rem, 0.7vw + 1.3rem, 1.875rem);
+  font-size: var(--text-price);
   font-weight: var(--weight-body);
   line-height: var(--lh-tight);
   color: var(--ink);                           /* 16.34:1 */
@@ -1052,7 +1095,7 @@ p + p { margin-block-start: var(--space-5); }
   transition: background-color var(--dur-1) var(--ease-out), color var(--dur-1) var(--ease-out);
 }
 .btn-card + .btn-card { border-inline-start: 1px solid var(--rule); }
-.btn-card:hover { background: rgb(255 255 255 / 0.06); color: var(--ink); }
+.btn-card:hover { background: rgb(var(--ink-rgb) / 0.06); color: var(--ink); }
 
 /* The exported glyphs are baked #DDDDDD, so they only ever worked on a dark
    ground. Drawn as a mask over currentColor they follow the text on any
@@ -1091,7 +1134,7 @@ p + p { margin-block-start: var(--space-5); }
    decorative — and it disappears again the instant the card settles. */
 .vehicle {
   transform-origin: center;
-  box-shadow: 0 0 0 rgb(0 0 0 / 0);
+  box-shadow: var(--shadow-none);
 }
 
 @media (hover: hover) {
@@ -1099,8 +1142,8 @@ p + p { margin-block-start: var(--space-5); }
     z-index: 3;
     transform: scale(1.035);
     border-color: var(--rule-strong);
-    background: #262223;
-    box-shadow: 0 18px 44px -12px rgb(0 0 0 / 0.62);
+    background: var(--bg-hover);
+    box-shadow: var(--shadow-lift);
   }
   .vehicle:hover .vehicle__title { color: var(--ink); }
 }
@@ -1108,8 +1151,8 @@ p + p { margin-block-start: var(--space-5); }
   z-index: 3;
   transform: scale(1.035);
   border-color: var(--rule-strong);
-  background: #262223;
-  box-shadow: 0 18px 44px -12px rgb(0 0 0 / 0.62);
+  background: var(--bg-hover);
+  box-shadow: var(--shadow-lift);
 }
 .vehicle:focus-within .vehicle__title { color: var(--ink); }
 
@@ -1164,11 +1207,11 @@ p + p { margin-block-start: var(--space-5); }
      figure. Copper at 13% and below: felt, not seen. */
   background:
     radial-gradient(72% 46% at 54% 60%,
-      rgb(168 101 55 / 0.13) 0%, rgb(168 101 55 / 0.05) 52%, rgb(31 29 25 / 0) 78%),
+      rgb(var(--accent-rgb) / 0.13) 0%, rgb(var(--accent-rgb) / 0.05) 52%, rgb(var(--bg-rgb) / 0) 78%),
     radial-gradient(38% 56% at 78% 38%,
-      rgb(168 101 55 / 0.12) 0%, rgb(168 101 55 / 0.04) 46%, rgb(31 29 25 / 0) 74%),
+      rgb(var(--accent-rgb) / 0.12) 0%, rgb(var(--accent-rgb) / 0.04) 46%, rgb(var(--bg-rgb) / 0) 74%),
     radial-gradient(46% 30% at 24% 80%,
-      rgb(168 101 55 / 0.08) 0%, rgb(31 29 25 / 0) 70%),
+      rgb(var(--accent-rgb) / 0.08) 0%, rgb(var(--bg-rgb) / 0) 70%),
     var(--bg);
 }
 
@@ -1178,8 +1221,8 @@ p + p { margin-block-start: var(--space-5); }
 .build__panel {
   position: relative;
   margin-block-start: var(--space-6);
-  border-radius: 15px;
-  background: linear-gradient(to bottom, #33312d 0%, var(--bg) 100%);
+  border-radius: var(--radius-4);
+  background: linear-gradient(to bottom, var(--bg-panel) 0%, var(--bg) 100%);
 }
 
 /* The copper hairline is inset from the plate edge rather than drawn on it —
@@ -1236,14 +1279,14 @@ p + p { margin-block-start: var(--space-5); }
      each — and it separates the option titles from their own body copy by more
      than size alone. */
   text-transform: uppercase;
-  letter-spacing: 0.03em;
+  letter-spacing: var(--track-caps);
   color: var(--ink);
 }
 /* One step down from body copy. These are three parallel descriptions read in
    comparison, not a passage read straight through — and 17px keeps clear of the
    14px floor under anything that carries information. */
 .spec-list__body {
-  margin-block-start: var(--space-3);
+  margin-block-start: var(--space-text);
   font-size: var(--text-sm);
   color: var(--ink-muted);
 }
@@ -1392,7 +1435,7 @@ p + p { margin-block-start: var(--space-5); }
   /* The leading edge needs to be legible as an edge — this is the one moment on
      the page where two sections genuinely occupy the same space, so the shadow
      is stating a true fact about which one is on top. */
-  box-shadow: 0 -28px 60px -24px rgb(0 0 0 / 0.75);
+  box-shadow: var(--shadow-scene);
 }
 
 /* Nothing to climb over once the scene is released. */
@@ -1426,13 +1469,13 @@ p + p { margin-block-start: var(--space-5); }
        Smaller in reach, because the eye is meant to end up on the right, where
        the heading is. */
     radial-gradient(46% 44% at -6% 8%,
-      rgb(168 101 55 / 0.16) 0%,
-      rgb(168 101 55 / 0.06) 48%,
-      rgb(31 29 25 / 0) 74%),
+      rgb(var(--accent-rgb) / 0.16) 0%,
+      rgb(var(--accent-rgb) / 0.06) 48%,
+      rgb(var(--bg-rgb) / 0) 74%),
     radial-gradient(58% 62% at 104% 26%,
-      rgb(168 101 55 / 0.13) 0%,
-      rgb(168 101 55 / 0.05) 45%,
-      rgb(31 29 25 / 0) 72%),
+      rgb(var(--accent-rgb) / 0.13) 0%,
+      rgb(var(--accent-rgb) / 0.05) 45%,
+      rgb(var(--bg-rgb) / 0) 72%),
     var(--bg);
 }
 
@@ -1478,16 +1521,16 @@ p + p { margin-block-start: var(--space-5); }
       var(--bg) 0%,
       /* The copy reaches 48% of the frame — measured, not judged by eye — so
          the scrim holds full weight just past it and only then opens up. */
-      rgb(31 29 25 / 0.94) 52%,
-      rgb(31 29 25 / 0.62) 68%,
-      rgb(31 29 25 / 0.18) 87%,
-      rgb(31 29 25 / 0) 100%),
+      rgb(var(--bg-rgb) / 0.94) 52%,
+      rgb(var(--bg-rgb) / 0.62) 68%,
+      rgb(var(--bg-rgb) / 0.18) 87%,
+      rgb(var(--bg-rgb) / 0) 100%),
     /* A short vertical wash top and bottom so the scene still joins the
        sections above and below it rather than starting with a hard edge. */
     linear-gradient(to bottom,
       var(--bg) 0%,
-      rgb(31 29 25 / 0) 18%,
-      rgb(31 29 25 / 0) 82%,
+      rgb(var(--bg-rgb) / 0) 18%,
+      rgb(var(--bg-rgb) / 0) 82%,
       var(--bg) 100%);
 }
 
@@ -1497,8 +1540,8 @@ p + p { margin-block-start: var(--space-5); }
   #nationwide .scene__stage::before {
     background: linear-gradient(to bottom,
       var(--bg) 0%,
-      rgb(31 29 25 / 0.88) 22%,
-      rgb(31 29 25 / 0.88) 78%,
+      rgb(var(--bg-rgb) / 0.88) 22%,
+      rgb(var(--bg-rgb) / 0.88) 78%,
       var(--bg) 100%);
   }
   #nationwide .scene__media img { object-position: 60% center; }
@@ -1521,9 +1564,9 @@ p + p { margin-block-start: var(--space-5); }
      so the scrim is heaviest exactly there. */
   background: linear-gradient(to bottom,
     var(--bg) 0%,
-    rgb(31 29 25 / 0.86) 22%,
-    rgb(31 29 25 / 0.84) 48%,
-    rgb(31 29 25 / 0.80) 70%,
+    rgb(var(--bg-rgb) / 0.86) 22%,
+    rgb(var(--bg-rgb) / 0.84) 48%,
+    rgb(var(--bg-rgb) / 0.80) 70%,
     var(--bg) 100%);
 }
 
@@ -1584,7 +1627,7 @@ p + p { margin-block-start: var(--space-5); }
 .step:focus-within {
   translate: 0 -4px;
   border-color: var(--rule-strong);
-  box-shadow: 0 16px 32px -18px rgb(0 0 0 / 0.7);
+  box-shadow: var(--shadow-nudge);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1665,7 +1708,7 @@ p + p { margin-block-start: var(--space-5); }
   font-size: var(--text-lead);
   line-height: var(--lh-tight);
   text-transform: uppercase;
-  letter-spacing: 0.03em;
+  letter-spacing: var(--track-caps);
   color: var(--ink);
 }
 .step__body { color: var(--ink-muted); }   /* 5.56:1 against the plate's top stop */
@@ -1709,7 +1752,7 @@ p + p { margin-block-start: var(--space-5); }
   content: "";
   position: absolute;
   inset: 0;
-  background: #6f501e;
+  background: var(--wash-warm);
   mix-blend-mode: soft-light;
   opacity: 0.77;
   pointer-events: none;
@@ -1746,10 +1789,10 @@ p + p { margin-block-start: var(--space-5); }
      its work before it — the earlier version only reached 0.75 at 60%, which
      left the first two lines sitting over a lit street. */
   background: linear-gradient(105deg,
-    rgb(31 29 25 / 0) 30%,
-    rgb(31 29 25 / 0.35) 46%,
-    rgb(31 29 25 / 0.88) 60%,
-    rgb(31 29 25 / 0.98) 72%);
+    rgb(var(--bg-rgb) / 0) 30%,
+    rgb(var(--bg-rgb) / 0.35) 46%,
+    rgb(var(--bg-rgb) / 0.88) 60%,
+    rgb(var(--bg-rgb) / 0.98) 72%);
 }
 
 /* Wide enough to hold the two parallel actions on one line — the pair is a
@@ -1763,9 +1806,9 @@ p + p { margin-block-start: var(--space-5); }
 @media (max-width: 61.99rem) {
   .band::before {
     background: linear-gradient(to bottom,
-      rgb(31 29 25 / 0.35) 0%,
-      rgb(31 29 25 / 0.88) 45%,
-      rgb(31 29 25 / 0.96) 100%);
+      rgb(var(--bg-rgb) / 0.35) 0%,
+      rgb(var(--bg-rgb) / 0.88) 45%,
+      rgb(var(--bg-rgb) / 0.96) 100%);
   }
   .band__content { justify-self: stretch; }
 }
@@ -1784,11 +1827,11 @@ p + p { margin-block-start: var(--space-5); }
 #gallery {
   background:
     radial-gradient(72% 46% at 54% 60%,
-      rgb(168 101 55 / 0.13) 0%, rgb(168 101 55 / 0.05) 52%, rgb(31 29 25 / 0) 78%),
+      rgb(var(--accent-rgb) / 0.13) 0%, rgb(var(--accent-rgb) / 0.05) 52%, rgb(var(--bg-rgb) / 0) 78%),
     radial-gradient(38% 56% at 78% 38%,
-      rgb(168 101 55 / 0.12) 0%, rgb(168 101 55 / 0.04) 46%, rgb(31 29 25 / 0) 74%),
+      rgb(var(--accent-rgb) / 0.12) 0%, rgb(var(--accent-rgb) / 0.04) 46%, rgb(var(--bg-rgb) / 0) 74%),
     radial-gradient(46% 30% at 24% 80%,
-      rgb(168 101 55 / 0.08) 0%, rgb(31 29 25 / 0) 70%),
+      rgb(var(--accent-rgb) / 0.08) 0%, rgb(var(--bg-rgb) / 0) 70%),
     var(--bg);
 }
 
@@ -1892,7 +1935,7 @@ p + p { margin-block-start: var(--space-5); }
   inset-block-end: 0;
   inset-inline: 0;
   padding: var(--space-6) var(--space-4) var(--space-3);
-  background: linear-gradient(to top, rgb(20 19 16 / 0.9), rgb(20 19 16 / 0));
+  background: linear-gradient(to top, rgb(var(--bg-deep-rgb) / 0.9), rgb(var(--bg-deep-rgb) / 0));
   color: var(--ink);
   font-size: var(--text-xs);
   text-align: start;
@@ -1961,8 +2004,7 @@ p + p { margin-block-start: var(--space-5); }
 .reviews__slide.is-selected .review {
   opacity: 1;
   transform: scale(1.07);
-  box-shadow: 0 32px 64px -24px rgb(0 0 0 / 0.8),
-              0 6px 18px -8px rgb(0 0 0 / 0.5);
+  box-shadow: var(--shadow-pop);
 }
 
 /* Text selection would fight the drag. */
@@ -1980,8 +2022,8 @@ p + p { margin-block-start: var(--space-5); }
   inline-size: 52px;
   block-size: 52px;
   padding: 0;
-  border: 1px solid rgb(200 129 63 / 0.55);
-  border-radius: 999px;
+  border: 1px solid rgb(var(--accent-ink-rgb) / 0.55);
+  border-radius: var(--radius-pill);
   background: transparent;
   color: var(--accent-ink);
   cursor: pointer;
@@ -1995,7 +2037,7 @@ p + p { margin-block-start: var(--space-5); }
 .reviews__arrow:focus-visible {
   background: var(--accent);
   border-color: var(--accent);
-  color: #fff;
+  color: var(--ink);
 }
 .reviews__arrow--prev { inset-inline-start: calc(var(--space-9) * -1); }
 .reviews__arrow--next { inset-inline-end: calc(var(--space-9) * -1); }
@@ -2043,7 +2085,7 @@ p + p { margin-block-start: var(--space-5); }
 .review__body {
   margin-block: 0;
   font-size: var(--text-sm);
-  line-height: 1.7;
+  line-height: var(--lh-body);
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 5;
@@ -2066,7 +2108,7 @@ p + p { margin-block-start: var(--space-5); }
   display: flex;
   justify-content: center;
   gap: var(--space-4);
-  margin-block-start: var(--space-5);
+  margin-block-start: var(--space-text-obj);
 }
 
 
@@ -2127,7 +2169,7 @@ p + p { margin-block-start: var(--space-5); }
   padding: var(--space-2) var(--space-5);
   border: 1px solid var(--rule-strong);
   border-radius: var(--radius-2);
-  background: rgb(31 29 25 / 0.88);
+  background: rgb(var(--bg-rgb) / 0.88);
   color: var(--ink);
   font-family: var(--font-display);
   font-size: var(--text-xs);
@@ -2191,11 +2233,11 @@ p + p { margin-block-start: var(--space-5); }
   padding-top: clamp(var(--space-5), 3vw, var(--space-7));
   padding-bottom: clamp(var(--space-5), 3vw, var(--space-7));
   font-family: var(--font-display);
-  font-size: clamp(2rem, 2.8vw, 2.75rem);
+  font-size: var(--text-spine);
   font-weight: var(--weight-heading);
-  line-height: 1;
+  line-height: var(--lh-none);
   text-transform: uppercase;
-  color: rgb(31 29 25 / 0.15);
+  color: rgb(var(--bg-rgb) / 0.15);
   writing-mode: vertical-rl;
   pointer-events: none;
   user-select: none;
@@ -2222,7 +2264,7 @@ p + p { margin-block-start: var(--space-5); }
   font-family: var(--font-display);
   font-size: var(--text-xs);
   font-weight: var(--weight-label);
-  letter-spacing: 0.22em;
+  letter-spacing: var(--track-label-wide);
   text-transform: uppercase;
   color: var(--ink-inverse);
 }
@@ -2237,13 +2279,13 @@ p + p { margin-block-start: var(--space-5); }
                                            not over it */
   font-weight: var(--weight-body);
   font-style: normal;
-  line-height: 1.5;
-  letter-spacing: 0.005em;
+  line-height: var(--lh-lead);
+  letter-spacing: var(--track-body);
   color: var(--ink-inverse);
 }
 /* The number is the one thing here anyone copies by eye — tabular figures and a
    little air between them, the way a phone number is read aloud. */
-.contact__value .num-tabular { letter-spacing: 0.06em; }
+.contact__value .num-tabular { letter-spacing: var(--track-num); }
 .contact__value a { color: inherit; text-decoration: none; }
 .contact__value a:hover,
 .contact__value a:focus-visible { text-decoration: underline; text-underline-offset: 0.2em; }
@@ -2263,7 +2305,7 @@ p + p { margin-block-start: var(--space-5); }
   color: var(--ink);
 }
 .btn-hmc--dark:hover,
-.btn-hmc--dark:focus-visible { background: #000; border-color: #000; }
+.btn-hmc--dark:focus-visible { background: var(--bg-deep); border-color: var(--bg-deep); }
 
 .social {
   display: flex;
@@ -2280,7 +2322,7 @@ p + p { margin-block-start: var(--space-5); }
   border-radius: var(--radius-2);
   transition: background-color var(--dur-1) var(--ease-out);
 }
-.social a:hover { background: rgb(255 255 255 / 0.14); }
+.social a:hover { background: rgb(var(--ink-rgb) / 0.14); }
 /* Brand marks are not square — facebook is 9×21, youtube 31×21. Forcing both
    into a 21px box stretched one and squashed the other. Height is the constant
    the eye actually reads across a row of marks; width follows the artwork. */
@@ -2294,7 +2336,7 @@ p + p { margin-block-start: var(--space-5); }
    ========================================================================= */
 
 .site-footer {
-  margin-block-start: var(--space-8);
+  margin-block-start: var(--space-block);
   padding-block: var(--space-7) var(--space-8);
   border-block-start: 1px solid var(--rule);
   color: var(--ink-quiet);

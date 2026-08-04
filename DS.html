@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Hinderer Motor Company — Design System</title>
-  <meta name="description" content="The live design system for the Hinderer Motor Company site: tokens, type ramp, rhythm and components, rendered from the same stylesheets the site itself loads.">
+  <meta name="description" content="The live design system for the Hinderer Motor Company site: tokens, type ramp, rhythm, motion and components, rendered from the same stylesheets the site itself loads.">
   <meta name="theme-color" content="#1f1d19">
   <meta name="robots" content="noindex">
 
@@ -12,7 +12,9 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=Oswald:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <!-- The same three families the site loads, in the same weights. If this line
+       and index.html ever disagree, this page is lying about the type. -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=Oswald:wght@300;400;500;600&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">
 
   <!-- The same cascade the site loads, in the same order. That is the whole
        point: this page is the system running, not a drawing of it. -->
@@ -35,19 +37,92 @@
       Every swatch, specimen and control below is rendered by the site's own
       stylesheets. Change a value in <code>tokens.css</code> and this page moves
       with the site — it cannot drift, because there is nothing here to drift from.
+      Written to be handed to a developer: the rules are stated, the exceptions
+      are named, and what the system does not yet have is at the bottom.
     </p>
     <nav class="ds-toc" aria-label="Sections">
+      <a href="#contract">Rules</a>
       <a href="#colour">Colour</a>
       <a href="#type">Type</a>
       <a href="#space">Space</a>
       <a href="#radius">Radius</a>
       <a href="#elevation">Elevation</a>
+      <a href="#motion">Motion</a>
       <a href="#buttons">Buttons</a>
       <a href="#cards">Cards</a>
       <a href="#blocks">Blocks</a>
+      <a href="#responsive">Responsive</a>
       <a href="#gaps">Known gaps</a>
     </nav>
   </header>
+
+
+  <!-- =================================================================
+       THE CONTRACT
+       ================================================================= -->
+  <section class="ds-section" id="contract">
+    <h2 class="ds-section__title">Rules a change has to keep</h2>
+    <p class="ds-section__note">
+      Five, and they are the reason the rest of this page can be trusted. Each
+      one is mechanically checkable — if a change breaks one, it will show up in
+      a grep, not in a code review a week later.
+    </p>
+
+    <div class="ds-group">
+      <h3 class="ds-group__title">The cascade</h3>
+      <table class="ds-table">
+        <thead><tr><th>File</th><th>Owns</th><th>Must never contain</th></tr></thead>
+        <tbody>
+          <tr><td><code>tokens.css</code></td><td>Every value in the system</td><td>A selector other than <code>:root</code></td></tr>
+          <tr><td><code>system.css</code></td><td>Reset, layout primitives, a11y utilities</td><td>Anything with a look</td></tr>
+          <tr><td><code>main.css</code></td><td>Components, in page order</td><td>A raw colour, size, or interval</td></tr>
+          <tr><td><code>display-oswald.css</code></td><td>The display voice, applied last</td><td>New components</td></tr>
+        </tbody>
+      </table>
+      <p class="ds-item__caption">Load order is fixed. <code>ds.css</code> loads after all four and dresses this page only.</p>
+    </div>
+
+    <p class="ds-note">
+      <strong>1 · No raw values below <code>tokens.css</code>.</strong> No hex, no
+      <code>rgb(31 29 25&nbsp;/&nbsp;.5)</code>, no <code>margin-top: 37px</code>,
+      no <code>line-height: 1.45</code>. If the value you want is not on a scale,
+      either the value is wrong or the scale needs a documented addition — decide
+      which, and write the reason in the token's comment. Two additions were made
+      this way and both say so: <code>--text-price</code> and <code>--text-spine</code>.
+    </p>
+
+    <p class="ds-note">
+      <strong>2 · Alpha comes from a channel token, never from a new colour.</strong>
+      A hex cannot be given an alpha, so every colour used translucently is also
+      published as bare channels: <code>rgb(var(--bg-rgb) / 0.55)</code>. Writing
+      the numbers out is how the page ended up with two near-blacks nobody chose.
+    </p>
+
+    <p class="ds-note">
+      <strong>3 · A token that nothing uses is deleted, not kept "for later".</strong>
+      An API that resolves to something no one has ever seen is worse than a
+      missing one. Two shadow tokens and three spacing aliases were removed under
+      this rule; where an unused token is deliberate, its comment says why
+      (<code>--ease-in</code> is the exit half of a pair).
+    </p>
+
+    <p class="ds-note">
+      <strong>4 · Interval by relationship, not by eye.</strong> Reach for
+      <code>--space-text</code>, <code>--space-text-obj</code>,
+      <code>--space-block</code> and the two CTA intervals first. A gap picked
+      straight off the raw scale gets picked again, differently, three sections
+      later — which is exactly how the interval above a set of actions once
+      existed as 24, 48, 72 and 96 at the same time.
+    </p>
+
+    <p class="ds-note ds-note--stop">
+      <strong>5 · Contrast is computed, not eyeballed, and recorded on the line.</strong>
+      Every colour token carries its ratio against the ground it actually sits on.
+      Copper <code>--accent</code> is 3.67:1 — legal as display type at 24px and up,
+      and as a solid fill; below 24px the text step <code>--accent-ink</code> is
+      the only copper allowed.
+    </p>
+  </section>
 
 
   <!-- =================================================================
@@ -57,8 +132,9 @@
     <h2 class="ds-section__title">Colour</h2>
     <p class="ds-section__note">
       Every value is measured from the Figma file, and its contrast ratio is
-      recorded against the ground it actually sits on. Copper clears 3:1 only as
-      large type, which is why a second copper step exists for anything under 24px.
+      recorded against the ground it actually sits on. There is no neutral black
+      anywhere in the system — beside this warm ground, <code>#000</code> reads
+      blue, which is the exact cheapness the near-black was chosen to avoid.
     </p>
 
     <div class="ds-group">
@@ -77,10 +153,28 @@
           <p class="ds-swatch__note">Card title band, footer, contact panel.</p>
         </div>
         <div class="ds-swatch">
+          <div class="ds-swatch__chip" style="background: var(--bg-hover)"></div>
+          <p class="ds-swatch__name">Ground hover</p>
+          <p class="ds-swatch__css">var(--bg-hover)</p>
+          <p class="ds-swatch__note">One tonal step above raised. The vehicle card under the pointer, and nothing else.</p>
+        </div>
+        <div class="ds-swatch">
+          <div class="ds-swatch__chip" style="background: var(--bg-deep)"></div>
+          <p class="ds-swatch__name">Ground deep</p>
+          <p class="ds-swatch__css">var(--bg-deep)</p>
+          <p class="ds-swatch__note">Deeper than the ground and still warm — scrims over photography, and the ink button's hover. 18.87:1 with white.</p>
+        </div>
+        <div class="ds-swatch">
           <div class="ds-swatch__chip" style="background: var(--bg-plate)"></div>
           <p class="ds-swatch__name">Plate</p>
           <p class="ds-swatch__css">var(--bg-plate)</p>
           <p class="ds-swatch__note">Warm top stop of the step-plate gradient.</p>
+        </div>
+        <div class="ds-swatch">
+          <div class="ds-swatch__chip" style="background: var(--bg-panel)"></div>
+          <p class="ds-swatch__name">Panel</p>
+          <p class="ds-swatch__css">var(--bg-panel)</p>
+          <p class="ds-swatch__note">Cool top stop of the build panel gradient.</p>
         </div>
         <div class="ds-swatch">
           <div class="ds-swatch__chip" style="background: var(--bg-card)"></div>
@@ -134,7 +228,7 @@
     </div>
 
     <div class="ds-group">
-      <h3 class="ds-group__title">Accent &amp; secondary</h3>
+      <h3 class="ds-group__title">Accent, secondary &amp; the one gradient</h3>
       <div class="ds-swatches">
         <div class="ds-swatch">
           <div class="ds-swatch__chip" style="background: var(--accent)"></div>
@@ -149,6 +243,18 @@
           <p class="ds-swatch__note">5.34:1 — the copper that is legal below 24px.</p>
         </div>
         <div class="ds-swatch">
+          <div class="ds-swatch__chip" style="background: var(--accent-hover)"></div>
+          <p class="ds-swatch__name">Accent hover</p>
+          <p class="ds-swatch__css">var(--accent-hover)</p>
+          <p class="ds-swatch__note">4.32:1 — control hover only.</p>
+        </div>
+        <div class="ds-swatch">
+          <div class="ds-swatch__chip" style="background: var(--accent-glow)"></div>
+          <p class="ds-swatch__name">Glow</p>
+          <p class="ds-swatch__css">var(--accent-glow)</p>
+          <p class="ds-swatch__note">The hero radial. Decorative, and reached through <span class="ds-mono">--glow-rgb</span> rather than directly.</p>
+        </div>
+        <div class="ds-swatch">
           <div class="ds-swatch__chip" style="background: var(--slate)"></div>
           <p class="ds-swatch__name">Slate</p>
           <p class="ds-swatch__css">var(--slate)</p>
@@ -160,7 +266,38 @@
           <p class="ds-swatch__css">var(--slate-lift)</p>
           <p class="ds-swatch__note">4.85:1 — hover and panel top.</p>
         </div>
+        <div class="ds-swatch">
+          <div class="ds-swatch__chip" style="background: linear-gradient(90deg, var(--tel-lift) 0%, var(--tel) 100%)"></div>
+          <p class="ds-swatch__name">Telephone</p>
+          <p class="ds-swatch__css">var(--tel-lift) → var(--tel)</p>
+          <p class="ds-swatch__note">The only gradient on the page and the only hue outside the copper/slate pair. A call is not a page, so the phone number is not styled as a link. 6.77:1 → 4.87:1.</p>
+        </div>
+        <div class="ds-swatch">
+          <div class="ds-swatch__chip" style="background: var(--wash-warm)"></div>
+          <p class="ds-swatch__name">Warm wash</p>
+          <p class="ds-swatch__css">var(--wash-warm)</p>
+          <p class="ds-swatch__note">Laid over photography in <span class="ds-mono">soft-light</span>. Never a surface, never a text colour.</p>
+        </div>
       </div>
+    </div>
+
+    <div class="ds-group">
+      <h3 class="ds-group__title">Channel forms — the only way to take an alpha</h3>
+      <table class="ds-table">
+        <thead><tr><th>Token</th><th>Channels</th><th>Same value as</th></tr></thead>
+        <tbody>
+          <tr><td><code>--bg-rgb</code></td><td>31 29 25</td><td><code>--bg</code></td></tr>
+          <tr><td><code>--bg-deep-rgb</code></td><td>20 19 16</td><td><code>--bg-deep</code></td></tr>
+          <tr><td><code>--ink-rgb</code></td><td>255 255 255</td><td><code>--ink</code></td></tr>
+          <tr><td><code>--accent-rgb</code></td><td>168 101 55</td><td><code>--accent</code></td></tr>
+          <tr><td><code>--accent-ink-rgb</code></td><td>200 129 63</td><td><code>--accent-ink</code></td></tr>
+          <tr><td><code>--glow-in-rgb</code></td><td>240 188 144</td><td>hero radial, centre</td></tr>
+          <tr><td><code>--glow-mid-rgb</code></td><td>232 155 89</td><td>hero radial, middle</td></tr>
+          <tr><td><code>--glow-rgb</code></td><td>224 121 33</td><td><code>--accent-glow</code></td></tr>
+          <tr><td><code>--shadow-rgb</code></td><td>0 0 0</td><td>shadows only</td></tr>
+        </tbody>
+      </table>
+      <p class="ds-item__caption">A pair must move together. Changing <code>--bg</code> without <code>--bg-rgb</code> is the one silent break the system has.</p>
     </div>
   </section>
 
@@ -171,12 +308,70 @@
   <section class="ds-section" id="type">
     <h2 class="ds-section__title">Type</h2>
     <p class="ds-section__note">
-      Two voices, each with a job the other cannot do. Oswald carries headline
-      mass; Inter Tight carries reading and data — its tabular figures are why the
-      spec plates align. Weight is size-dependent: stems grow with the type, so the
-      display tier does not take the heaviest weight. Setting one weight across the
+      Three voices, each with a job the other two cannot do. Oswald
+      <strong>announces</strong>; Inter Tight <strong>informs</strong> — its
+      tabular figures are why the spec plates align; Playfair
+      <strong>values</strong>. Weight is size-dependent: stems grow with the type,
+      so the display tier takes the lightest weight. Setting one weight across the
       whole ramp is what makes display type read fat.
     </p>
+
+    <div class="ds-group">
+      <h3 class="ds-group__title">The three voices and what each is allowed to say</h3>
+      <table class="ds-table">
+        <thead><tr><th>Voice</th><th>Token</th><th>Roles — and only these</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Oswald</td>
+            <td><code>--font-display</code></td>
+            <td>Headlines, section titles and sub-lines, button labels, nav, card status, contact labels and the spine.</td>
+          </tr>
+          <tr>
+            <td>Inter Tight</td>
+            <td><code>--font-body</code></td>
+            <td>All reading: leads, body, notes, card titles, metadata, figures.</td>
+          </tr>
+          <tr>
+            <td>Playfair Display</td>
+            <td><code>--font-serif</code></td>
+            <td><strong><code>.vehicle__price</code> — one role, nothing else.</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="ds-note ds-note--stop">
+      <strong>The serif is bounded to the price.</strong> In an auction catalogue
+      the lot's price is set in a serif while the rubrics and the metadata stay
+      sans — the change of face is what marks <em>what the object costs</em> apart
+      from <em>how the page is organised</em>. It briefly also set the inventory's
+      sub-line, which gave that one section a heading unlike every other section
+      on the site; that line is now <code>.section-sub</code> like all the others.
+      A section wanting a second rank under its title uses <code>.section-sub</code>.
+      Adding a second serif role is a change to the system, not a local decision.
+    </p>
+
+    <div class="ds-group">
+      <h3 class="ds-group__title">Size ramp</h3>
+      <table class="ds-table">
+        <thead><tr><th>Token</th><th>Range</th><th>Where</th></tr></thead>
+        <tbody>
+          <tr><td><code>--text-xs</code></td><td>14</td><td>Hard floor. Eyebrows, metadata, legal. Nothing below this carries information.</td></tr>
+          <tr><td><code>--text-sm</code></td><td>14 → 15</td><td>Review body, nav, card status.</td></tr>
+          <tr><td><code>--text-body</code></td><td>15 → 16</td><td>All body copy.</td></tr>
+          <tr><td><code>--text-lead</code></td><td>17 → 20</td><td>Leads, standfirsts, card titles, step titles.</td></tr>
+          <tr><td><code>--text-btn</code></td><td>18 → 23</td><td>Button labels.</td></tr>
+          <tr><td><code>--text-h3</code></td><td>22 → 28</td><td>Sub-heads, option titles.</td></tr>
+          <tr><td><code>--text-price</code></td><td>24 → 30</td><td>Added: the price must out-rank the car's own title without reaching the section heading.</td></tr>
+          <tr><td><code>--text-h2</code></td><td>26 → 34</td><td><code>.section-sub</code>.</td></tr>
+          <tr><td><code>--text-spine</code></td><td>32 → 44</td><td>Added: the vertical CONTACTS rule, sized to its block rather than to the ramp.</td></tr>
+          <tr><td><code>--text-hero-2</code></td><td>30 → 52</td><td><code>.section-title</code>, and the hero's second line.</td></tr>
+          <tr><td><code>--text-display</code></td><td>40 → 64</td><td>Reserved.</td></tr>
+          <tr><td><code>--text-hero</code></td><td>24 → 64</td><td>The page headline. Sized against the viewport rather than stepped, because it is one unbreakable phrase.</td></tr>
+        </tbody>
+      </table>
+      <p class="ds-item__caption">All fluid, so type is optically right at every width rather than only at breakpoints.</p>
+    </div>
 
     <div class="ds-group">
       <h3 class="ds-group__title">Display — Oswald, uppercase</h3>
@@ -187,8 +382,13 @@
       </div>
 
       <div class="ds-type">
-        <p class="ds-type__meta">.section-title · var(--text-display) · var(--weight-display) · caps · colour: var(--accent)</p>
+        <p class="ds-type__meta">.section-title · var(--text-hero-2) · var(--weight-display) · caps · colour: var(--accent)</p>
         <p class="ds-type__sample section-title">Build your Own!</p>
+      </div>
+
+      <div class="ds-type">
+        <p class="ds-type__meta">.section-sub · var(--text-h2) · var(--weight-heading) · sentence case</p>
+        <p class="ds-type__sample section-sub">Built for the Road. Made to Be Driven.</p>
       </div>
 
       <div class="ds-type">
@@ -198,29 +398,15 @@
     </div>
 
     <div class="ds-group">
-      <h3 class="ds-group__title">Sub-heads — Oswald Light, sentence case</h3>
-
-      <div class="ds-type">
-        <p class="ds-type__meta">.spec-list__title · var(--text-h3) · var(--weight-heading)</p>
-        <p class="ds-type__sample spec-list__title">Tailor Your Interior</p>
-      </div>
-
-      <div class="ds-type">
-        <p class="ds-type__meta">.step__title · var(--text-h3)</p>
-        <p class="ds-type__sample step__title">Schedule an Inspection</p>
-      </div>
-    </div>
-
-    <div class="ds-group">
       <h3 class="ds-group__title">Reading — Inter Tight</h3>
 
       <div class="ds-type">
-        <p class="ds-type__meta">.lead · var(--text-lead) · measure capped at 68ch</p>
+        <p class="ds-type__meta">.lead · var(--text-lead) · var(--lh-lead) · measure capped at 68ch</p>
         <p class="ds-type__sample lead">Crafting world-class custom roadsters since 1965</p>
       </div>
 
       <div class="ds-type">
-        <p class="ds-type__meta">body · var(--text-body) · line-height var(--lh-body)</p>
+        <p class="ds-type__meta">body · var(--text-body) · var(--lh-body)</p>
         <p class="ds-type__sample" style="max-inline-size: var(--measure)">
           Hinderer Motor Company is dedicated to crafting world-class custom roadsters,
           blending precision engineering with timeless design. Since 1965 we have been
@@ -239,11 +425,51 @@
       </div>
     </div>
 
+    <div class="ds-group">
+      <h3 class="ds-group__title">Valuing — Playfair, and only here</h3>
+      <div class="ds-type">
+        <p class="ds-type__meta">.vehicle__price · var(--text-price) · var(--font-serif) · lining tabular figures</p>
+        <p class="ds-type__sample" style="font-family: var(--font-serif); font-size: var(--text-price); font-variant-numeric: lining-nums tabular-nums">$109,500</p>
+      </div>
+    </div>
+
+    <div class="ds-group">
+      <h3 class="ds-group__title">Weight, leading, tracking</h3>
+      <table class="ds-table">
+        <thead><tr><th>Token</th><th>Value</th><th>Applies to</th></tr></thead>
+        <tbody>
+          <tr><td><code>--weight-display</code></td><td>400</td><td>40px and up — the biggest type takes the lightest weight</td></tr>
+          <tr><td><code>--weight-heading</code></td><td>500</td><td>22–34px — small headings need the presence</td></tr>
+          <tr><td><code>--weight-body</code></td><td>400</td><td>reading</td></tr>
+          <tr><td><code>--weight-label</code></td><td>600</td><td>14px labels — small type needs the compensation</td></tr>
+          <tr><td><code>--lh-none</code></td><td>1</td><td>single-line caps — status pill, spine</td></tr>
+          <tr><td><code>--lh-display</code></td><td>1.04</td><td>40px and up</td></tr>
+          <tr><td><code>--lh-heading</code></td><td>1.14</td><td>22 → 34</td></tr>
+          <tr><td><code>--lh-tight</code></td><td>1.2</td><td>sub-heads, clamped card titles</td></tr>
+          <tr><td><code>--lh-lead</code></td><td>1.5</td><td>17 → 20 reading</td></tr>
+          <tr><td><code>--lh-body</code></td><td>1.65</td><td>14 → 16 reading</td></tr>
+          <tr><td><code>--track-display</code></td><td>-0.022em</td><td>hero, section titles</td></tr>
+          <tr><td><code>--track-heading</code></td><td>-0.006em</td><td>sub-heads</td></tr>
+          <tr><td><code>--track-body</code></td><td>0.005em</td><td>reading, nav</td></tr>
+          <tr><td><code>--track-caps</code></td><td>0.03em</td><td>uppercase 14 → 24: buttons, step and option titles, status</td></tr>
+          <tr><td><code>--track-label</code></td><td>0.12em</td><td>the 14px eyebrow</td></tr>
+          <tr><td><code>--track-label-wide</code></td><td>0.22em</td><td>the same label role on the contact panel, opened further</td></tr>
+          <tr><td><code>--track-num</code></td><td>0.06em</td><td>figures read aloud — phone, stock</td></tr>
+        </tbody>
+      </table>
+      <p class="ds-item__caption">
+        Six leading steps and seven tracking steps, and they are the only ones.
+        Before this pass there were four leading tokens and ten different values
+        in the CSS — which is how <code>.lead</code> ended up at 1.55 and the
+        paragraph beside it at 1.45.
+      </p>
+    </div>
+
     <p class="ds-note">
       <strong>Uppercase stops at the display and label tiers.</strong> Caps remove the
       ascender and descender variation the eye uses to recognise word shapes, which
       measurably slows reading — so it never reaches a lead, a body or a caption.
-      That is why the button labels above are caps and the paragraph is not.
+      That is why the button labels are caps and the paragraph is not.
     </p>
   </section>
 
@@ -254,10 +480,10 @@
   <section class="ds-section" id="space">
     <h2 class="ds-section__title">Space</h2>
     <p class="ds-section__note">
-      A 4px base. The three named distances are the point: an interval is chosen by
+      A 4px base. The named distances are the point: an interval is chosen by
       <em>relationship</em>, not by eye. A gap taken straight from the raw scale gets
       taken again, differently, three sections later — which is exactly how the
-      interval above a set of actions once ended up written as both 48px and 64px.
+      interval above a set of actions once existed as 24, 48, 72 and 96 at once.
     </p>
 
     <div class="ds-group">
@@ -289,6 +515,30 @@
     </div>
 
     <div class="ds-group">
+      <h3 class="ds-group__title">Content → CTA — two intervals, and only two</h3>
+      <div class="ds-stage">
+        <div class="ds-bar">
+          <span class="ds-bar__name">After prose</span>
+          <span class="ds-bar__css">var(--gap-cta-text)</span>
+          <span class="ds-bar__fill" style="inline-size: var(--gap-cta-text)"></span>
+          <span class="ds-bar__value">48</span>
+        </div>
+        <div class="ds-bar">
+          <span class="ds-bar__name">After a grid, strip or rail</span>
+          <span class="ds-bar__css">var(--gap-cta-grid)</span>
+          <span class="ds-bar__fill" style="inline-size: var(--gap-cta-grid)"></span>
+          <span class="ds-bar__value">64</span>
+        </div>
+      </div>
+      <p class="ds-item__caption">
+        A paragraph ends softly — ragged right edge, open descenders — so 48 reads
+        as the next step of one thought. A card grid ends on a hard edge with
+        borders and shadow, and at 48 the button sticks to it and reads as one more
+        card. Anything else picking a third value is a bug, not a decision.
+      </p>
+    </div>
+
+    <div class="ds-group">
       <h3 class="ds-group__title">Raw scale — 4px base</h3>
       <div class="ds-stage">
         <div class="ds-bar"><span class="ds-bar__name">space-1</span><span class="ds-bar__css">var(--space-1)</span><span class="ds-bar__fill ds-bar__fill--quiet" style="inline-size: var(--space-1)"></span><span class="ds-bar__value">4</span></div>
@@ -316,6 +566,20 @@
         rather than being shoved into the next one, and the page reads as chapters.
       </p>
     </div>
+
+    <div class="ds-group">
+      <h3 class="ds-group__title">Measure</h3>
+      <table class="ds-table">
+        <thead><tr><th>Token</th><th>Value</th><th>Applies to</th></tr></thead>
+        <tbody>
+          <tr><td><code>--measure</code></td><td>68ch</td><td>body and lead copy</td></tr>
+          <tr><td><code>--measure-tight</code></td><td>46ch</td><td>standfirsts, short lead-ins</td></tr>
+          <tr><td><code>--container</code></td><td>1564px</td><td>content column, matching the Figma inside a 1920 frame</td></tr>
+          <tr><td><code>--gutter</code></td><td>24 → 96</td><td>never below 24, at any width</td></tr>
+        </tbody>
+      </table>
+      <p class="ds-item__caption">Wide viewports get margin, not longer lines. Long lines hurt reading in every aesthetic.</p>
+    </div>
   </section>
 
 
@@ -339,13 +603,17 @@
       </div>
       <div class="ds-tile">
         <div class="ds-tile__box" style="border-radius: var(--radius-4)"></div>
-        <p class="ds-tile__label">var(--radius-4) · 20px<br>trade-in step plates</p>
+        <p class="ds-tile__label">var(--radius-4) · 20px<br>trade-in step plates, build panel</p>
       </div>
       <div class="ds-tile">
         <div class="ds-tile__box" style="border-radius: var(--radius-pill)"></div>
-        <p class="ds-tile__label">var(--radius-pill) · 999px<br>collection counter, round controls</p>
+        <p class="ds-tile__label">var(--radius-pill) · 999px<br>collection counter, round controls, filters, status</p>
       </div>
     </div>
+    <p class="ds-item__caption">
+      The build panel used to carry a hand-written 15px, which is on no scale;
+      it now sits on the plate step with everything else of its size.
+    </p>
   </section>
 
 
@@ -360,20 +628,96 @@
       by a hairline and a tonal step instead — which is also what keeps a dark page
       from going mushy.
     </p>
-    <div class="ds-tiles">
-      <div class="ds-tile">
-        <div class="ds-tile__box ds-tile__box--panel" style="border-radius: var(--radius-3); box-shadow: var(--shadow-float)"></div>
-        <p class="ds-tile__label">var(--shadow-float)<br>floating layers only</p>
-      </div>
-      <div class="ds-tile">
-        <div class="ds-tile__box ds-tile__box--panel" style="border-radius: var(--radius-3); box-shadow: var(--shadow-deep)"></div>
-        <p class="ds-tile__label">var(--shadow-deep)<br>a panel that really overlaps media</p>
-      </div>
-      <div class="ds-tile">
-        <div class="ds-tile__box ds-tile__box--panel" style="border-radius: var(--radius-3); border: 1px solid var(--rule)"></div>
-        <p class="ds-tile__label">var(--rule) hairline<br>the default separation — no shadow</p>
+
+    <div class="ds-group">
+      <h3 class="ds-group__title">At rest — exactly one</h3>
+      <div class="ds-tiles">
+        <div class="ds-tile">
+          <div class="ds-tile__box ds-tile__box--panel" style="border-radius: var(--radius-3); box-shadow: var(--shadow-deep)"></div>
+          <p class="ds-tile__label">var(--shadow-deep)<br>the modal, which really is above everything</p>
+        </div>
+        <div class="ds-tile">
+          <div class="ds-tile__box ds-tile__box--panel" style="border-radius: var(--radius-3); border: 1px solid var(--rule)"></div>
+          <p class="ds-tile__label">var(--rule) hairline<br>the default separation — no shadow</p>
+        </div>
       </div>
     </div>
+
+    <div class="ds-group">
+      <h3 class="ds-group__title">Raised by interaction</h3>
+      <table class="ds-table">
+        <thead><tr><th>Token</th><th>Worn by</th><th>When</th></tr></thead>
+        <tbody>
+          <tr><td><code>--shadow-none</code></td><td>anything that animates a shadow</td><td>the transparent base — <code>box-shadow</code> cannot animate from the keyword <code>none</code></td></tr>
+          <tr><td><code>--shadow-lift</code></td><td>vehicle card</td><td>hover / focus-within</td></tr>
+          <tr><td><code>--shadow-nudge</code></td><td>step plate</td><td>hover / focus-within</td></tr>
+          <tr><td><code>--shadow-pop</code></td><td>review</td><td>while it is the selected slide</td></tr>
+          <tr><td><code>--shadow-scene</code></td><td>a held scene's leading edge</td><td>cast <em>upward</em> — the one moment two sections truly occupy the same space</td></tr>
+        </tbody>
+      </table>
+      <p class="ds-item__caption">
+        Tokens rather than inline values, because a hover shadow that differs
+        card-to-card is the fastest way for a dark page to look assembled from parts.
+      </p>
+    </div>
+  </section>
+
+
+  <!-- =================================================================
+       MOTION
+       ================================================================= -->
+  <section class="ds-section" id="motion">
+    <h2 class="ds-section__title">Motion</h2>
+    <p class="ds-section__note">
+      Entering decelerates, exiting accelerates. Hover the row to run each step.
+      Every one of these is switched off wholesale under
+      <code>prefers-reduced-motion</code> — which this page honours too, so if your
+      system asks for less motion the dots below will simply not move.
+    </p>
+
+    <div class="ds-motion">
+      <div class="ds-motion__row">
+        <span class="ds-motion__name">--dur-1 · 0.15s · ease-out</span>
+        <span class="ds-motion__track"><span class="ds-motion__dot ds-motion__dot--1"></span></span>
+      </div>
+      <div class="ds-motion__row">
+        <span class="ds-motion__name">--dur-2 · 0.25s · ease-out</span>
+        <span class="ds-motion__track"><span class="ds-motion__dot ds-motion__dot--2"></span></span>
+      </div>
+      <div class="ds-motion__row">
+        <span class="ds-motion__name">--dur-3 · 0.4s · ease-out</span>
+        <span class="ds-motion__track"><span class="ds-motion__dot ds-motion__dot--3"></span></span>
+      </div>
+      <div class="ds-motion__row">
+        <span class="ds-motion__name">--dur-4 · 1.2s · ease-out</span>
+        <span class="ds-motion__track"><span class="ds-motion__dot ds-motion__dot--4"></span></span>
+      </div>
+      <div class="ds-motion__row">
+        <span class="ds-motion__name">--dur-3 · ease-in (exit)</span>
+        <span class="ds-motion__track"><span class="ds-motion__dot ds-motion__dot--in"></span></span>
+      </div>
+    </div>
+
+    <table class="ds-table">
+      <thead><tr><th>Token</th><th>Value</th><th>Used for</th></tr></thead>
+      <tbody>
+        <tr><td><code>--dur-1</code></td><td>0.15s</td><td>colour and border on a control</td></tr>
+        <tr><td><code>--dur-2</code></td><td>0.25s</td><td>header shrink, card scale, filter state</td></tr>
+        <tr><td><code>--dur-3</code></td><td>0.4s</td><td>hover lift, carousel travel</td></tr>
+        <tr><td><code>--dur-4</code></td><td>1.2s</td><td>scroll reveals, gallery rise, shadow bloom</td></tr>
+        <tr><td><code>--ease-out</code></td><td>cubic-bezier(0.22, 1, 0.36, 1)</td><td>everything entering</td></tr>
+        <tr><td><code>--ease-in</code></td><td>cubic-bezier(0.55, 0, 1, 0.45)</td><td>declared for exits; nothing on the page exits yet</td></tr>
+      </tbody>
+    </table>
+
+    <p class="ds-note">
+      <strong>Reveals are staged, not simultaneous.</strong> A scene marked
+      <code>data-scene</code> reveals its <code>data-rise</code> children in
+      sequence; <code>data-stagger</code> sets the interval in milliseconds
+      (default 170). Direction comes from the value: <code>left</code>,
+      <code>right</code>, <code>up</code>. Without JS every element is simply
+      visible — the reveal is an enhancement and never a gate on content.
+    </p>
   </section>
 
 
@@ -385,7 +729,8 @@
     <p class="ds-section__note">
       One primary action per view. Copper is the primary, slate is the parallel
       secondary, ghost is the tertiary. Labels are uppercase — every one is two to
-      four words, which is where caps are safe.
+      four words, which is where caps are safe. 44px is the tap-target floor on
+      every control here.
     </p>
 
     <div class="ds-group">
@@ -396,6 +741,14 @@
         <a class="btn-hmc btn-hmc--ghost btn-hmc--centred btn-hmc--wide" href="#buttons">Learn More</a>
       </div>
       <p class="ds-item__caption">.btn-hmc--primary · --secondary · --ghost</p>
+    </div>
+
+    <div class="ds-group">
+      <h3 class="ds-group__title">Ink — for a copper field</h3>
+      <div class="ds-stage ds-stage--flow" style="background: linear-gradient(152deg, var(--accent-ink) 0%, var(--accent) 100%)">
+        <a class="btn-hmc btn-hmc--dark btn-hmc--centred btn-hmc--wide" href="#buttons">Get Directions</a>
+      </div>
+      <p class="ds-item__caption">.btn-hmc--dark — a copper button on a copper field would be invisible, so the CTA inverts. Its hover goes to <code>--bg-deep</code>, not to black.</p>
     </div>
 
     <div class="ds-group">
@@ -414,7 +767,7 @@
     </div>
 
     <div class="ds-group">
-      <h3 class="ds-group__title">Round &amp; card controls</h3>
+      <h3 class="ds-group__title">Round, filter &amp; counter</h3>
       <div class="ds-stage ds-stage--flow" style="align-items: center">
         <button class="btn-round" type="button" aria-label="Previous">
           <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -422,9 +775,32 @@
         <button class="btn-round" type="button" aria-label="Next">
           <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
-        <span class="collection-pill" style="position: static">My Collection <span class="num-tabular">/ 03</span></span>
+        <button class="btn-round" type="button" aria-label="Nothing left to scroll" disabled>
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <span class="collection-pill" style="position: static">
+          <span class="collection-pill__label">My Collection</span>
+          <span class="num-tabular">/ 03</span>
+        </span>
       </div>
-      <p class="ds-item__caption">.btn-round · .collection-pill</p>
+      <p class="ds-item__caption">
+        .btn-round · .collection-pill. The third arrow is disabled: a control that
+        looks live and will not move is a promise it cannot keep, so disabled
+        arrows drop to 0.35 and the whole group is hidden when nothing overflows.
+      </p>
+    </div>
+
+    <div class="ds-group">
+      <h3 class="ds-group__title">Filters — a state the row can be in</h3>
+      <div class="ds-stage">
+        <div class="filters" role="group" aria-label="Filter inventory">
+          <button class="filter is-active" type="button" aria-pressed="true">All inventory</button>
+          <button class="filter" type="button" aria-pressed="false">New arrivals</button>
+          <button class="filter" type="button" aria-pressed="false">Just in</button>
+          <button class="filter" type="button" aria-pressed="false">Sold</button>
+        </div>
+      </div>
+      <p class="ds-item__caption">.filter · .is-active. Only one holds at a time, and <code>aria-pressed</code> carries the same fact for anyone not seeing it.</p>
     </div>
   </section>
 
@@ -439,57 +815,90 @@
       <h3 class="ds-group__title">Vehicle card — three status states</h3>
       <div class="ds-stage ds-stage--rail">
         <ul class="rail">
-          <li class="vehicle vehicle--sold">
+          <li class="vehicle vehicle--sold" data-status="sold">
             <div class="vehicle__media">
               <img src="assets/img/inventory-1.jpg" alt="1965 Roadster Shelby Cobra Replica" width="381" height="278" loading="lazy">
-              <p class="vehicle__status">Sold</p>
+              <p class="vehicle__status">Sold!</p>
+              <button class="vehicle__save" type="button" aria-pressed="false">
+                <span class="sr-only">Save this vehicle</span>
+                <span class="vehicle__save-icon" aria-hidden="true"></span>
+              </button>
             </div>
-            <div class="vehicle__head">
+            <div class="vehicle__body">
               <h3 class="vehicle__title"><a href="#cards">1965 Roadster Shelby Cobra Replica</a></h3>
               <p class="vehicle__price">$92,995</p>
-            </div>
-            <dl class="vehicle__specs"><dt>Miles</dt><dd>1,184</dd><dt>Stock</dt><dd>235455</dd></dl>
-            <div class="vehicle__actions">
-              <button class="btn-card" type="button"><span class="btn-card__icon btn-card__icon--share"></span>Share</button>
-              <button class="btn-card" type="button"><span class="btn-card__icon btn-card__icon--save"></span>Save</button>
-              <a class="btn-card" href="#cards"><span class="btn-card__icon btn-card__icon--text"></span>Text</a>
+              <p class="vehicle__meta">
+                <span class="num-tabular">1,184 mi</span>
+                <span class="vehicle__meta-sep" aria-hidden="true">|</span>
+                <span class="num-tabular">Stock #235455</span>
+              </p>
+              <div class="vehicle__actions">
+                <a class="btn-card" href="#cards"><span class="btn-card__icon btn-card__icon--text" aria-hidden="true"></span>Text</a>
+                <button class="btn-card" type="button"><span class="btn-card__icon btn-card__icon--share" aria-hidden="true"></span>Share</button>
+              </div>
             </div>
           </li>
-          <li class="vehicle vehicle--new">
+          <li class="vehicle vehicle--new" data-status="new">
             <div class="vehicle__media">
               <img src="assets/img/inventory-1.jpg" alt="1965 Backdraft RT4B Roadster" width="381" height="278" loading="lazy">
-              <p class="vehicle__status">New</p>
+              <p class="vehicle__status">New!</p>
+              <button class="vehicle__save" type="button" aria-pressed="false">
+                <span class="sr-only">Save this vehicle</span>
+                <span class="vehicle__save-icon" aria-hidden="true"></span>
+              </button>
             </div>
-            <div class="vehicle__head">
+            <div class="vehicle__body">
               <h3 class="vehicle__title"><a href="#cards">1965 Backdraft RT4B Roadster</a></h3>
               <p class="vehicle__price">$109,500</p>
-            </div>
-            <dl class="vehicle__specs"><dt>Miles</dt><dd>62</dd><dt>Stock</dt><dd>235612</dd></dl>
-            <div class="vehicle__actions">
-              <button class="btn-card" type="button"><span class="btn-card__icon btn-card__icon--share"></span>Share</button>
-              <button class="btn-card" type="button"><span class="btn-card__icon btn-card__icon--save"></span>Save</button>
-              <a class="btn-card" href="#cards"><span class="btn-card__icon btn-card__icon--text"></span>Text</a>
+              <p class="vehicle__meta">
+                <span class="num-tabular">62 mi</span>
+                <span class="vehicle__meta-sep" aria-hidden="true">|</span>
+                <span class="num-tabular">Stock #235612</span>
+              </p>
+              <div class="vehicle__actions">
+                <a class="btn-card" href="#cards"><span class="btn-card__icon btn-card__icon--text" aria-hidden="true"></span>Text</a>
+                <button class="btn-card" type="button"><span class="btn-card__icon btn-card__icon--share" aria-hidden="true"></span>Share</button>
+              </div>
             </div>
           </li>
-          <li class="vehicle vehicle--just">
+          <li class="vehicle vehicle--just" data-status="just">
             <div class="vehicle__media">
               <img src="assets/img/inventory-1.jpg" alt="1966 Roadster 427 S/C Replica" width="381" height="278" loading="lazy">
-              <p class="vehicle__status">Just In</p>
+              <p class="vehicle__status">Just in</p>
+              <button class="vehicle__save" type="button" aria-pressed="true">
+                <span class="sr-only">Save this vehicle</span>
+                <span class="vehicle__save-icon" aria-hidden="true"></span>
+              </button>
             </div>
-            <div class="vehicle__head">
+            <div class="vehicle__body">
               <h3 class="vehicle__title"><a href="#cards">1966 Roadster 427 S/C Replica</a></h3>
               <p class="vehicle__price">$98,750</p>
-            </div>
-            <dl class="vehicle__specs"><dt>Miles</dt><dd>3,420</dd><dt>Stock</dt><dd>235588</dd></dl>
-            <div class="vehicle__actions">
-              <button class="btn-card" type="button"><span class="btn-card__icon btn-card__icon--share"></span>Share</button>
-              <button class="btn-card" type="button"><span class="btn-card__icon btn-card__icon--save"></span>Save</button>
-              <a class="btn-card" href="#cards"><span class="btn-card__icon btn-card__icon--text"></span>Text</a>
+              <p class="vehicle__meta">
+                <span class="num-tabular">3,420 mi</span>
+                <span class="vehicle__meta-sep" aria-hidden="true">|</span>
+                <span class="num-tabular">Stock #235588</span>
+              </p>
+              <div class="vehicle__actions">
+                <a class="btn-card" href="#cards"><span class="btn-card__icon btn-card__icon--text" aria-hidden="true"></span>Text</a>
+                <button class="btn-card" type="button"><span class="btn-card__icon btn-card__icon--share" aria-hidden="true"></span>Share</button>
+              </div>
             </div>
           </li>
         </ul>
       </div>
-      <p class="ds-item__caption">.vehicle + .vehicle--sold / --new / --just. Status is a modifier, not a colour override: a sold car must still be findable.</p>
+      <p class="ds-item__caption">
+        .vehicle + --sold / --new / --just, with <code>data-status</code> for the
+        filter. Status is a modifier, not a colour override: a sold car must still
+        be findable. The third card shows Save in its pressed state.
+      </p>
+      <p class="ds-note">
+        <strong>Two hairlines cross the whole card.</strong> One above the price,
+        one above the actions — both pulled out through the body's padding and the
+        text padded back in. A rule that stops short of the edge reads as a
+        mistake; these separate <em>what the car is</em> from <em>what it costs</em>
+        from <em>what you can do about it</em>. Save sits on the photograph at top
+        right, where it belongs to the car rather than to the row of actions.
+      </p>
     </div>
 
     <div class="ds-group">
@@ -508,7 +917,13 @@
           </li>
         </ol>
       </div>
-      <p class="ds-item__caption">.step — the number is a micro-label in copper, not a display figure, so it orders the steps without competing with the title.</p>
+      <p class="ds-item__caption">
+        .step — the number is a micro-label in copper, not a display figure, so it
+        orders the steps without competing with the title. Hover lifts it 4px on
+        the <code>translate</code> property, which is deliberate: the reveal system
+        owns <code>transform</code>, and a hover written there would silently never
+        apply.
+      </p>
     </div>
 
     <div class="ds-group">
@@ -517,16 +932,20 @@
         <blockquote class="review" style="max-inline-size: 425px">
           <p class="review__name">Maurice Looper</p>
           <p class="review__stars" aria-label="Rated 5 out of 5">
-            <img src="assets/icons/star.svg" alt="" width="17" height="16">
-            <img src="assets/icons/star.svg" alt="" width="17" height="16">
-            <img src="assets/icons/star.svg" alt="" width="17" height="16">
-            <img src="assets/icons/star.svg" alt="" width="17" height="16">
-            <img src="assets/icons/star.svg" alt="" width="17" height="16">
+            <img src="assets/icons/star.svg" alt="" aria-hidden="true" width="18" height="18">
+            <img src="assets/icons/star.svg" alt="" aria-hidden="true" width="18" height="18">
+            <img src="assets/icons/star.svg" alt="" aria-hidden="true" width="18" height="18">
+            <img src="assets/icons/star.svg" alt="" aria-hidden="true" width="18" height="18">
+            <img src="assets/icons/star.svg" alt="" aria-hidden="true" width="18" height="18">
           </p>
           <p class="review__body">Cory was an awesome salesman and made the whole buying experience stress free. I would definitely recommend him as a salesman.</p>
         </blockquote>
       </div>
-      <p class="ds-item__caption">.review — the one place the page goes to plain white, because a review is someone else's voice.</p>
+      <p class="ds-item__caption">
+        .review — the one place the page goes to plain white, because a review is
+        someone else's voice. Bodies are clamped to five lines so cards match on
+        content rather than on stretch.
+      </p>
     </div>
   </section>
 
@@ -556,6 +975,23 @@
     </div>
 
     <div class="ds-group">
+      <h3 class="ds-group__title">Section head — the standard opening</h3>
+      <div class="ds-stage">
+        <div class="stack">
+          <p class="eyebrow">Current inventory</p>
+          <h3 class="section-title" style="font-size: var(--text-h2)">Precision. Engineered.</h3>
+          <p class="section-sub">Built for the Road. Made to Be Driven.</p>
+          <p style="max-inline-size: var(--measure); color: var(--ink-muted)">Hand-built Backdraft Roadsters. Curated. Verified. Ready for its next chapter.</p>
+        </div>
+      </div>
+      <p class="ds-item__caption">
+        eyebrow → title → sub → note. Every section on the page opens this way; the
+        sub-line is the second half of one heading thought, so it takes the display
+        voice rather than a face of its own.
+      </p>
+    </div>
+
+    <div class="ds-group">
       <h3 class="ds-group__title">Stack — differentiated flow</h3>
       <div class="ds-stage">
         <div class="stack">
@@ -567,6 +1003,47 @@
       </div>
       <p class="ds-item__caption">.stack — title→sub is the tightest pair; anything→actions opens furthest, because a CTA is a decision point and must not read as the next paragraph.</p>
     </div>
+  </section>
+
+
+  <!-- =================================================================
+       RESPONSIVE
+       ================================================================= -->
+  <section class="ds-section" id="responsive">
+    <h2 class="ds-section__title">Responsive</h2>
+    <p class="ds-section__note">
+      Four breakpoints, and a new one needs a reason. Small screens get
+      <em>less</em> space, never none — the proportional relationships set at
+      desktop hold at every width, and the gutter never goes below 24px.
+    </p>
+
+    <table class="ds-table">
+      <thead><tr><th>Query</th><th>px</th><th>What changes</th></tr></thead>
+      <tbody>
+        <tr><td><code>min-width: 62rem</code></td><td>992</td><td>Desktop. Header grows to 136px, gallery becomes the mosaic, scenes are held.</td></tr>
+        <tr><td><code>max-width: 61.99rem</code></td><td>&lt; 992</td><td>Nav collapses behind the 44px toggle; the brand slot follows the mark instead of holding 180px.</td></tr>
+        <tr><td><code>max-width: 47.99rem</code></td><td>&lt; 768</td><td>One column. The hero swaps to its portrait frame.</td></tr>
+        <tr><td><code>max-width: 23.5rem</code></td><td>&lt; 376</td><td>The counter keeps its number and loses its words.</td></tr>
+      </tbody>
+    </table>
+
+    <p class="ds-note">
+      <strong>The hero is art-directed, not resized.</strong> The 1920×796 landscape
+      crop has nothing left of the car once the frame turns portrait, so the phone
+      gets its own 440×956 file where the car sits in the upper third and the
+      ground falls away beneath it — which is where the headline and the two tall
+      CTAs land. One <code>&lt;picture&gt;</code>, so only the matching file is
+      fetched, and the two <code>preload</code> links carry the same media
+      conditions so a phone never spends its first bytes on the image it will not
+      paint.
+    </p>
+
+    <p class="ds-note">
+      <strong>Three masses in the header, and below 376px one has to give.</strong>
+      The counter loses its label rather than the identity being reduced to an
+      illegible 51px — and it is hidden the accessible way, so a screen reader
+      still reads "My Collection / 03".
+    </p>
   </section>
 
 
@@ -584,25 +1061,58 @@
       <strong>No typographic roles as classes.</strong> Figma carries nine text styles
       (<code>display/hero</code>, <code>body/small</code>, <code>control/button</code>…);
       CSS has no equivalent — type is declared inside each component. So one style
-      change in Figma becomes a hunt through 182 component classes here, and the same
-      role can drift apart in two places without anything catching it.
+      change in Figma becomes a hunt through the component list here, and the same
+      role can drift apart in two places without anything catching it. The size,
+      leading and tracking ramps above are now single-source, which removes most of
+      the risk but not the cause.
     </p>
 
     <p class="ds-note">
       <strong>.vehicle__title is not on the h3 ramp.</strong> In Figma the card title
-      uses <code>display/h3</code> (Oswald 28px); in code it is body voice at 14px.
-      They were never reconciled.
+      uses <code>display/h3</code> (Oswald 28px); in code it is the body voice at
+      <code>--text-lead</code>. They were never reconciled, and the card was
+      rebuilt around the code version — so this is a decision waiting to be made,
+      not a bug waiting to be fixed.
+    </p>
+
+    <p class="ds-note">
+      <strong>Buttons speak louder than block headings.</strong>
+      <code>--text-btn</code> tops out at 23px and <code>--text-h3</code> at 28,
+      but a button label is caps and a heading is not, so on the page the control
+      reads larger than the heading above it. Unresolved.
+    </p>
+
+    <p class="ds-note">
+      <strong>Two measures run long.</strong> <code>.spec-list__body</code> and
+      <code>.nationwide__body</code> sit near 92–94 characters against the 65–75
+      norm; <code>--measure</code> is not applied to either.
+    </p>
+
+    <p class="ds-note">
+      <strong>Section rhythm has no variation.</strong> Every section is separated
+      by exactly the same interval, so a ten-section page has no phrasing — nothing
+      groups, nothing breathes differently. And two full-screen held scenes
+      (Trade In, Nationwide) are built identically and together take roughly 40% of
+      the page height.
     </p>
 
     <p class="ds-note">
       <strong>No form controls.</strong> Figma has an Input Field component with a
-      focus ring; the site has no form yet, so nothing here implements it.
+      focus ring; the site has no form yet, so nothing here implements it. The
+      focus token (<code>--focus</code>) exists and is honoured by every control
+      that does ship.
     </p>
 
     <p class="ds-note">
-      <strong>No motion specimens.</strong> The duration and easing scale exists in
-      tokens (<code>--dur-1…4</code>, <code>--ease-out</code>), but nothing on this
-      page demonstrates it.
+      <strong>The reviews rail is not covered by <code>prefers-reduced-motion</code>.</strong>
+      Its drag and its arrow travel still animate when the OS asks for less motion.
+      Everything else on the page is switched off.
+    </p>
+
+    <p class="ds-note">
+      <strong>Content is placeholder.</strong> One vehicle photograph stands in for
+      all eight cards, and the titles, prices, mileage and stock numbers are not a
+      real feed. Two section images ship uncompressed at 1.7MB and 2.0MB.
     </p>
   </section>
 

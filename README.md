@@ -10,37 +10,36 @@ npx serve .          # or: python -m http.server
 
 ---
 
-## The four pages
+## Pages
 
-`index.html` is the faithful build of the approved Figma. The three numbered
-pages are the plan's three scope levels, **cumulative** — each loads the layer
-below it, so the diff between them is legible instead of buried in copy-paste.
+| File | What it is |
+|---|---|
+| `index.html` | The home page, and the master every other page is copied from |
+| `DS.html` | **The design system, rendered by the site's own stylesheets.** Tokens, ramps, rhythm, motion and every component, plus the rules a change has to keep and an honest list of what the system does not have yet. `noindex`. Read it before adding a page. |
 
-| File | Layer | What it adds | Mandate |
-|---|---|---|---|
-| `index.html` | base | The Figma as approved, with invariant repairs only | REFRESH |
-| `index1.html` | + `variant-a.css` | Stock search · engine/gearbox on the card · hours + directions · a real footer · trade-in photo committed · the cutout grounded · every gallery tile captioned · one decision per section | REFRESH |
-| `index2.html` | + `variant-b.css` | **The spine.** One spec-plate system running through card → build options → trade-in → delivery, so identity no longer rests only on the photography. Build becomes the page's culmination with its own ground and the primary action | REFRESH |
-| `index3.html` | + `variant-c.css` | **The rhythm rebuild.** One ground, three container languages instead of seven, one alignment rule, and the three consecutive 50/50 bands replaced by three different structures | **REDESIGN — needs the macro re-approved** |
-
-Pick one, then the others get deleted along with the variant CSS they own.
-Nothing in `tokens.css`, `main.css` or `main.js` is variant-specific.
-
-The three pages are regenerated from `index.html` by
-`tools/build-variants.mjs` — if `index.html` changes and you want the
-variants to follow, re-run it rather than hand-editing three files.
+The three numbered scope-ladder pages (`index1–3`) and the `variant-a/b/c.css`
+layers they loaded were the exploration that produced the current build. The
+direction is chosen, so they are gone — along with `tools/build-variants.mjs`,
+which existed only to regenerate them, and the pinned trade-in sequence in
+`main.js`, whose CSS lived in `variant-c.css` and whose only markup hook was on
+`index3.html`. The remaining pages are the real site.
 
 ## Tree
 
 ```
 .
 ├─ index.html                  ← the master page. Copy this for every new page.
+├─ DS.html                     ← the design system, live. noindex.
 ├─ assets/
-│  ├─ css/
-│  │  ├─ tokens.css            ← colour, type, space, radius, motion. Edit here first.
-│  │  └─ main.css              ← layout + components, in the order the page uses them
+│  ├─ css/                     ← loaded in this order, always:
+│  │  ├─ tokens.css            ← 1. every value in the system. Edit here first.
+│  │  ├─ system.css            ← 2. reset, layout primitives, a11y utilities
+│  │  ├─ main.css              ← 3. components, in the order the page uses them
+│  │  ├─ display-oswald.css    ← 4. the display voice, applied last
+│  │  └─ ds.css                ← dresses DS.html only. No token, no site component.
 │  ├─ js/
-│  │  └─ main.js               ← header state, mobile nav, inventory rail, lightbox, reveal hook
+│  │  └─ main.js               ← header state, mobile nav, inventory rail, filters,
+│  │                             saved counter, reviews carousel, lightbox, reveals
 │  ├─ img/                     ← photography exported from Figma
 │  ├─ icons/                   ← SVG glyphs exported from Figma
 │  ├─ video/                   ← .gitignored, see “Pending assets”
@@ -87,8 +86,9 @@ unrelated CSS with it.
 
 | What | Where it goes | Note |
 |---|---|---|
-| Gallery films ×2 | `assets/video/gallery-01.mp4`, `gallery-02.mp4` | Those two tiles currently render as plain captioned photographs. Put the paths back on `video:` in the `GAL` array in `tools/build-variants.mjs` and the play glyph and the lightbox return. A play affordance with no film behind it is a control that lies, so it is not offered until the films exist. |
-| Real inventory | — | **All card copy is placeholder.** Titles, prices, mileage, engines and stock numbers stand in for the real feed; only the photograph is final, and it is the same photograph on all five cards. |
+| Gallery films ×2 | `assets/video/gallery-01.mp4`, `gallery-02.mp4` | Those two tiles render as plain photographs. The lightbox is built and wired; a play affordance with no film behind it is a control that lies, so it is not offered until the films exist. |
+| Real inventory | — | **All card copy is placeholder.** Titles, prices, mileage and stock numbers stand in for the real feed, and one photograph stands in for all eight cards. |
+| Compressed section images | `assets/img/` | `Nationwide White Glove Delivery.jpg` (2.0 MB) and `Finance Center Get Pre-Approved.png` (1.7 MB) ship uncompressed. |
 | `Degular` webfont | `assets/fonts/` | The licensed face the headlines were drawn in. Drop an `@font-face` block in and put it first in `--font-display`; no markup changes. |
 
 ## Video
@@ -120,34 +120,6 @@ ffmpeg -ss 5.2 -i "_src/Who we are_.MOV" -frames:v 1 -vf scale=1600:-2 -q:v 3 \
 5.2 s is the frame where the roadster is centred in front of the courthouse.
 A poster taken from somewhere else misrepresents what pressing play will show.
 
-
-## The pinned trade-in sequence (index3 only)
-
-The four trade-in steps are a sequence in the content itself, so the stage
-pins, the plates arrive one at a time, and the next section rides up over it.
-
-It is switched on by `html.scrolly`, which `main.js` adds only when all three
-hold: motion is allowed, the window is at least 62rem wide AND 780px tall, and
-the script actually ran. Miss any one and the section renders exactly as it
-does on index1 — nothing hidden, nothing lost.
-
-Two things it is worth knowing before editing this:
-
-- **Do not put `overflow: hidden` (or `clip`) on any ancestor of the stage.**
-  A non-visible overflow makes that element the sticky containing block and
-  the pin silently stops working. That is why `html`/`body` no longer carry
-  an `overflow-x` guard and why the clip lives on `.trade__stage` rather than
-  on `.trade`.
-- **The reveal is driven by both a scroll listener and an IntersectionObserver.**
-  One driver was not enough: some environments never deliver scroll events for
-  programmatic scrolling. Both call the same idempotent paint.
-
-Verified over the DevTools protocol with real wheel input at 1400×900:
-
-```
-p=0.03 → 0000     p=0.34 → 1110
-p=0.20 → 1100     p=0.55 → 1111 + record + action
-```
 
 ## Images
 
