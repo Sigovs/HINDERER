@@ -2724,15 +2724,23 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
      the dark-ground defaults; the panel overrides them. */
   --rail: var(--rule-strong);
   --knob-ink: var(--ink);
+  /* The two dimensions everything else here is derived from, declared rather
+     than guessed: the target box and the handle drawn inside it. */
+  --range-target: 44px;
+  --range-thumb: 22px;
 }
 /* The 44px targets overhang the 24px rail, which is intended — but they must
    not swallow the clicks of whatever sits above and below them. */
 .range input { pointer-events: none; }
 /* The rail both handles run on. */
+/* The rail spans the handles' TRAVEL, not the box. A native thumb can never
+   reach closer than half its own width to either end, so a full-width rail
+   leaves 11px of track sticking out past where any handle can sit — which
+   reads as a control that does not go all the way. */
 .range::before {
   content: "";
   position: absolute;
-  inset-inline: 0;
+  inset-inline: calc(var(--range-thumb) / 2);
   inset-block-start: 50%;
   translate: 0 -50%;
   block-size: 4px;
@@ -2749,7 +2757,7 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
   inset-block-start: 50%;
   translate: 0 -50%;
   inline-size: 100%;
-  block-size: 44px;
+  block-size: var(--range-target);
   margin: 0;
   padding: 0;
   background: none;
@@ -2761,17 +2769,23 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
 .range input::-webkit-slider-thumb {
   appearance: none;
   pointer-events: auto;
-  inline-size: 22px;
-  block-size: 22px;
+  inline-size: var(--range-thumb);
+  block-size: var(--range-thumb);
+  /* WebKit hangs the thumb from the TOP of the runnable track rather than
+     centring it on the track, so on a 44px target the 22px handle sat with its
+     own top on the rail and its upper half above the box. The offset is the
+     arithmetic, not a nudge. */
+  margin-block-start: calc((var(--range-target) - var(--range-thumb)) / 2);
   border: 0;
   border-radius: var(--radius-pill);
   background: var(--knob-ink);
   cursor: grab;
 }
+/* Firefox centres its thumb on the track already, so it takes no offset. */
 .range input::-moz-range-thumb {
   pointer-events: auto;
-  inline-size: 22px;
-  block-size: 22px;
+  inline-size: var(--range-thumb);
+  block-size: var(--range-thumb);
   border: 0;
   border-radius: var(--radius-pill);
   background: var(--knob-ink);
@@ -2781,8 +2795,8 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
 .range input:focus-visible::-moz-range-thumb { outline: 2px solid var(--knob-ink); outline-offset: 2px; }
 /* Both tracks are transparent — the rail above is the only one drawn, so the
    two inputs cannot paint two rails on top of each other. */
-.range input::-webkit-slider-runnable-track { background: none; block-size: 44px; }
-.range input::-moz-range-track { background: none; block-size: 44px; }
+.range input::-webkit-slider-runnable-track { background: none; block-size: var(--range-target); }
+.range input::-moz-range-track { background: none; block-size: var(--range-target); }
 
 .field-pair { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); }
 @media (max-width: 30rem) {

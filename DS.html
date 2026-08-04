@@ -1035,10 +1035,67 @@
         a "from" above its "to" is a query that can never match, and the control
         should refuse it rather than quietly return nothing. A handle resting on
         its extreme writes <em>nothing</em> into its field, because "no
-        preference" must not silently become a bound. And the drawing is the
-        24px rail while the TARGET is 44px centred on it: the floor is not a
-        look, it is whether a finger lands on the thing it aimed at.
+        preference" must not silently become a bound. And it is paired with its
+        From/To fields both ways: dragging writes the number, typing moves the
+        handle.
       </p>
+
+      <div class="ds-group">
+        <h3 class="ds-group__title">Geometry — three sizes, everything else derived</h3>
+        <table class="ds-table">
+          <thead><tr><th>Property</th><th>Value</th><th>Why it is that</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><code>--range-target</code></td><td>44px</td>
+              <td>The hit box, and the system's target floor. Invisible — it is not the drawing.</td>
+            </tr>
+            <tr>
+              <td><code>--range-thumb</code></td><td>22px</td>
+              <td>The handle as drawn, half the target, so the box is generous without the circle being heavy.</td>
+            </tr>
+            <tr>
+              <td>rail</td><td>4px, <code>--rail</code></td>
+              <td>A hairline with weight. It reads as a track rather than as a border.</td>
+            </tr>
+            <tr>
+              <td>thumb offset</td><td><code>(target − thumb) / 2</code></td>
+              <td>WebKit hangs its thumb from the TOP of the runnable track instead of centring it, so on a 44px target the handle sat with its upper half above the box. Arithmetic, not a nudge.</td>
+            </tr>
+            <tr>
+              <td>rail inset</td><td><code>thumb / 2</code></td>
+              <td>A native thumb can never come closer than half its width to either end, so a full-width rail leaves track sticking out past where any handle can sit — a control that visibly does not go all the way.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="ds-group">
+        <h3 class="ds-group__title">States, and both grounds</h3>
+        <div class="ds-stage">
+          <p class="ds-type__meta">rest · dark ground</p>
+          <div class="range" style="max-inline-size: 20rem">
+            <label class="sr-only" for="dsRangeS1">Lower bound</label>
+            <input id="dsRangeS1" type="range" min="0" max="100" value="20">
+            <label class="sr-only" for="dsRangeS2">Upper bound</label>
+            <input id="dsRangeS2" type="range" min="0" max="100" value="80">
+          </div>
+          <p class="ds-type__meta u-mt-6">rest · bone — <span class="ds-mono">--rail</span> and <span class="ds-mono">--knob-ink</span> flip with the surface</p>
+          <div class="facets" style="max-inline-size: 20rem; padding: var(--space-4)">
+            <div class="range">
+              <label class="sr-only" for="dsRangeS3">Lower bound</label>
+              <input id="dsRangeS3" type="range" min="0" max="100" value="20">
+              <label class="sr-only" for="dsRangeS4">Upper bound</label>
+              <input id="dsRangeS4" type="range" min="0" max="100" value="80">
+            </div>
+          </div>
+        </div>
+        <p class="ds-item__caption">
+          Tab to a handle to see focus: a 2px ring in the handle's own ink, offset
+          by 2 — the same focus treatment every other control on the site uses.
+          Hover changes the cursor to grab and nothing else; a handle that grows
+          under the pointer moves the thing you were aiming at.
+        </p>
+      </div>
     </div>
 
     <div class="ds-group">
