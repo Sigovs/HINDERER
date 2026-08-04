@@ -2367,6 +2367,10 @@ p + p { margin-block-start: var(--space-5); }
    on the page and would out-rank the cars it is there to filter.
    ========================================================================= */
 
+/* The panel has to clear the fold, and the fold is arithmetic: header, page
+   head, section interval, then the panel itself. Every one of those four was
+   costing more than it earned on a 900px window, so the two intervals this
+   page controls are the shortest the rhythm allows. */
 .srp { display: grid; gap: var(--space-8); }
 
 @media (min-width: 62rem) {
@@ -2380,12 +2384,13 @@ p + p { margin-block-start: var(--space-5); }
   }
   /* Sticky, because the list is long and a filter you have to scroll back up
      to reach is a filter nobody uses twice. */
+
   .srp__facets {
     position: sticky;
     inset-block-start: calc(var(--header-h) + var(--space-5));
-    max-block-size: calc(100vh - var(--header-h) - var(--space-8));
-    overflow-y: auto;
-    overscroll-behavior: contain;
+    /* No max-height and no inner scroll: the panel is sized to fit the fold,
+       so a scrollbar here would mean the sizing failed rather than that the
+       content is long. */
     /* The scrollbar is real — the list is genuinely longer than a short window
        — so it is styled rather than hidden: a scrollable region with no
        scrollbar hides the fact that there is more below. Drawn in the page's
@@ -2537,6 +2542,9 @@ p + p { margin-block-start: var(--space-5); }
   background: var(--bg-card);
   color: var(--ink-inverse);
 }
+@media (min-width: 62rem) {
+  .facets { padding-block: var(--space-4); }
+}
 
 
 
@@ -2552,7 +2560,7 @@ p + p { margin-block-start: var(--space-5); }
 .facet {
   min-inline-size: 0;   /* fieldset's UA min-width refuses to shrink in a grid */
   margin: 0;
-  padding-block: var(--space-4);
+  padding-block: var(--space-3);
   padding-inline: 0;
   border: 0;
   border-block-end: 1px solid var(--rule-inverse);
@@ -2570,9 +2578,9 @@ p + p { margin-block-start: var(--space-5); }
 }
 /* Label to control is the tight interval; facet to facet is the loose one, so
    a group reads as a group before it reads as a list of fields. */
-.facet__legend + * { margin-block-start: var(--space-text); }
+.facet__legend + * { margin-block-start: var(--space-2); }
 
-.field { display: grid; gap: var(--space-2); }
+.field { display: grid; gap: var(--space-1); }
 /* Field to field inside one group is the tight interval; group to group is the
    loose one, and the rule between them carries the separation — so stacked
    fields do not need the distance a new group does.
@@ -2580,7 +2588,7 @@ p + p { margin-block-start: var(--space-5); }
    DIRECT children only. Written as a descendant selector it also caught the
    From/To pair inside .field-pair, which is a row, and pushed "To" 16px below
    "From" — a pair that no longer reads as a pair. */
-.facet > .field + .field { margin-block-start: var(--space-4); }
+.facet > .field + .field { margin-block-start: var(--space-3); }
 .field__label {
   font-size: var(--text-xs);
   color: var(--ink-muted);
@@ -2664,8 +2672,8 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
    the From/To fields, and the fields write back — one value, two ways in. */
 .range {
   position: relative;
-  block-size: 28px;
-  margin-block-end: var(--space-2);
+  block-size: 24px;
+  margin-block-end: var(--space-1);
 }
 /* The rail both handles run on. */
 .range::before {
@@ -2832,7 +2840,7 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
   .switch__track::after { transition: none; }
 }
 
-.facets__actions { display: grid; gap: var(--space-3); margin-block-start: var(--space-5); }
+.facets__actions { display: grid; gap: var(--space-3); margin-block-start: var(--space-4); }
 
 /* The control tier's 23px label wrapped "Find your car" onto two lines in a
    272px column and gave the panel a 90px button. Inside the panel the label
@@ -2865,9 +2873,10 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
    ground and illegal at any size. */
 .facets__advanced {
   display: block;
-  margin-block-start: var(--space-3);
+  margin-block-start: var(--space-2);
   min-block-size: 44px;
   padding-block: var(--space-3);
+  box-sizing: border-box;
   text-align: center;
   color: var(--ink-inverse);
   font-size: var(--text-sm);
@@ -2911,6 +2920,66 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
   /* The disclosure is a phone affordance only: on the rail everything is
      already visible, so the summary would be a control that does nothing. */
   .facets > summary { display: none; }
+}
+
+
+/* ---- fitting the fold ---------------------------------------------------
+   The panel must clear the fold, and the fold is arithmetic: header, page
+   head, section interval, panel. These two tiers are placed LAST in the file
+   on purpose — written earlier they lost to the base rules they exist to
+   override, and every measurement came back unchanged.
+   ------------------------------------------------------------------------- */
+@media (min-width: 62rem) {
+  /* SHORT WINDOWS. The panel must clear the fold on a 768px laptop too, and
+     the answer is not an inner scrollbar — a filter you have to scroll to see
+     is a filter half the visitors never learn is there. It tightens instead:
+     the From/To captions go (the slider and the placeholders already say what
+     the two fields are), and every remaining interval takes its floor value.
+     The threshold is 928px rather than the 768px laptop it was written for:
+     at 900px the panel cleared the fold by two pixels, and two pixels is not
+     clearance, it is a coincidence waiting for a longer word. */
+  @media (max-height: 58rem) {
+    .facets { padding-block: var(--space-3); }
+    .facet { padding-block: var(--space-2); }
+    /* The captions go, not the fields. A select whose first option reads "All
+       makes" is already telling you what it filters, and "From"/"To" is already
+       said by the slider they sit under — so the words that survive are the
+       ones carrying information the control does not. They stay in the markup
+       as .sr-only, so nothing is lost to a screen reader. */
+    .field-pair .field__label,
+    .facet > .field > .field__label {
+      position: absolute;
+      inline-size: 1px;
+      block-size: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+    .facets__actions { margin-block-start: var(--space-3); }
+    .facets .btn-hmc { min-block-size: 46px; }
+    .facets__advanced { margin-block-start: var(--space-1); padding-block: var(--space-2); }
+    .range { block-size: 20px; margin-block-end: 0; }
+  }
+
+  /* A 1366x768 laptop is the floor this has to clear, and at that height the
+     page head itself is what pushes the panel past the fold. The opening
+     intervals take their shortest value rather than the panel being crushed
+     further — a filter nobody can read is not a filter that fits. */
+  @media (max-height: 50rem) {
+    .section--below-header { padding-block-start: calc(var(--header-h) + var(--space-3)); }
+    .section--tight-top { padding-block-start: var(--space-3); }
+    /* The eyebrow and the headline are one thought; on a short screen they can
+       be read as one at the tighter interval too. */
+    .stack > .eyebrow + * { margin-block-start: var(--space-2); }
+    /* Tight, not crushed. The first pass took 110px more than the fold
+       needed and the panel read as squeezed; these are the values that clear
+       768px with room to spare and still look like a considered instrument. */
+    .facets { padding-block: var(--space-3); }
+    .facet { padding-block: var(--space-2); }
+    .facet__legend + * { margin-block-start: var(--space-1); }
+    .facet > .field + .field { margin-block-start: var(--space-2); }
+    .range { block-size: 20px; }
+  }
 }
 
 

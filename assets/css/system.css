@@ -146,10 +146,10 @@
    own clearance; every other first section takes this. Required on the FIRST
    section of any page that is not the home page — the interval is the header
    plus the ordinary opening interval, so the page still opens on rhythm. */
-.section--below-header { padding-block-start: calc(var(--header-h) + var(--space-8)); }
+.section--below-header { padding-block-start: calc(var(--header-h) + var(--space-6)); }
 /* The inventory rail follows the hero's own downward hand-off, so it takes a
    shorter interval than a section that has to introduce itself. */
-.section--tight-top    { padding-block-start: var(--space-8); }
+.section--tight-top    { padding-block-start: var(--space-6); }
 
 
 /* =========================================================================
