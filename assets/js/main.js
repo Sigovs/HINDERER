@@ -595,8 +595,6 @@
   if (facetForm && resultList) {
     var cards = [].slice.call(resultList.querySelectorAll('.vehicle'));
     var emptyEl = document.querySelector('[data-results-empty]');
-    var countEl = document.querySelector('[data-result-count]');
-    var nounEl = document.querySelector('[data-result-noun]');
     var pagerEl = document.querySelector('.pager__state');
     var sortEl = document.querySelector('[data-sort]');
     var clearBtns = [].slice.call(document.querySelectorAll('[data-facets-clear]'));
@@ -666,8 +664,9 @@
         if (ok) shown++;
       });
 
-      if (countEl) countEl.textContent = shown < 10 ? '0' + shown : String(shown);
-      if (nounEl) nounEl.textContent = shown === 1 ? 'vehicle' : 'vehicles';
+      /* The count above the grid is gone; the pager under it is now the only
+         place the number is stated, which is where a visitor looks for it
+         after reading rather than before. */
       if (pagerEl) {
         pagerEl.innerHTML = '<span class="num-tabular">' + shown + '</span> of ' +
                             '<span class="num-tabular">' + cards.length + '</span> shown';

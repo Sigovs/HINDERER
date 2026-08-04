@@ -86,7 +86,7 @@
 
 
 
-<main id="main">
+<main id="main" class="lit-top">
 
   <!-- ===================================================================
        1 · PAGE HEAD
@@ -99,9 +99,27 @@
            is and then gets out of the way; the sub-line and the paragraph that
            were here pushed the first car most of a screen further down and said
            nothing the list does not say better by existing. -->
-      <div class="stack" data-scene>
-        <p class="eyebrow" data-rise="left">Current inventory</p>
-        <h1 class="section-title" id="srpTitle" data-rise="left">Hand-Built. In Stock.</h1>
+      <!-- Headline and sort on one line. The count that used to sit above the
+           grid is gone: the pager under the list already states how many are
+           shown, and a number nobody asked for was taking a whole row at the
+           top of the page. Sort belongs beside the title because it is a
+           statement about the whole list, not about the rows under it. -->
+      <div class="srp-head">
+        <div class="stack" data-scene>
+          <p class="eyebrow" data-rise="left">Current inventory</p>
+          <h1 class="section-title" id="srpTitle" data-rise="left">Hand-Built. In Stock.</h1>
+        </div>
+            <div class="srp-head__sort">
+            <label class="field__label" for="sort">Sort by</label>
+            <span class="select">
+              <select class="control" id="sort" data-sort>
+                <option value="price-asc">Price: low to high</option>
+                <option value="price-desc">Price: high to low</option>
+                <option value="year-desc">Year: newest first</option>
+                <option value="miles-asc">Mileage: lowest first</option>
+              </select>
+            </span>
+          </div>
       </div>
     </div>
   </section>
@@ -215,23 +233,6 @@
 
         <div class="srp__results">
 
-          <div class="results-bar">
-            <p class="results-bar__count">
-              <strong class="num-tabular" data-result-count>12</strong>
-              <span data-result-noun>vehicles</span> available
-            </p>
-            <div class="results-bar__sort">
-              <label class="field__label" for="sort">Sort by</label>
-              <span class="select">
-                <select class="control" id="sort" data-sort>
-                  <option value="price-asc">Price: low to high</option>
-                  <option value="price-desc">Price: high to low</option>
-                  <option value="year-desc">Year: newest first</option>
-                  <option value="miles-asc">Mileage: lowest first</option>
-                </select>
-              </span>
-            </div>
-          </div>
 
           <ul class="results list-bare" data-results>
             <li class="vehicle vehicle--new" data-status="new"

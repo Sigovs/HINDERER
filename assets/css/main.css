@@ -2407,36 +2407,59 @@ p + p { margin-block-start: var(--space-5); }
   }
 }
 
-/* ---- results bar --------------------------------------------------------
-   Count on the left, sort on the right, one rule under both. The count is the
-   page answering the question that was just asked, so it is stated in words
-   and figures rather than shown as a number on its own. */
-.results-bar {
+/* ---- the lit entrance ---------------------------------------------------
+   The same warm source the home page carries on #about and #gallery: copper at
+   a tenth of its strength, which is a light rather than a colour — it never
+   rises far enough to become a surface. Here it is bounded to the top of the
+   page on purpose. Twelve photographs are the subject, and a glow that ran the
+   full length of the list would sit behind every one of them and tint the cars;
+   this one lights the way in and is gone before the first row.
+
+   The bound is the background-size, not a gradient stop: percentages in a
+   radial resolve against the positioning area, so declaring that area 1200px
+   tall puts the whole falloff inside the first screen and leaves the rest of
+   the page on flat ground. */
+.lit-top {
+  background:
+    radial-gradient(54% 34% at 10% 2%,
+      rgb(var(--accent-rgb) / 0.15) 0%,
+      rgb(var(--accent-rgb) / 0.05) 46%,
+      rgb(var(--bg-rgb) / 0) 74%),
+    radial-gradient(44% 28% at 94% 16%,
+      rgb(var(--accent-rgb) / 0.11) 0%,
+      rgb(var(--accent-rgb) / 0.04) 44%,
+      rgb(var(--bg-rgb) / 0) 72%),
+    var(--bg);
+  background-repeat: no-repeat;
+  background-size: 100% 1200px, 100% 1200px, auto;
+}
+
+/* ---- page head ----------------------------------------------------------
+   Headline and sort share a line. Sort is a statement about the whole list
+   rather than about the rows beneath it, so it belongs beside the thing it
+   sorts — and the row it used to occupy above the grid is a row the cars get
+   back. Baseline-aligned to the headline, not centred: two masses of very
+   different height centre-aligned read as accidentally adjacent. */
+.srp-head {
   display: flex;
   flex-wrap: wrap;
-  align-items: baseline;
+  align-items: flex-end;
   justify-content: space-between;
-  gap: var(--space-4) var(--space-5);
+  gap: var(--space-4) var(--space-6);
   padding-block-end: var(--space-4);
   border-block-end: 1px solid var(--rule);
 }
 
-.results-bar__count {
-  font-size: var(--text-body);
-  color: var(--ink-muted);
-}
-.results-bar__count strong {
-  font-family: var(--font-display);
-  font-size: var(--text-h3);
-  font-weight: var(--weight-heading);
-  letter-spacing: var(--track-heading);
-  color: var(--ink);
-  margin-inline-end: var(--space-2);
-}
+.srp-head__sort { display: flex; align-items: center; gap: var(--space-3); }
+.srp-head__sort .field__label { white-space: nowrap; color: var(--ink-muted); }
+.srp-head__sort .control { inline-size: auto; min-inline-size: 14rem; }
 
-.results-bar__sort { display: flex; align-items: center; gap: var(--space-3); }
-.results-bar__sort .field__label { white-space: nowrap; }
-.results-bar__sort .control { inline-size: auto; min-inline-size: 14rem; }
+/* The select sits on the baseline of the headline's last line, which the flex
+   end-alignment gives it — but the headline carries display leading and the
+   control does not, so it needs a nudge to look level rather than to be it. */
+@media (min-width: 62rem) {
+  .srp-head__sort { padding-block-end: var(--space-2); }
+}
 
 /* ---- the card grid ------------------------------------------------------
    Not the rail. A rail is for a sample of the inventory beside other content;
@@ -2560,7 +2583,7 @@ p + p { margin-block-start: var(--space-5); }
 .facet {
   min-inline-size: 0;   /* fieldset's UA min-width refuses to shrink in a grid */
   margin: 0;
-  padding-block: var(--space-3);
+  padding-block: var(--space-4);
   padding-inline: 0;
   border: 0;
   border-block-end: 1px solid var(--rule-inverse);
@@ -2568,17 +2591,25 @@ p + p { margin-block-start: var(--space-5); }
 .facet:first-of-type { padding-block-start: 0; }
 .facet:last-of-type { border-block-end: 0; }
 
+/* Sentence case, and tracked like reading rather than like a label. The Figma
+   sets these as "Year Range" and "Select Make" — plain words. Uppercase at
+   0.12em turned a field-group name into an editorial rubric: it announced
+   louder than the control under it and spread "VEHICLE" across half the panel.
+   The eyebrow keeps that treatment because an eyebrow IS a rubric; a legend
+   inside an instrument is not. */
 .facet__legend {
   padding: 0;
-  font-size: var(--text-xs);
+  font-size: var(--text-sm);
   font-weight: var(--weight-label);
-  letter-spacing: var(--track-label);
-  text-transform: uppercase;
+  letter-spacing: var(--track-body);
+  line-height: var(--lh-tight);
   color: var(--ink-inverse);
 }
 /* Label to control is the tight interval; facet to facet is the loose one, so
    a group reads as a group before it reads as a list of fields. */
-.facet__legend + * { margin-block-start: var(--space-2); }
+/* One rhythm, three steps, each visibly smaller than the one outside it:
+   label → its control 4, legend → its group 12, field → field 16. */
+.facet__legend + * { margin-block-start: var(--space-text); }
 
 .field { display: grid; gap: var(--space-1); }
 /* Field to field inside one group is the tight interval; group to group is the
@@ -2588,9 +2619,13 @@ p + p { margin-block-start: var(--space-5); }
    DIRECT children only. Written as a descendant selector it also caught the
    From/To pair inside .field-pair, which is a row, and pushed "To" 16px below
    "From" — a pair that no longer reads as a pair. */
-.facet > .field + .field { margin-block-start: var(--space-3); }
+.facet > .field + .field { margin-block-start: var(--space-4); }
 .field__label {
   font-size: var(--text-xs);
+  /* The box hugs the word. Left at reading leading, a 14px caption sat on
+     16px of line box and the 4px gap under it measured 4 and read as 12 —
+     which is why the label looked detached from the control it names. */
+  line-height: var(--lh-tight);
   color: var(--ink-muted);
 }
 /* Inside the bone panel every ink flips. --ink-muted is 4.32:1 on bone and
