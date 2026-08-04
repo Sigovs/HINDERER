@@ -2404,6 +2404,11 @@ p + p { margin-block-start: var(--space-5); }
    costing more than it earned on a 900px window, so the two intervals this
    page controls are the shortest the rhythm allows. */
 .srp { display: grid; gap: var(--space-8); }
+/* A grid item defaults to min-width:auto and refuses to shrink below its
+   content, which is how a card grid pushes its own column wider instead of
+   reflowing. Named here rather than left implicit — the class existed in the
+   markup with no rule behind it. */
+.srp__results { min-inline-size: 0; }
 
 @media (min-width: 62rem) {
   .srp {
@@ -3581,19 +3586,27 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
   color: var(--ink);
 }
 
-/* ---- photo grid ---------------------------------------------------------
-   The same six files the stage carries, shown at once rather than one at a
-   time. Clicking one sends it to the stage instead of opening a lightbox —
-   the stage IS the large view, and a second large view would be a second
-   answer to the same question. */
-.photo-grid {
+/* ---- photo mosaic -------------------------------------------------------
+   The Figma's composition: six cells at four different shapes, not six crops of
+   one shape. A cockpit is not the same shape as a side profile, and forcing six
+   subjects through a single aspect ratio is how a gallery stops reading as a set
+   of photographs and starts reading as a contact sheet.
+
+   Clicking a cell sends it to the stage above rather than opening a lightbox —
+   the stage IS the large view, and a second one would be a second answer to the
+   same question.
+   ------------------------------------------------------------------------- */
+.photo-mosaic {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
-  gap: var(--space-4);
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-3);
+  margin-block-start: var(--space-text-obj);
 }
-.photo-grid__item {
+
+.photo-mosaic__item {
   display: block;
   inline-size: 100%;
+  block-size: 100%;
   padding: 0;
   border: 0;
   border-radius: var(--radius-3);
@@ -3602,18 +3615,41 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
   cursor: zoom-in;
   line-height: var(--lh-none);
 }
-.photo-grid__item img {
+.photo-mosaic__item img {
   inline-size: 100%;
-  aspect-ratio: 16 / 10;
+  block-size: 100%;
   object-fit: cover;
   display: block;
   transition: scale var(--dur-4) var(--ease-out);
 }
-.photo-grid__item:hover img,
-.photo-grid__item:focus-visible img { scale: 1.05; }
+.photo-mosaic__item:hover img,
+.photo-mosaic__item:focus-visible img { scale: 1.05; }
+.photo-mosaic__item:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
+
+/* One column keeps each photograph at its own proportion; the mosaic only
+   exists where there is width for three columns to mean anything. */
+.photo-mosaic__cell img { aspect-ratio: 4 / 3; }
+
+@media (min-width: 48rem) {
+  .photo-mosaic {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-rows: repeat(6, minmax(0, 1fr));
+    aspect-ratio: 16 / 11;
+  }
+  /* Spans written per cell, so the composition is stated once and cannot drift
+     into "whatever auto-placement did". */
+  .photo-mosaic__cell--a { grid-column: 1; grid-row: 1 / 4; }
+  .photo-mosaic__cell--b { grid-column: 2; grid-row: 1 / 5; }
+  .photo-mosaic__cell--c { grid-column: 3; grid-row: 1 / 3; }
+  .photo-mosaic__cell--d { grid-column: 1; grid-row: 4 / 7; }
+  .photo-mosaic__cell--e { grid-column: 2; grid-row: 5 / 7; }
+  .photo-mosaic__cell--f { grid-column: 3; grid-row: 3 / 7; }
+  /* The cell decides the shape here, so the image stops declaring one. */
+  .photo-mosaic__cell img { aspect-ratio: auto; }
+}
 
 @media (prefers-reduced-motion: reduce) {
-  .photo-grid__item img { transition: none; }
+  .photo-mosaic__item img { transition: none; }
 }
 
 /* ---- full specification ------------------------------------------------- */
