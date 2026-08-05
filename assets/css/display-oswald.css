@@ -69,24 +69,60 @@
    less viewport-driven size to stay on one line down at 320px. */
 :root { --text-hero: clamp(1.5rem, 7.6vw, 4.25rem); }
 
-/* Oswald ships no true italic and no tabular figure set. Anything that has to
-   align down a column stays in Inter, which has both — a price is a single
-   figure per card and is free to take the display face. */
-.plate dd,
-.vehicle__specs dd,
-.hours dd,
-.num-tabular { font-family: var(--font-body); }
+/* Oswald ships no true italic and no tabular figure set, so anything aligning
+   down a column stays in Inter, which has both.
 
-/* Condensed uppercase closes up a little faster than the wider face did, so
-   these open one notch past --track-caps — one notch, not three. The 0.14em
-   this list used to carry was the same mistake as the 0.12em token it followed:
-   at label size it stopped reading as tracking and started reading as gaps
-   between letters, and a five-letter word spread across half its container.
+   .num-tabular IS NO LONGER IN THIS LIST, and that was a real defect rather than
+   a preference. The rule was written to pull figures out of OSWALD; .num-tabular
+   is also on the configurator's total, which declares the SERIF — so a rule
+   aimed at the display face was quietly overriding the one role the serif has.
+   Measured, the build page contained no Playfair at all and its total was set in
+   the body face at 52px, a combination the home page does not have.
 
-   Every selector here is caps. That is the whole condition for being in the
-   list — .field__label was in it, and "From" and "Make" are ordinary words. */
+   .plate dd and .vehicle__specs dd went with it: neither class exists in any
+   page's markup. A selector with nothing behind it is how a rule survives long
+   enough to break something else. */
+.hours dd { font-family: var(--font-body); }
+
+/* -------------------------------------------------------------------------
+   THE LABEL REGISTER — one rule, and this is the only place it is decided.
+
+   Measured before this existed, ten micro-labels doing ONE job — eyebrow, nav
+   item, collection count, START HERE, the progress count, the panel's spec
+   keys, CONFIGURED SO FAR, CHOOSE AS MANY — ran across two faces, two weights
+   and three trackings:
+
+     nav / phone / pill        Oswald 400 at 0.005em   ← jammed, effectively none
+     START HERE / spec keys    Oswald 500 at 0.03em
+     eyebrow                   Inter Tight 500 at 0.05em
+     progress / panel eyebrow  Inter Tight 500 at 0.03em
+
+   One role in two voices is the drift a reader feels as "everything is in a
+   heap" without being able to name it — the typographic cue stops working
+   everywhere, not only where it changed. So: a micro-label is the DISPLAY face.
+   Oswald is drawn for caps — tall caps, short descenders, a narrow set — it
+   already carries the nav and the buttons, and the house split says Oswald
+   announces while Inter informs. A label announces; it is not prose.
+
+   Tracking is --track-caps, the page's single uppercase value. I briefly ran
+   these at 0.10em on the rule that uppercase opens as it shrinks — true for a
+   normal-width face, wrong for a condensed one drawn for caps, where it read as
+   gaps rather than as tracking. The 0.05em that used to sit here was a raw value
+   belonging to no scale; the token is the fix, not a bigger number.
+
+   The condition for being in this list is exactly: uppercase, and small enough
+   to be a label rather than a heading. Nothing else.
+   ------------------------------------------------------------------------- */
 .eyebrow,
-.footer-col__title,
 .vehicle__status,
-.vehicle__specs dt,
-.plate dt { letter-spacing: 0.05em; }
+.spec-pairs__row dt,
+.build-base__step,
+.build-progress__count,
+.vdp-panel__eyebrow,
+.optgroup__mech,
+.site-nav__link,
+.collection-pill__label {
+  font-family: var(--font-display);
+  font-weight: var(--weight-label);
+  letter-spacing: var(--track-caps);
+}

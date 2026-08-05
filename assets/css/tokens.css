@@ -47,6 +47,10 @@
   --accent:          #a86537;   /*  3.67:1 — display ≥24px + solid fills only */
   --accent-ink:      #c8813f;   /*  5.34:1 — copper text below 24px */
   --accent-hover:    #b97240;   /*  4.32:1 — control hover */
+  /* --accent-panel (a deep copper GROUND stop) was deleted with the copper
+     contact panel: DS.html has always documented that panel's ground as
+     --bg-raised, and the copper slab was drift. Copper is ink and fill here,
+     never a ground — so there is no ground stop to keep. */
   --accent-glow:     #e07921;   /*  5.55:1 — hero radial. Referenced only through
                                    its channel form --glow-rgb; kept in hex so the
                                    palette shows the colour it is a tint of. */
@@ -88,6 +92,12 @@
   --ink-rgb:        255 255 255; /* = --ink */
   --accent-rgb:     168 101 55;  /* = --accent */
   --accent-ink-rgb: 200 129 63;  /* = --accent-ink */
+  /* = --slate-lift, and it is the LIFT step rather than --slate for a measured
+     reason: as a wash it has to match copper's presence at the same alpha, and
+     --slate-lift's luminance is 0.166 against copper's 0.179. --slate sits at
+     0.095 and would have read as a stain rather than as a second light. */
+  --slate-lift-rgb: 95 118 115;
+  --tel-lift-rgb:   0 183 169;   /* = --tel-lift, for the progress fill's glow */
   /* The hero radial is one light source falling off through three stops, so
      the two inner ones are lighter tints of the glow rather than new hues. */
   --glow-in-rgb:  240 188 144;  /* radial centre */
@@ -193,19 +203,15 @@
   --track-display: -0.022em;
   --track-heading: -0.006em;
   --track-body:    0.005em;
-  /* THE uppercase tracking, and now the only one. 0.12em lived here as a
-     separate "label" step and it was the wrong idea rather than the wrong
-     number: at 14px it stopped reading as tracking and started reading as gaps
-     between letters, so a five-letter word spread across half its container and
-     announced louder than the control beneath it. Everything uppercase from 14
-     to 24 takes this. */
+  /* ONE uppercase tracking, and this is a revert of my own change made an hour
+     earlier. I split this into two steps and raised labels to 0.10em, citing the
+     rule that uppercase needs more tracking as the size drops. That rule is
+     written for faces of normal width; Oswald is CONDENSED and drawn for caps,
+     so it reaches the same "not jammed" at a much smaller number — and at 0.10em
+     a five-letter label stopped reading as tracking and started reading as gaps
+     between letters. The note that used to sit here said exactly that, and it
+     was right. Everything uppercase takes this. */
   --track-caps:    0.03em;
-  /* The one deliberate exception, and it is a watermark rather than a label:
-     the contact panel sets its rubric and its value one above the other on a
-     copper ground, where a normal track left the two reading as one block of
-     text. Only the contact panel uses it. Everything else uppercase takes
-     --track-caps. */
-  --track-label-wide: 0.22em;
   --track-num:     0.06em;   /* figures read aloud — phone, stock */
 
   /* Reading measures — long lines hurt reading in any aesthetic */
@@ -313,6 +319,11 @@
   /* Height of the persistent header — counted as a mass, used for
      scroll-margin so anchor targets are never hidden beneath it. */
   --header-h: 84px;
+
+  /* Height of the configurator's phone bar, which is fixed over the document.
+     One value, used by the bar AND by the clearance the document ends with —
+     written twice they drift, and the drift is a footer nobody can reach. */
+  --build-bar-h: 5.5rem;
 }
 
 @media (min-width: 62rem) {

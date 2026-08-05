@@ -924,6 +924,12 @@
     var labelEl = buildRoot.querySelector('[data-total-label]');
     var remainEl = buildRoot.querySelector('[data-remaining]');
     var configField = buildRoot.querySelector('[data-config-field]');
+    var progressBox = buildRoot.querySelector('[data-progress]');
+    var progressFill = buildRoot.querySelector('[data-progress-fill]');
+    var progressDone = buildRoot.querySelector('[data-progress-done]');
+    var progressTotal = buildRoot.querySelector('[data-progress-total]');
+    var submitEl = buildRoot.querySelector('[data-submit]');
+    var attachedEl = buildRoot.querySelector('[data-attached]');
     var bar = document.querySelector('[data-build-bar]');
     var barTotal = bar && bar.querySelector('[data-bar-total]');
     var barCount = bar && bar.querySelector('[data-bar-count]');
@@ -940,7 +946,12 @@
     };
 
     var paint = function () {
-      var total = BASE, chosenCount = 0, missing = 0, lines = [];
+      /* `answered` and `missing` are different counts and both are needed:
+         `missing` is about REQUIRED groups still open, which is what gates the
+         estimate; `answered` is every group with a decision in it, which is what
+         the progress bar reports. Two of the nine are optional, so one number
+         cannot do both jobs. */
+      var total = BASE, chosenCount = 0, missing = 0, answered = 0, lines = [];
 
       groups.forEach(function (group) {
         var id = group.getAttribute('data-group');
@@ -955,10 +966,17 @@
 
         var required = group.hasAttribute('data-required');
         if (required && !picks.length) missing++;
+        if (picks.length) answered++;
 
         var head = group.querySelector('[data-chosen] strong');
         var row = buildRoot.querySelector('[data-row="' + id + '"]');
         var text = picks.length ? picks.map(function (p) { return p.label; }).join(', ') : 'Not selected';
+
+        /* The whole answered state hangs off this one attribute: the mark at the
+           head of the row and the ink of the value both read it, so the two can
+           never disagree about whether a group is done. */
+        if (picks.length) group.setAttribute('data-answered', '');
+        else group.removeAttribute('data-answered');
 
         if (head) head.textContent = text;
         var headPrice = group.querySelector('[data-chosen] .num-tabular');
@@ -972,10 +990,13 @@
 
         if (row) {
           row.querySelector('[data-value]').textContent = text;
-          /* A zero IS a price; the absence of an answer is not, so an unanswered
-             group gets an em dash and not "$0" in the cost column. */
-          row.querySelector('[data-cost]').textContent = picks.length ? money(sum) : '—';
-          row.classList.toggle('summary__row--empty', !picks.length);
+          /* Three states, three words, and each one is the truth about the row:
+             an em dash where nothing has been answered, "Included" where the
+             answer costs nothing — the word the option card itself uses, so one
+             fact is not printed two ways — and the figure where there is one. */
+          row.querySelector('[data-cost]').textContent =
+            !picks.length ? '—' : (sum > 0 ? money(sum) : 'Included');
+          row.classList.toggle('spec-pairs__row--empty', !picks.length);
         }
 
         if (picks.length) lines.push(group.querySelector('.optgroup__name').textContent + ': ' + text +
@@ -991,6 +1012,32 @@
           ? missing + (missing === 1 ? ' group still needs an answer.' : ' groups still need an answer.')
           : 'Every group has an answer. This estimate excludes tax, title and delivery.';
       }
+      if (progressDone) progressDone.textContent = answered;
+      if (progressTotal) progressTotal.textContent = groups.length;
+      if (progressFill) progressFill.style.inlineSize = (answered / groups.length * 100) + '%';
+      if (progressBox) {
+        progressBox.setAttribute('aria-valuemax', groups.length);
+        progressBox.setAttribute('aria-valuenow', answered);
+        /* The bar is a picture; the words are the fact. Screen readers get the
+           sentence, not a percentage they have to translate. */
+        progressBox.setAttribute('aria-valuetext', answered + ' of ' + groups.length + ' chosen');
+      }
+
+      /* The control tells the truth about what it sends. Nothing is disabled —
+         a half-specified car is still a real enquiry and the dealer wants it —
+         but "Send my estimate" is a claim, and at 2 of 9 there is no estimate
+         yet, only a starting point. The word changes; the action does not. */
+      if (submitEl) {
+        submitEl.textContent = missing ? 'Send this configuration' : 'Send my estimate';
+      }
+      if (attachedEl) {
+        attachedEl.textContent = missing
+          ? 'Your ' + answered + ' of ' + groups.length +
+            ' choices travel with this message. We will price the rest with you.'
+          : 'All ' + groups.length + ' choices travel with this message, so you do not have to ' +
+            'list them again.';
+      }
+
       if (barTotal) barTotal.textContent = money(total);
       if (barCount) {
         barCount.textContent = chosenCount
@@ -1001,6 +1048,65 @@
     };
 
     buildRoot.addEventListener('change', paint);
+
+    /* ONE GROUP OPEN AT A TIME.
+       The mechanism is the `name` attribute the markup carries: <details> with a
+       shared name is a native exclusive accordion, so it works with no script at
+       all and the browser owns the semantics. Everything below is what the native
+       behaviour does NOT give you.
+
+       First, the fallback for browsers that predate `name` — feature-detected,
+       not sniffed. */
+    var exclusiveIsNative = 'name' in document.createElement('details');
+    if (!exclusiveIsNative) {
+      groups.forEach(function (g) {
+        g.addEventListener('toggle', function () {
+          if (!g.open) return;
+          groups.forEach(function (other) { if (other !== g) other.open = false; });
+        });
+      });
+    }
+
+    /* Second, and this one bites in every browser: when the group you open sits
+       BELOW the one that closes, the page collapses upward under your cursor and
+       the heading you just clicked is somewhere else — on a nine-group list the
+       jump is most of a screen. So the heading's position is measured before the
+       toggle and restored after it, which keeps the thing you touched under the
+       point you touched it. behavior:'auto' is explicit because the page sets
+       scroll-behavior: smooth, and a correction that animates is a second jump. */
+    groups.forEach(function (g) {
+      var head = g.querySelector('.optgroup__head');
+      if (!head) return;
+      head.addEventListener('click', function () {
+        var before = head.getBoundingClientRect().top;
+        requestAnimationFrame(function () {
+          var delta = head.getBoundingClientRect().top - before;
+          if (Math.abs(delta) > 1) window.scrollBy({ top: delta, behavior: 'auto' });
+        });
+      });
+    });
+
+    /* A radio cannot be unset by clicking it again — the browser will not do it,
+       and there is no longer a "Standard" card to switch to now that the groups
+       carry exactly the options the workshop offers. So a second click on the
+       chosen card clears the group: without it a visitor who opens Upholstery
+       out of curiosity is holding a $950 option they never wanted and has no way
+       to put it back. */
+    buildRoot.addEventListener('mousedown', function (e) {
+      var input = e.target.closest ? e.target.closest('.optcard') : null;
+      if (!input) return;
+      var field = input.querySelector('input[type="radio"]');
+      if (field && field.checked) {
+        /* mousedown fires before the click that would re-check it. */
+        setTimeout(function () { field.checked = false; paint(); }, 0);
+      }
+    });
+    /* And from the keyboard, where the same problem exists. */
+    buildRoot.addEventListener('keydown', function (e) {
+      if (e.key !== 'Backspace' && e.key !== 'Delete') return;
+      var f = document.activeElement;
+      if (f && f.type === 'radio' && f.checked) { f.checked = false; paint(); e.preventDefault(); }
+    });
 
     /* The phone bar carries the number; the list it belongs to is one tap away. */
     if (bar) {
@@ -1014,9 +1120,11 @@
       }
     }
 
-    /* Open the groups that still need an answer, leave the rest shut: nine open
-       accordions is not a form, it is a wall. */
-    groups.forEach(function (g, i) { g.open = i < 3; });
+    /* Which groups start open is a fact of the DOCUMENT, not a thing script
+       does to it: the `open` attribute is on the first three in the markup, so
+       they are open in the first paint, open with no JS at all, and the page no
+       longer arrives shut and then snaps. Nine open accordions is not a form,
+       it is a wall — hence three and not nine. */
 
     paint();
   }

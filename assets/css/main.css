@@ -397,11 +397,15 @@ p + p { margin-block-start: var(--space-5); }
 .site-nav__list {
   display: flex;
   align-items: center;
-  /* The Figma sets 40 here, which is on no scale the rest of the page uses.
-     Taken up to the 48 step rather than down to 32: there is room for it at
-     every width where this row exists, and a nav that is the one component
-     measuring in its own units is how a scale stops being a scale. */
-  gap: var(--space-7);
+  /* The Figma sets 40 here, which is on no scale the rest of the page uses, so
+     the 48 step is the desktop value. It is not affordable at every width this
+     row exists at, though: the burger only takes over below 48rem, and between
+     there and ~69rem a fixed 48 broke TRADE IN and WHO WE ARE onto second
+     lines. The interval closes to the 24 step instead of the row wrapping —
+     the same clamp-between-two-tokens construction as --gutter, not a third
+     scale. */
+  gap: clamp(var(--space-5), 2.6vw, var(--space-7));
+  flex-wrap: nowrap;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -413,6 +417,7 @@ p + p { margin-block-start: var(--space-5); }
 .site-nav__link {
   position: relative;
   display: block;
+  white-space: nowrap;
   padding-block: var(--space-2);
   color: var(--ink);
   font-family: var(--font-display);
@@ -2223,19 +2228,31 @@ p + p { margin-block-start: var(--space-5); }
   .contact__map__frame { filter: none; }
 }
 
-/* THE WARM PANEL
-   Copper at #c8813f under #1f1d19 ink measures 5.34:1 — AA at every size used
-   here, which is why the lighter copper is the ground and the darker one is not.
-   Ink-on-copper, not white-on-copper: white would sit at 3.67:1 and fail. */
+/* THE DARK PANEL
+   The ground is --bg-raised, which is what DS.html has documented for this panel
+   all along ("Card title band, footer, contact panel"). It had drifted to a
+   solid copper gradient — an entire saturated slab, which is the accent used as
+   an identity rather than as a setting (colour D3), and it broke the site's dark
+   restraint everywhere the eye landed on it. On the dark ground copper returns to
+   what it is elsewhere: the label ink, the watermark, and the one action. The map
+   beside it is dark too, so the two columns read as one field split by a hairline
+   rather than a cool photo bolted to a warm billboard (anti-patterns U11). */
 .contact__panel {
   position: relative;
   display: grid;
   align-content: center;
+  gap: var(--space-7);
   padding: clamp(var(--space-7), 4vw, var(--space-9));
   padding-inline-end: clamp(var(--space-8), 6vw, var(--space-10));
-  background: linear-gradient(152deg, var(--accent-ink) 0%, var(--accent) 100%);
-  color: var(--ink-inverse);
+  background: var(--bg-raised);
+  color: var(--ink);
   overflow: hidden;
+  /* Hairline seam between the two dark columns: on top when the panel stacks
+     under the map (mobile), on the leading edge when it sits beside it. */
+  border-block-start: 1px solid var(--rule);
+}
+@media (min-width: 62rem) {
+  .contact__panel { border-block-start: 0; border-inline-start: 1px solid var(--rule); }
 }
 
 /* The word runs the full height of the panel, letter by letter, hard against
@@ -2269,7 +2286,9 @@ p + p { margin-block-start: var(--space-5); }
   font-weight: var(--weight-heading);
   line-height: var(--lh-none);
   text-transform: uppercase;
-  color: rgb(var(--bg-rgb) / 0.15);
+  /* Copper watermark embossed into the dark ground — the one committed gesture,
+     material rather than loud. Decorative (aria-hidden), so no contrast floor. */
+  color: rgb(var(--accent-ink-rgb) / 0.14);
   writing-mode: vertical-rl;
   pointer-events: none;
   user-select: none;
@@ -2296,24 +2315,35 @@ p + p { margin-block-start: var(--space-5); }
   font-family: var(--font-display);
   font-size: var(--text-xs);
   font-weight: var(--weight-label);
-  letter-spacing: var(--track-label-wide);
+  /* --track-caps (0.03em), the site's single documented uppercase tracking. The
+     original 0.22em read "cheap"; the fix is NOT a wider label step — DS.html
+     records that a separate wide track was tried twice and read as gaps in this
+     condensed face. The label register is carried by copper, case and weight,
+     not by air between letters. (typography I4's 0.08em number yields to the
+     face; its intent — legible, cohesive uppercase — is met.) */
+  letter-spacing: var(--track-caps);
   text-transform: uppercase;
-  color: var(--ink-inverse);
+  color: var(--accent-ink);   /* copper is the brand's label ink — 5.19:1 on --bg-raised */
 }
-/* Material Symbols, inlined and drawn in currentColor — so they take the panel's
-   ink directly instead of being filtered into it, and they stay correct if the
-   ground ever changes. */
-.contact__icon { flex: 0 0 auto; opacity: 0.66; }
+/* Material Symbols, inlined and drawn in currentColor — so the icon takes the
+   copper of its label directly. It is the label register in a glyph, so it
+   carries the same ink rather than a filtered approximation of it. */
+.contact__icon { flex: 0 0 auto; opacity: 0.9; }
 
+/* THE VALUE OUTRANKS ITS OWN LABEL, and now the tone does the ranking the size
+   used to do alone. On the dark ground the split is clean: the value is
+   near-white (--ink, 16.3:1), the label is copper (--accent-ink). The number and
+   the address — what a visitor came for — sit at the site's highest contrast,
+   the label recedes into the copper register, and the two read as figure and
+   caption at a glance. Size still helps (--text-lead over --text-xs). */
 .contact__value {
   margin: 0;
-  font-size: var(--text-body);          /* 16px — the values sit under the label,
-                                           not over it */
+  font-size: var(--text-lead);
   font-weight: var(--weight-body);
   font-style: normal;
   line-height: var(--lh-lead);
   letter-spacing: var(--track-body);
-  color: var(--ink-inverse);
+  color: var(--ink);
 }
 /* The number is the one thing here anyone copies by eye — tabular figures and a
    little air between them, the way a phone number is read aloud. */
@@ -2331,7 +2361,10 @@ p + p { margin-block-start: var(--space-5); }
 .contact__value a:focus-visible { text-decoration: underline; text-underline-offset: 0.2em; }
 
 .contact__value.social { gap: var(--space-2); margin-inline-start: calc(var(--space-3) * -1); }
-.contact__panel .social a img { filter: brightness(0) saturate(100%); opacity: 0.78; }
+/* On the dark ground the marks read light: brightness(0) flattens each brand SVG
+   to one ink, invert(1) turns that ink near-white. Sits with the white values,
+   not the copper labels — a social row is data, not a label. */
+.contact__panel .social a img { filter: brightness(0) saturate(100%) invert(1); opacity: 0.72; }
 .contact__panel .social a:hover img,
 .contact__panel .social a:focus-visible img { opacity: 1; }
 
@@ -2722,7 +2755,7 @@ p + p { margin-block-start: var(--space-5); }
 /* Inside the bone panel every ink flips. --ink-muted is 4.32:1 on bone and
    fails, so the label takes full ink and is separated from its value by size,
    weight and register instead of by tone. */
-.facets .field__label { color: var(--ink-inverse); }
+:is(.facets, .vdp-panel) .field__label { color: var(--ink-inverse); }
 
 /* The shared control surface. One ground, one border, one focus behaviour —
    declared once so a select and a text input cannot drift apart. */
@@ -2741,20 +2774,26 @@ p + p { margin-block-start: var(--space-5); }
 .control::placeholder { color: var(--ink-muted); opacity: 1; }
 
 /* On bone the control is a white field with a soft edge — the Figma's own
-   treatment, and the only way an input reads as an input on a light card. */
-.facets .control {
+   treatment, and the only way an input reads as an input on a light card.
+
+   THE SCOPE IS THE SURFACE, not one component's name. Written as `.facets` and
+   again as `.summary`, the second copy went dead the moment that block was
+   renamed, and the configurator's whole enquiry form fell back to the dark-
+   ground rules: white ink and a 4%-white field, both invisible on cream. Any
+   bone surface joins this list; nothing else needs to know. */
+:is(.facets, .vdp-panel) .control {
   background: var(--bg-card-plain);
   border-color: var(--rule-inverse-strong);
   color: var(--ink-inverse);
 }
-.facets .control::placeholder { color: var(--ink-card); }   /* 4.95:1 on white */
-.facets .control:hover { border-color: var(--ink-inverse); }
-.facets .control:focus-visible {
+:is(.facets, .vdp-panel) .control::placeholder { color: var(--ink-card); }   /* 4.95:1 on white */
+:is(.facets, .vdp-panel) .control:hover { border-color: var(--ink-inverse); }
+:is(.facets, .vdp-panel) .control:focus-visible {
   outline-color: var(--ink-inverse);
   border-color: var(--ink-inverse);
 }
-.facets select.control option { background: var(--bg-card-plain); color: var(--ink-inverse); }
-.facets .select::after { background: var(--ink-inverse); }
+:is(.facets, .vdp-panel) select.control option { background: var(--bg-card-plain); color: var(--ink-inverse); }
+:is(.facets, .vdp-panel) .select::after { background: var(--ink-inverse); }
 .facets .range { --rail: var(--rule-inverse-strong); --knob-ink: var(--ink-inverse); }
 .control:hover { border-color: var(--ink); }
 .control:focus-visible {
@@ -3235,8 +3274,16 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
   .vdp {
     /* The reading column IS the left column, and the rail is the right one.
        Capping the panel inside a wider column instead left 200px of nothing
-       between the text and the rail — the hole moved, it did not close. */
-    grid-template-columns: minmax(0, 49rem) 30rem;
+       between the text and the rail — the hole moved, it did not close.
+
+       The rail is a PROPORTION with a ceiling, not a fixed 30rem. Fixed, it
+       took 480px of a 906px content box at 1024 and left the photograph 395 —
+       the subject rendered smaller than its own caption on every laptop and
+       every landscape tablet. The percentage is set so the clamp reaches its
+       30rem cap exactly at this grid's own maximum (1300px here, capped above;
+       the configurator's box is the full wrap, so its figure differs). Desktop
+       is therefore unchanged and only the widths below it are repaired. */
+    grid-template-columns: minmax(0, 49rem) clamp(20rem, 37%, 30rem);
     /* Two rows, named by what sits in them. The photograph and the price panel
        share the first: one grid row, one height, so the panel ends where the
        image ends instead of hanging past its foot. */
@@ -3266,13 +3313,23 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
    sizes and slightly different centres read as light falling — which is the
    only kind of glow that belongs behind a photograph of a car.
 
+   TWO TEMPERATURES, NOT ONE HUE. Both edges were copper, and measured on the
+   page that made this wash the single largest copper surface on the site —
+   14.6% of the right margin, running the full height of every page. With the
+   ground warm, the secondary ink warm sand and the panel bone, there was
+   nothing on the page for an accent to be an accent AGAINST: it read brown from
+   edge to edge. Copper on one side and slate on the other is the pair the
+   palette already declares as opposites, and two lights of different
+   temperature is what a real room does anyway. Alphas are unchanged — the two
+   luminances are 0.179 and 0.166, so neither side outweighs the other.
+
    Bounded to the top of the page by the positioning area, same as the listing:
    the gallery below is the subject and a glow running its full length would sit
    behind every photograph in it.
    ------------------------------------------------------------------------- */
 .lit-sides {
   background:
-    /* left, the larger and lower of the two */
+    /* left, warm — the larger and lower of the two */
     radial-gradient(38% 30% at -8% 14%,
       rgb(var(--accent-rgb) / 0.17) 0%,
       rgb(var(--accent-rgb) / 0.06) 44%,
@@ -3280,13 +3337,13 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
     radial-gradient(22% 46% at 4% 30%,
       rgb(var(--accent-rgb) / 0.10) 0%,
       rgb(var(--bg-rgb) / 0) 68%),
-    /* right, tighter and higher, so the two do not mirror each other */
+    /* right, cool — tighter and higher, so the two do not mirror each other */
     radial-gradient(30% 26% at 106% 6%,
-      rgb(var(--accent-rgb) / 0.15) 0%,
-      rgb(var(--accent-rgb) / 0.05) 42%,
+      rgb(var(--slate-lift-rgb) / 0.15) 0%,
+      rgb(var(--slate-lift-rgb) / 0.05) 42%,
       rgb(var(--bg-rgb) / 0) 70%),
     radial-gradient(18% 40% at 96% 22%,
-      rgb(var(--accent-rgb) / 0.09) 0%,
+      rgb(var(--slate-lift-rgb) / 0.09) 0%,
       rgb(var(--bg-rgb) / 0) 66%),
     var(--bg);
   background-repeat: no-repeat;
@@ -3439,7 +3496,7 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
 .thumb:hover { opacity: 0.85; }
 /* Selection is carried by BOTH opacity and a border. Opacity alone is a
    difference nobody can name when four thumbnails are already dim. */
-.thumb[aria-current="true"] { opacity: 1; border-color: var(--accent); }
+.thumb[aria-current="true"] { opacity: 1; border-color: var(--slate-lift); }   /* 3.37:1 */
 
 /* ---- the bone panel ----------------------------------------------------- */
 .vdp-panel {
@@ -3483,15 +3540,90 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
   color: var(--ink-inverse);
 }
 
+/* A rank above the price, for a panel whose number needs saying what it is —
+   the configurator's total means one thing while groups are unanswered and
+   another once they are all in. The vehicle page's price needs no such caption,
+   so the class exists but is not compulsory. */
+.vdp-panel__eyebrow {
+  margin-block-start: var(--space-4);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-label);
+  letter-spacing: var(--track-caps);
+  text-transform: uppercase;
+  color: var(--ink-inverse);
+}
+.vdp-panel__eyebrow + .vdp-panel__price { margin-block-start: var(--space-2); }
+
+.vdp-panel__note {
+  margin-block-start: var(--space-4);
+  font-size: var(--text-sm);
+  color: var(--ink-card);              /* 4.95:1 on bone */
+}
+
+/* A second block inside the panel, so it opens at the block interval rather
+   than at the paragraph one — it is a different subject, not the next sentence. */
+.vdp-panel__foot { margin-block-start: var(--space-7); }
+
+/* Slate. The bone panel is the largest single warm surface on either page, and
+   a copper rule across it left the whole block in one temperature. Slate is the
+   declared secondary — it sits opposite copper on the wheel — and it measures
+   6.33:1 on bone, well past the 3:1 a rule has to clear. */
 .vdp-panel__rule {
   block-size: 2px;
   margin-block: var(--space-4);
-  background: var(--accent);
+  background: var(--slate);
   border: 0;
 }
 
 /* Label and value: four axes apart, because tone cannot carry it here. */
 .spec-pairs { display: grid; gap: var(--space-3); margin: 0; }
+
+/* The same pairs with a price in a second column. An extension of the component
+   the vehicle page already uses, not a second one built beside it. */
+.spec-pairs__row--cost {
+  grid-template-columns: minmax(0, 1fr) auto;
+  padding-block-end: var(--space-3);
+  border-block-end: 1px solid var(--rule-inverse);
+}
+.spec-pairs__row--cost dt { grid-column: 1; }
+/* :not(), and it is load-bearing. Written as a plain `dd` this rule is 0,2,1 and
+   quietly outranked .spec-pairs__cost at 0,1,0 — so the figure was dragged into
+   column 1 and printed underneath its own label instead of beside it. Excluding
+   the cost means the two rules cannot argue at all. */
+.spec-pairs__row--cost dd:not(.spec-pairs__cost) { grid-column: 1; }
+/* Beside the LABEL, not beside the value: the value is free text and can run to
+   two lines, and a figure tied to it drops with it. On row 1 the prices hold one
+   straight column down the panel however long the answers are. */
+.spec-pairs__cost {
+  grid-column: 2;
+  grid-row: 1;
+  justify-self: end;
+  align-self: baseline;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+/* Not "$0.00". A zero is a price; an unanswered group has no price yet, and
+   printing one in the cost column is a lie in the only column nobody may
+   misread. */
+.spec-pairs__row--empty dd { opacity: 0.55; font-style: italic; }
+
+.vdp-panel__render {
+  border-radius: var(--radius-2);
+  overflow: hidden;
+  background: var(--bg-raised);
+  margin-block-end: var(--space-5);
+}
+/* The crop is measured off the subject, not chosen by eye. In the 1000×680
+   source the car occupies y 99–404: 99px of empty above it and 275 below, so a
+   16/11 box was mostly background AND hung the car high in its own frame.
+   21/9 leaves the car ~62px of source margin top and bottom, and the 15% offset
+   is what centres the CAR in the window rather than centring the file. */
+.vdp-panel__render img {
+  inline-size: 100%;
+  aspect-ratio: 21 / 9;
+  object-fit: cover;
+  object-position: center 15%;
+  display: block;
+}
 .spec-pairs__row { display: grid; gap: var(--space-1); }
 /* The display voice, not the body one. Inter Tight stops at 600 and these
    labels needed to read heavier than the values beneath them; Oswald at the
@@ -4009,7 +4141,9 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
 
 @media (min-width: 62rem) {
   .build {
-    grid-template-columns: minmax(0, 1fr) 30rem;
+    /* Same proportion as the vehicle page's rail, and for the same reason: a
+       fixed 30rem left the option grid narrower than the summary at 1024. */
+    grid-template-columns: minmax(0, 1fr) clamp(20rem, 34%, 30rem);
     gap: var(--space-6);
     align-items: start;
   }
@@ -4018,72 +4152,250 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
   .build__summary { position: sticky; inset-block-start: calc(var(--header-h) + var(--space-5)); }
 }
 
-/* ---- the banner ---------------------------------------------------------
-   Slate, as the Figma has it, and it carries the model name rather than the
-   page name: this page is only ever about one car at a time. */
-.build-head {
-  padding: var(--space-6);
-  border-start-start-radius: var(--radius-3);
-  border-start-end-radius: var(--radius-3);
-  background: var(--slate);
-  color: var(--ink);                       /* 7.27:1 */
-}
-.build-head__eyebrow {
-  font-family: var(--font-display);
-  font-size: var(--text-h3);
-  font-weight: var(--weight-body);
-  line-height: var(--lh-tight);
-}
-.build-head__model {
-  font-family: var(--font-display);
-  font-size: var(--text-hero-2);
-  font-weight: var(--weight-display);
-  line-height: var(--lh-display);
-  letter-spacing: var(--track-display);
-}
+/* ---- the page head ------------------------------------------------------
+   The site's page head, not a second one: .eyebrow + .section-title, the same
+   pair INVENTORY opens with. It carries the model rather than the page name —
+   this page is only ever about one car at a time. */
+.build-head { margin-block-end: var(--space-6); }
 
 /* ---- the base --------------------------------------------------------- */
-.build-base {
-  position: relative;
-  overflow: hidden;
-  border-end-start-radius: var(--radius-3);
-  border-end-end-radius: var(--radius-3);
-  margin-block-end: var(--space-6);
+/* The base is a step of its own, not the first of ten groups: it gets the
+   interval a block gets, and the option list below opens with its own heading.
+   Without that separation the chassis reads as one more thing to choose. */
+.build-lead { margin-block-end: var(--space-6); }
+.build-lead .body-muted { max-inline-size: var(--measure); }
+
+/* ---- progress -----------------------------------------------------------
+   Nine decisions over four and a bit screens, and the only status the page had
+   was one sentence inside the summary panel — on the other side of the page
+   from the work, and below the fold for most of the scroll. A visitor could not
+   tell how much of this there is, how far in they are, or whether they had
+   finished. That is the largest single thing the page was missing.
+
+   It lives with the WORK, in the left column, because that is where the
+   question "how much is left" is asked. The panel keeps its own sentence: the
+   panel answers "what have I chosen", which is a different question.
+   ------------------------------------------------------------------------- */
+.build-progress {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2) var(--space-4);
+  margin-block-start: var(--space-6);
 }
-.build-base img {
-  inline-size: 100%;
-  aspect-ratio: 16 / 7;
-  object-fit: cover;
-  display: block;
-}
-.build-base__plate {
-  position: absolute;
-  inset-block-end: 0;
-  inset-inline: 0;
-  /* The scrim has to start above the label, not level with it: at the shorter
-     ramp "BASE" was landing on the bright part of the photograph. */
-  padding: var(--space-10) var(--space-5) var(--space-5);
-  background: linear-gradient(to top,
-    rgb(var(--bg-deep-rgb) / 0.92), rgb(var(--bg-deep-rgb) / 0));
-}
-.build-base__label {
+.build-progress__count {
   font-size: var(--text-xs);
   font-weight: var(--weight-label);
   letter-spacing: var(--track-caps);
   text-transform: uppercase;
-  color: var(--ink-muted);
+  color: var(--ink-muted);            /* 7.19:1 */
+}
+.build-progress__count strong { color: var(--ink); font-weight: var(--weight-label); }
+.build-progress__track {
+  flex: 1 1 12rem;
+  block-size: 4px;
+  border-radius: var(--radius-pill);
+  background: var(--rule-strong);
+  /* NOT overflow: hidden — the fill's glow has to be allowed past the track's
+     own edge, which is the whole point of it. The fill is clipped by its own
+     radius instead. */
+  overflow: visible;
+}
+/* The header's telephone gradient, not a colour that resembles it: the same two
+   stops in the same order, --tel-lift into --tel. Teal is the page's only live
+   wire and this is the page's only live measure, so they are the same thing said
+   twice rather than two greens that nearly match.
+
+   It does cost the palette something and the cost is named: slate was the colour
+   of a state that has settled, and the progress fill reports settled states. It
+   keeps that job on the group marks and the option cards, where a visitor is
+   choosing; the bar is a running total of them and takes the live colour. 6.49:1
+   at the light stop, 4.87:1 at the dark one — both past the 3:1 a 4px graphic
+   needs.
+
+   The glow is the fill's own colour thrown a short distance, so it reads as the
+   line being lit rather than as an effect sitting on top of one. Tight radius and
+   under half opacity: a lit edge, not a bloom. */
+.build-progress__fill {
+  display: block;
+  block-size: 100%;
+  inline-size: 0;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(90deg, var(--tel-lift) 0%, var(--tel) 100%);
+  box-shadow:
+    0 0 6px  rgb(var(--tel-lift-rgb) / 0.75),
+    0 0 16px rgb(var(--tel-lift-rgb) / 0.40);
+  transition: inline-size var(--dur-3) var(--ease-out);
+}
+/* Nothing chosen yet is nothing to light. A zero-width box still casts its
+   shadow, which would leave a glowing dot claiming a progress that has not
+   started — read off the ARIA state the track already carries correctly. */
+.build-progress__track[aria-valuenow="0"] .build-progress__fill { box-shadow: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .build-progress__fill { transition: none; }
+}
+
+/* ---- the three sections -------------------------------------------------
+   Nine drawers presented as nine peers is not an information architecture. The
+   grouping already exists in the subject — five interior decisions, two about
+   the body, two under it — and the page was the only place it was invisible.
+   Six of the nine were shut, identical, 80px tall and stacked: repetition with
+   no variation, and nothing for the eye to hold.
+
+   This heading takes the h3 rank, which means the DRAWER title had to step down
+   to the lead size. That is a correction on its own: a shut drawer's label was
+   28px while the option inside it is 15px, so the wrapper shouted and the
+   content whispered.
+   ------------------------------------------------------------------------- */
+/* A DIVIDER, in the label register — not a third sentence-case heading.
+   Measured, the left column ran four ranks that differed only in size and all
+   of them Oswald 300, sentence case, white: 34 for the instruction, 28 for this,
+   28 for "Rolling Chassis", 20 for a group title. Two of those were not near
+   identical, they WERE identical — a structural section heading and a value
+   inside the base card, set exactly alike. Size alone at 1.2× is not a rank.
+
+   So this stops competing: uppercase, tracked, muted, at label size, with the
+   rule running to the end of the column. Caps read wider than their size, and
+   the rule gives it the width — it divides the list without out-shouting the
+   things it divides, which is what a divider is for. Every neighbouring pair now
+   differs on at least two axes: case, colour, size or face. */
+.build-section {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin-block: var(--space-8) var(--space-5);
+  /* THE DISPLAY TIER, not the label one — and I had this backwards twice. I
+     first argued it must not out-rank the titles it divides. It CONTAINS them:
+     "Interior" holds "Interior Upholstery", so it is the higher structural rank
+     and reading larger is correct. Nothing is confusable either way — the two
+     differ in case, face and colour, not only in size.
+
+     It also carries its own tracking rather than inheriting the label register's,
+     which is why the rule is written here rather than left in that list — at this
+     size it is no longer a micro-label.
+
+     Muted, not white: the size states the rank, the tone keeps a divider from
+     competing with the answers underneath it. */
+  font-family: var(--font-display);
+  font-size: var(--text-h3);
+  /* --weight-display, not the label weight: the home page sets every caps line
+     at display size in 400 — the hero, the section titles, the buttons — and 500
+     was a rung this site does not otherwise have at this scale. */
+  font-weight: var(--weight-display);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--track-caps);
+  text-transform: uppercase;
+  color: var(--ink-muted);            /* 7.19:1 */
+}
+/* The rule runs to the end of the column, so the heading reads as a division of
+   the list rather than as one more label sitting on top of it. */
+.build-section::after {
+  content: "";
+  flex: 1 1 auto;
+  block-size: 1px;
+  background: var(--rule);
+}
+/* The first divider still opens — just not by the full block interval, because
+   the lead above it already carries its own. Set to 0 it landed 20px under the
+   progress line, and those two are the same register with a rule across the
+   column each: side by side they read as a pair rather than as a status and a
+   structure. */
+.build-section:first-of-type { margin-block-start: var(--space-7); }
+
+.build-base {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-3);
+  margin-block-end: var(--space-text-obj);
+  background: var(--bg-raised);
+}
+.build-base img {
+  inline-size: 100%;
+  aspect-ratio: 16 / 6;
+  object-fit: cover;
+  display: block;
+}
+
+/* A card ON the photograph, at the left — where the shot is empty pavement and
+   the car sits to the right, so it fills dead frame rather than covering the
+   subject.
+
+   IT CARRIES ITS OWN GROUND. That is the whole difference between this and the
+   overlay it replaces: text laid straight onto the picture landed on the bright
+   part of it and read as a watermark, and its contrast changed with every
+   photograph. This ground is the phone bar's, which already exists — deep at
+   0.92 with a blur behind it. Composited over pure white, the worst case a
+   photograph can offer, the ground still measures #272623: white on it is
+   15.2:1 and the copper marker 4.81:1. The contrast is a property of the card,
+   not of the picture underneath. */
+.build-base__bar {
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-start: var(--space-6);
+  translate: 0 -50%;
+  display: grid;
+  max-inline-size: 20rem;
+  padding: var(--space-5);
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius-3);
+  background: rgb(var(--bg-deep-rgb) / 0.92);
+  backdrop-filter: blur(10px);
+  box-shadow: var(--shadow-lift);
+}
+/* The intervals are the COMPONENT'S, stated as margins rather than as a grid
+   gap. All three lines are paragraphs, so the page's prose rhythm — `p + p`,
+   24px — landed on top of the gap and pushed the marker 32px off the name it
+   marks, while the name sat 16px from its own price: the grouping read
+   backwards. A gap cannot win that argument; a rule at component specificity
+   can, and it is the same construction .stack already uses.
+
+   The marker separates further than the pair below it, because the pair IS the
+   object and the marker is the instruction above it. */
+.build-base__bar > * + * { margin-block-start: var(--space-2); }
+.build-base__bar > .build-base__name { margin-block-start: var(--space-4); }
+
+.build-base__step {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-label);
+  /* The box hugs the word. At reading leading a 15px marker sat in a 25px line
+     box, and the 16px under it measured 16 and read as 26. */
+  line-height: var(--lh-none);
+  letter-spacing: var(--track-caps);
+  text-transform: uppercase;
+  color: var(--accent-ink);
 }
 .build-base__name {
   font-family: var(--font-display);
   font-size: var(--text-h3);
   font-weight: var(--weight-heading);
+  line-height: var(--lh-tight);
   color: var(--ink);
 }
 .build-base__price {
   font-family: var(--font-serif);
   font-size: var(--text-price);
+  line-height: var(--lh-none);
   font-variant-numeric: lining-nums tabular-nums;
   color: var(--ink);
+}
+
+@media (max-width: 47.99rem) {
+  /* A phone gives the photograph about 130px of height; a card cannot live on
+     it. The three facts come back into the flow underneath, which is what the
+     space below the picture is for. */
+  .build-base__bar {
+    position: static;
+    translate: none;
+    max-inline-size: none;
+    border: 0;
+    border-block-start: 1px solid var(--rule);
+    border-radius: 0;
+    background: none;
+    backdrop-filter: none;
+    box-shadow: none;
+  }
 }
 
 /* ---- option group -------------------------------------------------------
@@ -4110,11 +4422,31 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
 }
 .optgroup__head::-webkit-details-marker { display: none; }
 
+/* The lead size, not h3. A drawer is a rank BELOW the section that contains it,
+   and at 28px a shut drawer's label was nearly twice the size of the option name
+   inside it — the wrapper louder than its own content.
+
+   AND THE BODY FACE, not the display one. Weight was the first answer and it
+   was treating a symptom: the real problem is that Oswald is drawn for capitals
+   — the display layer says so in as many words, "tall caps, short descenders, a
+   narrow set… which is why uppercase stops at the display tier". Nine repeated
+   titles at 20px in condensed LOWERCASE is the application that comment warns
+   against: narrow counters and short descenders take away exactly the
+   ascender/descender variation the eye uses to recognise word shapes, and this
+   column is scanned rather than read.
+
+   And the treatment is not invented for this page: THE SITE ALREADY HAS THIS
+   ROLE. A repeated item title in a list is .vehicle__title on the inventory
+   cards, and it has been the reading face at the lead size since the home page
+   was built. Same role, same setting — the only difference kept is the ink,
+   full rather than muted, because this title is a control that opens a drawer
+   and the card's is a link under a photograph that carries the emphasis. */
 .optgroup__name {
-  font-family: var(--font-display);
-  font-size: var(--text-h3);
-  font-weight: var(--weight-heading);
-  letter-spacing: var(--track-heading);
+  font-family: var(--font-body);
+  font-size: var(--text-lead);
+  font-weight: var(--weight-body);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--track-body);
   color: var(--ink);
 }
 
@@ -4127,8 +4459,69 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
   font-size: var(--text-sm);
   color: var(--ink-muted);
 }
-.optgroup__chosen strong { display: block; font-weight: var(--weight-body); color: var(--ink); }
-.optgroup__chosen .num-tabular { color: var(--accent-ink); }   /* 5.34:1 on the dark ground */
+/* An answer takes full ink; "Not selected" does not. Both were white, so the
+   two states differed only in the words — and a column of nine is read at a
+   glance, not word by word. */
+.optgroup__chosen strong { display: block; font-weight: var(--weight-body); color: var(--ink-muted); }
+.optgroup[data-answered] .optgroup__chosen strong { color: var(--ink); }
+/* The value is the answer and takes full ink; its price is what the answer
+   costs, so it takes the muted step. Two ranks, one hue. */
+.optgroup__chosen .num-tabular { color: var(--ink-muted); }   /* 7.19:1 */
+
+/* ---- the answered state -------------------------------------------------
+   Said at the HEAD of the row, not only in the value at its end. Nine groups
+   is a checklist and a checklist is read down its left edge: the eye should be
+   able to run the column once and see what is still open.
+
+   The mark is the option card's own — the same ring, the same tick, the same
+   copper — because a group being answered and a card being chosen are one fact
+   one level apart, and drawing them differently would make them look like two.
+   Present before it is filled, for the reason the cards' marks are: a slot that
+   appears only once answered cannot show you what is unanswered.
+   ------------------------------------------------------------------------- */
+.optgroup__mark {
+  flex: 0 0 auto;
+  inline-size: 22px;
+  block-size: 22px;
+  display: grid;
+  place-items: center;
+  /* Muted ink, not a rule colour. --rule-strong measured 2.54:1 on this ground,
+     under the 3:1 floor a non-text indicator has to clear — and the EMPTY ring
+     is the state that says a group is still open, so it is the one that must
+     not be faint. */
+  border: 2px solid var(--ink-muted);        /* 6.99:1 */
+  border-radius: var(--radius-pill);
+  transition: background-color var(--dur-1) var(--ease-out),
+              border-color var(--dur-1) var(--ease-out);
+}
+.optgroup__mark::after {
+  content: "";
+  inline-size: 11px;
+  block-size: 11px;
+  background: var(--ink);
+  clip-path: polygon(14% 52%, 8% 60%, 38% 88%, 92% 26%, 84% 18%, 38% 72%);
+  opacity: 0;
+  transition: opacity var(--dur-1) var(--ease-out);
+}
+/* SLATE, not copper. The two colours already divide the work elsewhere on this
+   site and the division is worth stating: copper marks what the visitor should
+   act on — the instruction, the primary action, "just arrived", saved — and
+   slate marks a state that has SETTLED: a switch that is on, a car that is in
+   stock, a group that has been answered. Answered is the second kind. It also
+   gives this page the counterweight it had none of: every layer here is warm —
+   the ground, the sand secondary ink, the bone panel, the side wash — so copper
+   on top of it had nothing to be an accent against. 3.37:1 as a fill on this
+   ground, white tick on it 4.85:1. */
+.optgroup[data-answered] .optgroup__mark {
+  background: var(--slate-lift);
+  border-color: var(--slate-lift);
+}
+.optgroup[data-answered] .optgroup__mark::after { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  .optgroup__mark,
+  .optgroup__mark::after { transition: none; }
+}
 
 .optgroup__caret {
   flex: 0 0 auto;
@@ -4141,6 +4534,10 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
 }
 .optgroup[open] .optgroup__caret { rotate: 180deg; }
 .optgroup__body { padding: 0 var(--space-5) var(--space-5); }
+/* The interval is a property of the BODY, not of one pair inside it. Written as
+   a rule on the pair, the next thing added to a group arrives with no gap at
+   all — which is how a note ended up touching the grid it introduces. */
+.optgroup__body > * + * { margin-block-start: var(--space-text-obj); }
 
 @media (prefers-reduced-motion: reduce) {
   .optgroup__caret { transition: none; }
@@ -4153,16 +4550,21 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
    copper border and another with a tick, so two different rules look like one,
    and a visitor cannot tell whether a second choice adds or replaces.
    ------------------------------------------------------------------------- */
+/* The gap between cards has to stay LARGER than the gap inside one, or a card
+   stops reading as a photograph-with-its-caption and starts reading as a list of
+   loose parts. With the caption now 16px under its image, 16px between cards
+   made the two distances equal and the grouping disappeared. Rows open further
+   than columns because it is the rows the captions grow into. */
 .options-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
-  gap: var(--space-4);
+  gap: var(--space-6) var(--space-5);
 }
 @media (max-width: 47.99rem) {
   /* Two across on a phone, not one. At the desktop minimum only a single card
      fitted 342px, and a column of one is a list — but these are chosen by
      looking, and looking means comparing two side by side. */
-  .options-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-3); }
+  .options-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-6) var(--space-5); }
   /* The label keeps the 14px floor — it carries information, and shrinking type
      to make a box fit is how a floor stops being a floor. The padding gives way
      instead. */
@@ -4225,9 +4627,19 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
   transition: background-color var(--dur-1) var(--ease-out),
               border-color var(--dur-1) var(--ease-out);
 }
-/* Circle for one-of, square for any-of. */
-.optcard--one .optcard__mark { border-radius: var(--radius-pill); }
-.optcard--any .optcard__mark { border-radius: var(--radius-1); }
+/* ONE SHAPE. The mark used to be a circle for one-of and a square for any-of,
+   on the reasoning that the shape could state the mechanic for free. Seven of
+   the nine groups are one-of, so in practice the page showed a long run of
+   circles with two squares in it, and two odd shapes among many read as a
+   defect before they read as a rule — a convention only teaches when you meet
+   both halves of it side by side, which nobody does here.
+
+   The mechanic is now said in WORDS, in the group that departs from the norm.
+   That is the better channel anyway: it does not ask anyone to decode a shape,
+   and it satisfies the rule that meaning is never carried by one visual
+   property alone. The circle is the site's own language — the status discs, the
+   buttons, the group marks are all pills. */
+.optcard__mark { border-radius: var(--radius-pill); }
 
 .optcard__mark::after {
   content: "";
@@ -4238,35 +4650,120 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
   opacity: 0;
   transition: opacity var(--dur-1) var(--ease-out);
 }
-.optcard input:checked ~ .optcard__mark {
-  background: var(--accent);
-  border-color: var(--accent);
-}
-.optcard input:checked ~ .optcard__mark::after { opacity: 1; }
+/* THE MARK INVERTS, and this is the correction to a real defect: the unselected
+   mark is legible on any photograph because of its WHITE RING, and the selected
+   one used to drop that ring for a flat mid-tone fill. Choosing a card made its
+   indicator harder to see than not choosing it — and on a dark interior shot a
+   slate disc with a slate edge is very nearly invisible.
 
+   So selection flips the disc rather than tinting it: white fill, slate glyph.
+   White against a car interior is the loudest thing available, the slate tick
+   on it is 7.27:1, and where the photograph is bright instead the slate-lift
+   ring separates the disc at 3.37:1. Nothing about it depends on what the
+   picture underneath happens to be doing. */
+.optcard input:checked ~ .optcard__mark {
+  background: var(--ink);
+  border-color: var(--slate-lift);
+  backdrop-filter: none;
+}
+.optcard input:checked ~ .optcard__mark::after {
+  opacity: 1;
+  background: var(--slate);            /* 7.27:1 on the white disc */
+}
+
+/* And the state is carried by the CARD, not only by a 24px disc in its corner.
+   The frame has held a transparent 2px border and a transition for exactly this
+   since it was written; nothing ever set the colour. --slate-lift rather than
+   --slate because this edge is judged against the dark ground, where --slate is
+   2.25:1 and under the floor. */
+.optcard input:checked ~ .optcard__frame { border-color: var(--slate-lift); }   /* 3.37:1 */
+
+/* THE STRONGEST SIGNAL IS THE ONES NOT CHOSEN. A 24px disc and a 2px edge are
+   both small marks on a 200px photograph, and no amount of colour makes a small
+   mark large. Once a group has an answer, the options it did not take step back
+   — and the difference a visitor actually reads is between the bright card and
+   the eight dim ones, which is the whole card, not a corner of it.
+
+   Only once answered: with nothing chosen, every option is equally available
+   and dimming any of them would be a lie about what is on offer. */
+.optgroup[data-answered] .optcard__frame img,
+.optgroup[data-answered] .optcard__await,
+.optgroup[data-answered] .optcard__mark {
+  opacity: 0.42;
+  transition: opacity var(--dur-2) var(--ease-out);
+}
+.optgroup[data-answered] .optcard input:checked ~ .optcard__frame img,
+.optgroup[data-answered] .optcard input:checked ~ .optcard__frame .optcard__await,
+.optgroup[data-answered] .optcard input:checked ~ .optcard__mark { opacity: 1; }
+/* The name and price of a card nobody took recede with it, but only to the
+   muted step — they stay above the 4.5:1 floor, because a visitor comparing
+   options still has to read them. */
+.optgroup[data-answered] .optcard__name { color: var(--ink-muted); }            /* 7.19:1 */
+.optgroup[data-answered] .optcard input:checked ~ .optcard__name { color: var(--ink); }
+
+/* Hovering a dimmed card brings it back: stepping back is a summary of what was
+   decided, not a barrier to changing it. */
+.optgroup[data-answered] .optcard:hover .optcard__frame img,
+.optgroup[data-answered] .optcard:hover .optcard__await,
+.optgroup[data-answered] .optcard:hover .optcard__mark { opacity: 1; }
+.optgroup[data-answered] .optcard:hover .optcard__name { color: var(--ink); }
+/* Keyboard reaches the card through its hidden input, so the same restore has to
+   hang off focus — otherwise tabbing through an answered group moves a focus
+   ring across cards that are still dimmed. */
+.optgroup[data-answered] .optcard input:focus-visible ~ .optcard__frame img,
+.optgroup[data-answered] .optcard input:focus-visible ~ .optcard__frame .optcard__await,
+.optgroup[data-answered] .optcard input:focus-visible ~ .optcard__mark { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  .optgroup[data-answered] .optcard__frame img,
+  .optgroup[data-answered] .optcard__await,
+  .optgroup[data-answered] .optcard__mark { transition: none; }
+}
+
+/* display: block, and it is the whole fix rather than a tidy-up. These were
+   inline <span>s, and a vertical margin does not apply to an inline box — so
+   the 12px written above the name was silently discarded and the only thing
+   separating the caption from its photograph was 4px of line leading. The rule
+   was there, correct-looking and doing nothing, which is why asking for more
+   air kept changing nothing.
+
+   As blocks the caption also stops depending on the length of the name: it was
+   one line for "Diamond Stitch $1,875" and two for "Carbon Fiber Dash, Auto X
+   Gauges", so no two cards in a row agreed about where the price sat. */
 .optcard__name {
-  margin-block-start: var(--space-3);
+  display: block;
+  margin-block-start: var(--space-4);
   font-size: var(--text-sm);
+  line-height: var(--lh-tight);
   color: var(--ink);
 }
 .optcard__price {
+  display: block;
+  margin-block-start: var(--space-2);
   font-size: var(--text-sm);
+  line-height: var(--lh-none);
   color: var(--ink-muted);
   font-variant-numeric: lining-nums tabular-nums;
 }
-.optcard input:checked ~ .optcard__price { color: var(--accent-ink); }   /* 5.34:1 */
+/* Tone, not a second hue. The chosen card already carries slate at its mark;
+   putting copper on its price too would be two accents on one object, and with
+   28 cards on the page it was also the largest copper surface in the column.
+   Full ink against the muted default is the same distinction without it. */
+.optcard input:checked ~ .optcard__price { color: var(--ink); }   /* 16.83:1 */
 
 @media (prefers-reduced-motion: reduce) {
   .optcard__frame, .optcard__mark, .optcard__mark::after { transition: none; }
 }
 
-/* A group with no photography yet still has to say so. */
-.optgroup__pending {
-  padding: var(--space-5);
-  border: 1px dashed var(--rule-strong);
-  border-radius: var(--radius-2);
-  font-size: var(--text-sm);
-  color: var(--ink-muted);
+/* Said where the choosing happens, and only by the groups that depart from the
+   norm: seven of nine take one answer, so "choose one" on every group would be
+   nine lines of noise to inform two. */
+.optgroup__mech {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-label);
+  letter-spacing: var(--track-caps);
+  text-transform: uppercase;
+  color: var(--ink-muted);            /* 7.19:1 */
 }
 
 /* ---- the summary --------------------------------------------------------
@@ -4274,86 +4771,16 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
    --ink-inverse: the mockup sets its headings and its total in copper, which is
    2.74:1 here and illegal at any size.
    ------------------------------------------------------------------------- */
-.summary {
-  padding: var(--space-5);
-  border-radius: var(--radius-3);
-  background: var(--bg-card);
-  color: var(--ink-inverse);
-}
-.summary__render {
-  border-radius: var(--radius-2);
-  overflow: hidden;
-  background: var(--bg-raised);
-  margin-block-end: var(--space-5);
-}
-.summary__render img { inline-size: 100%; aspect-ratio: 16 / 9; object-fit: cover; display: block; }
+/* This block used to carry a second, parallel copy of the bone panel — its own
+   render, title, total, rule and rows, and its own control colours. The panel
+   already existed on the vehicle page, so the copy was deleted and the markup
+   moved to .vdp-panel. What is left here is only what is TRUE OF THE
+   CONFIGURATOR'S panel and of nothing else. The bone control colours now live
+   with the control, scoped to the surface rather than to a block's name. */
 
-.summary__title {
-  font-family: var(--font-display);
-  font-size: var(--text-h3);
-  font-weight: var(--weight-heading);
-  letter-spacing: var(--track-heading);
-}
-/* The running total, named for what it actually is. It becomes "Estimated
-   price" only once every required group has an answer — calling a partial sum
-   a total is the mockup's own mistake, and it prints it twice besides. */
-.summary__label {
-  margin-block-start: var(--space-4);
-  font-size: var(--text-xs);
-  font-weight: var(--weight-label);
-  letter-spacing: var(--track-caps);
-  text-transform: uppercase;
-}
-.summary__total {
-  font-family: var(--font-serif);
-  font-size: var(--text-hero-2);
-  line-height: var(--lh-display);
-  font-variant-numeric: lining-nums tabular-nums;
-}
-
-.summary__rule { block-size: 2px; margin-block: var(--space-5); background: var(--accent); border: 0; }
-
-.summary__list { margin: 0; }
-.summary__row {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: var(--space-2) var(--space-4);
-  padding-block: var(--space-3);
-  border-block-end: 1px solid var(--rule-inverse);
-}
-.summary__row dt {
-  grid-column: 1;
-  font-size: var(--text-xs);
-  font-weight: var(--weight-label);
-  letter-spacing: var(--track-caps);
-  text-transform: uppercase;
-}
-.summary__row dd { grid-column: 1; margin: 0; font-size: var(--text-body); }
-.summary__row .summary__cost {
-  grid-column: 2;
-  grid-row: 2;
-  align-self: end;
-  font-variant-numeric: lining-nums tabular-nums;
-}
-/* Not "$00.00". A zero is a price; the absence of an answer is not a price, and
-   printing one in the cost column is a lie in the only column nobody may
-   misread. */
-.summary__row--empty dd { opacity: 0.55; font-style: italic; }
-.summary__row--empty .summary__cost { opacity: 0.55; }
-
-.summary__foot { margin-block-start: var(--space-5); }
-.summary__note { font-size: var(--text-xs); opacity: 0.72; }
-
-.summary .field__label { color: var(--ink-inverse); }
-.summary .control {
-  background: var(--bg-card-plain);
-  border-color: var(--rule-inverse-strong);
-  color: var(--ink-inverse);
-}
-.summary .control::placeholder { color: var(--ink-card); }
-.summary .control:hover { border-color: var(--ink-inverse); }
-.summary .control:focus-visible { outline-color: var(--ink-inverse); border-color: var(--ink-inverse); }
-.summary .btn-hmc { inline-size: 100%; }
+/* Full width, because a panel this narrow has no second column to share with
+   and a button that stops short of its own container reads as unfinished. */
+.build__summary .btn-hmc { inline-size: 100%; }
 
 /* ---- the phone bar ------------------------------------------------------
    The summary cannot simply drop below the configurator: the total is needed
@@ -4372,8 +4799,8 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
     display: flex;
     align-items: center;
     gap: var(--space-4);
-    min-block-size: 64px;
-    padding: var(--space-3) var(--gutter);
+    block-size: var(--build-bar-h);
+    padding-inline: var(--gutter);
     border-block-start: 1px solid var(--rule-strong);
     background: rgb(var(--bg-deep-rgb) / 0.94);
     backdrop-filter: blur(10px);
@@ -4388,8 +4815,10 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
   .build-bar__count { font-size: var(--text-xs); color: var(--ink-muted); }
   .build-bar .btn-hmc { margin-inline-start: auto; min-block-size: 44px; font-size: var(--text-sm); }
 
-  /* Room for the bar, so the last group is not sitting under it. */
-  .build-page { padding-block-end: 88px; }
+  /* Room for the bar. It has to be on the LAST thing in the document, not on
+     main: the footer comes after main, so padding there left the footer's last
+     row permanently under the bar — its links unreachable on every phone. */
+  .build-page ~ .site-footer { padding-block-end: calc(var(--space-8) + var(--build-bar-h)); }
   .build__summary { order: 2; }
 }
 

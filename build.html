@@ -101,18 +101,50 @@
 
         <div class="build__main">
 
-          <div class="build-head">
-            <p class="build-head__eyebrow">Build Your Own</p>
-            <h1 class="build-head__model" id="buildTitle">Backdraft RT4</h1>
+          <!-- The page opens the way INVENTORY opens: eyebrow, then title, on
+               the page's own ground. The Figma puts this on a slate slab, which
+               is a colour and a shape the site uses nowhere else — and it made
+               the head compete with the base bar directly beneath it, which is
+               the thing the visitor actually has to read first. -->
+          <div class="build-head stack" data-scene>
+            <p class="eyebrow" data-rise="left">Build your own</p>
+            <h1 class="section-title" id="buildTitle" data-rise="left">Backdraft RT4</h1>
           </div>
 
+          <!-- The base is a STEP, not a caption. As an overlay in the corner of
+               the photograph it landed on the bright part of the shot and read
+               as a watermark; a visitor could not tell that the $51,900 is where
+               the price starts rather than what one option costs. -->
           <div class="build-base">
-            <img src="assets/img/vehicle-2.jpg" alt="A Backdraft RT4 rolling chassis"
-                 width="1200" height="525" fetchpriority="high">
-            <div class="build-base__plate">
-              <p class="build-base__label">Base</p>
+            <img src="assets/img/build-base.jpg" alt="A Backdraft RT4 rolling chassis"
+                 width="1400" height="442" fetchpriority="high">
+            <div class="build-base__bar">
+              <p class="build-base__step">Start here</p>
               <p class="build-base__name">Rolling Chassis</p>
               <p class="build-base__price num-tabular">$51,900</p>
+            </div>
+          </div>
+
+          <!-- The one sentence that makes the page legible: the chassis is the
+               starting point and everything under this line is fitted TO it.
+               Without it the base reads as the first of ten equal groups, and a
+               visitor cannot tell what the $51,900 already includes. -->
+          <div class="build-lead">
+            <h2 class="section-sub">Now specify it</h2>
+            <p class="body-muted u-mt-5">Everything below is fitted to that rolling chassis and added
+              to its price. Nothing is chosen for you — including the standard fitment, which is an
+              option like any other and costs nothing.</p>
+
+            <!-- Nine decisions over four screens. Without this the only status
+                 was one sentence in the panel, on the other side of the page. -->
+            <div class="build-progress">
+              <p class="build-progress__count">
+                <strong data-progress-done>0</strong> of <span data-progress-total>9</span> chosen
+              </p>
+              <div class="build-progress__track" role="progressbar" aria-labelledby="buildTitle"
+                   aria-valuemin="0" aria-valuemax="9" aria-valuenow="0" data-progress>
+                <span class="build-progress__fill" data-progress-fill></span>
+              </div>
             </div>
           </div>
 
@@ -124,8 +156,11 @@
                and another with a tick, which makes two different rules look
                like one — a visitor cannot tell whether a second choice adds or
                replaces. -->
-        <details class="optgroup" data-group="upholstery" data-mech="one" data-required>
+        <h3 class="build-section">Interior</h3>
+
+        <details class="optgroup" name="build-group" data-group="upholstery" data-mech="one" data-required open>
           <summary class="optgroup__head">
+            <span class="optgroup__mark" aria-hidden="true"></span>
             <span class="optgroup__name">Interior Upholstery</span>
             <span class="optgroup__chosen" data-chosen>
               <strong>Not selected</strong>
@@ -135,17 +170,9 @@
           <div class="optgroup__body">
             <div class="options-grid">
               <label class="optcard optcard--one">
-                <input type="radio" name="upholstery" id="upholstery-0" value="Standard black vinyl"
-                       data-price="0">
-                <span class="optcard__frame"><span class="optcard__await" aria-hidden="true">Photo<br>to come</span></span>
-                <span class="optcard__mark" aria-hidden="true"></span>
-                <span class="optcard__name">Standard black vinyl</span>
-                <span class="optcard__price num-tabular">Included</span>
-              </label>
-              <label class="optcard optcard--one">
                 <input type="radio" name="upholstery" id="upholstery-1" value="Red Interior"
                        data-price="950">
-                <span class="optcard__frame"><span class="optcard__await" aria-hidden="true">Photo<br>to come</span></span>
+                <span class="optcard__frame"><img src="assets/img/opt-uph-red.jpg" alt="Red Interior" width="800" height="600" loading="lazy"></span>
                 <span class="optcard__mark" aria-hidden="true"></span>
                 <span class="optcard__name">Red Interior</span>
                 <span class="optcard__price num-tabular">$950</span>
@@ -153,7 +180,7 @@
               <label class="optcard optcard--one">
                 <input type="radio" name="upholstery" id="upholstery-2" value="Grey Interior"
                        data-price="950">
-                <span class="optcard__frame"><span class="optcard__await" aria-hidden="true">Photo<br>to come</span></span>
+                <span class="optcard__frame"><img src="assets/img/opt-uph-grey.jpg" alt="Grey Interior" width="800" height="600" loading="lazy"></span>
                 <span class="optcard__mark" aria-hidden="true"></span>
                 <span class="optcard__name">Grey Interior</span>
                 <span class="optcard__price num-tabular">$950</span>
@@ -161,7 +188,7 @@
               <label class="optcard optcard--one">
                 <input type="radio" name="upholstery" id="upholstery-3" value="Tan Interior"
                        data-price="950">
-                <span class="optcard__frame"><span class="optcard__await" aria-hidden="true">Photo<br>to come</span></span>
+                <span class="optcard__frame"><img src="assets/img/opt-uph-tan.jpg" alt="Tan Interior" width="800" height="600" loading="lazy"></span>
                 <span class="optcard__mark" aria-hidden="true"></span>
                 <span class="optcard__name">Tan Interior</span>
                 <span class="optcard__price num-tabular">$950</span>
@@ -169,7 +196,7 @@
               <label class="optcard optcard--one">
                 <input type="radio" name="upholstery" id="upholstery-4" value="Dove Interior"
                        data-price="950">
-                <span class="optcard__frame"><span class="optcard__await" aria-hidden="true">Photo<br>to come</span></span>
+                <span class="optcard__frame"><img src="assets/img/opt-uph-dove.jpg" alt="Dove Interior" width="800" height="600" loading="lazy"></span>
                 <span class="optcard__mark" aria-hidden="true"></span>
                 <span class="optcard__name">Dove Interior</span>
                 <span class="optcard__price num-tabular">$950</span>
@@ -177,7 +204,7 @@
               <label class="optcard optcard--one">
                 <input type="radio" name="upholstery" id="upholstery-5" value="Brown Interior"
                        data-price="950">
-                <span class="optcard__frame"><span class="optcard__await" aria-hidden="true">Photo<br>to come</span></span>
+                <span class="optcard__frame"><img src="assets/img/opt-uph-brown.jpg" alt="Brown Interior" width="800" height="600" loading="lazy"></span>
                 <span class="optcard__mark" aria-hidden="true"></span>
                 <span class="optcard__name">Brown Interior</span>
                 <span class="optcard__price num-tabular">$950</span>
@@ -185,8 +212,9 @@
             </div>
           </div>
         </details>
-        <details class="optgroup" data-group="stitching" data-mech="one" data-required>
+        <details class="optgroup" name="build-group" data-group="stitching" data-mech="one" data-required>
           <summary class="optgroup__head">
+            <span class="optgroup__mark" aria-hidden="true"></span>
             <span class="optgroup__name">Interior Stitching</span>
             <span class="optgroup__chosen" data-chosen>
               <strong>Not selected</strong>
@@ -196,17 +224,9 @@
           <div class="optgroup__body">
             <div class="options-grid">
               <label class="optcard optcard--one">
-                <input type="radio" name="stitching" id="stitching-0" value="Standard stitching"
-                       data-price="0">
-                <span class="optcard__frame"><span class="optcard__await" aria-hidden="true">Photo<br>to come</span></span>
-                <span class="optcard__mark" aria-hidden="true"></span>
-                <span class="optcard__name">Standard stitching</span>
-                <span class="optcard__price num-tabular">Included</span>
-              </label>
-              <label class="optcard optcard--one">
                 <input type="radio" name="stitching" id="stitching-1" value="Diamond Stitch"
                        data-price="1875">
-                <span class="optcard__frame"><span class="optcard__await" aria-hidden="true">Photo<br>to come</span></span>
+                <span class="optcard__frame"><img src="assets/img/opt-stitch-diamond.jpg" alt="Diamond Stitch" width="800" height="600" loading="lazy"></span>
                 <span class="optcard__mark" aria-hidden="true"></span>
                 <span class="optcard__name">Diamond Stitch</span>
                 <span class="optcard__price num-tabular">$1,875</span>
@@ -214,7 +234,7 @@
               <label class="optcard optcard--one">
                 <input type="radio" name="stitching" id="stitching-2" value="Dbl Diamond with Seat Eyes"
                        data-price="3200">
-                <span class="optcard__frame"><span class="optcard__await" aria-hidden="true">Photo<br>to come</span></span>
+                <span class="optcard__frame"><img src="assets/img/opt-stitch-eyes.jpg" alt="Dbl Diamond with Seat Eyes" width="800" height="600" loading="lazy"></span>
                 <span class="optcard__mark" aria-hidden="true"></span>
                 <span class="optcard__name">Dbl Diamond with Seat Eyes</span>
                 <span class="optcard__price num-tabular">$3,200</span>
@@ -222,7 +242,7 @@
               <label class="optcard optcard--one">
                 <input type="radio" name="stitching" id="stitching-3" value="Ribbed Interior"
                        data-price="2400">
-                <span class="optcard__frame"><span class="optcard__await" aria-hidden="true">Photo<br>to come</span></span>
+                <span class="optcard__frame"><img src="assets/img/opt-stitch-ribbed.jpg" alt="Ribbed Interior" width="800" height="600" loading="lazy"></span>
                 <span class="optcard__mark" aria-hidden="true"></span>
                 <span class="optcard__name">Ribbed Interior</span>
                 <span class="optcard__price num-tabular">$2,400</span>
@@ -230,7 +250,7 @@
               <label class="optcard optcard--one">
                 <input type="radio" name="stitching" id="stitching-4" value="Dbl Diamond Alcantara"
                        data-price="4200">
-                <span class="optcard__frame"><span class="optcard__await" aria-hidden="true">Photo<br>to come</span></span>
+                <span class="optcard__frame"><img src="assets/img/opt-stitch-alcantara.jpg" alt="Dbl Diamond Alcantara" width="800" height="600" loading="lazy"></span>
                 <span class="optcard__mark" aria-hidden="true"></span>
                 <span class="optcard__name">Dbl Diamond Alcantara</span>
                 <span class="optcard__price num-tabular">$4,200</span>
@@ -238,7 +258,7 @@
               <label class="optcard optcard--one">
                 <input type="radio" name="stitching" id="stitching-5" value="Diagonal Interior"
                        data-price="5200">
-                <span class="optcard__frame"><span class="optcard__await" aria-hidden="true">Photo<br>to come</span></span>
+                <span class="optcard__frame"><img src="assets/img/opt-stitch-diagonal.jpg" alt="Diagonal Interior" width="800" height="600" loading="lazy"></span>
                 <span class="optcard__mark" aria-hidden="true"></span>
                 <span class="optcard__name">Diagonal Interior</span>
                 <span class="optcard__price num-tabular">$5,200</span>
@@ -246,8 +266,9 @@
             </div>
           </div>
         </details>
-        <details class="optgroup" data-group="dash" data-mech="one" data-required>
+        <details class="optgroup" name="build-group" data-group="dash" data-mech="one" data-required>
           <summary class="optgroup__head">
+            <span class="optgroup__mark" aria-hidden="true"></span>
             <span class="optgroup__name">Dash & Gauges</span>
             <span class="optgroup__chosen" data-chosen>
               <strong>Not selected</strong>
@@ -257,17 +278,9 @@
           <div class="optgroup__body">
             <div class="options-grid">
               <label class="optcard optcard--one">
-                <input type="radio" name="dash" id="dash-0" value="Standard dash"
-                       data-price="0">
-                <span class="optcard__frame"><span class="optcard__await" aria-hidden="true">Photo<br>to come</span></span>
-                <span class="optcard__mark" aria-hidden="true"></span>
-                <span class="optcard__name">Standard dash</span>
-                <span class="optcard__price num-tabular">Included</span>
-              </label>
-              <label class="optcard optcard--one">
                 <input type="radio" name="dash" id="dash-1" value="Carbon Fiber Dash, Moal Gauges"
                        data-price="3500">
-                <span class="optcard__frame"><span class="optcard__await" aria-hidden="true">Photo<br>to come</span></span>
+                <span class="optcard__frame"><img src="assets/img/opt-dash-moal.jpg" alt="Carbon Fiber Dash, Moal Gauges" width="800" height="600" loading="lazy"></span>
                 <span class="optcard__mark" aria-hidden="true"></span>
                 <span class="optcard__name">Carbon Fiber Dash, Moal Gauges</span>
                 <span class="optcard__price num-tabular">$3,500</span>
@@ -275,7 +288,7 @@
               <label class="optcard optcard--one">
                 <input type="radio" name="dash" id="dash-2" value="Carbon Fiber Dash, GT Gauges"
                        data-price="3000">
-                <span class="optcard__frame"><span class="optcard__await" aria-hidden="true">Photo<br>to come</span></span>
+                <span class="optcard__frame"><img src="assets/img/opt-dash-gt.jpg" alt="Carbon Fiber Dash, GT Gauges" width="800" height="600" loading="lazy"></span>
                 <span class="optcard__mark" aria-hidden="true"></span>
                 <span class="optcard__name">Carbon Fiber Dash, GT Gauges</span>
                 <span class="optcard__price num-tabular">$3,000</span>
@@ -283,7 +296,7 @@
               <label class="optcard optcard--one">
                 <input type="radio" name="dash" id="dash-3" value="Carbon Fiber Dash, Auto X Gauges"
                        data-price="3380">
-                <span class="optcard__frame"><span class="optcard__await" aria-hidden="true">Photo<br>to come</span></span>
+                <span class="optcard__frame"><img src="assets/img/opt-dash-autox.jpg" alt="Carbon Fiber Dash, Auto X Gauges" width="800" height="600" loading="lazy"></span>
                 <span class="optcard__mark" aria-hidden="true"></span>
                 <span class="optcard__name">Carbon Fiber Dash, Auto X Gauges</span>
                 <span class="optcard__price num-tabular">$3,380</span>
@@ -291,8 +304,9 @@
             </div>
           </div>
         </details>
-        <details class="optgroup" data-group="steering" data-mech="one" data-required>
+        <details class="optgroup" name="build-group" data-group="steering" data-mech="one" data-required>
           <summary class="optgroup__head">
+            <span class="optgroup__mark" aria-hidden="true"></span>
             <span class="optgroup__name">Steering Wheel</span>
             <span class="optgroup__chosen" data-chosen>
               <strong>Not selected</strong>
@@ -300,9 +314,6 @@
             <span class="optgroup__caret" aria-hidden="true"></span>
           </summary>
           <div class="optgroup__body">
-            <p class="optgroup__pending">Photography and final pricing for this group are
-              still to come from the workshop. The options below are placeholders — the names
-              are right, the prices are not.</p>
             <div class="options-grid">
               <label class="optcard optcard--one">
                 <input type="radio" name="steering" id="steering-0" value="Standard three-spoke"
@@ -331,8 +342,9 @@
             </div>
           </div>
         </details>
-        <details class="optgroup" data-group="interior-extra" data-mech="any">
+        <details class="optgroup" name="build-group" data-group="interior-extra" data-mech="any">
           <summary class="optgroup__head">
+            <span class="optgroup__mark" aria-hidden="true"></span>
             <span class="optgroup__name">Other Interior Options</span>
             <span class="optgroup__chosen" data-chosen>
               <strong>Not selected</strong>
@@ -340,9 +352,7 @@
             <span class="optgroup__caret" aria-hidden="true"></span>
           </summary>
           <div class="optgroup__body">
-            <p class="optgroup__pending">Photography and final pricing for this group are
-              still to come from the workshop. The options below are placeholders — the names
-              are right, the prices are not.</p>
+            <p class="optgroup__mech">Choose as many as you like</p>
             <div class="options-grid">
               <label class="optcard optcard--any">
                 <input type="checkbox" name="interior-extra" id="interior-extra-0" value="Can Lock Seat Belts"
@@ -371,8 +381,11 @@
             </div>
           </div>
         </details>
-        <details class="optgroup" data-group="body" data-mech="one" data-required>
+        <h3 class="build-section">Exterior</h3>
+
+        <details class="optgroup" name="build-group" data-group="body" data-mech="one" data-required>
           <summary class="optgroup__head">
+            <span class="optgroup__mark" aria-hidden="true"></span>
             <span class="optgroup__name">Body</span>
             <span class="optgroup__chosen" data-chosen>
               <strong>Not selected</strong>
@@ -380,9 +393,6 @@
             <span class="optgroup__caret" aria-hidden="true"></span>
           </summary>
           <div class="optgroup__body">
-            <p class="optgroup__pending">Photography and final pricing for this group are
-              still to come from the workshop. The options below are placeholders — the names
-              are right, the prices are not.</p>
             <div class="options-grid">
               <label class="optcard optcard--one">
                 <input type="radio" name="body" id="body-0" value="Standard body"
@@ -403,8 +413,9 @@
             </div>
           </div>
         </details>
-        <details class="optgroup" data-group="exterior" data-mech="one" data-required>
+        <details class="optgroup" name="build-group" data-group="exterior" data-mech="one" data-required>
           <summary class="optgroup__head">
+            <span class="optgroup__mark" aria-hidden="true"></span>
             <span class="optgroup__name">Exterior</span>
             <span class="optgroup__chosen" data-chosen>
               <strong>Not selected</strong>
@@ -412,9 +423,6 @@
             <span class="optgroup__caret" aria-hidden="true"></span>
           </summary>
           <div class="optgroup__body">
-            <p class="optgroup__pending">Photography and final pricing for this group are
-              still to come from the workshop. The options below are placeholders — the names
-              are right, the prices are not.</p>
             <div class="options-grid">
               <label class="optcard optcard--one">
                 <input type="radio" name="exterior" id="exterior-0" value="Standard paint"
@@ -443,8 +451,11 @@
             </div>
           </div>
         </details>
-        <details class="optgroup" data-group="suspension" data-mech="one" data-required>
+        <h3 class="build-section">Chassis</h3>
+
+        <details class="optgroup" name="build-group" data-group="suspension" data-mech="one" data-required>
           <summary class="optgroup__head">
+            <span class="optgroup__mark" aria-hidden="true"></span>
             <span class="optgroup__name">Suspension</span>
             <span class="optgroup__chosen" data-chosen>
               <strong>Not selected</strong>
@@ -452,9 +463,6 @@
             <span class="optgroup__caret" aria-hidden="true"></span>
           </summary>
           <div class="optgroup__body">
-            <p class="optgroup__pending">Photography and final pricing for this group are
-              still to come from the workshop. The options below are placeholders — the names
-              are right, the prices are not.</p>
             <div class="options-grid">
               <label class="optcard optcard--one">
                 <input type="radio" name="suspension" id="suspension-0" value="Standard 17-inch"
@@ -475,8 +483,9 @@
             </div>
           </div>
         </details>
-        <details class="optgroup" data-group="underhood" data-mech="any">
+        <details class="optgroup" name="build-group" data-group="underhood" data-mech="any">
           <summary class="optgroup__head">
+            <span class="optgroup__mark" aria-hidden="true"></span>
             <span class="optgroup__name">Underhood</span>
             <span class="optgroup__chosen" data-chosen>
               <strong>Not selected</strong>
@@ -484,9 +493,7 @@
             <span class="optgroup__caret" aria-hidden="true"></span>
           </summary>
           <div class="optgroup__body">
-            <p class="optgroup__pending">Photography and final pricing for this group are
-              still to come from the workshop. The options below are placeholders — the names
-              are right, the prices are not.</p>
+            <p class="optgroup__mech">Choose as many as you like</p>
             <div class="options-grid">
               <label class="optcard optcard--any">
                 <input type="checkbox" name="underhood" id="underhood-0" value="Ceramic Coated Headers"
@@ -510,78 +517,78 @@
 
         </div>
 
-        <aside class="summary build__summary" aria-labelledby="summaryTitle">
-          <div class="summary__render">
-            <img src="assets/img/vehicle-1.jpg" alt="Backdraft RT4 as configured"
-                 width="800" height="450">
+        <aside class="vdp-panel build__summary" aria-labelledby="summaryTitle">
+          <div class="vdp-panel__render">
+            <img src="assets/img/build-render.jpg" alt="Backdraft RT4 as configured"
+                 width="1000" height="680">
           </div>
 
-          <h2 class="summary__title" id="summaryTitle">Backdraft RT4</h2>
-          <p class="summary__label" data-total-label>Configured so far</p>
-          <p class="summary__total num-tabular" data-total>$51,900</p>
+          <h2 class="vdp-panel__title" id="summaryTitle">Backdraft RT4</h2>
+          <p class="vdp-panel__eyebrow" data-total-label>Configured so far</p>
+          <p class="vdp-panel__price num-tabular" data-total>$51,900</p>
 
-          <hr class="summary__rule">
+          <hr class="vdp-panel__rule">
 
-          <dl class="summary__list">
-            <div class="summary__row">
+          <dl class="spec-pairs">
+            <div class="spec-pairs__row spec-pairs__row--cost">
               <dt>Base</dt>
               <dd>Rolling Chassis</dd>
-              <dd class="summary__cost num-tabular">$51,900</dd>
+              <dd class="spec-pairs__cost num-tabular">$51,900</dd>
             </div>
-            <div class="summary__row" data-row="upholstery">
+            <div class="spec-pairs__row spec-pairs__row--cost" data-row="upholstery">
               <dt>Interior Upholstery</dt>
               <dd data-value>Not selected</dd>
-              <dd class="summary__cost num-tabular" data-cost>—</dd>
+              <dd class="spec-pairs__cost num-tabular" data-cost>—</dd>
             </div>
-            <div class="summary__row" data-row="stitching">
+            <div class="spec-pairs__row spec-pairs__row--cost" data-row="stitching">
               <dt>Interior Stitching</dt>
               <dd data-value>Not selected</dd>
-              <dd class="summary__cost num-tabular" data-cost>—</dd>
+              <dd class="spec-pairs__cost num-tabular" data-cost>—</dd>
             </div>
-            <div class="summary__row" data-row="dash">
+            <div class="spec-pairs__row spec-pairs__row--cost" data-row="dash">
               <dt>Dash & Gauges</dt>
               <dd data-value>Not selected</dd>
-              <dd class="summary__cost num-tabular" data-cost>—</dd>
+              <dd class="spec-pairs__cost num-tabular" data-cost>—</dd>
             </div>
-            <div class="summary__row" data-row="steering">
+            <div class="spec-pairs__row spec-pairs__row--cost" data-row="steering">
               <dt>Steering Wheel</dt>
               <dd data-value>Not selected</dd>
-              <dd class="summary__cost num-tabular" data-cost>—</dd>
+              <dd class="spec-pairs__cost num-tabular" data-cost>—</dd>
             </div>
-            <div class="summary__row" data-row="interior-extra">
+            <div class="spec-pairs__row spec-pairs__row--cost" data-row="interior-extra">
               <dt>Other Interior Options</dt>
               <dd data-value>Not selected</dd>
-              <dd class="summary__cost num-tabular" data-cost>—</dd>
+              <dd class="spec-pairs__cost num-tabular" data-cost>—</dd>
             </div>
-            <div class="summary__row" data-row="body">
+            <div class="spec-pairs__row spec-pairs__row--cost" data-row="body">
               <dt>Body</dt>
               <dd data-value>Not selected</dd>
-              <dd class="summary__cost num-tabular" data-cost>—</dd>
+              <dd class="spec-pairs__cost num-tabular" data-cost>—</dd>
             </div>
-            <div class="summary__row" data-row="exterior">
+            <div class="spec-pairs__row spec-pairs__row--cost" data-row="exterior">
               <dt>Exterior</dt>
               <dd data-value>Not selected</dd>
-              <dd class="summary__cost num-tabular" data-cost>—</dd>
+              <dd class="spec-pairs__cost num-tabular" data-cost>—</dd>
             </div>
-            <div class="summary__row" data-row="suspension">
+            <div class="spec-pairs__row spec-pairs__row--cost" data-row="suspension">
               <dt>Suspension</dt>
               <dd data-value>Not selected</dd>
-              <dd class="summary__cost num-tabular" data-cost>—</dd>
+              <dd class="spec-pairs__cost num-tabular" data-cost>—</dd>
             </div>
-            <div class="summary__row" data-row="underhood">
+            <div class="spec-pairs__row spec-pairs__row--cost" data-row="underhood">
               <dt>Underhood</dt>
               <dd data-value>Not selected</dd>
-              <dd class="summary__cost num-tabular" data-cost>—</dd>
+              <dd class="spec-pairs__cost num-tabular" data-cost>—</dd>
             </div>
           </dl>
 
           <!-- Nothing is chosen for the visitor. "Standard" is an answer like any
                other and has to be given, not assumed — a configuration that
                arrives pre-filled is one nobody has actually made. -->
-          <p class="summary__note" data-remaining>Seven groups still need an answer.</p>
+          <p class="vdp-panel__note" data-remaining>Seven groups still need an answer.</p>
 
-          <div class="summary__foot">
-            <h3 class="summary__title">Get your estimate</h3>
+          <div class="vdp-panel__foot">
+            <h3 class="vdp-panel__title">Get your estimate</h3>
             <form class="u-mt-5" method="post" action="#summaryTitle" data-estimate>
               <div class="field">
                 <label class="field__label" for="bName">Your name</label>
@@ -602,9 +609,16 @@
               <!-- The configuration travels with the message, the way the stock
                    number does from a vehicle page. -->
               <input type="hidden" name="configuration" data-config-field>
-              <p class="summary__note u-mt-5">Your configuration is attached to this message, so you
-                do not have to list it again.</p>
-              <button class="btn-hmc btn-hmc--dark btn-hmc--centred u-mt-5" type="submit">Send my estimate</button>
+              <!-- The line and the button both say what THIS action sends, which
+                   is not the same job as the status line further up the panel:
+                   that one summarises the list, this one describes the send. An
+                   incomplete configuration is still worth sending — the dealer
+                   wants the enquiry either way — so nothing is disabled; the
+                   control simply stops claiming to be something it is not. -->
+              <p class="vdp-panel__note" data-attached>Your configuration is attached to this
+                message, so you do not have to list it again.</p>
+              <button class="btn-hmc btn-hmc--dark btn-hmc--centred u-mt-5" type="submit"
+                      data-submit>Send my estimate</button>
             </form>
           </div>
         </aside>
@@ -691,7 +705,7 @@
           </ul>
         </div>
 
-        <a class="btn-hmc btn-hmc--dark btn-hmc--centred btn-hmc--wide contact__cta" href="contact.html">Contact Us</a>
+        <a class="btn-hmc btn-hmc--primary btn-hmc--centred btn-hmc--wide contact__cta" href="contact.html">Contact Us</a>
       </div>
     </div>
   </section>

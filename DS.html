@@ -51,6 +51,7 @@
       <a href="#buttons">Buttons</a>
       <a href="#cards">Cards</a>
       <a href="#tabs">Tabs</a>
+      <a href="#choices">Choices</a>
       <a href="#controls">Controls</a>
       <a href="#blocks">Blocks</a>
       <a href="#responsive">Responsive</a>
@@ -137,6 +138,26 @@
       recorded against the ground it actually sits on. There is no neutral black
       anywhere in the system — beside this warm ground, <code>#000</code> reads
       blue, which is the exact cheapness the near-black was chosen to avoid.
+    </p>
+
+    <p class="ds-note ds-note--stop">
+      <strong>Copper and slate divide the work, and the division is the rule.</strong>
+      <em>Copper marks what the visitor should act on or notice</em> — the one
+      instruction, the primary action, saved, just-arrived. <em>Slate marks a
+      state that has settled</em> — a switch that is on, a car in stock, a
+      thumbnail that is current, a configurator group that has been answered.
+      Anything that is neither is neutral: prices and figures are data and take
+      the ink ramp, not an accent.
+      <br><br>
+      This is written down because the site drifted out of it once and the drift
+      is invisible from inside any single component. Every layer here is warm —
+      the ground, the sand secondary ink, the bone panel, the side wash — so
+      copper spent on state as well as action had nothing left to be an accent
+      <em>against</em>, and the configurator read brown from edge to edge. The
+      fix was not less copper; measured, copper was already at the ~5% budget.
+      It was giving the page its counterweight: slate on the states, and one of
+      the two side lights turned cool. Two lights of different temperature is
+      what a real room does anyway.
     </p>
 
     <div class="ds-group">
@@ -424,7 +445,7 @@
       </div>
 
       <div class="ds-type">
-        <p class="ds-type__meta">.eyebrow · var(--text-xs) · var(--weight-label) · var(--track-label) · caps</p>
+        <p class="ds-type__meta">.eyebrow · var(--text-xs) · var(--weight-label) · var(--track-caps) · caps</p>
         <p class="ds-type__sample eyebrow">Available now</p>
       </div>
 
@@ -460,9 +481,7 @@
           <tr><td><code>--track-display</code></td><td>-0.022em</td><td>hero, section titles</td></tr>
           <tr><td><code>--track-heading</code></td><td>-0.006em</td><td>sub-heads</td></tr>
           <tr><td><code>--track-body</code></td><td>0.005em</td><td>reading, nav</td></tr>
-          <tr><td><code>--track-caps</code></td><td>0.03em</td><td>uppercase 14 → 24: buttons, step and option titles, status, <strong>field-group headings</strong></td></tr>
-          <tr><td><code>--track-label</code></td><td>0.12em</td><td>the 14px eyebrow</td></tr>
-          <tr><td><code>--track-label-wide</code></td><td>0.22em</td><td>the same label role on the contact panel, opened further</td></tr>
+          <tr><td><code>--track-caps</code></td><td>0.03em</td><td><strong>every uppercase on the site</strong> — eyebrow, nav, buttons, labels, spec keys, status, section dividers. One value, deliberately: a separate wider step for labels was tried twice and read as gaps, not tracking, in a condensed face</td></tr>
           <tr><td><code>--track-num</code></td><td>0.06em</td><td>figures read aloud — phone, stock</td></tr>
         </tbody>
       </table>
@@ -983,6 +1002,20 @@
       next control added does not have to remember it.
     </p>
 
+    <p class="ds-note ds-note--stop">
+      <strong>On bone, the scope is the SURFACE — never a block's name.</strong>
+      A control's dark-ground colours are white ink on a 4%-white field, and on
+      cream both are invisible. The bone treatment therefore reads
+      <code>:is(.facets, .vdp-panel) .control</code>: any bone surface joins that
+      list and nothing else has to know. It was written twice once — as
+      <code>.facets</code> and again as <code>.summary</code> — and the second
+      copy went dead the moment that block was renamed, taking the whole
+      configurator's enquiry form with it: labels and fields, invisible, on a
+      form nobody would have reported because it looked like empty panel. A
+      selector naming a block instead of a condition is a rule waiting to be
+      orphaned.
+    </p>
+
     <div class="ds-group">
       <h3 class="ds-group__title">Text, number and select</h3>
       <div class="ds-stage">
@@ -1197,9 +1230,11 @@
       <p class="ds-note">
         <strong>A group heading is bold caps at <code>--track-caps</code>, and a
         field caption under it is not.</strong> Uppercase needs its counters
-        opened or they jam — but one notch, not the eyebrow's
-        <code>--track-label</code> at 0.12em, which spread a seven-letter word
-        across half the panel and announced louder than the control beneath it.
+        opened or they jam — but one notch. A wider label step has been tried
+        twice on this site, at 0.12em and again at 0.10em, and both times it
+        spread a short word across half its container and announced louder than
+        the control beneath it: Oswald is condensed and reaches "not jammed" at a
+        far smaller number than a normal-width face does.
         The captions inside a group stay sentence case on purpose: give a
         caption the heading's treatment and the heading stops out-ranking the
         fields it contains, and the group loses its head.
@@ -1292,6 +1327,222 @@
       visitor actually wants from it, which is someone to go and shoot one. A
       tab is added when there is an answer behind it, even when the answer is
       "not yet, and here is how to get it".
+    </p>
+  </section>
+
+
+  <!-- =================================================================
+       CHOICES — the configurator's components
+       ================================================================= -->
+  <section class="ds-section" id="choices">
+    <h2 class="ds-section__title">Choices</h2>
+    <p class="ds-section__note">
+      The configurator's three parts: the base you start from, the groups you
+      open, and the cards you pick inside them. Every group is a
+      <code>&lt;details&gt;</code>, so the whole option list is in the document
+      with no script and a crawler sees all of it — the same contract the tabs
+      keep.
+    </p>
+
+    <div class="ds-group">
+      <p class="ds-group__title">The base</p>
+      <div class="ds-stage">
+        <div class="build-base">
+          <img src="assets/img/build-base.jpg" alt="A rolling chassis"
+               width="1400" height="442" loading="lazy">
+          <div class="build-base__bar">
+            <p class="build-base__step">Start here</p>
+            <p class="build-base__name">Rolling Chassis</p>
+            <p class="build-base__price num-tabular">$51,900</p>
+          </div>
+        </div>
+      </div>
+      <p class="ds-item__caption">.build-base · .build-base__bar · __step · __name · __price</p>
+    </div>
+
+    <p class="ds-note">
+      <strong>The base is a step, not the first option.</strong> It is what the
+      other nine are fitted TO, so it is a separate object above the list with
+      its own heading between them. The copper <code>Start here</code> opens the
+      card, ahead of both the name and the price — copper is the page's
+      instruction colour, and this is the one instruction.
+    </p>
+
+    <p class="ds-note">
+      <strong>A card on a photograph carries its own ground.</strong> Text laid
+      straight onto the picture read as a watermark and its contrast changed
+      with every shot. This ground is the phone bar's — deep at 0.92 with a blur
+      behind it. Composited over pure white, the worst case a photograph can
+      offer, it still measures <code>#272623</code>: white on it is 15.2:1 and
+      the copper marker 4.81:1. The contrast belongs to the card, not to the
+      picture underneath. Below 48rem the card returns to the flow beneath the
+      image — a phone gives the photograph about 130px and nothing can live on
+      it.
+    </p>
+
+    <p class="ds-note ds-note--stop">
+      <strong>Inside a component, intervals are the component's — a gap alone
+      cannot win.</strong> All three lines of this card are paragraphs, so the
+      page's prose rhythm (<code>p + p</code>, 24px) landed on top of the grid
+      gap and pushed the marker 32px off the name it marks while the name sat
+      16px from its own price: the grouping read backwards, and nobody had
+      declared either number. The fix is a rule at component specificity,
+      <code>.build-base__bar &gt; * + *</code>, which is the construction
+      <code>.stack</code> already uses.
+    </p>
+
+    <div class="ds-group">
+      <p class="ds-group__title">A group, and the two card mechanics</p>
+      <div class="ds-stage">
+        <details class="optgroup" data-mech="one" data-answered open>
+          <summary class="optgroup__head">
+            <span class="optgroup__mark" aria-hidden="true"></span>
+            <span class="optgroup__name">Answered</span>
+            <span class="optgroup__chosen"><strong>Red Interior</strong><span class="num-tabular">$950</span></span>
+            <span class="optgroup__caret" aria-hidden="true"></span>
+          </summary>
+          <div class="optgroup__body">
+            <div class="options-grid">
+              <label class="optcard optcard--one">
+                <input type="radio" name="ds-one" value="Red Interior" data-price="950">
+                <span class="optcard__frame"><img src="assets/img/opt-uph-red.jpg" alt="Red interior" width="800" height="600" loading="lazy"></span>
+                <span class="optcard__mark" aria-hidden="true"></span>
+                <span class="optcard__name">Red Interior</span>
+                <span class="optcard__price num-tabular">$950</span>
+              </label>
+              <label class="optcard optcard--any">
+                <input type="checkbox" name="ds-any" value="Diamond Stitch" data-price="1450">
+                <span class="optcard__frame"><img src="assets/img/opt-stitch-diamond.jpg" alt="Diamond stitching" width="800" height="600" loading="lazy"></span>
+                <span class="optcard__mark" aria-hidden="true"></span>
+                <span class="optcard__name">A checkbox — same mark</span>
+                <span class="optcard__price num-tabular">$1,450</span>
+              </label>
+            </div>
+          </div>
+        </details>
+      </div>
+      <p class="ds-item__caption">
+        .optgroup · [data-answered] · .optgroup__head · __mark · __name · __chosen ·
+        __caret · .options-grid · .optcard · .optcard--one / --any (mechanic only, not shape) ·
+        __frame · __mark · __name · __price · .optgroup__mech
+      </p>
+
+      <div class="ds-stage u-mt-5">
+        <details class="optgroup" data-mech="one">
+          <summary class="optgroup__head">
+            <span class="optgroup__mark" aria-hidden="true"></span>
+            <span class="optgroup__name">Still open</span>
+            <span class="optgroup__chosen"><strong>Not selected</strong></span>
+            <span class="optgroup__caret" aria-hidden="true"></span>
+          </summary>
+        </details>
+      </div>
+    </div>
+
+    <p class="ds-note">
+      <strong>Answered is said at the head of the row, not only at its end.</strong>
+      Nine groups is a checklist, and a checklist is read down its left edge —
+      one pass of the eye should show what is still open. The mark is the option
+      card's own ring, tick and copper, because a group being answered and a card
+      being chosen are one fact one level apart; drawn differently they would
+      look like two. The empty ring takes <code>--ink-muted</code>, 6.99:1, not a
+      rule colour: <code>--rule-strong</code> measured 2.54:1 on this ground,
+      under the 3:1 floor for a non-text indicator, and the empty state is
+      precisely the one that must not be faint. The value's ink carries the same
+      state — an answer is full ink, <em>Not selected</em> is muted — and both
+      read one attribute, <code>data-answered</code>, so they cannot disagree.
+    </p>
+
+    <p class="ds-note">
+      <strong>One shape, and the mechanic said in words.</strong> The mark was a
+      circle for one-of and a square for as-many-as-you-like, on the reasoning
+      that shape could carry the rule for free. It cannot, here: seven of the
+      nine groups take one answer, so the page showed a long run of circles with
+      two squares in it, and two odd shapes among many read as a defect before
+      they read as a convention — a convention only teaches when you meet both
+      halves of it side by side, and nobody does. So every mark is a circle, the
+      site's own language, and the two groups that depart from the norm say
+      <em>Choose as many as you like</em> at the top of their body. Words are the
+      better channel: nothing has to be decoded, and the rule is not resting on
+      one visual property.
+    </p>
+
+    <p class="ds-note">
+      <strong>The indicator is present before anything is chosen.</strong> The
+      Figma marks one group with a copper border and another with a tick, which
+      makes two different rules look like one. An indicator that only appears
+      once you have chosen answers the question after it has stopped being asked.
+    </p>
+
+    <p class="ds-note ds-note--stop">
+      <strong>On a photograph, selection INVERTS the disc — it does not tint
+      it.</strong> The unselected mark is legible on any shot because of its
+      white ring; a selected state that replaced the fill AND the ring with one
+      mid-tone made choosing a card <em>less</em> visible than not choosing it,
+      and on a dark interior shot it very nearly vanished. So the card's mark
+      goes white-filled with a slate tick — white is the loudest thing available
+      against a car interior, the tick on it is 7.27:1, and where the photograph
+      is bright the slate-lift ring separates the disc at 3.37:1. Nothing about
+      it depends on what the picture is doing.
+      <br><br>
+      The group's mark keeps the opposite order — slate disc, white tick —
+      because it sits on a known flat ground where slate is safe and nine white
+      discs down a column would shout. Same shape, same two colours, order
+      chosen by the ground each one has to survive. And selection is carried by
+      the card's own frame as well, so it never rests on a 24px disc alone.
+    </p>
+
+    <p class="ds-note ds-note--stop">
+      <strong>A vertical margin on an inline box is discarded, and it fails
+      silently.</strong> The card's name and price were inline
+      <code>&lt;span&gt;</code>s. The 12px written above the name did nothing —
+      the only thing separating the caption from its photograph was 4px of line
+      leading — so every request for more air changed a number that was never
+      read. The rule looked correct in the file and measured wrong on the page,
+      which is the same failure shape as a media query written above its base
+      rule: <em>a rule that measures unchanged is usually not wrong, it is
+      unreached.</em> Captions are blocks. It also stopped the layout depending
+      on the length of a name: one line for "Diamond Stitch $1,875" and two for
+      "Carbon Fiber Dash, Auto X Gauges", so no two cards agreed where the price
+      sat.
+      <br><br>
+      And the gap between cards had to open with it. The caption now sits 16px
+      under its image, so 16px between cards would have made the two distances
+      equal and dissolved the grouping — cards are 32px apart down and 24px
+      across, rows opening further because rows are what captions grow into.
+    </p>
+
+    <p class="ds-note">
+      <strong>The strongest signal is the options NOT chosen.</strong> A disc and
+      a 2px edge are small marks on a 200px photograph, and no amount of colour
+      makes a small mark large. Once a group has an answer the options it did not
+      take step back to 42% — photograph, mark and name together — so what a
+      visitor reads is the whole bright card against the dim ones. It applies
+      only once answered: with nothing chosen every option is equally available,
+      and dimming any of them would be a lie about what is on offer. Hover or
+      keyboard focus brings a card back, because stepping back is a summary of
+      what was decided, not a barrier to changing it. Names recede only to the
+      muted step — 7.19:1 — since comparing options still means reading them.
+    </p>
+
+    <p class="ds-note">
+      <strong>A choice can be taken back.</strong> A native radio cannot be
+      unset by clicking it again, which leaves a required-looking commitment the
+      visitor never meant to make. <code>mousedown</code> clears a checked radio
+      before the click lands, so the group returns to <em>Not selected</em> and
+      the total drops back.
+    </p>
+
+    <p class="ds-note ds-note--stop">
+      <strong>Three states in the cost column, three words.</strong> An em dash
+      where nothing has been answered — a zero would be a claim that the thing is
+      free, and a dash says only that nothing has been decided. <em>Included</em>
+      where the answer costs nothing, which is the word the option card itself
+      uses, so one fact is not printed two ways. The figure where there is one. The
+      running total is labelled <em>Configured so far</em> until every group has
+      an answer and <em>Estimated price</em> once they do — the number means two
+      different things at those two moments, and a label that does not move says
+      so.
     </p>
   </section>
 
