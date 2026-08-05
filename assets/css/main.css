@@ -3401,9 +3401,40 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
     radial-gradient(18% 40% at 96% 22%,
       rgb(var(--slate-lift-rgb) / 0.09) 0%,
       rgb(var(--bg-rgb) / 0) 66%),
+
+    /* TWO MORE, LOWER DOWN. The four above are bounded to the top 1500px, and
+       this page runs past 4000 — so everything below the fold sat on flat
+       ground with no light in it at all. These two are sized to the whole
+       element rather than to a pixel band, so they hold their place whatever
+       the page's length turns out to be.
+
+       Neither is a circle and neither matches the other's proportion: one is
+       wide and shallow across the middle, the other tall and narrow at the
+       right, and their centres are off the axis of the pair above them. Equal
+       radii read as a spotlight someone aimed; unequal ones at different
+       heights read as light falling, which is the only kind that belongs behind
+       a photograph of a car.
+
+       Warm at the centre, cool at the right, continuing the temperature axis
+       the top of the page already sets. Weaker than the upper four — 0.10 and
+       0.08 — because there is content over these rather than open ground: at
+       0.10 the composite lifts to #2d241c, where white still measures 15.2:1
+       and the muted ink 6.5:1. */
+    radial-gradient(50% 15% at 44% 52%,
+      rgb(var(--accent-rgb) / 0.14) 0%,
+      rgb(var(--accent-rgb) / 0.05) 48%,
+      rgb(var(--bg-rgb) / 0) 78%),
+    radial-gradient(19% 30% at 90% 70%,
+      rgb(var(--slate-lift-rgb) / 0.12) 0%,
+      rgb(var(--slate-lift-rgb) / 0.04) 46%,
+      rgb(var(--bg-rgb) / 0) 74%),
+
     var(--bg);
   background-repeat: no-repeat;
-  background-size: 100% 1500px, 100% 1500px, 100% 1500px, 100% 1500px, auto;
+  background-size:
+    100% 1500px, 100% 1500px, 100% 1500px, 100% 1500px,
+    100% 100%, 100% 100%,
+    auto;
 }
 
 /* ---- action bar ---------------------------------------------------------
@@ -4464,7 +4495,20 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
   border: 1px solid var(--rule);
   border-radius: var(--radius-3);
   background: var(--bg-raised);
+  transition: background-color var(--dur-2) var(--ease-out);
 }
+/* THE OPEN ONE LIFTS. Only one group is open at a time now, so the surface can
+   carry that fact instead of leaving it to a caret: the group being worked on
+   comes forward and the eight shut ones stay back. --bg-panel is the step this
+   page already owns — the next ground up from --bg-raised — so this is a rung
+   on the existing ramp rather than a new surface. White on it measures 12.97:1
+   and the muted ink 5.54:1. */
+.optgroup[open] { background: var(--bg-panel); }
+
+@media (prefers-reduced-motion: reduce) {
+  .optgroup { transition: none; }
+}
+
 .optgroup + .optgroup { margin-block-start: var(--space-4); }
 
 .optgroup__head {
