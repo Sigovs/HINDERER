@@ -903,4 +903,122 @@
     });
   }
 
+  /* -----------------------------------------------------------------------
+     Configurator (build.html)
+
+     Runs over the DOM: the price of an option lives on the input that selects
+     it, so the summary reads what the page already says rather than a second
+     copy of the price list that can disagree with it.
+
+     Nothing here is required for the page to work. With JS off every group is
+     open, every option is a real radio or checkbox inside a form, and the
+     summary shows the base price — which is the honest state of a page that
+     cannot add up.
+     ----------------------------------------------------------------------- */
+  var buildRoot = document.querySelector('.build');
+
+  if (buildRoot) {
+    var BASE = 51900;
+    var groups = [].slice.call(buildRoot.querySelectorAll('[data-group]'));
+    var totalEl = buildRoot.querySelector('[data-total]');
+    var labelEl = buildRoot.querySelector('[data-total-label]');
+    var remainEl = buildRoot.querySelector('[data-remaining]');
+    var configField = buildRoot.querySelector('[data-config-field]');
+    var bar = document.querySelector('[data-build-bar]');
+    var barTotal = bar && bar.querySelector('[data-bar-total]');
+    var barCount = bar && bar.querySelector('[data-bar-count]');
+
+    var money = function (n) {
+      return '$' + n.toLocaleString('en-US', { maximumFractionDigits: 0 });
+    };
+
+    var read = function (group) {
+      var chosen = [].slice.call(group.querySelectorAll('input:checked'));
+      return chosen.map(function (i) {
+        return { label: i.value, price: parseInt(i.getAttribute('data-price'), 10) || 0 };
+      });
+    };
+
+    var paint = function () {
+      var total = BASE, chosenCount = 0, missing = 0, lines = [];
+
+      groups.forEach(function (group) {
+        var id = group.getAttribute('data-group');
+        var picks = read(group);
+        var sum = picks.reduce(function (a, p) { return a + p.price; }, 0);
+        total += sum;
+
+        /* "Standard" is an answer, so it counts as one — but it is not an
+           upgrade, so it does not count toward what has been added. */
+        var upgrades = picks.filter(function (p) { return p.price > 0; });
+        chosenCount += upgrades.length;
+
+        var required = group.hasAttribute('data-required');
+        if (required && !picks.length) missing++;
+
+        var head = group.querySelector('[data-chosen] strong');
+        var row = buildRoot.querySelector('[data-row="' + id + '"]');
+        var text = picks.length ? picks.map(function (p) { return p.label; }).join(', ') : 'Not selected';
+
+        if (head) head.textContent = text;
+        var headPrice = group.querySelector('[data-chosen] .num-tabular');
+        if (headPrice) headPrice.remove();
+        if (sum > 0) {
+          var span = document.createElement('span');
+          span.className = 'num-tabular';
+          span.textContent = money(sum);
+          group.querySelector('[data-chosen]').appendChild(span);
+        }
+
+        if (row) {
+          row.querySelector('[data-value]').textContent = text;
+          /* A zero IS a price; the absence of an answer is not, so an unanswered
+             group gets an em dash and not "$0" in the cost column. */
+          row.querySelector('[data-cost]').textContent = picks.length ? money(sum) : '—';
+          row.classList.toggle('summary__row--empty', !picks.length);
+        }
+
+        if (picks.length) lines.push(group.querySelector('.optgroup__name').textContent + ': ' + text +
+                                     (sum ? ' (' + money(sum) + ')' : ''));
+      });
+
+      if (totalEl) totalEl.textContent = money(total);
+      /* The label is the truth about the number above it. A partial sum called
+         a total is the mockup's own mistake. */
+      if (labelEl) labelEl.textContent = missing ? 'Configured so far' : 'Estimated price';
+      if (remainEl) {
+        remainEl.textContent = missing
+          ? missing + (missing === 1 ? ' group still needs an answer.' : ' groups still need an answer.')
+          : 'Every group has an answer. This estimate excludes tax, title and delivery.';
+      }
+      if (barTotal) barTotal.textContent = money(total);
+      if (barCount) {
+        barCount.textContent = chosenCount
+          ? chosenCount + (chosenCount === 1 ? ' option added' : ' options added')
+          : 'Base only';
+      }
+      if (configField) configField.value = 'Backdraft RT4 — ' + money(total) + '\n' + lines.join('\n');
+    };
+
+    buildRoot.addEventListener('change', paint);
+
+    /* The phone bar carries the number; the list it belongs to is one tap away. */
+    if (bar) {
+      bar.hidden = false;
+      var open = bar.querySelector('[data-bar-open]');
+      if (open) {
+        open.addEventListener('click', function () {
+          var panel = buildRoot.querySelector('.build__summary');
+          if (panel) panel.scrollIntoView({ behavior: motionOK ? 'smooth' : 'auto', block: 'start' });
+        });
+      }
+    }
+
+    /* Open the groups that still need an answer, leave the rest shut: nine open
+       accordions is not a form, it is a wall. */
+    groups.forEach(function (g, i) { g.open = i < 3; });
+
+    paint();
+  }
+
 })();

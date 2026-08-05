@@ -1,0 +1,734 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Build Your Own Backdraft RT4 — Hinderer Motor Company</title>
+  <meta name="description" content="Specify a Backdraft RT4 from the rolling chassis up — upholstery, stitching, dash, wheel, body, exterior, suspension — and get a written estimate from Hinderer Motor Company.">
+  <meta name="theme-color" content="#1f1d19">
+
+  <link rel="icon" href="assets/img/logo-hinderer.png" sizes="any">
+  <!-- No hero preload: this page has no hero. The first paint here is twelve
+       card thumbnails, and they are lazy by design — preloading anything above
+       them would only delay the one image the visitor actually scrolls to. -->
+
+  <!-- Two voices: Oswald carries headline mass, Inter carries reading and
+       data. Degular (licensed, not supplied) leads --font-display in
+       tokens.css and takes over the moment its @font-face lands — no markup
+       change required. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=Oswald:wght@300;400;500;600&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- The cascade, in the order it must load:
+       tokens  → the values, and the only place a raw value is written
+       system  → layout, rhythm, utilities (this replaced Bootstrap)
+       main    → the components
+       oswald  → the display-face layer, one link away from being removed -->
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/system.css">
+  <link rel="stylesheet" href="assets/css/main.css">
+  <!-- The display face, kept as its own layer rather than folded into main.css:
+       it is applied last and can be lifted out in one line if the face changes.
+       Every new page loads these four, in this order. -->
+  <link rel="stylesheet" href="assets/css/display-oswald.css">
+
+  <!-- Marks that scripting is available, before first paint. Only then does
+       the mobile nav collapse behind its toggle; without JS it renders as a
+       stacked list and every destination stays reachable. -->
+  <script>document.documentElement.className += " js";</script>
+</head>
+
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<!-- =====================================================================
+     SITE HEADER — shared across every page. Copy verbatim into new pages
+     and change only the aria-current on the active nav item.
+     ===================================================================== -->
+<header class="site-header" id="siteHeader">
+  <div class="wrap site-header__inner">
+
+    <a class="brand" href="index.html" aria-label="Hinderer Motor Company — home">
+      <img class="brand__mark" src="assets/img/logo-hinderer.png"
+           alt="The Hinderer Motor Company — we love what moves you" width="272" height="94">
+    </a>
+
+    <button class="nav-toggle" type="button"
+            aria-expanded="false" aria-controls="siteNav" data-nav-toggle>
+      <span class="sr-only">Menu</span>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </button>
+
+    <nav class="site-nav" id="siteNav" aria-label="Primary">
+      <ul class="site-nav__list">
+        <li><a class="site-nav__link" href="inventory.html">Inventory</a></li>
+        <li><a class="site-nav__link" href="build.html" aria-current="page">Build</a></li>
+        <li><a class="site-nav__link" href="index.html#trade">Trade In</a></li>
+        <li><a class="site-nav__link" href="index.html#about">Who We Are</a></li>
+        <li><a class="site-nav__link site-nav__link--phone" href="tel:+17406182466">
+          <svg class="site-nav__phone-icon" viewBox="0 -960 960 960" aria-hidden="true" focusable="false" width="18" height="18"><path fill="currentColor" d="M798-120q-125 0-247-54.5T329-329Q229-429 174.5-551T120-798q0-18 12-30t30-12h162q14 0 25 9.5t13 22.5l26 140q2 16-1 27t-11 19l-97 98q20 37 47.5 71.5T387-386q31 31 65 57.5t72 48.5l94-94q9-9 23.5-13.5T670-390l138 28q14 4 23 14.5t9 23.5v162q0 18-12 30t-30 12Z"/></svg>
+          <span class="site-nav__phone-num">740.618.2466</span>
+        </a></li>
+      </ul>
+    </nav>
+
+    <a class="collection-pill" href="saved.html">
+      <!-- The words drop out below 23.5rem, where holding them squeezed the logo
+           to 51px. They stay in the DOM, so the link is still announced as
+           "My Collection / 03" — the count is what is lost visually last. -->
+      <span class="collection-pill__label">My Collection</span>
+      <span class="num-tabular">/ <span data-saved-count>03</span></span>
+    </a>
+
+  </div>
+</header>
+
+
+<main id="main" class="lit-sides build-page">
+
+  <!-- ===================================================================
+       1 · CONFIGURATOR
+       Two columns, the same arrangement the vehicle page uses: the work on the
+       left, the running quotation on the right.
+       =================================================================== -->
+  <section class="section section--below-header" aria-labelledby="buildTitle">
+    <div class="wrap">
+      <div class="build">
+
+        <div class="build__main">
+
+          <div class="build-head">
+            <p class="build-head__eyebrow">Build Your Own</p>
+            <h1 class="build-head__model" id="buildTitle">Backdraft RT4</h1>
+          </div>
+
+          <div class="build-base">
+            <img src="assets/img/vehicle-2.jpg" alt="A Backdraft RT4 rolling chassis"
+                 width="1200" height="525" fetchpriority="high">
+            <div class="build-base__plate">
+              <p class="build-base__label">Base</p>
+              <p class="build-base__name">Rolling Chassis</p>
+              <p class="build-base__price num-tabular">$51,900</p>
+            </div>
+          </div>
+
+          <!-- Every group is a <details>, so the whole option list is in the
+               document with no script and a search engine sees all of it. The
+               indicator on each card is present before it is chosen, and its
+               SHAPE says the mechanic: a circle is one of these, a square is as
+               many as you like. The mockup marks one group with a copper border
+               and another with a tick, which makes two different rules look
+               like one — a visitor cannot tell whether a second choice adds or
+               replaces. -->
+        <details class="optgroup" data-group="upholstery" data-mech="one" data-required>
+          <summary class="optgroup__head">
+            <span class="optgroup__name">Interior Upholstery</span>
+            <span class="optgroup__chosen" data-chosen>
+              <strong>Not selected</strong>
+            </span>
+            <span class="optgroup__caret" aria-hidden="true"></span>
+          </summary>
+          <div class="optgroup__body">
+            <div class="options-grid">
+              <label class="optcard optcard--one">
+                <input type="radio" name="upholstery" id="upholstery-0" value="Standard black vinyl"
+                       data-price="0">
+                <span class="optcard__frame"><span class="optcard__await" aria-hidden="true">Photo<br>to come</span></span>
+                <span class="optcard__mark" aria-hidden="true"></span>
+                <span class="optcard__name">Standard black vinyl</span>
+                <span class="optcard__price num-tabular">Included</span>
+              </label>
+              <label class="optcard optcard--one">
+                <input type="radio" name="upholstery" id="upholstery-1" value="Red Interior"
+                       data-price="950">
+                <span class="optcard__frame"><span class="optcard__await" aria-hidden="true">Photo<br>to come</span></span>
+                <span class="optcard__mark" aria-hidden="true"></span>
+                <span class="optcard__name">Red Interior</span>
+                <span class="optcard__price num-tabular">$950</span>
+              </label>
+              <label class="optcard optcard--one">
+                <input type="radio" name="upholstery" id="upholstery-2" value="Grey Interior"
+                       data-price="950">
+                <span class="optcard__frame"><span class="optcard__await" aria-hidden="true">Photo<br>to come</span></span>
+                <span class="optcard__mark" aria-hidden="true"></span>
+                <span class="optcard__name">Grey Interior</span>
+                <span class="optcard__price num-tabular">$950</span>
+              </label>
+              <label class="optcard optcard--one">
+                <input type="radio" name="upholstery" id="upholstery-3" value="Tan Interior"
+                       data-price="950">
+                <span class="optcard__frame"><span class="optcard__await" aria-hidden="true">Photo<br>to come</span></span>
+                <span class="optcard__mark" aria-hidden="true"></span>
+                <span class="optcard__name">Tan Interior</span>
+                <span class="optcard__price num-tabular">$950</span>
+              </label>
+              <label class="optcard optcard--one">
+                <input type="radio" name="upholstery" id="upholstery-4" value="Dove Interior"
+                       data-price="950">
+                <span class="optcard__frame"><span class="optcard__await" aria-hidden="true">Photo<br>to come</span></span>
+                <span class="optcard__mark" aria-hidden="true"></span>
+                <span class="optcard__name">Dove Interior</span>
+                <span class="optcard__price num-tabular">$950</span>
+              </label>
+              <label class="optcard optcard--one">
+                <input type="radio" name="upholstery" id="upholstery-5" value="Brown Interior"
+                       data-price="950">
+                <span class="optcard__frame"><span class="optcard__await" aria-hidden="true">Photo<br>to come</span></span>
+                <span class="optcard__mark" aria-hidden="true"></span>
+                <span class="optcard__name">Brown Interior</span>
+                <span class="optcard__price num-tabular">$950</span>
+              </label>
+            </div>
+          </div>
+        </details>
+        <details class="optgroup" data-group="stitching" data-mech="one" data-required>
+          <summary class="optgroup__head">
+            <span class="optgroup__name">Interior Stitching</span>
+            <span class="optgroup__chosen" data-chosen>
+              <strong>Not selected</strong>
+            </span>
+            <span class="optgroup__caret" aria-hidden="true"></span>
+          </summary>
+          <div class="optgroup__body">
+            <div class="options-grid">
+              <label class="optcard optcard--one">
+                <input type="radio" name="stitching" id="stitching-0" value="Standard stitching"
+                       data-price="0">
+                <span class="optcard__frame"><span class="optcard__await" aria-hidden="true">Photo<br>to come</span></span>
+                <span class="optcard__mark" aria-hidden="true"></span>
+                <span class="optcard__name">Standard stitching</span>
+                <span class="optcard__price num-tabular">Included</span>
+              </label>
+              <label class="optcard optcard--one">
+                <input type="radio" name="stitching" id="stitching-1" value="Diamond Stitch"
+                       data-price="1875">
+                <span class="optcard__frame"><span class="optcard__await" aria-hidden="true">Photo<br>to come</span></span>
+                <span class="optcard__mark" aria-hidden="true"></span>
+                <span class="optcard__name">Diamond Stitch</span>
+                <span class="optcard__price num-tabular">$1,875</span>
+              </label>
+              <label class="optcard optcard--one">
+                <input type="radio" name="stitching" id="stitching-2" value="Dbl Diamond with Seat Eyes"
+                       data-price="3200">
+                <span class="optcard__frame"><span class="optcard__await" aria-hidden="true">Photo<br>to come</span></span>
+                <span class="optcard__mark" aria-hidden="true"></span>
+                <span class="optcard__name">Dbl Diamond with Seat Eyes</span>
+                <span class="optcard__price num-tabular">$3,200</span>
+              </label>
+              <label class="optcard optcard--one">
+                <input type="radio" name="stitching" id="stitching-3" value="Ribbed Interior"
+                       data-price="2400">
+                <span class="optcard__frame"><span class="optcard__await" aria-hidden="true">Photo<br>to come</span></span>
+                <span class="optcard__mark" aria-hidden="true"></span>
+                <span class="optcard__name">Ribbed Interior</span>
+                <span class="optcard__price num-tabular">$2,400</span>
+              </label>
+              <label class="optcard optcard--one">
+                <input type="radio" name="stitching" id="stitching-4" value="Dbl Diamond Alcantara"
+                       data-price="4200">
+                <span class="optcard__frame"><span class="optcard__await" aria-hidden="true">Photo<br>to come</span></span>
+                <span class="optcard__mark" aria-hidden="true"></span>
+                <span class="optcard__name">Dbl Diamond Alcantara</span>
+                <span class="optcard__price num-tabular">$4,200</span>
+              </label>
+              <label class="optcard optcard--one">
+                <input type="radio" name="stitching" id="stitching-5" value="Diagonal Interior"
+                       data-price="5200">
+                <span class="optcard__frame"><span class="optcard__await" aria-hidden="true">Photo<br>to come</span></span>
+                <span class="optcard__mark" aria-hidden="true"></span>
+                <span class="optcard__name">Diagonal Interior</span>
+                <span class="optcard__price num-tabular">$5,200</span>
+              </label>
+            </div>
+          </div>
+        </details>
+        <details class="optgroup" data-group="dash" data-mech="one" data-required>
+          <summary class="optgroup__head">
+            <span class="optgroup__name">Dash & Gauges</span>
+            <span class="optgroup__chosen" data-chosen>
+              <strong>Not selected</strong>
+            </span>
+            <span class="optgroup__caret" aria-hidden="true"></span>
+          </summary>
+          <div class="optgroup__body">
+            <div class="options-grid">
+              <label class="optcard optcard--one">
+                <input type="radio" name="dash" id="dash-0" value="Standard dash"
+                       data-price="0">
+                <span class="optcard__frame"><span class="optcard__await" aria-hidden="true">Photo<br>to come</span></span>
+                <span class="optcard__mark" aria-hidden="true"></span>
+                <span class="optcard__name">Standard dash</span>
+                <span class="optcard__price num-tabular">Included</span>
+              </label>
+              <label class="optcard optcard--one">
+                <input type="radio" name="dash" id="dash-1" value="Carbon Fiber Dash, Moal Gauges"
+                       data-price="3500">
+                <span class="optcard__frame"><span class="optcard__await" aria-hidden="true">Photo<br>to come</span></span>
+                <span class="optcard__mark" aria-hidden="true"></span>
+                <span class="optcard__name">Carbon Fiber Dash, Moal Gauges</span>
+                <span class="optcard__price num-tabular">$3,500</span>
+              </label>
+              <label class="optcard optcard--one">
+                <input type="radio" name="dash" id="dash-2" value="Carbon Fiber Dash, GT Gauges"
+                       data-price="3000">
+                <span class="optcard__frame"><span class="optcard__await" aria-hidden="true">Photo<br>to come</span></span>
+                <span class="optcard__mark" aria-hidden="true"></span>
+                <span class="optcard__name">Carbon Fiber Dash, GT Gauges</span>
+                <span class="optcard__price num-tabular">$3,000</span>
+              </label>
+              <label class="optcard optcard--one">
+                <input type="radio" name="dash" id="dash-3" value="Carbon Fiber Dash, Auto X Gauges"
+                       data-price="3380">
+                <span class="optcard__frame"><span class="optcard__await" aria-hidden="true">Photo<br>to come</span></span>
+                <span class="optcard__mark" aria-hidden="true"></span>
+                <span class="optcard__name">Carbon Fiber Dash, Auto X Gauges</span>
+                <span class="optcard__price num-tabular">$3,380</span>
+              </label>
+            </div>
+          </div>
+        </details>
+        <details class="optgroup" data-group="steering" data-mech="one" data-required>
+          <summary class="optgroup__head">
+            <span class="optgroup__name">Steering Wheel</span>
+            <span class="optgroup__chosen" data-chosen>
+              <strong>Not selected</strong>
+            </span>
+            <span class="optgroup__caret" aria-hidden="true"></span>
+          </summary>
+          <div class="optgroup__body">
+            <p class="optgroup__pending">Photography and final pricing for this group are
+              still to come from the workshop. The options below are placeholders — the names
+              are right, the prices are not.</p>
+            <div class="options-grid">
+              <label class="optcard optcard--one">
+                <input type="radio" name="steering" id="steering-0" value="Standard three-spoke"
+                       data-price="0">
+                <span class="optcard__frame"><span class="optcard__await" aria-hidden="true">Photo<br>to come</span></span>
+                <span class="optcard__mark" aria-hidden="true"></span>
+                <span class="optcard__name">Standard three-spoke</span>
+                <span class="optcard__price num-tabular">Included</span>
+              </label>
+              <label class="optcard optcard--one">
+                <input type="radio" name="steering" id="steering-1" value="Moto Lita Style Wood"
+                       data-price="0">
+                <span class="optcard__frame"><span class="optcard__await" aria-hidden="true">Photo<br>to come</span></span>
+                <span class="optcard__mark" aria-hidden="true"></span>
+                <span class="optcard__name">Moto Lita Style Wood</span>
+                <span class="optcard__price num-tabular">Included</span>
+              </label>
+              <label class="optcard optcard--one">
+                <input type="radio" name="steering" id="steering-2" value="Billet Aluminium"
+                       data-price="0">
+                <span class="optcard__frame"><span class="optcard__await" aria-hidden="true">Photo<br>to come</span></span>
+                <span class="optcard__mark" aria-hidden="true"></span>
+                <span class="optcard__name">Billet Aluminium</span>
+                <span class="optcard__price num-tabular">Included</span>
+              </label>
+            </div>
+          </div>
+        </details>
+        <details class="optgroup" data-group="interior-extra" data-mech="any">
+          <summary class="optgroup__head">
+            <span class="optgroup__name">Other Interior Options</span>
+            <span class="optgroup__chosen" data-chosen>
+              <strong>Not selected</strong>
+            </span>
+            <span class="optgroup__caret" aria-hidden="true"></span>
+          </summary>
+          <div class="optgroup__body">
+            <p class="optgroup__pending">Photography and final pricing for this group are
+              still to come from the workshop. The options below are placeholders — the names
+              are right, the prices are not.</p>
+            <div class="options-grid">
+              <label class="optcard optcard--any">
+                <input type="checkbox" name="interior-extra" id="interior-extra-0" value="Can Lock Seat Belts"
+                       data-price="490">
+                <span class="optcard__frame"><span class="optcard__await" aria-hidden="true">Photo<br>to come</span></span>
+                <span class="optcard__mark" aria-hidden="true"></span>
+                <span class="optcard__name">Can Lock Seat Belts</span>
+                <span class="optcard__price num-tabular">$490</span>
+              </label>
+              <label class="optcard optcard--any">
+                <input type="checkbox" name="interior-extra" id="interior-extra-1" value="Heater"
+                       data-price="800">
+                <span class="optcard__frame"><span class="optcard__await" aria-hidden="true">Photo<br>to come</span></span>
+                <span class="optcard__mark" aria-hidden="true"></span>
+                <span class="optcard__name">Heater</span>
+                <span class="optcard__price num-tabular">$800</span>
+              </label>
+              <label class="optcard optcard--any">
+                <input type="checkbox" name="interior-extra" id="interior-extra-2" value="Roll Bar Padding"
+                       data-price="0">
+                <span class="optcard__frame"><span class="optcard__await" aria-hidden="true">Photo<br>to come</span></span>
+                <span class="optcard__mark" aria-hidden="true"></span>
+                <span class="optcard__name">Roll Bar Padding</span>
+                <span class="optcard__price num-tabular">Included</span>
+              </label>
+            </div>
+          </div>
+        </details>
+        <details class="optgroup" data-group="body" data-mech="one" data-required>
+          <summary class="optgroup__head">
+            <span class="optgroup__name">Body</span>
+            <span class="optgroup__chosen" data-chosen>
+              <strong>Not selected</strong>
+            </span>
+            <span class="optgroup__caret" aria-hidden="true"></span>
+          </summary>
+          <div class="optgroup__body">
+            <p class="optgroup__pending">Photography and final pricing for this group are
+              still to come from the workshop. The options below are placeholders — the names
+              are right, the prices are not.</p>
+            <div class="options-grid">
+              <label class="optcard optcard--one">
+                <input type="radio" name="body" id="body-0" value="Standard body"
+                       data-price="0">
+                <span class="optcard__frame"><span class="optcard__await" aria-hidden="true">Photo<br>to come</span></span>
+                <span class="optcard__mark" aria-hidden="true"></span>
+                <span class="optcard__name">Standard body</span>
+                <span class="optcard__price num-tabular">Included</span>
+              </label>
+              <label class="optcard optcard--one">
+                <input type="radio" name="body" id="body-1" value="GT Body Option"
+                       data-price="2000">
+                <span class="optcard__frame"><span class="optcard__await" aria-hidden="true">Photo<br>to come</span></span>
+                <span class="optcard__mark" aria-hidden="true"></span>
+                <span class="optcard__name">GT Body Option</span>
+                <span class="optcard__price num-tabular">$2,000</span>
+              </label>
+            </div>
+          </div>
+        </details>
+        <details class="optgroup" data-group="exterior" data-mech="one" data-required>
+          <summary class="optgroup__head">
+            <span class="optgroup__name">Exterior</span>
+            <span class="optgroup__chosen" data-chosen>
+              <strong>Not selected</strong>
+            </span>
+            <span class="optgroup__caret" aria-hidden="true"></span>
+          </summary>
+          <div class="optgroup__body">
+            <p class="optgroup__pending">Photography and final pricing for this group are
+              still to come from the workshop. The options below are placeholders — the names
+              are right, the prices are not.</p>
+            <div class="options-grid">
+              <label class="optcard optcard--one">
+                <input type="radio" name="exterior" id="exterior-0" value="Standard paint"
+                       data-price="0">
+                <span class="optcard__frame"><span class="optcard__await" aria-hidden="true">Photo<br>to come</span></span>
+                <span class="optcard__mark" aria-hidden="true"></span>
+                <span class="optcard__name">Standard paint</span>
+                <span class="optcard__price num-tabular">Included</span>
+              </label>
+              <label class="optcard optcard--one">
+                <input type="radio" name="exterior" id="exterior-1" value="Two-tone with stripe"
+                       data-price="0">
+                <span class="optcard__frame"><span class="optcard__await" aria-hidden="true">Photo<br>to come</span></span>
+                <span class="optcard__mark" aria-hidden="true"></span>
+                <span class="optcard__name">Two-tone with stripe</span>
+                <span class="optcard__price num-tabular">Included</span>
+              </label>
+              <label class="optcard optcard--one">
+                <input type="radio" name="exterior" id="exterior-2" value="Custom colour match"
+                       data-price="0">
+                <span class="optcard__frame"><span class="optcard__await" aria-hidden="true">Photo<br>to come</span></span>
+                <span class="optcard__mark" aria-hidden="true"></span>
+                <span class="optcard__name">Custom colour match</span>
+                <span class="optcard__price num-tabular">Included</span>
+              </label>
+            </div>
+          </div>
+        </details>
+        <details class="optgroup" data-group="suspension" data-mech="one" data-required>
+          <summary class="optgroup__head">
+            <span class="optgroup__name">Suspension</span>
+            <span class="optgroup__chosen" data-chosen>
+              <strong>Not selected</strong>
+            </span>
+            <span class="optgroup__caret" aria-hidden="true"></span>
+          </summary>
+          <div class="optgroup__body">
+            <p class="optgroup__pending">Photography and final pricing for this group are
+              still to come from the workshop. The options below are placeholders — the names
+              are right, the prices are not.</p>
+            <div class="options-grid">
+              <label class="optcard optcard--one">
+                <input type="radio" name="suspension" id="suspension-0" value="Standard 17-inch"
+                       data-price="0">
+                <span class="optcard__frame"><span class="optcard__await" aria-hidden="true">Photo<br>to come</span></span>
+                <span class="optcard__mark" aria-hidden="true"></span>
+                <span class="optcard__name">Standard 17-inch</span>
+                <span class="optcard__price num-tabular">Included</span>
+              </label>
+              <label class="optcard optcard--one">
+                <input type="radio" name="suspension" id="suspension-1" value="18" Knock off Rims and Tires"
+                       data-price="0">
+                <span class="optcard__frame"><span class="optcard__await" aria-hidden="true">Photo<br>to come</span></span>
+                <span class="optcard__mark" aria-hidden="true"></span>
+                <span class="optcard__name">18" Knock off Rims and Tires</span>
+                <span class="optcard__price num-tabular">Included</span>
+              </label>
+            </div>
+          </div>
+        </details>
+        <details class="optgroup" data-group="underhood" data-mech="any">
+          <summary class="optgroup__head">
+            <span class="optgroup__name">Underhood</span>
+            <span class="optgroup__chosen" data-chosen>
+              <strong>Not selected</strong>
+            </span>
+            <span class="optgroup__caret" aria-hidden="true"></span>
+          </summary>
+          <div class="optgroup__body">
+            <p class="optgroup__pending">Photography and final pricing for this group are
+              still to come from the workshop. The options below are placeholders — the names
+              are right, the prices are not.</p>
+            <div class="options-grid">
+              <label class="optcard optcard--any">
+                <input type="checkbox" name="underhood" id="underhood-0" value="Ceramic Coated Headers"
+                       data-price="400">
+                <span class="optcard__frame"><span class="optcard__await" aria-hidden="true">Photo<br>to come</span></span>
+                <span class="optcard__mark" aria-hidden="true"></span>
+                <span class="optcard__name">Ceramic Coated Headers</span>
+                <span class="optcard__price num-tabular">$400</span>
+              </label>
+              <label class="optcard optcard--any">
+                <input type="checkbox" name="underhood" id="underhood-1" value="Polished Valve Covers"
+                       data-price="0">
+                <span class="optcard__frame"><span class="optcard__await" aria-hidden="true">Photo<br>to come</span></span>
+                <span class="optcard__mark" aria-hidden="true"></span>
+                <span class="optcard__name">Polished Valve Covers</span>
+                <span class="optcard__price num-tabular">Included</span>
+              </label>
+            </div>
+          </div>
+        </details>
+
+        </div>
+
+        <aside class="summary build__summary" aria-labelledby="summaryTitle">
+          <div class="summary__render">
+            <img src="assets/img/vehicle-1.jpg" alt="Backdraft RT4 as configured"
+                 width="800" height="450">
+          </div>
+
+          <h2 class="summary__title" id="summaryTitle">Backdraft RT4</h2>
+          <p class="summary__label" data-total-label>Configured so far</p>
+          <p class="summary__total num-tabular" data-total>$51,900</p>
+
+          <hr class="summary__rule">
+
+          <dl class="summary__list">
+            <div class="summary__row">
+              <dt>Base</dt>
+              <dd>Rolling Chassis</dd>
+              <dd class="summary__cost num-tabular">$51,900</dd>
+            </div>
+            <div class="summary__row" data-row="upholstery">
+              <dt>Interior Upholstery</dt>
+              <dd data-value>Not selected</dd>
+              <dd class="summary__cost num-tabular" data-cost>—</dd>
+            </div>
+            <div class="summary__row" data-row="stitching">
+              <dt>Interior Stitching</dt>
+              <dd data-value>Not selected</dd>
+              <dd class="summary__cost num-tabular" data-cost>—</dd>
+            </div>
+            <div class="summary__row" data-row="dash">
+              <dt>Dash & Gauges</dt>
+              <dd data-value>Not selected</dd>
+              <dd class="summary__cost num-tabular" data-cost>—</dd>
+            </div>
+            <div class="summary__row" data-row="steering">
+              <dt>Steering Wheel</dt>
+              <dd data-value>Not selected</dd>
+              <dd class="summary__cost num-tabular" data-cost>—</dd>
+            </div>
+            <div class="summary__row" data-row="interior-extra">
+              <dt>Other Interior Options</dt>
+              <dd data-value>Not selected</dd>
+              <dd class="summary__cost num-tabular" data-cost>—</dd>
+            </div>
+            <div class="summary__row" data-row="body">
+              <dt>Body</dt>
+              <dd data-value>Not selected</dd>
+              <dd class="summary__cost num-tabular" data-cost>—</dd>
+            </div>
+            <div class="summary__row" data-row="exterior">
+              <dt>Exterior</dt>
+              <dd data-value>Not selected</dd>
+              <dd class="summary__cost num-tabular" data-cost>—</dd>
+            </div>
+            <div class="summary__row" data-row="suspension">
+              <dt>Suspension</dt>
+              <dd data-value>Not selected</dd>
+              <dd class="summary__cost num-tabular" data-cost>—</dd>
+            </div>
+            <div class="summary__row" data-row="underhood">
+              <dt>Underhood</dt>
+              <dd data-value>Not selected</dd>
+              <dd class="summary__cost num-tabular" data-cost>—</dd>
+            </div>
+          </dl>
+
+          <!-- Nothing is chosen for the visitor. "Standard" is an answer like any
+               other and has to be given, not assumed — a configuration that
+               arrives pre-filled is one nobody has actually made. -->
+          <p class="summary__note" data-remaining>Seven groups still need an answer.</p>
+
+          <div class="summary__foot">
+            <h3 class="summary__title">Get your estimate</h3>
+            <form class="u-mt-5" method="post" action="#summaryTitle" data-estimate>
+              <div class="field">
+                <label class="field__label" for="bName">Your name</label>
+                <input class="control" id="bName" name="name" type="text" autocomplete="name" required>
+              </div>
+              <div class="field u-mt-5">
+                <label class="field__label" for="bEmail">Email</label>
+                <input class="control" id="bEmail" name="email" type="email" autocomplete="email" required>
+              </div>
+              <div class="field u-mt-5">
+                <label class="field__label" for="bPhone">Phone</label>
+                <input class="control" id="bPhone" name="phone" type="tel" autocomplete="tel">
+              </div>
+              <div class="field u-mt-5">
+                <label class="field__label" for="bMsg">Message</label>
+                <textarea class="control control--area" id="bMsg" name="message" rows="3"></textarea>
+              </div>
+              <!-- The configuration travels with the message, the way the stock
+                   number does from a vehicle page. -->
+              <input type="hidden" name="configuration" data-config-field>
+              <p class="summary__note u-mt-5">Your configuration is attached to this message, so you
+                do not have to list it again.</p>
+              <button class="btn-hmc btn-hmc--dark btn-hmc--centred u-mt-5" type="submit">Send my estimate</button>
+            </form>
+          </div>
+        </aside>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- The total rides the bottom of a phone screen: while choosing, the visitor
+       needs one number, not the whole list. The list opens on request, which is
+       when it is actually wanted. -->
+  <div class="build-bar" data-build-bar hidden>
+    <div>
+      <p class="build-bar__total num-tabular" data-bar-total>$51,900</p>
+      <p class="build-bar__count" data-bar-count>Base only</p>
+    </div>
+    <button class="btn-hmc btn-hmc--primary btn-hmc--centred" type="button" data-bar-open>Summary</button>
+  </div>
+
+  <!-- ===================================================================
+       3 · CONTACT
+       =================================================================== -->
+  <!-- Full-bleed by construction: the map is a place, and a place cropped into
+       a content column reads as a picture of a place. The panel beside it is the
+       only large warm field on the page, which is what makes the page resolve
+       here instead of trailing off. -->
+  <section class="contact" id="contact" aria-labelledby="contactTitle">
+    <div class="contact__map">
+      <iframe class="contact__map__frame"
+              title="Map showing Hinderer Motor Company at 1555 Hebron Rd, Heath, Ohio"
+              src="https://www.openstreetmap.org/export/embed.html?bbox=-82.4590%2C40.0215%2C-82.4190%2C40.0435&amp;layer=mapnik&amp;marker=40.0325%2C-82.4390"
+              loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <!-- The interactive frame cannot be a link, so the route to full
+           directions is stated separately and stays keyboard reachable. -->
+      <a class="contact__map__link"
+         href="https://www.openstreetmap.org/?mlat=40.0325&amp;mlon=-82.4390#map=15/40.0325/-82.4390"
+         target="_blank" rel="noopener">
+        Open directions
+        <span class="sr-only">— 1555 Hebron Rd, Heath, Ohio, opens in a new tab</span>
+      </a>
+    </div>
+
+    <div class="contact__panel">
+      <!-- Decorative: the word is already the section's heading for a reader
+           that cannot see it. -->
+      <span class="contact__spine" aria-hidden="true"><span>C</span><span>O</span><span>N</span><span>T</span><span>A</span><span>C</span><span>T</span><span>S</span></span>
+
+      <div class="contact__body">
+        <h2 class="sr-only" id="contactTitle">Contact Hinderer Motor Company</h2>
+
+        <div class="contact__item">
+          <p class="contact__label">
+            <svg class="contact__icon" viewBox="0 -960 960 960" aria-hidden="true" focusable="false" width="20" height="20"><path fill="currentColor" d="M798-120q-125 0-247-54.5T329-329Q229-429 174.5-551T120-798q0-18 12-30t30-12h162q14 0 25 9.5t13 22.5l26 140q2 16-1 27t-11 19l-97 98q20 37 47.5 71.5T387-386q31 31 65 57.5t72 48.5l94-94q9-9 23.5-13.5T670-390l138 28q14 4 23 14.5t9 23.5v162q0 18-12 30t-30 12ZM241-600l66-66-17-94h-89q5 41 14 81t26 79Zm358 358q39 17 79.5 27t81.5 13v-88l-94-19-67 67ZM241-600Zm358 358Z"/></svg>
+            Phone
+          </p>
+          <p class="contact__value">
+            <a class="num-tabular" href="tel:+17406182466">740.618.2466</a>
+          </p>
+        </div>
+
+        <div class="contact__item">
+          <p class="contact__label">
+            <svg class="contact__icon" viewBox="0 -960 960 960" aria-hidden="true" focusable="false" width="20" height="20"><path fill="currentColor" d="M480-480q33 0 56.5-23.5T560-560q0-33-23.5-56.5T480-640q-33 0-56.5 23.5T400-560q0 33 23.5 56.5T480-480Zm0 294q122-112 181-203.5T720-552q0-109-69.5-178.5T480-800q-101 0-170.5 69.5T240-552q0 71 59 162.5T480-186Zm0 106Q319-217 239.5-334.5T160-552q0-150 96.5-239T480-880q127 0 223.5 89T800-552q0 100-79.5 217.5T480-80Zm0-480Z"/></svg>
+            Address
+          </p>
+          <address class="contact__value">
+            Hinderer Motor Company<br>
+            1555 Hebron Rd<br>
+            Heath, OH 43056
+          </address>
+        </div>
+
+        <div class="contact__item">
+          <p class="contact__label">
+            <svg class="contact__icon" viewBox="0 -960 960 960" aria-hidden="true" focusable="false" width="20" height="20"><path fill="currentColor" d="M720-80q-50 0-85-35t-35-85q0-7 1-14.5t3-13.5L322-392q-17 15-38 23.5t-44 8.5q-50 0-85-35t-35-85q0-50 35-85t85-35q23 0 44 8.5t38 23.5l282-164q-2-6-3-13.5t-1-14.5q0-50 35-85t85-35q50 0 85 35t35 85q0 50-35 85t-85 35q-23 0-44-8.5T638-672L356-508q2 6 3 13.5t1 14.5q0 7-1 14.5t-3 13.5l282 164q17-15 38-23.5t44-8.5q50 0 85 35t35 85q0 50-35 85t-85 35Zm0-640q17 0 28.5-11.5T760-760q0-17-11.5-28.5T720-800q-17 0-28.5 11.5T680-760q0 17 11.5 28.5T720-720ZM240-440q17 0 28.5-11.5T280-480q0-17-11.5-28.5T240-520q-17 0-28.5 11.5T200-480q0 17 11.5 28.5T240-440Zm480 280q17 0 28.5-11.5T760-200q0-17-11.5-28.5T720-240q-17 0-28.5 11.5T680-200q0 17 11.5 28.5T720-160Zm0-600ZM240-480Zm480 280Z"/></svg>
+            Follow
+          </p>
+          <ul class="social contact__value">
+            <li><a href="#" aria-label="Hinderer Motor Company on Instagram"><img src="assets/icons/social-instagram.svg" alt="" aria-hidden="true" width="21" height="21"></a></li>
+            <li><a href="#" aria-label="Hinderer Motor Company on Facebook"><img src="assets/icons/social-facebook.svg" alt="" aria-hidden="true" width="21" height="21"></a></li>
+            <li><a href="#" aria-label="Hinderer Motor Company on X"><img src="assets/icons/social-x.svg" alt="" aria-hidden="true" width="21" height="21"></a></li>
+            <li><a href="#" aria-label="Hinderer Motor Company on YouTube"><img src="assets/icons/social-youtube.svg" alt="" aria-hidden="true" width="21" height="21"></a></li>
+          </ul>
+        </div>
+
+        <a class="btn-hmc btn-hmc--dark btn-hmc--centred btn-hmc--wide contact__cta" href="contact.html">Contact Us</a>
+      </div>
+    </div>
+  </section>
+
+
+</main>
+
+
+<!-- =====================================================================
+     SITE FOOTER — shared across every page.
+     ===================================================================== -->
+<footer class="site-footer">
+  <div class="wrap site-footer__inner">
+    <p>
+      Copyright © <span data-current-year>2024</span> Hinderer Motor Company. All Rights Reserved. |
+      <a href="sitemap.html">Sitemap</a> | <a href="privacy.html">Privacy</a>
+    </p>
+    <p>Powered By All Auto Network</p>
+  </div>
+</footer>
+
+
+<!-- Video lightbox — only opened by a control that really has a video -->
+<dialog class="dialog" id="videoModal" aria-labelledby="videoModalTitle">
+  <div class="dialog__head">
+    <h2 class="dialog__title" id="videoModalTitle">Video</h2>
+    <button type="button" class="dialog__close" data-dialog-close aria-label="Close video">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </div>
+  <div class="dialog__body">
+    <video id="videoModalPlayer" controls playsinline></video>
+  </div>
+</dialog>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>
