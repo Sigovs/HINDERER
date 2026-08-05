@@ -3215,9 +3215,14 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
    also caught the contact band at the foot of the page, which is full-bleed by
    construction — the map is a place, and a place cropped into a content column
    reads as a picture of a place. */
+/* WIDE AGAIN, and the width is derived rather than picked: the left column is
+   the reading measure plus the surface's own padding, the right is the rail, and
+   the page is the sum of the two with the gap. Narrowing one without the other
+   is what produced first an empty third inside the panel and then 200px of
+   nothing between the columns. */
 .vdp-page .vdp,
 .vdp-page .photos,
-.vdp-page .vdp-actions { max-inline-size: 1120px; margin-inline: auto; }
+.vdp-page .vdp-actions { max-inline-size: 1300px; margin-inline: auto; }
 
 .vdp { display: grid; gap: var(--space-6); }
 .vdp__main { min-inline-size: 0; }
@@ -3228,11 +3233,10 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
 
 @media (min-width: 62rem) {
   .vdp {
-    /* The reading column IS the left column. Capping the panel inside a wider
-       column instead left 200px of nothing between the text and the rail — the
-       hole moved, it did not close. Sized so the surface fills its column and
-       the column is the measure plus its own padding. */
-    grid-template-columns: minmax(0, 44rem) 24rem;
+    /* The reading column IS the left column, and the rail is the right one.
+       Capping the panel inside a wider column instead left 200px of nothing
+       between the text and the rail — the hole moved, it did not close. */
+    grid-template-columns: minmax(0, 49rem) 30rem;
     /* Two rows, named by what sits in them. The photograph and the price panel
        share the first: one grid row, one height, so the panel ends where the
        image ends instead of hanging past its foot. */
@@ -3675,6 +3679,14 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
    panel boundary, and a description tab is exactly where long copy lands. */
 .tabs__panel > p,
 .tabs__panel > .body-muted { max-inline-size: var(--measure); }
+@media (min-width: 62rem) {
+  /* 78ch, three above the norm's ceiling, and stated rather than slipped in:
+     it is what lets the surface fill a column wide enough to sit against the
+     rail without an empty strip down its right side. Beyond this the line stops
+     being readable and the trade is no longer worth making. */
+  .vdp-page .tabs__panel > p,
+  .vdp-page .tabs__panel > .body-muted { max-inline-size: 78ch; }
+}
 /* An intro that introduces a full-width block is not body copy — capped at the
    reading measure it broke at 60 characters above a grid three times its width,
    and the two read as unrelated. */
