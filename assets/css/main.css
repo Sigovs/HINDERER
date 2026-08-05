@@ -3550,6 +3550,10 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
    that hides content.
    ------------------------------------------------------------------------- */
 .tabs { margin-block-start: var(--space-6); }
+/* Inside the grid the row gap already provides that interval, so the component's
+   own margin pushed the tab bar 32px below the rail it is supposed to start
+   level with. */
+.vdp > .tabs { margin-block-start: 0; }
 
 /* The bar holds the tablist and the jump link on one line: they read as one
    row of choices even though only five of the six switch a panel. */
@@ -3597,17 +3601,28 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
 /* The selected tab and the panel are one shape. Its foot squares off and sits
    directly on the surface below with no gap, so the plate reads as growing out
    of the panel rather than floating above it. */
-/* One shape. The plate's foot squares off, it overlaps the surface by the
-   radius, and the surface's own top-left corner squares off to meet it — left
-   round, that corner showed from under the plate and the two read as separate
-   objects placed next to each other. */
+/* ONE SHAPE, and it is made of one colour rather than of matched geometry. The
+   selected tab takes the surface's own ground, so the plate and the panel are
+   literally the same field with a step in its top edge — which is what a tab is.
+   In slate they were two objects touching, and no amount of radius matching was
+   going to change that. 15.4:1 with the white label. */
 .tabs__tab[aria-selected="true"] {
-  background: var(--slate);              /* 7.27:1 with the white label */
+  background: var(--bg-raised);
   color: var(--ink);
+  /* The outline runs over the top of the plate, down its sides and then away
+     along the panel's own edge. There is no line UNDER it — that is the whole
+     device: the tab is open into the panel, and the two are one enclosure with
+     a step in its top edge. The -1px pulls the plate over the panel's border so
+     its own ground covers that segment. */
+  border: 1px solid var(--rule);
+  border-block-end: 0;
+  border-start-start-radius: var(--radius-3);
+  border-start-end-radius: var(--radius-3);
   border-end-start-radius: 0;
   border-end-end-radius: 0;
-  padding-block-end: var(--space-3);
-  margin-block-end: calc(var(--space-3) * -1);
+  margin-block-end: -1px;
+  position: relative;
+  z-index: 1;
 }
 .tabs__bar { position: relative; z-index: 1; }
 /* The surface keeps its corners. Squaring the top-left permanently was only
@@ -3615,9 +3630,8 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
    in the middle of the bar while a cut corner stands on its own at the left, and
    the one shape falls apart. The corner is squared only when the plate is
    actually standing on it. */
-.tabs:has(.tabs__list > :first-child[aria-selected="true"]) .tabs__panels {
-  border-start-start-radius: 0;
-}
+/* The surface keeps all four corners now: the plate carries its own outline, so
+   nothing has to be cut away to meet it. */
 
 /* Looks like the tab beside it and behaves as a jump. It carries .tabs__tab,
    so there is one definition of what a tab looks like; this only removes the
