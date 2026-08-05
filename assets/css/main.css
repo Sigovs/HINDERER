@@ -2338,7 +2338,12 @@ p + p { margin-block-start: var(--space-5); }
    caption at a glance. Size still helps (--text-lead over --text-xs). */
 .contact__value {
   margin: 0;
-  font-size: var(--text-lead);
+  /* --text-body, which is the size the summary panel's pair uses: BASE at 14 in
+     the label voice over Rolling Chassis at 16 in the reading voice. I had this
+     at the lead size to correct a hierarchy the label was winning; it is the
+     LABEL that was too loud, and it lost its 0.22em tracking, so the pair works
+     at the pair's own sizes now. */
+  font-size: var(--text-body);
   font-weight: var(--weight-body);
   font-style: normal;
   line-height: var(--lh-lead);
@@ -2408,23 +2413,74 @@ p + p { margin-block-start: var(--space-5); }
    15. FOOTER
    ========================================================================= */
 
+/* COPPER, as a SOLID FILL — which is the one ground use the token itself
+   permits: --accent is documented "display ≥24px + solid fills only". A band
+   closing the page is a fill, not a panel, so this does not reopen the deleted
+   --accent-panel or the copper-slab drift it was removed with.
+
+   THE INK IS WHITE HERE, and it is the opposite choice from every other copper
+   on the site for a measured reason: near-black on --accent is 3.67:1 and
+   fails, white is 4.58:1 and passes. The lighter coppers carry dark ink because
+   there the ratio runs the other way. Neither is a house style — both are the
+   side of the threshold that colour lands on.
+
+   No hairline: it existed to separate a dark footer from a dark page and the
+   colour now does that. No top margin: a band that closes the page sits against
+   what it closes. */
 .site-footer {
-  margin-block-start: var(--space-block);
   padding-block: var(--space-7) var(--space-8);
-  border-block-start: 1px solid var(--rule);
-  color: var(--ink-quiet);
+  background: var(--accent);
+  color: var(--ink);                   /* 4.58:1 on --accent */
   font-size: var(--text-xs);
 }
 
+/* Baseline, not the browser's default. The two runs are different heights —
+   one wraps, one does not — and with alignment unset they lined up on their
+   bottoms by accident: 889 and 913 from the top of the band, 24px apart and
+   nobody's decision. Baseline puts them on the line they are read from. */
 .site-footer__inner {
   display: flex;
   flex-wrap: wrap;
+  align-items: baseline;
   gap: var(--space-4) var(--space-6);
   justify-content: space-between;
 }
 
-.site-footer a { color: var(--ink-quiet); text-decoration: none; }
-.site-footer a:hover { text-decoration: underline; text-underline-offset: 0.2em; }
+/* The pair from the summary panel, at the sizes it uses: the credit takes the
+   label voice — Oswald, caps, 14 — and the copyright line takes the value
+   voice, Inter Tight at the body size. Two runs of legal text set identically
+   is what made this row read as one undifferentiated strip. */
+/* --text-xs is 14px and that is the floor, not a preference: this line carries
+   the copyright and the only route to Sitemap and Privacy, so it is text a
+   visitor may have to read. 12px was asked for and 12px is where a label stops
+   being information and becomes decoration — the step down is real, it just
+   stops at the last size that is still legible. */
+.site-footer__legal {
+  font-size: var(--text-xs);
+}
+
+.site-footer__credit {
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-label);
+  letter-spacing: var(--track-caps);
+  text-transform: uppercase;
+}
+
+/* --ink-quiet was right on the dark ground and is 3.53:1 on copper — under the
+   floor. On this fill a link takes full ink, and it is underlined at rest
+   rather than on hover: inside a run of sentence text, colour alone is not an
+   affordance, and here there is no colour difference left to rely on. The
+   anti-pattern this looks like — underlined links — is about NAVIGATION;
+   a link inside a paragraph is the case underlines exist for. */
+.site-footer a {
+  color: var(--ink);                   /* 4.58:1 on --accent */
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  text-decoration-thickness: 1px;
+}
+.site-footer a:hover,
+.site-footer a:focus-visible { text-decoration-thickness: 2px; }
 
 
 /* =========================================================================
