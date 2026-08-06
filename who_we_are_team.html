@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Who We Are — Hinderer Motor Company</title>
+  <meta name="description" content="Hinderer Motor Company builds world-class custom roadsters in Heath, Ohio — five decades of precision engineering, and the people behind it.">
+  <meta name="theme-color" content="#1f1d19">
+
+  <link rel="icon" href="assets/img/logo-hinderer.png" sizes="any">
+  <!-- No hero preload: this page has no hero. The first paint here is twelve
+       card thumbnails, and they are lazy by design — preloading anything above
+       them would only delay the one image the visitor actually scrolls to. -->
+
+  <!-- Two voices: Oswald carries headline mass, Inter carries reading and
+       data. Degular (licensed, not supplied) leads --font-display in
+       tokens.css and takes over the moment its @font-face lands — no markup
+       change required. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=Oswald:wght@300;400;500;600&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- The cascade, in the order it must load:
+       tokens  → the values, and the only place a raw value is written
+       system  → layout, rhythm, utilities (this replaced Bootstrap)
+       main    → the components
+       oswald  → the display-face layer, one link away from being removed -->
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/system.css">
+  <link rel="stylesheet" href="assets/css/main.css">
+  <!-- The display face, kept as its own layer rather than folded into main.css:
+       it is applied last and can be lifted out in one line if the face changes.
+       Every new page loads these four, in this order. -->
+  <link rel="stylesheet" href="assets/css/display-oswald.css">
+
+  <!-- Marks that scripting is available, before first paint. Only then does
+       the mobile nav collapse behind its toggle; without JS it renders as a
+       stacked list and every destination stays reachable. -->
+  <script>document.documentElement.className += " js";</script>
+</head>
+
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<!-- =====================================================================
+     SITE HEADER — shared across every page. Copy verbatim into new pages
+     and change only the aria-current on the active nav item.
+     ===================================================================== -->
+<header class="site-header" id="siteHeader">
+  <div class="wrap site-header__inner">
+
+    <a class="brand" href="index.html" aria-label="Hinderer Motor Company — home">
+      <img class="brand__mark" src="assets/img/logo-hinderer.png"
+           alt="The Hinderer Motor Company — we love what moves you" width="272" height="94">
+    </a>
+
+    <button class="nav-toggle" type="button"
+            aria-expanded="false" aria-controls="siteNav" data-nav-toggle>
+      <span class="sr-only">Menu</span>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </button>
+
+    <nav class="site-nav" id="siteNav" aria-label="Primary">
+      <ul class="site-nav__list">
+        <li><a class="site-nav__link" href="inventory.html">Inventory</a></li>
+        <li><a class="site-nav__link" href="build.html">Build</a></li>
+        <li><a class="site-nav__link" href="index.html#trade">Trade In</a></li>
+        <!-- A disclosure, not a link: the destination the link used to have is
+             the first item inside it, so nothing is lost. Closed state and open
+             state are expressed ONLY through aria-expanded — the stylesheet
+             reads it, the same one-source-of-truth the burger uses. -->
+        <li class="site-nav__item--menu">
+          <button class="site-nav__link site-nav__disclosure" type="button"
+                  aria-expanded="false" aria-controls="navWho" aria-current="page" data-nav-menu>
+            Who We Are<span class="site-nav__caret" aria-hidden="true"></span>
+          </button>
+          <ul class="site-nav__submenu list-bare" id="navWho">
+            <li><a class="site-nav__sublink" href="index.html#about">About</a></li>
+            <li><a class="site-nav__sublink" href="who_we_are_team.html" aria-current="page">Team</a></li>
+            <li><a class="site-nav__sublink" href="contact.html">Contact</a></li>
+          </ul>
+        </li>
+        <li><a class="site-nav__link site-nav__link--phone" href="tel:+17406182466">
+          <svg class="site-nav__phone-icon" viewBox="0 -960 960 960" aria-hidden="true" focusable="false" width="18" height="18"><path fill="currentColor" d="M798-120q-125 0-247-54.5T329-329Q229-429 174.5-551T120-798q0-18 12-30t30-12h162q14 0 25 9.5t13 22.5l26 140q2 16-1 27t-11 19l-97 98q20 37 47.5 71.5T387-386q31 31 65 57.5t72 48.5l94-94q9-9 23.5-13.5T670-390l138 28q14 4 23 14.5t9 23.5v162q0 18-12 30t-30 12Z"/></svg>
+          <span class="site-nav__phone-num">740.618.2466</span>
+        </a></li>
+      </ul>
+    </nav>
+
+    <a class="collection-pill" href="saved.html">
+      <!-- The words drop out below 23.5rem, where holding them squeezed the logo
+           to 51px. They stay in the DOM, so the link is still announced as
+           "My Collection / 03" — the count is what is lost visually last. -->
+      <span class="collection-pill__label">My Collection</span>
+      <span class="num-tabular">/ <span data-saved-count>03</span></span>
+    </a>
+
+  </div>
+</header>
+
+
+<main id="main" class="lit-sides">
+
+  <!-- ===================================================================
+       1 · WHO WE ARE — the head and the three cells beside it
+       Content is the mockup's, verbatim. Two departures from it are named in
+       the comments below and nowhere else, because a silent departure is the
+       thing this file exists to prevent.
+       =================================================================== -->
+  <section class="section section--below-header" aria-labelledby="whoTitle">
+    <div class="wrap">
+
+      <!-- The head every page uses: small eyebrow, big title. Same markup as
+           inventory.html and build.html, verbatim. -->
+      <div class="stack" data-scene>
+        <p class="eyebrow" data-rise="left">Who we are</p>
+        <h1 class="section-title" id="whoTitle" data-rise="left">Meet Our Team</h1>
+      </div>
+
+      <!-- COMPOSITION, not the mockup's arrangement.
+
+           The mockup puts a portrait, the vision and the film in three cells of
+           one row. Read as forces rather than as boxes, that fails twice: the
+           film is the widest thing on the page, so DOMINANCE lands on the device
+           presenting the subject rather than on the subject; and the only
+           sentence that says what this company believes is the smallest text in
+           the smallest box, boxed — which is what made it read as a caption.
+
+           So the statement is the dominant, at the standfirst rank the site
+           already owns, unboxed and given air. His name signs it. The film sits
+           beside it as SUPPORT and is counterweighted by tone rather than by
+           matching mass: text-heavy left, image-heavy right.
+
+           Eye path: title → statement → who said it → his face → the team. -->
+      <!-- THE PAGE HAD NO MASS. Title, statement, signature, film and four
+           placeholder frames all sat on one dark ground, so the composition was
+           a paragraph and a photograph on black — nothing to rank, nothing to
+           hold the eye. Every other page in this site solves the same problem
+           the same way: a bone panel. The vehicle page prices on it, the search
+           page filters on it, the configurator quotes on it. It is the site's
+           one light mass, and this page was the only one without it.
+
+           So the company's own words go on it. That is figure against ground,
+           it is the surface the rest of the site already reads as "this is the
+           important block", and it lets the statement hold its own beside a
+           photograph of a face — not by area, but by being the only light thing
+           on the page. -->
+      <div class="who u-mt-7" data-scene>
+
+        <blockquote class="who__panel" data-rise="left">
+          <img class="who__portrait" src="assets/img/justin-hinderer.png"
+               alt="Justin Hinderer" width="315" height="310" loading="lazy">
+
+          <p class="who__vision">
+            The Hinderer Motor Company vision is to advance the lives of our customers,
+            associates, and their families while building a more positive, energetic
+            future with professionalism, integrity, and hard work.
+          </p>
+          <footer class="who__attrib">
+            <span class="who__attrib-name">Justin Hinderer</span>
+            <span class="who__attrib-role">Owner</span>
+          </footer>
+        </blockquote>
+
+        <div class="ytfacade" data-rise="right" data-yt="pQUmEprBuYw"
+             data-yt-title="Justin Hinderer on Hinderer Motor Company">
+          <img src="assets/img/justin-hinderer-poster.jpg"
+               alt="Justin Hinderer in the Hinderer showroom"
+               width="1138" height="640" loading="lazy">
+          <button class="ytfacade__play" type="button" data-yt-play>
+            <span class="sr-only">Play the film — Justin Hinderer on Hinderer Motor Company</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path fill="currentColor" d="M8 5v14l11-7z"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ===================================================================
+       2 · THE TEAM
+       Four people. Their photographs are empty boxes in the mockup too — the
+       client has not supplied them — so the frames say so rather than pretending.
+       =================================================================== -->
+  <section class="section section--flush-top" aria-labelledby="teamTitle">
+    <div class="wrap">
+      <!-- The section names itself. It used to carry an sr-only heading, so the
+           grid arrived with no introduction and the interval above it read as a
+           hole rather than as a break. "Team" is deliberately not in it — the
+           page is already titled Meet Our Team, and a divider that repeats the
+           h1 tells a reader nothing they did not have. -->
+      <h2 class="section-divider" id="teamTitle">The people behind it</h2>
+
+      <ul class="team list-bare" data-scene>
+        <li class="team-card" data-rise="up">
+          <div class="await-photo">Photograph<br>to come</div>
+          <p class="team-card__name">Bill Goodrich</p>
+          <p class="team-card__role">VP Operations</p>
+          <p class="team-card__contact">Contact:
+            <a href="tel:+17405221106" class="num-tabular">740.522.1106</a></p>
+          <a class="team-card__action" href="contact.html">Send Message</a>
+        </li>
+
+        <li class="team-card" data-rise="up">
+          <div class="await-photo">Photograph<br>to come</div>
+          <p class="team-card__name">Erick Morrison</p>
+          <!-- The mockup carries the words "Need to get title" here. That is a
+               note to the client, not a job title, so it is not printed as one. -->
+          <p class="team-card__role team-card__role--await">Title to come</p>
+          <p class="team-card__contact">Contact:
+            <a href="tel:+17405221106" class="num-tabular">740.522.1106</a></p>
+          <a class="team-card__action" href="contact.html">Send Message</a>
+        </li>
+
+        <li class="team-card" data-rise="up">
+          <div class="await-photo">Photograph<br>to come</div>
+          <p class="team-card__name">Peyton Seay</p>
+          <p class="team-card__role">General Sales Manager</p>
+          <p class="team-card__contact">Contact:
+            <a href="tel:+17405221106" class="num-tabular">740.522.1106</a></p>
+          <a class="team-card__action" href="contact.html">Send Message</a>
+        </li>
+
+        <li class="team-card" data-rise="up">
+          <div class="await-photo">Photograph<br>to come</div>
+          <p class="team-card__name">Logan Buehrer</p>
+          <p class="team-card__role">Marketing Manager</p>
+          <p class="team-card__contact">Contact:
+            <a href="tel:+17405221106" class="num-tabular">740.522.1106</a></p>
+          <a class="team-card__action" href="contact.html">Send Message</a>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+
+  <!-- ===================================================================
+       3 · CONTACT
+       =================================================================== -->
+  <!-- Full-bleed by construction: the map is a place, and a place cropped into
+       a content column reads as a picture of a place. The panel beside it is the
+       only large warm field on the page, which is what makes the page resolve
+       here instead of trailing off. -->
+  <section class="contact" id="contact" aria-labelledby="contactTitle">
+    <div class="contact__map">
+      <iframe class="contact__map__frame"
+              title="Map showing Hinderer Motor Company at 1555 Hebron Rd, Heath, Ohio"
+              src="https://www.openstreetmap.org/export/embed.html?bbox=-82.4590%2C40.0215%2C-82.4190%2C40.0435&amp;layer=mapnik&amp;marker=40.0325%2C-82.4390"
+              loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <!-- The interactive frame cannot be a link, so the route to full
+           directions is stated separately and stays keyboard reachable. -->
+      <a class="contact__map__link"
+         href="https://www.openstreetmap.org/?mlat=40.0325&amp;mlon=-82.4390#map=15/40.0325/-82.4390"
+         target="_blank" rel="noopener">
+        Open directions
+        <span class="sr-only">— 1555 Hebron Rd, Heath, Ohio, opens in a new tab</span>
+      </a>
+    </div>
+
+    <div class="contact__panel">
+      <!-- Decorative: the word is already the section's heading for a reader
+           that cannot see it. -->
+      <span class="contact__spine" aria-hidden="true"><span>C</span><span>O</span><span>N</span><span>T</span><span>A</span><span>C</span><span>T</span><span>S</span></span>
+
+      <div class="contact__body">
+        <h2 class="sr-only" id="contactTitle">Contact Hinderer Motor Company</h2>
+
+        <div class="contact__item">
+          <p class="contact__label">
+            <svg class="contact__icon" viewBox="0 -960 960 960" aria-hidden="true" focusable="false" width="20" height="20"><path fill="currentColor" d="M798-120q-125 0-247-54.5T329-329Q229-429 174.5-551T120-798q0-18 12-30t30-12h162q14 0 25 9.5t13 22.5l26 140q2 16-1 27t-11 19l-97 98q20 37 47.5 71.5T387-386q31 31 65 57.5t72 48.5l94-94q9-9 23.5-13.5T670-390l138 28q14 4 23 14.5t9 23.5v162q0 18-12 30t-30 12ZM241-600l66-66-17-94h-89q5 41 14 81t26 79Zm358 358q39 17 79.5 27t81.5 13v-88l-94-19-67 67ZM241-600Zm358 358Z"/></svg>
+            Phone
+          </p>
+          <p class="contact__value">
+            <a class="num-tabular" href="tel:+17406182466">740.618.2466</a>
+          </p>
+        </div>
+
+        <div class="contact__item">
+          <p class="contact__label">
+            <svg class="contact__icon" viewBox="0 -960 960 960" aria-hidden="true" focusable="false" width="20" height="20"><path fill="currentColor" d="M480-480q33 0 56.5-23.5T560-560q0-33-23.5-56.5T480-640q-33 0-56.5 23.5T400-560q0 33 23.5 56.5T480-480Zm0 294q122-112 181-203.5T720-552q0-109-69.5-178.5T480-800q-101 0-170.5 69.5T240-552q0 71 59 162.5T480-186Zm0 106Q319-217 239.5-334.5T160-552q0-150 96.5-239T480-880q127 0 223.5 89T800-552q0 100-79.5 217.5T480-80Zm0-480Z"/></svg>
+            Address
+          </p>
+          <address class="contact__value">
+            Hinderer Motor Company<br>
+            1555 Hebron Rd<br>
+            Heath, OH 43056
+          </address>
+        </div>
+
+        <div class="contact__item">
+          <p class="contact__label">
+            <svg class="contact__icon" viewBox="0 -960 960 960" aria-hidden="true" focusable="false" width="20" height="20"><path fill="currentColor" d="M720-80q-50 0-85-35t-35-85q0-7 1-14.5t3-13.5L322-392q-17 15-38 23.5t-44 8.5q-50 0-85-35t-35-85q0-50 35-85t85-35q23 0 44 8.5t38 23.5l282-164q-2-6-3-13.5t-1-14.5q0-50 35-85t85-35q50 0 85 35t35 85q0 50-35 85t-85 35q-23 0-44-8.5T638-672L356-508q2 6 3 13.5t1 14.5q0 7-1 14.5t-3 13.5l282 164q17-15 38-23.5t44-8.5q50 0 85 35t35 85q0 50-35 85t-85 35Zm0-640q17 0 28.5-11.5T760-760q0-17-11.5-28.5T720-800q-17 0-28.5 11.5T680-760q0 17 11.5 28.5T720-720ZM240-440q17 0 28.5-11.5T280-480q0-17-11.5-28.5T240-520q-17 0-28.5 11.5T200-480q0 17 11.5 28.5T240-440Zm480 280q17 0 28.5-11.5T760-200q0-17-11.5-28.5T720-240q-17 0-28.5 11.5T680-200q0 17 11.5 28.5T720-160Zm0-600ZM240-480Zm480 280Z"/></svg>
+            Follow
+          </p>
+          <ul class="social contact__value">
+            <li><a href="#" aria-label="Hinderer Motor Company on Instagram"><img src="assets/icons/social-instagram.svg" alt="" aria-hidden="true" width="21" height="21"></a></li>
+            <li><a href="#" aria-label="Hinderer Motor Company on Facebook"><img src="assets/icons/social-facebook.svg" alt="" aria-hidden="true" width="21" height="21"></a></li>
+            <li><a href="#" aria-label="Hinderer Motor Company on X"><img src="assets/icons/social-x.svg" alt="" aria-hidden="true" width="21" height="21"></a></li>
+            <li><a href="#" aria-label="Hinderer Motor Company on YouTube"><img src="assets/icons/social-youtube.svg" alt="" aria-hidden="true" width="21" height="21"></a></li>
+          </ul>
+        </div>
+
+        <a class="btn-hmc btn-hmc--primary btn-hmc--centred btn-hmc--wide contact__cta" href="contact.html">Contact Us</a>
+      </div>
+    </div>
+  </section>
+
+
+</main>
+
+
+
+<!-- =====================================================================
+     SITE FOOTER — shared across every page.
+     ===================================================================== -->
+<footer class="site-footer">
+  <div class="wrap site-footer__inner">
+    <p class="site-footer__legal">
+      Copyright © <span data-current-year>2024</span> Hinderer Motor Company. All Rights Reserved. |
+      <a href="sitemap.html">Sitemap</a> | <a href="privacy.html">Privacy</a>
+    </p>
+    <p class="site-footer__credit">Powered By All Auto Network</p>
+  </div>
+</footer>
+
+
+<!-- Video lightbox — only opened by a control that really has a video -->
+<dialog class="dialog" id="videoModal" aria-labelledby="videoModalTitle">
+  <div class="dialog__head">
+    <h2 class="dialog__title" id="videoModalTitle">Video</h2>
+    <button type="button" class="dialog__close" data-dialog-close aria-label="Close video">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </div>
+  <div class="dialog__body">
+    <video id="videoModalPlayer" controls playsinline></video>
+  </div>
+</dialog>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>

@@ -31,3 +31,16 @@ dist/
 # Source artwork dropped in for conversion. The optimised JPEGs beside it are
 # what the pages load; these are 8MB of PNG and must not ship.
 assets/img/vdp page/
+
+# Raw client drops. These arrive with the vendor's own folder names and live
+# beside the assets rather than in the hand-off folder; the files the site
+# actually uses are copied out under proper names.
++++*/
+assets/img/+++*/
+assets/img/team/+++*/
+
+# macOS
+.DS_Store
+
+# Raw team drops; the file the page uses is copied out as justin-hinderer.png
+assets/img/team/

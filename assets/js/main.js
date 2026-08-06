@@ -56,6 +56,87 @@
   }
 
   /* -----------------------------------------------------------------------
+     Nav disclosure — "Who We Are" and anything added beside it later.
+
+     The stylesheet already opens this on hover and on focus-within, so the menu
+     works before this runs and without it. What script adds is the two things
+     CSS cannot do: a TOUCH target that toggles rather than requiring a hover
+     that touch does not have, and closing — on Escape, and on a click landing
+     anywhere else. Below 62rem it does nothing at all: there the submenu is a
+     nested list inside the burger and has nothing to toggle.
+     ----------------------------------------------------------------------- */
+  var disclosures = [].slice.call(document.querySelectorAll('[data-nav-menu]'));
+
+  if (disclosures.length) {
+    var wide = window.matchMedia('(min-width: 62rem)');
+
+    var closeAll = function (except) {
+      disclosures.forEach(function (d) {
+        if (d !== except) d.setAttribute('aria-expanded', 'false');
+      });
+    };
+
+    disclosures.forEach(function (d) {
+      d.addEventListener('click', function () {
+        if (!wide.matches) return;
+        var open = d.getAttribute('aria-expanded') === 'true';
+        closeAll(d);
+        d.setAttribute('aria-expanded', String(!open));
+      });
+    });
+
+    /* Pointer-down rather than click: a click that opens another control would
+       otherwise land before this one closed, and two panels would be open at
+       once for a frame. */
+    document.addEventListener('pointerdown', function (e) {
+      if (!e.target.closest || !e.target.closest('.site-nav__item--menu')) closeAll(null);
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key !== 'Escape') return;
+      var open = disclosures.filter(function (d) {
+        return d.getAttribute('aria-expanded') === 'true';
+      })[0];
+      if (!open) return;
+      open.setAttribute('aria-expanded', 'false');
+      open.focus();
+    });
+
+    /* Crossing the breakpoint leaves a panel open that is now a nested list. */
+    wide.addEventListener('change', function () { closeAll(null); });
+  }
+
+  /* -----------------------------------------------------------------------
+     Video facade — the player arrives on request, not on load.
+
+     Until this runs the block is a poster and a button, so nothing third-party
+     has been fetched and no cookie has been set. The iframe replaces the poster
+     only once someone presses play, and it uses the -nocookie host. autoplay is
+     honest here rather than rude: the visitor asked for the film by pressing a
+     button, so the frame starts where the press expects it to.
+     ----------------------------------------------------------------------- */
+  [].slice.call(document.querySelectorAll('[data-yt]')).forEach(function (box) {
+    var play = box.querySelector('[data-yt-play]');
+    if (!play) return;
+
+    play.addEventListener('click', function () {
+      var id = box.getAttribute('data-yt');
+      if (!id) return;
+      var frame = document.createElement('iframe');
+      frame.src = 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(id) +
+                  '?autoplay=1&rel=0&modestbranding=1';
+      frame.title = box.getAttribute('data-yt-title') || 'Video';
+      frame.allow = 'accelerometer; autoplay; encrypted-media; picture-in-picture; fullscreen';
+      frame.setAttribute('allowfullscreen', '');
+      frame.setAttribute('loading', 'lazy');
+      box.replaceChildren(frame);
+      /* The press moved focus into a thing that no longer exists, so it is
+         handed to the frame rather than left on the document. */
+      frame.focus();
+    });
+  });
+
+  /* -----------------------------------------------------------------------
      Inventory rail — the arrows are a convenience on top of native
      scrolling, keyboard access and touch, never the only way through.
      ----------------------------------------------------------------------- */

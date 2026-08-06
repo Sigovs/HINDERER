@@ -18,6 +18,7 @@ npx serve .          # or: python -m http.server
 | `inventory.html` | The search-results page — facets, sort, twelve cards, empty state |
 | `vehicle.html` | The detail page — gallery, spec panel, tabs, enquiry form |
 | `build.html` | The configurator — nine option groups, running quotation, estimate form |
+| `who_we_are_team.html` | The company page — the story the home page carried in `#about`, and the founder's film behind a facade rather than an embed |
 | `DS.html` | **The design system, rendered by the site's own stylesheets.** Tokens, ramps, rhythm, motion and every component, plus the rules a change has to keep and an honest list of what the system does not have yet. `noindex`. Read it before adding a page. |
 
 The three numbered scope-ladder pages (`index1–3`) and the `variant-a/b/c.css`

@@ -68,7 +68,21 @@
         <li><a class="site-nav__link" href="inventory.html">Inventory</a></li>
         <li><a class="site-nav__link" href="build.html" aria-current="page">Build</a></li>
         <li><a class="site-nav__link" href="index.html#trade">Trade In</a></li>
-        <li><a class="site-nav__link" href="index.html#about">Who We Are</a></li>
+        <!-- A disclosure, not a link: the destination the link used to have is
+             the first item inside it, so nothing is lost. Closed state and open
+             state are expressed ONLY through aria-expanded — the stylesheet
+             reads it, the same one-source-of-truth the burger uses. -->
+        <li class="site-nav__item--menu">
+          <button class="site-nav__link site-nav__disclosure" type="button"
+                  aria-expanded="false" aria-controls="navWho" data-nav-menu>
+            Who We Are<span class="site-nav__caret" aria-hidden="true"></span>
+          </button>
+          <ul class="site-nav__submenu list-bare" id="navWho">
+            <li><a class="site-nav__sublink" href="index.html#about">About</a></li>
+            <li><a class="site-nav__sublink" href="who_we_are_team.html">Team</a></li>
+            <li><a class="site-nav__sublink" href="contact.html">Contact</a></li>
+          </ul>
+        </li>
         <li><a class="site-nav__link site-nav__link--phone" href="tel:+17406182466">
           <svg class="site-nav__phone-icon" viewBox="0 -960 960 960" aria-hidden="true" focusable="false" width="18" height="18"><path fill="currentColor" d="M798-120q-125 0-247-54.5T329-329Q229-429 174.5-551T120-798q0-18 12-30t30-12h162q14 0 25 9.5t13 22.5l26 140q2 16-1 27t-11 19l-97 98q20 37 47.5 71.5T387-386q31 31 65 57.5t72 48.5l94-94q9-9 23.5-13.5T670-390l138 28q14 4 23 14.5t9 23.5v162q0 18-12 30t-30 12Z"/></svg>
           <span class="site-nav__phone-num">740.618.2466</span>
@@ -156,7 +170,7 @@
                and another with a tick, which makes two different rules look
                like one — a visitor cannot tell whether a second choice adds or
                replaces. -->
-        <h3 class="build-section">Interior</h3>
+        <h3 class="section-divider">Interior</h3>
 
         <details class="optgroup" name="build-group" data-group="upholstery" data-mech="one" data-required open>
           <summary class="optgroup__head">
@@ -381,7 +395,7 @@
             </div>
           </div>
         </details>
-        <h3 class="build-section">Exterior</h3>
+        <h3 class="section-divider">Exterior</h3>
 
         <details class="optgroup" name="build-group" data-group="body" data-mech="one" data-required>
           <summary class="optgroup__head">
@@ -451,7 +465,7 @@
             </div>
           </div>
         </details>
-        <h3 class="build-section">Chassis</h3>
+        <h3 class="section-divider">Chassis</h3>
 
         <details class="optgroup" name="build-group" data-group="suspension" data-mech="one" data-required>
           <summary class="optgroup__head">
