@@ -18,7 +18,9 @@ npx serve .          # or: python -m http.server
 | `inventory.html` | The search-results page — facets, sort, twelve cards, empty state |
 | `vehicle.html` | The detail page — gallery, spec panel, tabs, enquiry form |
 | `build.html` | The configurator — nine option groups, running quotation, estimate form |
-| `who_we_are_team.html` | The company page — the story the home page carried in `#about`, and the founder's film behind a facade rather than an embed |
+| `who_we_are_about.html` | The company story — the copy the home page carries in `#about`, given a page of its own |
+| `who_we_are_team.html` | The team — the owner's statement, his film behind a facade rather than an embed, and the four people |
+| `who_we_are_contact.html` | The contact page — the form stands on the opening photograph at the trailing side, the head holds the leading one, and the site's own `.contact` band carries the map and the particulars underneath exactly as the other pages do. Its only departure is that the band's CTA is dropped: here it would point at the page you are standing on |
 | `DS.html` | **The design system, rendered by the site's own stylesheets.** Tokens, ramps, rhythm, motion and every component, plus the rules a change has to keep and an honest list of what the system does not have yet. `noindex`. Read it before adding a page. |
 
 The three numbered scope-ladder pages (`index1–3`) and the `variant-a/b/c.css`
@@ -100,6 +102,9 @@ unrelated CSS with it.
 | Real inventory | — | **All card copy is placeholder.** Titles, prices, mileage and stock numbers stand in for the real feed, and one photograph stands in for all eight cards. |
 | Compressed section images | `assets/img/` | `Nationwide White Glove Delivery.jpg` (2.0 MB) and `Finance Center Get Pre-Approved.png` (1.7 MB) ship uncompressed. |
 | `Degular` webfont | `assets/fonts/` | The licensed face the headlines were drawn in. Drop an `@font-face` block in and put it first in `--font-display`; no markup changes. |
+| A form endpoint | — | **All three forms post to themselves** — the vehicle enquiry, the configurator estimate and the contact form. One `action` attribute each when the endpoint exists; nothing else changes. Deliberately not faked with a scripted "thank you", which would claim a message was sent that was not. |
+| What the second phone number is | `who_we_are_contact.html` | The team cards and `index.html#about` publish **740.522.1106**; the header and the contact band publish **740.618.2466**. Nothing says which is which, so the contact page lists only the second. Give the first a label and it goes in beside it. |
+| An email address | `who_we_are_contact.html` | The contact page offers phone, post and a form. There is no address to publish, and a plausible-looking one would be a fabricated fact, so email is simply absent. |
 
 ## Video
 
@@ -139,6 +144,14 @@ which is not referenced by the page — delete the folder once you are happy.
 
 `build-cobra.png` stays PNG because it is a cutout with a real alpha channel.
 It is the only asset over 1 MB.
+
+`contact-engine.jpg` came from the client drop rather than from Figma —
+`assets/img/+++Hinderer Motor Company to DEV - 07/30/contact.png`, 2.7 MB of PNG
+for a photograph. Re-encoded the same way as everything else (`sharp-cli`, JPEG
+q82) at its native 1920×1178: **218 KB, down from 2.7 MB**. It is kept at full
+width because it is the contact page's opening band and covers the viewport;
+encoded for the 620px box it first sat in, it went soft the moment that block
+became a hero. The source PNG stays where the client put it.
 
 **This mattered, not just for weight:** the 14.5 MB Figma export of that cutout
 did not decode reliably in Chrome and rendered as a fragment a few hundred

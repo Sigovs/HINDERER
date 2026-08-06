@@ -1006,8 +1006,15 @@
       <strong>On bone, the scope is the SURFACE — never a block's name.</strong>
       A control's dark-ground colours are white ink on a 4%-white field, and on
       cream both are invisible. The bone treatment therefore reads
-      <code>:is(.facets, .vdp-panel) .control</code>: any bone surface joins that
-      list and nothing else has to know. It was written twice once — as
+      <code>:is(.facets, .vdp-panel, .contact-form) .control</code>: any bone
+      surface joins that list and nothing else has to know — the contact page's
+      message panel is the third name on it, and adding the name was the whole
+      cost of the surface. The same list carries the ink flips that go with it:
+      <code>.field__label</code>, and <code>:is(.lead, .body-muted,
+      .section-sub)</code>, all to <code>--ink-inverse</code>, because
+      <code>--ink</code> is white here and <code>--ink-muted</code> measures
+      4.32:1 on <code>#f2efe9</code> and fails. On bone those ranks are carried
+      by size, weight and register, never by tone. It was written twice once — as
       <code>.facets</code> and again as <code>.summary</code> — and the second
       copy went dead the moment that block was renamed, taking the whole
       configurator's enquiry form with it: labels and fields, invisible, on a

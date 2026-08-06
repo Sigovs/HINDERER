@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Who We Are — Hinderer Motor Company</title>
-  <meta name="description" content="Hinderer Motor Company builds world-class custom roadsters in Heath, Ohio — five decades of precision engineering, and the people behind it.">
+  <title>About — Hinderer Motor Company</title>
+  <meta name="description" content="Since 1965 Hinderer Motor Company has built custom roadsters in Heath, Ohio — precision engineering, timeless design, and a personal build from first drawing to delivery.">
   <meta name="theme-color" content="#1f1d19">
 
   <link rel="icon" href="assets/img/logo-hinderer.png" sizes="any">
@@ -78,8 +78,8 @@
             Who We Are<span class="site-nav__caret" aria-hidden="true"></span>
           </button>
           <ul class="site-nav__submenu list-bare" id="navWho">
-            <li><a class="site-nav__sublink" href="who_we_are_about.html">About</a></li>
-            <li><a class="site-nav__sublink" href="who_we_are_team.html" aria-current="page">Team</a></li>
+            <li><a class="site-nav__sublink" href="who_we_are_about.html" aria-current="page">About</a></li>
+            <li><a class="site-nav__sublink" href="who_we_are_team.html">Team</a></li>
             <li><a class="site-nav__sublink" href="who_we_are_contact.html">Contact</a></li>
           </ul>
         </li>
@@ -105,136 +105,144 @@
 <main id="main" class="lit-sides">
 
   <!-- ===================================================================
-       1 · WHO WE ARE — the head and the three cells beside it
-       Content is the mockup's, verbatim. Two departures from it are named in
-       the comments below and nowhere else, because a silent departure is the
-       thing this file exists to prevent.
+       1 · ABOUT
+       Content is the mockup's, verbatim. Two things it contains are NOT carried
+       silently and are named in the report: the founding year contradicts the
+       home page, and two of the four value cards are cut off mid-sentence in
+       the mockup itself.
        =================================================================== -->
-  <section class="section section--below-header" aria-labelledby="whoTitle">
-    <div class="wrap">
+  <section class="section about-open" aria-labelledby="aboutTitle">
+    <!-- The background supplied for this page: the workshop — the finished car,
+         a rolling chassis and a bare aluminium tub in one frame, which is the
+         company's own answer to what it does. It fills the screen at every size
+         and is never folded, so it is a box the picture covers rather than a
+         picture at its own proportion.
 
-      <!-- The head every page uses: small eyebrow, big title. Same markup as
-           inventory.html and build.html, verbatim. -->
-      <div class="stack" data-scene>
-        <p class="eyebrow" data-rise="left">Who we are</p>
-        <h1 class="section-title" id="whoTitle" data-rise="left">Meet Our Team</h1>
+         The band is A SIBLING of what stands on it, not its parent. On one
+         column the overlay has to run AFTER the picture, and a child cannot
+         leave its own box. -->
+    <div class="about-open__media">
+      <img src="assets/img/about-workshop.jpg" width="1920" height="1132"
+           fetchpriority="high"
+           alt="A finished Hinderer roadster in the lit workshop, with a rolling chassis and a bare aluminium tub on its trolley standing beside it.">
+    </div>
+
+    <!-- WHAT STANDS ON IT: the head, the claim, and the four plates. The plates
+         carry their own ground and their own hairline — that is what they were
+         drawn for, and it is how the home page already sets them over
+         photography. Wide, this sits on the picture; narrow, it runs beneath. -->
+    <div class="wrap about-open__overlay" data-scene>
+        <div class="stack">
+          <p class="eyebrow" data-rise="left">About us</p>
+          <h1 class="section-title" id="aboutTitle" data-rise="left">Welcome</h1>
+        </div>
+
+        <div class="about__creed" data-rise="left">
+          <p>We care about what we do and what people want. At each of our stores, you will feel
+            welcome — like you’re family — and find comfort in knowing that our No. 1 job is to
+            help bring happiness to our clients and associates, even if that means going above
+            and beyond what’s expected elsewhere. Our continual drive for excellence, from top to
+            bottom, ensures we do what’s right for you — because doing what’s right pays off down
+            the road.</p>
+        </div>
+        <!-- ===================================================================
+             WHAT WE HOLD TO
+         Four values. The mockup gives each an icon; this project's icon set has
+         none of the four and inventing them would put a second drawing language
+         on the page, so the cards carry their names instead. The icons are listed
+             as a pending asset.
+             =============================================================== -->
+        <h2 class="about-open__label" id="valuesTitle">What we hold to</h2>
+
+        <!-- The step plate from the home page, unchanged: same grid, same card,
+             same title and body ranks. Only what sits at the top of it differs —
+             a numeral there, an icon here, because these are four qualities held
+             at once rather than four steps taken in order. -->
+        <ul class="steps list-bare" data-scene>
+          <li class="step" data-rise="up">
+            <span class="step__icon" aria-hidden="true"><svg viewBox="0 -960 960 960" aria-hidden="true" focusable="false"><path fill="currentColor" d="M640-440 474-602q-31-30-52.5-66.5T400-748q0-55 38.5-93.5T532-880q32 0 60 13.5t48 36.5q20-23 48-36.5t60-13.5q55 0 93.5 38.5T880-748q0 43-21 79.5T807-602L640-440Zm0-112 109-107q19-19 35-40.5t16-48.5q0-22-15-37t-37-15q-14 0-26.5 5.5T700-778l-60 72-60-72q-9-11-21.5-16.5T532-800q-22 0-37 15t-15 37q0 27 16 48.5t35 40.5l109 107ZM280-220l278 76 238-74q-5-9-14.5-15.5T760-240H558q-27 0-43-2t-33-8l-93-31 22-78 81 27q17 5 40 8t68 4q0-11-6.5-21T578-354l-234-86h-64v220ZM40-80v-440h304q7 0 14 1.5t13 3.5l235 87q33 12 53.5 42t20.5 66h80q50 0 85 33t35 87v40L560-60l-280-78v58H40Zm80-80h80v-280h-80v280Zm520-546Z"/></svg></span>
+            <h3 class="step__title">Client Care</h3>
+            <p class="step__body">Without our clients, we wouldn’t exist, so we strive to give
+              them the best experience every step of the way — with care, availability, and
+              expertise.</p>
+          </li>
+          <li class="step" data-rise="up">
+            <span class="step__icon" aria-hidden="true"><svg viewBox="0 -960 960 960" aria-hidden="true" focusable="false"><path fill="currentColor" d="m438-338 226-226-57-57-169 169-84-84-57 57 141 141Zm42 258q-139-35-229.5-159.5T160-516v-244l320-120 320 120v244q0 152-90.5 276.5T480-80Zm0-84q104-33 172-132t68-220v-189l-240-90-240 90v189q0 121 68 220t172 132Zm0-316Z"/></svg></span>
+            <h3 class="step__title">Integrity</h3>
+            <p class="step__body">Being principled, respectful, honest, and transparent are
+              crucial to our success with clients and each other. We know doing the right thing
+              pays off in the long run.</p>
+          </li>
+          <li class="step" data-rise="up">
+            <span class="step__icon" aria-hidden="true"><svg viewBox="0 -960 960 960" aria-hidden="true" focusable="false"><path fill="currentColor" d="m136-240-56-56 296-298 160 160 208-206H640v-80h240v240h-80v-104L536-320 376-480 136-240Z"/></svg></span>
+            <h3 class="step__title">Continuous Improvement</h3>
+            <p class="step__body">We consistently take steps to improve ourselves, as well as our
+              processes, facilities, services, and products, to meet the needs of our clients and
+              associates.</p>
+          </li>
+          <li class="step" data-rise="up">
+            <span class="step__icon" aria-hidden="true"><svg viewBox="0 -960 960 960" aria-hidden="true" focusable="false"><path fill="currentColor" d="M240-400q0 52 21 98.5t60 81.5q-1-5-1-9v-9q0-32 12-60t35-51l113-111 113 111q23 23 35 51t12 60v9q0 4-1 9 39-35 60-81.5t21-98.5q0-50-18.5-94.5T648-574q-20 13-42 19.5t-45 6.5q-62 0-107.5-41T401-690q-39 33-69 68.5t-50.5 72Q261-513 250.5-475T240-400Zm240 52-57 56q-11 11-17 25t-6 29q0 32 23.5 55t56.5 23q33 0 56.5-23t23.5-55q0-16-6-29.5T537-292l-57-56Zm0-492v132q0 34 23.5 57t57.5 23q18 0 33.5-7.5T622-658l18-22q74 42 117 117t43 163q0 134-93 227T480-80q-134 0-227-93t-93-227q0-129 86.5-245T480-840Z"/></svg></span>
+            <h3 class="step__title">Passion</h3>
+            <p class="step__body">Love for our clients, associates, community, services, and
+              products energizes us. It gives us joy to see a satisfied client and a successful
+              associate.</p>
+          </li>
+        </ul>
       </div>
 
-      <!-- COMPOSITION, not the mockup's arrangement.
+    <div class="wrap">
 
-           The mockup puts a portrait, the vision and the film in three cells of
-           one row. Read as forces rather than as boxes, that fails twice: the
-           film is the widest thing on the page, so DOMINANCE lands on the device
-           presenting the subject rather than on the subject; and the only
-           sentence that says what this company believes is the smallest text in
-           the smallest box, boxed — which is what made it read as a caption.
+      <!-- THE ORIGIN, and the place it names. The paragraph is about one town in
+           Licking County, and this is that town — the courthouse square, with
+           the roadster parked on it. It was a card the width of the
+           page holding a column of text and half a field of nothing; a
+           photograph is what that half was missing, and with one beside it the
+           text needs no box of its own.
 
-           So the statement is the dominant, at the standfirst rank the site
-           already owns, unboxed and given air. His name signs it. The film sits
-           beside it as SUPPORT and is counterweighted by tone rather than by
-           matching mass: text-heavy left, image-heavy right.
+           THE FILM, not a still of it. The home page's #about carries this same
+           film, and its poster IS the frame that stood here — so at rest the
+           block looks exactly as it did, and pressing play is the only thing
+           that was added. A page that tells the company's origin in prose while
+           the company tells it on camera two clicks away was holding the weaker
+           of the two.
 
-           Eye path: title → statement → who said it → his face → the team. -->
-      <!-- THE PAGE HAD NO MASS. Title, statement, signature, film and four
-           placeholder frames all sat on one dark ground, so the composition was
-           a paragraph and a photograph on black — nothing to rank, nothing to
-           hold the eye. Every other page in this site solves the same problem
-           the same way: a bone panel. The vehicle page prices on it, the search
-           page filters on it, the configurator quotes on it. It is the site's
-           one light mass, and this page was the only one without it.
+           `preload="none"` so a 5 MB asset is not fetched by anyone who scrolls
+           past it; the poster is the only thing that loads until someone asks.
+           `bare` because a UA figure carries 1em/40px of margin, and inside this
+           grid that indents the media against nothing. -->
+      <div class="about" data-scene>
+        <figure class="about__place bare" data-rise="left">
+          <video controls preload="none" playsinline
+                 poster="assets/img/whoweare-poster.jpg"
+                 aria-label="A Backdraft roadster on Courthouse Square in Newark, Ohio">
+            <source src="assets/video/about-us.webm" type="video/webm">
+            <source src="assets/video/about-us.mp4" type="video/mp4">
+            Your browser cannot play this video. The same story is told in the text beside it.
+          </video>
+        </figure>
 
-           So the company's own words go on it. That is figure against ground,
-           it is the surface the rest of the site already reads as "this is the
-           important block", and it lets the statement hold its own beside a
-           photograph of a face — not by area, but by being the only light thing
-           on the page. -->
-      <div class="who u-mt-7" data-scene>
-
-        <blockquote class="who__panel" data-rise="left">
-          <img class="who__portrait" src="assets/img/justin-hinderer.png"
-               alt="Justin Hinderer" width="315" height="310" loading="lazy">
-
-          <p class="who__vision">
-            The Hinderer Motor Company vision is to advance the lives of our customers,
-            associates, and their families while building a more positive, energetic
-            future with professionalism, integrity, and hard work.
-          </p>
-          <footer class="who__attrib">
-            <span class="who__attrib-name">Justin Hinderer</span>
-            <span class="who__attrib-role">Owner</span>
-          </footer>
-        </blockquote>
-
-        <div class="ytfacade" data-rise="right" data-yt="pQUmEprBuYw"
-             data-yt-title="Justin Hinderer on Hinderer Motor Company">
-          <img src="assets/img/justin-hinderer-poster.jpg"
-               alt="Justin Hinderer in the Hinderer showroom"
-               width="1138" height="640" loading="lazy">
-          <button class="ytfacade__play" type="button" data-yt-play>
-            <span class="sr-only">Play the film — Justin Hinderer on Hinderer Motor Company</span>
-            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-              <path fill="currentColor" d="M8 5v14l11-7z"/>
-            </svg>
-          </button>
+        <div class="about__origin" data-rise="right">
+          <p>It started out in 1991 as an exciting challenge. One automotive dealership in a
+            small town in Licking County, Ohio.</p>
+          <p>More than three decades later, we’re still proud to call Heath home, though we’ve
+            grown a bit and evolved into something much greater over that time. What we’ve
+            become was built not only on that history of success but also on a legacy of care
+            for our clients, associates, and community — our family.</p>
         </div>
       </div>
-    </div>
-  </section>
 
-
-  <!-- ===================================================================
-       2 · THE TEAM
-       Four people. Their photographs are empty boxes in the mockup too — the
-       client has not supplied them — so the frames say so rather than pretending.
-       =================================================================== -->
-  <section class="section section--flush-top" aria-labelledby="teamTitle">
-    <div class="wrap">
-      <!-- The section names itself. It used to carry an sr-only heading, so the
-           grid arrived with no introduction and the interval above it read as a
-           hole rather than as a break. "Team" is deliberately not in it — the
-           page is already titled Meet Our Team, and a divider that repeats the
-           h1 tells a reader nothing they did not have. -->
-      <h2 class="section-divider" id="teamTitle">The people behind it</h2>
-
-      <ul class="team list-bare" data-scene>
-        <li class="team-card" data-rise="up">
-          <div class="await-photo">Photograph<br>to come</div>
-          <p class="team-card__name">Bill Goodrich</p>
-          <p class="team-card__role">VP Operations</p>
-          <p class="team-card__contact">Contact:
-            <a href="tel:+17405221106" class="num-tabular">740.522.1106</a></p>
-          <a class="team-card__action" href="who_we_are_contact.html">Send Message</a>
-        </li>
-
-        <li class="team-card" data-rise="up">
-          <div class="await-photo">Photograph<br>to come</div>
-          <p class="team-card__name">Erick Morrison</p>
-          <!-- The mockup carries the words "Need to get title" here. That is a
-               note to the client, not a job title, so it is not printed as one. -->
-          <p class="team-card__role team-card__role--await">Title to come</p>
-          <p class="team-card__contact">Contact:
-            <a href="tel:+17405221106" class="num-tabular">740.522.1106</a></p>
-          <a class="team-card__action" href="who_we_are_contact.html">Send Message</a>
-        </li>
-
-        <li class="team-card" data-rise="up">
-          <div class="await-photo">Photograph<br>to come</div>
-          <p class="team-card__name">Peyton Seay</p>
-          <p class="team-card__role">General Sales Manager</p>
-          <p class="team-card__contact">Contact:
-            <a href="tel:+17405221106" class="num-tabular">740.522.1106</a></p>
-          <a class="team-card__action" href="who_we_are_contact.html">Send Message</a>
-        </li>
-
-        <li class="team-card" data-rise="up">
-          <div class="await-photo">Photograph<br>to come</div>
-          <p class="team-card__name">Logan Buehrer</p>
-          <p class="team-card__role">Marketing Manager</p>
-          <p class="team-card__contact">Contact:
-            <a href="tel:+17405221106" class="num-tabular">740.522.1106</a></p>
-          <a class="team-card__action" href="who_we_are_contact.html">Send Message</a>
-        </li>
-      </ul>
+      <!-- The coda. One movement, so it takes a BLOCK interval and not another
+           section's worth: as three sections these three blocks stacked two full
+           section paddings between them — 320px of nothing between the cards and
+           the last word, which no one chose. -->
+      <h2 class="sr-only" id="driveTitle">What drives us</h2>
+      <div class="about-coda" data-scene>
+        <p data-rise="left">We know what drives us: the joy of providing people with exciting
+          experiences. That desire has been there since the start of our journey. Today and into
+          the future, you can depend on The Hinderer Motor Company to race to meet people
+          wherever their dreams may take them.</p>
+        <p class="about-coda__sign" data-rise="left">Because we love what moves you.</p>
+      </div>
     </div>
   </section>
 
@@ -312,6 +320,7 @@
 
 
 </main>
+
 
 
 
