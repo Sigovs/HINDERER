@@ -4,21 +4,42 @@ Static HTML/CSS build of the approved Figma prototype
 (`rVcU822PQHDphMoBEqrrGz`, frame `2:11 — index`). No build step, no framework —
 vanilla HTML / CSS / JS. Serve with `npx serve .` or `python -m http.server`.
 
-Full structure, the four-page scope ladder and the copy-a-page procedure are in
-[README.md](README.md) — read it before adding a page or touching a variant.
+The page list, the tree and the copy-a-page procedure are in
+[README.md](README.md) — read it before adding a page.
 
 ---
 
 ## ⛔ Design DNA — read before any visual work
 
 Before any design, layout, CSS, typography, colour or motion change here, read
-and obey **`/Users/alex/Desktop/WORK/design_dna/TASTE.md`**.
+and obey **`TASTE.md` from `github.com/Sigovs/design_dna`** (branch `master`).
 
 It is the entry point: the two-tier model (invariants never yield, dialects yield
 for a stated reason), the Design Read procedure, the Critique Panel, EXPLORE vs.
 BUILD, and the dialect index. Skills load on demand from it —
 `academic-composition`, `anti-patterns`, `spacing-taste`, `typography-taste`,
 `color-taste`, `dimensionality`, `motion-judgment`, `motion-taste`.
+
+**Take it from git, never from an absolute path.** A path floats: this file
+used to name `/Users/alex/Desktop/WORK/design_dna/`, which does not exist on
+the Windows machine the work also happens on. An instruction pointing at a
+directory only one computer has is an instruction that quietly stops being
+followed, and nothing announces it.
+
+Resolve it the way TASTE.md §6 already prescribes for its own vault — **a local
+clone first**, because it is faster and current with whatever is uncommitted in
+the working tree, and the raw URL when there is no clone:
+
+```
+local:  <wherever design_dna is cloned>/TASTE.md
+raw:    https://raw.githubusercontent.com/Sigovs/design_dna/master/TASTE.md
+        …/master/skills/<skill>/SKILL.md
+        …/master/dialects/<dialect>.md
+        …/master/vault/sites.json          ← the vault query is not optional
+```
+
+If neither resolves, say so in the Design Read and work without the references
+rather than inventing them.
 
 Silent violations are the failure mode. Anything that breaks the DNA for a real
 external constraint gets named in the report under *Known compromises*; close
