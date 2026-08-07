@@ -1890,6 +1890,12 @@ html:not(.js) .site-nav__submenu { position: static; display: block; box-shadow:
   display: grid;
   gap: var(--space-8);
   align-items: start;
+  /* `clip` for the reason .about-open, .contact-open and .who all carry it: the
+     media enters on [data-rise="right"], which starts it 44px to the trailing
+     side, and at 320–390px that hangs past the viewport and gives the page a
+     horizontal scrollbar until it lands. `clip` cuts it without making the band
+     a scroll container, which `hidden` would. */
+  overflow-x: clip;
 }
 
 @media (min-width: 62rem) {
@@ -2935,7 +2941,7 @@ html:not(.js) .site-nav__submenu { position: static; display: block; box-shadow:
 /* Inside the bone panel every ink flips. --ink-muted is 4.32:1 on bone and
    fails, so the label takes full ink and is separated from its value by size,
    weight and register instead of by tone. */
-:is(.facets, .vdp-panel, .contact-form) .field__label { color: var(--ink-inverse); }
+:is(.facets, .vdp-panel, .contact-form, .offer) .field__label { color: var(--ink-inverse); }
 
 /* The same flip for the three text components that also appear on bone. --ink
    is white and disappears here; --ink-muted measures 4.32:1 on #f2efe9 and
@@ -2943,7 +2949,7 @@ html:not(.js) .site-nav__submenu { position: static; display: block; box-shadow:
    register instead of by tone — the same answer the label above takes, for the
    same reason. Written as one rule because a panel that inverts three of its
    four inks is the half-converted surface the .facets note warns about. */
-:is(.facets, .vdp-panel, .contact-form) :is(.lead, .body-muted, .section-sub) {
+:is(.facets, .vdp-panel, .contact-form, .offer) :is(.lead, .body-muted, .section-sub) {
   color: var(--ink-inverse);
 }
 
@@ -2971,19 +2977,19 @@ html:not(.js) .site-nav__submenu { position: static; display: block; box-shadow:
    renamed, and the configurator's whole enquiry form fell back to the dark-
    ground rules: white ink and a 4%-white field, both invisible on cream. Any
    bone surface joins this list; nothing else needs to know. */
-:is(.facets, .vdp-panel, .contact-form) .control {
+:is(.facets, .vdp-panel, .contact-form, .offer) .control {
   background: var(--bg-card-plain);
   border-color: var(--rule-inverse-strong);
   color: var(--ink-inverse);
 }
-:is(.facets, .vdp-panel, .contact-form) .control::placeholder { color: var(--ink-card); }   /* 4.95:1 on white */
-:is(.facets, .vdp-panel, .contact-form) .control:hover { border-color: var(--ink-inverse); }
-:is(.facets, .vdp-panel, .contact-form) .control:focus-visible {
+:is(.facets, .vdp-panel, .contact-form, .offer) .control::placeholder { color: var(--ink-card); }   /* 4.95:1 on white */
+:is(.facets, .vdp-panel, .contact-form, .offer) .control:hover { border-color: var(--ink-inverse); }
+:is(.facets, .vdp-panel, .contact-form, .offer) .control:focus-visible {
   outline-color: var(--ink-inverse);
   border-color: var(--ink-inverse);
 }
-:is(.facets, .vdp-panel, .contact-form) select.control option { background: var(--bg-card-plain); color: var(--ink-inverse); }
-:is(.facets, .vdp-panel, .contact-form) .select::after { background: var(--ink-inverse); }
+:is(.facets, .vdp-panel, .contact-form, .offer) select.control option { background: var(--bg-card-plain); color: var(--ink-inverse); }
+:is(.facets, .vdp-panel, .contact-form, .offer) .select::after { background: var(--ink-inverse); }
 .facets .range { --rail: var(--rule-inverse-strong); --knob-ink: var(--ink-inverse); }
 .control:hover { border-color: var(--ink); }
 .control:focus-visible {
@@ -5718,6 +5724,157 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
    the one place on this site a resting shadow states something true, because it
    genuinely sits above the picture rather than in the page. */
 .contact-open .contact-form { box-shadow: var(--shadow-deep); }
+
+
+/* =========================================================================
+   15k. TRADE IN (trade-in.html)
+
+   The page has one job and it is a number: four answers and the visitor knows
+   what the car is worth. So the offer bar is the dominant — bone, full content
+   width, four fields in a row — and everything below it is what happens once
+   that offer is accepted.
+
+   NO TYPE ON THE PHOTOGRAPH HERE, and that is measured rather than preferred.
+   The about and contact bands stand their heads on their pictures because those
+   frames have a quiet region to stand in; this one has none — mean L=0.148 with
+   15.9% of the frame above L=0.35 and no quarter under 10%. Flooring it for a
+   copper title would take a scrim at 0.94 across the whole picture, which is a
+   dark rectangle where a photograph used to be. So the head takes the page's own
+   ground and the picture keeps its light beside it.
+   ========================================================================= */
+
+/* ---- the offer bar ------------------------------------------------------
+   The same bone surface as .facets, .vdp-panel and .contact-form, and it joins
+   the inversion group in 15c for the same one-line cost. Wide rather than tall
+   because four short answers read as one question in a row and as an
+   interrogation in a column. */
+.offer {
+  padding: clamp(var(--space-5), 2.5vw, var(--space-6));
+  border-radius: var(--radius-3);
+  background: var(--bg-card);
+  color: var(--ink-inverse);
+}
+
+.offer__fields {
+  display: grid;
+  gap: var(--space-4);
+}
+
+@media (min-width: 48rem) {
+  .offer__fields { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (min-width: 62rem) {
+  /* Four across, and the action sits in the row with them rather than under it:
+     the bar is one instrument, and a button on its own line reads as a second
+     step that does not exist. `auto` on the last track so the control keeps its
+     own width instead of being stretched to a quarter of the bar. */
+  .offer__fields {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) auto;
+    gap: var(--space-5);
+    align-items: end;
+  }
+}
+
+/* The control is the row's last cell, so it has to sit on the controls' own
+   baseline rather than on the labels'. Its height is the control height, not
+   the button height the rest of the site uses — a 64px button beside a 44px
+   select is a row that does not line up. */
+.offer__action {
+  min-block-size: 44px;
+  padding-block: 0;
+  white-space: nowrap;
+}
+
+.offer__note {
+  margin-block-start: var(--space-4);
+  font-size: var(--text-xs);
+  color: var(--ink-card);
+}
+
+
+/* ---- recently purchased -------------------------------------------------
+   Four photographs, no captions. They are evidence that cars actually get
+   bought here, and a caption on each would make them read as inventory — which
+   is the opposite claim. */
+.recent {
+  display: grid;
+  gap: var(--space-5);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+@media (min-width: 62rem) {
+  .recent { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-6); }
+}
+
+.recent__item {
+  border-radius: var(--radius-3);
+  overflow: hidden;
+  background: var(--bg-raised);
+}
+.recent__item img {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+}
+
+
+/* ---- FAQ ----------------------------------------------------------------
+   A <details> each, so every answer is in the document with no script: with JS
+   off the page still answers the questions, and a search engine reads all of
+   them. The separator is a hairline under each row rather than a box around it,
+   because these are one list read in order — the same reason .spec-list is
+   ruled and not carded. */
+.faq { border-block-start: 1px solid var(--rule); }
+
+.faq__item { border-block-end: 1px solid var(--rule); }
+
+.faq__q {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-5);
+  /* The whole row is the target, and it clears the 44px floor by construction:
+     24px of padding above and below a line of body text. */
+  padding-block: var(--space-5);
+  font-size: var(--text-lead);
+  line-height: var(--lh-tight);
+  color: var(--ink);
+  cursor: pointer;
+  list-style: none;
+  transition: color var(--dur-1) var(--ease-out);
+}
+.faq__q::-webkit-details-marker { display: none; }
+.faq__q:hover { color: var(--accent-ink); }
+.faq__q:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+/* The same clip-path chevron the select and the nav disclosure draw, so the
+   page has one caret rather than three that nearly match. It rotates to point
+   up when the row is open — state stated by direction, not only by position. */
+.faq__caret {
+  flex: 0 0 auto;
+  inline-size: 16px;
+  block-size: 16px;
+  background: var(--ink-muted);
+  clip-path: polygon(50% 72%, 6% 26%, 18% 14%, 50% 46%, 82% 14%, 94% 26%);
+  transition: rotate var(--dur-2) var(--ease-out), background-color var(--dur-1) var(--ease-out);
+}
+.faq__item[open] .faq__caret { rotate: 180deg; background: var(--accent-ink); }
+
+.faq__a {
+  padding-block-end: var(--space-6);
+  max-inline-size: var(--measure);
+  color: var(--ink-quiet);
+}
+.faq__a p + p { margin-block-start: var(--space-4); }
+/* A numbered answer is a sequence, so it is an <ol> and reads as one. */
+.faq__a ol { margin: 0; padding-inline-start: var(--space-5); }
+.faq__a li + li { margin-block-start: var(--space-3); }
+
+@media (prefers-reduced-motion: reduce) {
+  .faq__caret { transition: none; }
+}
 
 
 /* =========================================================================

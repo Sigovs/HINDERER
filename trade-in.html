@@ -1,0 +1,506 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Sell or Trade In Your Car — Hinderer Motor Company</title>
+  <meta name="description" content="We buy all makes and models. Tell us the year, make, model and mileage and get a fair, no-obligation offer from Hinderer Motor Company in Heath, Ohio.">
+  <meta name="theme-color" content="#1f1d19">
+
+  <link rel="icon" href="assets/img/logo-hinderer.png" sizes="any">
+  <!-- No hero preload: this page has no hero. The one photograph on it sits in
+       the second column, below the form, and is lazy for that reason —
+       preloading it would compete with the thing the page is for. -->
+
+  <!-- Two voices: Oswald carries headline mass, Inter carries reading and
+       data. Degular (licensed, not supplied) leads --font-display in
+       tokens.css and takes over the moment its @font-face lands — no markup
+       change required. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=Oswald:wght@300;400;500;600&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- The cascade, in the order it must load:
+       tokens  → the values, and the only place a raw value is written
+       system  → layout, rhythm, utilities (this replaced Bootstrap)
+       main    → the components
+       oswald  → the display-face layer, one link away from being removed -->
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/system.css">
+  <link rel="stylesheet" href="assets/css/main.css">
+  <!-- The display face, kept as its own layer rather than folded into main.css:
+       it is applied last and can be lifted out in one line if the face changes.
+       Every new page loads these four, in this order. -->
+  <link rel="stylesheet" href="assets/css/display-oswald.css">
+
+  <!-- Marks that scripting is available, before first paint. Only then does
+       the mobile nav collapse behind its toggle; without JS it renders as a
+       stacked list and every destination stays reachable. -->
+  <script>document.documentElement.className += " js";</script>
+</head>
+
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<!-- =====================================================================
+     SITE HEADER — shared across every page. Copy verbatim into new pages
+     and change only the aria-current on the active nav item.
+     ===================================================================== -->
+<header class="site-header" id="siteHeader">
+  <div class="wrap site-header__inner">
+
+    <a class="brand" href="index.html" aria-label="Hinderer Motor Company — home">
+      <img class="brand__mark" src="assets/img/logo-hinderer.png"
+           alt="The Hinderer Motor Company — we love what moves you" width="272" height="94">
+    </a>
+
+    <button class="nav-toggle" type="button"
+            aria-expanded="false" aria-controls="siteNav" data-nav-toggle>
+      <span class="sr-only">Menu</span>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </button>
+
+    <nav class="site-nav" id="siteNav" aria-label="Primary">
+      <ul class="site-nav__list">
+        <li><a class="site-nav__link" href="inventory.html">Inventory</a></li>
+        <li><a class="site-nav__link" href="build.html">Build</a></li>
+        <li><a class="site-nav__link" href="trade-in.html" aria-current="page">Trade In</a></li>
+        <!-- A disclosure, not a link: the destination the link used to have is
+             the first item inside it, so nothing is lost. Closed state and open
+             state are expressed ONLY through aria-expanded — the stylesheet
+             reads it, the same one-source-of-truth the burger uses. -->
+        <li class="site-nav__item--menu">
+          <button class="site-nav__link site-nav__disclosure" type="button"
+                  aria-expanded="false" aria-controls="navWho" data-nav-menu>
+            Who We Are<span class="site-nav__caret" aria-hidden="true"></span>
+          </button>
+          <ul class="site-nav__submenu list-bare" id="navWho">
+            <li><a class="site-nav__sublink" href="who_we_are_about.html">About</a></li>
+            <li><a class="site-nav__sublink" href="who_we_are_team.html">Team</a></li>
+            <li><a class="site-nav__sublink" href="who_we_are_contact.html">Contact</a></li>
+          </ul>
+        </li>
+        <li><a class="site-nav__link site-nav__link--phone" href="tel:+17406182466">
+          <svg class="site-nav__phone-icon" viewBox="0 -960 960 960" aria-hidden="true" focusable="false" width="18" height="18"><path fill="currentColor" d="M798-120q-125 0-247-54.5T329-329Q229-429 174.5-551T120-798q0-18 12-30t30-12h162q14 0 25 9.5t13 22.5l26 140q2 16-1 27t-11 19l-97 98q20 37 47.5 71.5T387-386q31 31 65 57.5t72 48.5l94-94q9-9 23.5-13.5T670-390l138 28q14 4 23 14.5t9 23.5v162q0 18-12 30t-30 12Z"/></svg>
+          <span class="site-nav__phone-num">740.618.2466</span>
+        </a></li>
+      </ul>
+    </nav>
+
+    <a class="collection-pill" href="saved.html">
+      <!-- The words drop out below 23.5rem, where holding them squeezed the logo
+           to 51px. They stay in the DOM, so the link is still announced as
+           "My Collection / 03" — the count is what is lost visually last. -->
+      <span class="collection-pill__label">My Collection</span>
+      <span class="num-tabular">/ <span data-saved-count>03</span></span>
+    </a>
+
+  </div>
+</header>
+
+
+<main id="main" class="lit-sides">
+
+  <!-- ===================================================================
+       1 · GET YOUR OFFER — the head, the evidence, and the instrument
+
+       The page has one job and it is a number. So the offer bar is the
+       dominant: bone, full content width, four answers in a row, and the
+       action in the row with them.
+
+       NO TYPE ON THE PHOTOGRAPH, and that is measured rather than preferred.
+       The about and contact pages stand their heads on their pictures because
+       those frames have a quiet region to stand in; this one has none — mean
+       L=0.148 with 15.9% of the frame above L=0.35 and no quarter under 10%.
+       Flooring it for a copper title would need a scrim at 0.94 across the
+       whole picture, which is a dark rectangle where a photograph used to be.
+       So the head takes the page's own ground and the car keeps its light
+       beside it — a car on the lift, which is what an appraisal looks like.
+       =================================================================== -->
+  <section class="section section--below-header" aria-labelledby="tradeTitle">
+    <div class="wrap">
+
+      <div class="split" data-scene>
+        <div class="split__body stack">
+          <p class="eyebrow" data-rise="left">Trade in</p>
+          <h1 class="section-title" id="tradeTitle" data-rise="left">We Buy All Makes and Models</h1>
+          <p class="lead" data-rise="left">Selling a car is a decision, and we make it a short one. Tell us
+            what you have and we will give you a fair, no-obligation number — whether you are upgrading,
+            selling outright, or putting the value straight into a build.</p>
+        </div>
+
+        <figure class="split__media split__media--4x3 bare" data-rise="right">
+          <img src="assets/img/tradein-bg.jpg" width="1500" height="1125"
+               fetchpriority="high"
+               alt="A blue roadster raised on a workshop lift, seen from below along its front wing and radiator.">
+        </figure>
+      </div>
+
+      <!-- THE INSTRUMENT. Four answers and an action, in one row — the bar is
+           one question, and a button on its own line would read as a second
+           step that does not exist. Bone, because that is this site's surface
+           for a thing you operate rather than read: the search panel, the price
+           panel, the quotation panel and the message panel are all this. -->
+      <div class="u-mt-7" data-scene>
+      <form class="offer" method="post" action="#tradeTitle"
+            aria-labelledby="offerTitle" data-rise="up">
+        <h2 class="section-sub" id="offerTitle">Get your offer</h2>
+
+        <div class="offer__fields u-mt-5">
+          <div class="field">
+            <label class="field__label" for="tiYear">Year</label>
+            <span class="select">
+              <select class="control" id="tiYear" name="year" required>
+                <option value="">Select</option>
+                <option>2026</option><option>2025</option><option>2024</option>
+                <option>2023</option><option>2022</option><option>2021</option>
+                <option>2020</option><option>Older</option>
+              </select>
+            </span>
+          </div>
+
+          <div class="field">
+            <label class="field__label" for="tiMake">Make</label>
+            <span class="select">
+              <select class="control" id="tiMake" name="make" required>
+                <option value="">Select</option>
+                <option>Backdraft</option>
+                <option>Shelby</option>
+                <option>Superformance</option>
+                <option>Other</option>
+              </select>
+            </span>
+          </div>
+
+          <div class="field">
+            <label class="field__label" for="tiModel">Model</label>
+            <span class="select">
+              <select class="control" id="tiModel" name="model" required>
+                <option value="">Select</option>
+                <option>RT3 Roadster</option>
+                <option>RT4 Roadster</option>
+                <option>RT4B Roadster</option>
+                <option>Other</option>
+              </select>
+            </span>
+          </div>
+
+          <!-- A number, not a list: mileage has no sensible set of options and a
+               select pretending otherwise makes the visitor round their own car
+               into someone else's bracket. inputmode so a phone opens the digits. -->
+          <div class="field">
+            <label class="field__label" for="tiMiles">Mileage</label>
+            <input class="control num-tabular" id="tiMiles" name="mileage" type="text"
+                   inputmode="numeric" pattern="[0-9,\. ]*" placeholder="e.g. 12,480" required>
+          </div>
+
+          <button class="btn-hmc btn-hmc--dark btn-hmc--centred offer__action" type="submit">Get your offer</button>
+        </div>
+
+        <p class="offer__note">No obligation, and no credit check — this is a valuation, not an application.</p>
+      </form>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ===================================================================
+       2 · ONCE YOU ACCEPT — the four steps
+
+       These are NOT how to get a quote; the bar above is that, in one row. They
+       are what happens after the offer is accepted, which is the distinction
+       the old mockup lost — it drew the same four plates for both and left the
+       home page describing a different process from this one.
+
+       The copy is the client's own, from the FAQ answer further down this page:
+       accept, we arrange transport, the car is inspected on arrival, and the
+       paperwork and any payoff are handled in house.
+       =================================================================== -->
+  <section class="section section--flush-top" aria-labelledby="howTitle">
+    <div class="wrap">
+      <div class="stack" data-scene>
+        <p class="eyebrow" data-rise="left">Sell with us</p>
+        <h2 class="section-title" id="howTitle" data-rise="left">Once You Accept</h2>
+        <p class="lead" data-rise="left">Selling your car does not have to be a hassle. From the moment
+          you take the offer, the four things below are ours to do.</p>
+      </div>
+
+      <ol class="steps list-bare u-mt-7" data-scene>
+        <li class="step" data-rise="up">
+          <p class="step__index">01.</p>
+          <h3 class="step__title">Accept the Offer</h3>
+          <p class="step__body">Take the number as it stands, or send us photographs and the original
+            window sticker and we will sharpen it. The more we can see, the closer the offer gets.</p>
+        </li>
+        <li class="step" data-rise="up">
+          <p class="step__index">02.</p>
+          <h3 class="step__title">Pick Up or Deliver</h3>
+          <p class="step__body">We arrange transport to Heath, or you drop the car off yourself at a
+            time that suits you. Either way the move is booked before anything else happens.</p>
+        </li>
+        <li class="step" data-rise="up">
+          <p class="step__index">03.</p>
+          <h3 class="step__title">Inspection on Arrival</h3>
+          <p class="step__body">The car is inspected when it reaches us, against the description it
+            arrived with. Nothing is renegotiated on the doorstep for something you already told us.</p>
+        </li>
+        <li class="step" data-rise="up">
+          <p class="step__index">04.</p>
+          <h3 class="step__title">Paperwork and Payment</h3>
+          <p class="step__body">Title transfer is done in house, and any outstanding finance or lease
+            payoff is handled with it. There are no hidden fees taken out of the number you accepted.</p>
+        </li>
+      </ol>
+
+      <div class="cta-centre" data-scene>
+        <a class="btn-hmc btn-hmc--primary btn-hmc--centred btn-hmc--wide" href="#tradeTitle" data-rise="up">Start Selling Today</a>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ===================================================================
+       3 · RECENTLY PURCHASED — evidence, not inventory
+
+       Four photographs and no captions. They are here to show that cars really
+       are bought at this address; a title and a price on each would make them
+       read as stock for sale, which is the opposite claim.
+
+       THE PHOTOGRAPHS ARE PLACEHOLDERS — the site's own gallery frames standing
+       in until the client supplies pictures of cars actually purchased. Named
+       in the README beside the inventory placeholders for the same reason.
+       =================================================================== -->
+  <section class="section section--flush-top" aria-labelledby="recentTitle">
+    <div class="wrap">
+      <div class="stack" data-scene>
+        <p class="eyebrow" data-rise="left">Recently</p>
+        <h2 class="section-title" id="recentTitle" data-rise="left">Purchased Cars</h2>
+      </div>
+
+      <ul class="recent list-bare u-mt-7" data-scene>
+        <li class="recent__item" data-rise="up">
+          <img src="assets/img/gallery-1.jpg" width="800" height="800" loading="lazy" decoding="async"
+               alt="A roadster in the Hinderer showroom.">
+        </li>
+        <li class="recent__item" data-rise="up">
+          <img src="assets/img/gallery-3.jpg" width="800" height="800" loading="lazy" decoding="async"
+               alt="The windscreen and mirror of a finished roadster.">
+        </li>
+        <li class="recent__item" data-rise="up">
+          <img src="assets/img/gallery-4.jpg" width="800" height="800" loading="lazy" decoding="async"
+               alt="The wood-rimmed wheel and gated shifter of a roadster interior.">
+        </li>
+        <li class="recent__item" data-rise="up">
+          <img src="assets/img/gallery-5.jpg" width="800" height="800" loading="lazy" decoding="async"
+               alt="A roadster parked outdoors under trees.">
+        </li>
+      </ul>
+    </div>
+  </section>
+
+
+  <!-- ===================================================================
+       4 · FAQ
+
+       A <details> each, so every answer is in the document with no script: with
+       JS off the page still answers the questions and a search engine reads all
+       of them. The first one is open, because a closed accordion gives a
+       visitor nothing to read and no reason to open anything.
+
+       THE COPY IS THE CLIENT'S, with two corrections named rather than made
+       silently: the mockup asks the visitor to send information to "barnaba
+       autosport" and says the car is inspected on arrival at "barnaba
+       autosport". That is another dealership's name left in the file. It is
+       Hinderer Motor Company in both places here.
+       =================================================================== -->
+  <section class="section section--flush-top" aria-labelledby="faqTitle">
+    <div class="wrap">
+      <div class="stack" data-scene>
+        <p class="eyebrow" data-rise="left">You have questions</p>
+        <h2 class="section-title" id="faqTitle" data-rise="left">We Have Answers</h2>
+      </div>
+
+      <div class="u-mt-7" data-scene>
+      <div class="faq" data-rise="up">
+        <details class="faq__item" open>
+          <summary class="faq__q">
+            What are the steps to sell my vehicle?
+            <span class="faq__caret" aria-hidden="true"></span>
+          </summary>
+          <div class="faq__a">
+            <ol>
+              <li>Fill out the form with all the required details, upload pictures, and an original
+                window sticker if available. The more information you provide, the more accurate a
+                value we can give.</li>
+              <li>Accept the offer and we will arrange shipping to Hinderer Motor Company.</li>
+              <li>On arrival the vehicle is inspected, and we take care of the rest: all the DMV
+                paperwork, with the title transfer done in house, and any outstanding payoff or lease
+                payments and their paperwork. There are no hidden fees.</li>
+            </ol>
+          </div>
+        </details>
+
+        <details class="faq__item">
+          <summary class="faq__q">
+            What information do I need to provide to get the most accurate offer?
+            <span class="faq__caret" aria-hidden="true"></span>
+          </summary>
+          <div class="faq__a">
+            <p>Year, make, model and mileage start it. Photographs, the service history and the
+              original window sticker are what move a number from an estimate to an offer — anything
+              that shows condition and specification is worth sending.</p>
+          </div>
+        </details>
+
+        <details class="faq__item">
+          <summary class="faq__q">
+            How long does it take to get paid?
+            <span class="faq__caret" aria-hidden="true"></span>
+          </summary>
+          <div class="faq__a">
+            <!-- No number here on purpose. The client has not stated a payment
+                 window, and inventing one would be a promise the dealership has
+                 not made. Listed in the README as a pending fact. -->
+            <p>Payment follows the inspection on arrival, once the title transfer and any outstanding
+              finance payoff are settled. Call 740.618.2466 and we will tell you exactly where your
+              own sale stands.</p>
+          </div>
+        </details>
+
+        <details class="faq__item">
+          <summary class="faq__q">
+            What if my car is leased or financed?
+            <span class="faq__caret" aria-hidden="true"></span>
+          </summary>
+          <div class="faq__a">
+            <p>That is ordinary and it is ours to handle. We settle any outstanding finance or lease
+              payoff and the paperwork that comes with it, in house, as part of the sale.</p>
+          </div>
+        </details>
+
+        <details class="faq__item">
+          <summary class="faq__q">
+            What vehicle makes does Hinderer Motor Company buy?
+            <span class="faq__caret" aria-hidden="true"></span>
+          </summary>
+          <div class="faq__a">
+            <p>All of them. Backdraft, Shelby and Superformance roadsters are what we know best, but
+              the offer form takes any make and model — that is what "we buy all makes and models"
+              means.</p>
+          </div>
+        </details>
+      </div>
+      </div>
+
+      <div class="cta-centre" data-scene>
+        <a class="btn-hmc btn-hmc--primary btn-hmc--centred btn-hmc--wide" href="#tradeTitle" data-rise="up">Start Trade In</a>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ===================================================================
+       5 · CONTACT — the site's own band, as every other page carries it.
+       =================================================================== -->
+  <section class="contact" id="contact" aria-labelledby="contactTitle">
+    <div class="contact__map">
+      <iframe class="contact__map__frame"
+              title="Map showing Hinderer Motor Company at 1555 Hebron Rd, Heath, Ohio"
+              src="https://www.openstreetmap.org/export/embed.html?bbox=-82.4590%2C40.0215%2C-82.4190%2C40.0435&amp;layer=mapnik&amp;marker=40.0325%2C-82.4390"
+              loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <a class="contact__map__link"
+         href="https://www.openstreetmap.org/?mlat=40.0325&amp;mlon=-82.4390#map=15/40.0325/-82.4390"
+         target="_blank" rel="noopener">
+        Open directions
+        <span class="sr-only">— 1555 Hebron Rd, Heath, Ohio, opens in a new tab</span>
+      </a>
+    </div>
+
+    <div class="contact__panel">
+      <span class="contact__spine" aria-hidden="true"><span>C</span><span>O</span><span>N</span><span>T</span><span>A</span><span>C</span><span>T</span><span>S</span></span>
+
+      <div class="contact__body">
+        <h2 class="sr-only" id="contactTitle">Contact Hinderer Motor Company</h2>
+
+        <div class="contact__item">
+          <p class="contact__label">
+            <svg class="contact__icon" viewBox="0 -960 960 960" aria-hidden="true" focusable="false" width="20" height="20"><path fill="currentColor" d="M798-120q-125 0-247-54.5T329-329Q229-429 174.5-551T120-798q0-18 12-30t30-12h162q14 0 25 9.5t13 22.5l26 140q2 16-1 27t-11 19l-97 98q20 37 47.5 71.5T387-386q31 31 65 57.5t72 48.5l94-94q9-9 23.5-13.5T670-390l138 28q14 4 23 14.5t9 23.5v162q0 18-12 30t-30 12ZM241-600l66-66-17-94h-89q5 41 14 81t26 79Zm358 358q39 17 79.5 27t81.5 13v-88l-94-19-67 67ZM241-600Zm358 358Z"/></svg>
+            Phone
+          </p>
+          <p class="contact__value">
+            <a class="num-tabular" href="tel:+17406182466">740.618.2466</a>
+          </p>
+        </div>
+
+        <div class="contact__item">
+          <p class="contact__label">
+            <svg class="contact__icon" viewBox="0 -960 960 960" aria-hidden="true" focusable="false" width="20" height="20"><path fill="currentColor" d="M480-480q33 0 56.5-23.5T560-560q0-33-23.5-56.5T480-640q-33 0-56.5 23.5T400-560q0 33 23.5 56.5T480-480Zm0 294q122-112 181-203.5T720-552q0-109-69.5-178.5T480-800q-101 0-170.5 69.5T240-552q0 71 59 162.5T480-186Zm0 106Q319-217 239.5-334.5T160-552q0-150 96.5-239T480-880q127 0 223.5 89T800-552q0 100-79.5 217.5T480-80Zm0-480Z"/></svg>
+            Address
+          </p>
+          <address class="contact__value">
+            Hinderer Motor Company<br>
+            1555 Hebron Rd<br>
+            Heath, OH 43056
+          </address>
+        </div>
+
+        <div class="contact__item">
+          <p class="contact__label">
+            <svg class="contact__icon" viewBox="0 -960 960 960" aria-hidden="true" focusable="false" width="20" height="20"><path fill="currentColor" d="M720-80q-50 0-85-35t-35-85q0-7 1-14.5t3-13.5L322-392q-17 15-38 23.5t-44 8.5q-50 0-85-35t-35-85q0-50 35-85t85-35q23 0 44 8.5t38 23.5l282-164q-2-6-3-13.5t-1-14.5q0-50 35-85t85-35q50 0 85 35t35 85q0 50-35 85t-85 35q-23 0-44-8.5T638-672L356-508q2 6 3 13.5t1 14.5q0 7-1 14.5t-3 13.5l282 164q17-15 38-23.5t44-8.5q50 0 85 35t35 85q0 50-35 85t-85 35Zm0-640q17 0 28.5-11.5T760-760q0-17-11.5-28.5T720-800q-17 0-28.5 11.5T680-760q0 17 11.5 28.5T720-720ZM240-440q17 0 28.5-11.5T280-480q0-17-11.5-28.5T240-520q-17 0-28.5 11.5T200-480q0 17 11.5 28.5T240-440Zm480 280q17 0 28.5-11.5T760-200q0-17-11.5-28.5T720-240q-17 0-28.5 11.5T680-200q0 17 11.5 28.5T720-160Zm0-600ZM240-480Zm480 280Z"/></svg>
+            Follow
+          </p>
+          <ul class="social contact__value">
+            <li><a href="#" aria-label="Hinderer Motor Company on Instagram"><img src="assets/icons/social-instagram.svg" alt="" aria-hidden="true" width="21" height="21"></a></li>
+            <li><a href="#" aria-label="Hinderer Motor Company on Facebook"><img src="assets/icons/social-facebook.svg" alt="" aria-hidden="true" width="21" height="21"></a></li>
+            <li><a href="#" aria-label="Hinderer Motor Company on X"><img src="assets/icons/social-x.svg" alt="" aria-hidden="true" width="21" height="21"></a></li>
+            <li><a href="#" aria-label="Hinderer Motor Company on YouTube"><img src="assets/icons/social-youtube.svg" alt="" aria-hidden="true" width="21" height="21"></a></li>
+          </ul>
+        </div>
+
+        <a class="btn-hmc btn-hmc--primary btn-hmc--centred btn-hmc--wide contact__cta" href="who_we_are_contact.html">Contact Us</a>
+      </div>
+    </div>
+  </section>
+
+
+</main>
+
+
+
+
+
+<!-- =====================================================================
+     SITE FOOTER — shared across every page.
+     ===================================================================== -->
+<footer class="site-footer">
+  <div class="wrap site-footer__inner">
+    <p class="site-footer__legal">
+      Copyright © <span data-current-year>2024</span> Hinderer Motor Company. All Rights Reserved. |
+      <a href="sitemap.html">Sitemap</a> | <a href="privacy.html">Privacy</a>
+    </p>
+    <p class="site-footer__credit">Powered By All Auto Network</p>
+  </div>
+</footer>
+
+
+<!-- Video lightbox — only opened by a control that really has a video -->
+<dialog class="dialog" id="videoModal" aria-labelledby="videoModalTitle">
+  <div class="dialog__head">
+    <h2 class="dialog__title" id="videoModalTitle">Video</h2>
+    <button type="button" class="dialog__close" data-dialog-close aria-label="Close video">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </div>
+  <div class="dialog__body">
+    <video id="videoModalPlayer" controls playsinline></video>
+  </div>
+</dialog>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>

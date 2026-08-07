@@ -21,6 +21,7 @@ npx serve .          # or: python -m http.server
 | `who_we_are_about.html` | The company story — the copy the home page carries in `#about`, given a page of its own |
 | `who_we_are_team.html` | The team — the owner's statement, his film behind a facade rather than an embed, and the four people |
 | `who_we_are_contact.html` | The contact page — the form stands on the opening photograph at the trailing side, the head holds the leading one, and the site's own `.contact` band carries the map and the particulars underneath exactly as the other pages do. Its only departure is that the band's CTA is dropped: here it would point at the page you are standing on |
+| `trade-in.html` | The sell-your-car page — the offer bar is the dominant (four answers in a row, bone), the four steps below it are what happens *after* the offer is accepted, then recently-purchased, the FAQ and the contact band |
 | `DS.html` | **The design system, rendered by the site's own stylesheets.** Tokens, ramps, rhythm, motion and every component, plus the rules a change has to keep and an honest list of what the system does not have yet. `noindex`. Read it before adding a page. |
 
 The three numbered scope-ladder pages (`index1–3`) and the `variant-a/b/c.css`
@@ -105,6 +106,9 @@ unrelated CSS with it.
 | A form endpoint | — | **All three forms post to themselves** — the vehicle enquiry, the configurator estimate and the contact form. One `action` attribute each when the endpoint exists; nothing else changes. Deliberately not faked with a scripted "thank you", which would claim a message was sent that was not. |
 | What the second phone number is | `who_we_are_contact.html` | The team cards and `index.html#about` publish **740.522.1106**; the header and the contact band publish **740.618.2466**. Nothing says which is which, so the contact page lists only the second. Give the first a label and it goes in beside it. |
 | An email address | `who_we_are_contact.html` | The contact page offers phone, post and a form. There is no address to publish, and a plausible-looking one would be a fabricated fact, so email is simply absent. |
+
+| Recently-purchased photographs | `trade-in.html` | The four frames in that section are the site's own gallery pictures standing in. They are evidence that cars get bought here, so they need to be cars actually bought here. |
+| A payment window | `trade-in.html` | The FAQ answers *how long does it take to get paid* with the sequence, not a number of days — the client has not stated one, and inventing it would be a promise the dealership has not made. |
 
 ## Video
 
