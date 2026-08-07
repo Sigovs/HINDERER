@@ -120,31 +120,44 @@
        So the head takes the page's own ground and the car keeps its light
        beside it — a car on the lift, which is what an appraisal looks like.
        =================================================================== -->
-  <section class="section section--below-header" aria-labelledby="tradeTitle">
-    <div class="wrap">
+  <section class="section tradein-open" aria-labelledby="tradeTitle">
 
-      <div class="split" data-scene>
-        <div class="split__body stack">
+    <!-- A LAYER, not a band: pinned to the section, so the section is sized by
+         what stands on it and the picture covers whatever that comes to.
+
+         THE PICTURE CHANGED to make this legal. The lift shot that stood here
+         has no quiet region at all — mean L=0.148 with 15.9% of the frame over
+         L=0.35 — so a copper title on it needed a scrim at 0.94, which is a dark
+         rectangle where a photograph used to be. This frame is the one the page
+         should always have had: the roadster and a modern coupé in one
+         workshop, which IS "we buy all makes and models" said as a picture
+         rather than as a sentence. Where the head sits it measures L=0.036 with
+         1.3% hot, so a light scrim does it and both cars keep their light. -->
+    <div class="tradein-open__media">
+      <img src="assets/img/promo-trade.jpg" width="1400" height="788"
+           fetchpriority="high"
+           alt="A blue roadster and a modern coupé standing together in the lit Hinderer workshop.">
+    </div>
+
+    <div class="wrap tradein-open__inner" data-scene>
+
+      <div class="tradein-open__head">
+        <div class="stack">
           <p class="eyebrow" data-rise="left">Trade in</p>
           <h1 class="section-title" id="tradeTitle" data-rise="left">We Buy All Makes and Models</h1>
           <p class="lead" data-rise="left">Selling a car is a decision, and we make it a short one. Tell us
             what you have and we will give you a fair, no-obligation number — whether you are upgrading,
             selling outright, or putting the value straight into a build.</p>
         </div>
-
-        <figure class="split__media split__media--4x3 bare" data-rise="right">
-          <img src="assets/img/tradein-bg.jpg" width="1500" height="1125"
-               fetchpriority="high"
-               alt="A blue roadster raised on a workshop lift, seen from below along its front wing and radiator.">
-        </figure>
       </div>
 
-      <!-- THE INSTRUMENT. Four answers and an action, in one row — the bar is
-           one question, and a button on its own line would read as a second
-           step that does not exist. Bone, because that is this site's surface
-           for a thing you operate rather than read: the search panel, the price
-           panel, the quotation panel and the message panel are all this. -->
-      <div class="u-mt-7" data-scene>
+      <!-- THE INSTRUMENT, across the foot of the picture. Four answers and an
+           action in one row: the bar is one question, and a button on its own
+           line would read as a second step that does not exist. It runs across
+           rather than standing in a column at the trailing side the way the
+           contact form does — four short answers are a bar, not a panel, and a
+           bar wants the width. Bone, because that is this site's surface for a
+           thing you operate rather than read. -->
       <form class="offer" method="post" action="#tradeTitle"
             aria-labelledby="offerTitle" data-rise="up">
         <h2 class="section-sub" id="offerTitle">Get your offer</h2>
@@ -190,7 +203,7 @@
 
           <!-- A number, not a list: mileage has no sensible set of options and a
                select pretending otherwise makes the visitor round their own car
-               into someone else's bracket. inputmode so a phone opens the digits. -->
+               into someone else's bracket. inputmode so a phone opens digits. -->
           <div class="field">
             <label class="field__label" for="tiMiles">Mileage</label>
             <input class="control num-tabular" id="tiMiles" name="mileage" type="text"
@@ -202,7 +215,6 @@
 
         <p class="offer__note">No obligation, and no credit check — this is a valuation, not an application.</p>
       </form>
-      </div>
     </div>
   </section>
 
@@ -272,6 +284,11 @@
        THE PHOTOGRAPHS ARE PLACEHOLDERS — the site's own gallery frames standing
        in until the client supplies pictures of cars actually purchased. Named
        in the README beside the inventory placeholders for the same reason.
+
+       NOT gallery-3.jpg or gallery-5.jpg, and that is not an aesthetic choice:
+       gallery-3 has a play triangle BAKED INTO ITS PIXELS — it is a still lifted
+       from a video — so as a plain tile it draws a control that does nothing.
+       The four here are photographs all the way down.
        =================================================================== -->
   <section class="section section--flush-top" aria-labelledby="recentTitle">
     <div class="wrap">
@@ -282,20 +299,20 @@
 
       <ul class="recent list-bare u-mt-7" data-scene>
         <li class="recent__item" data-rise="up">
-          <img src="assets/img/gallery-1.jpg" width="800" height="800" loading="lazy" decoding="async"
-               alt="A roadster in the Hinderer showroom.">
+          <img src="assets/img/gallery-1.jpg" width="615" height="390" loading="lazy" decoding="async"
+               alt="A purple roadster photographed from the front three-quarter">
         </li>
         <li class="recent__item" data-rise="up">
-          <img src="assets/img/gallery-3.jpg" width="800" height="800" loading="lazy" decoding="async"
-               alt="The windscreen and mirror of a finished roadster.">
+          <img src="assets/img/gallery-2.jpg" width="457" height="614" loading="lazy" decoding="async"
+               alt="Blue leather interior with matching stitching">
         </li>
         <li class="recent__item" data-rise="up">
-          <img src="assets/img/gallery-4.jpg" width="800" height="800" loading="lazy" decoding="async"
-               alt="The wood-rimmed wheel and gated shifter of a roadster interior.">
+          <img src="assets/img/gallery-4.jpg" width="615" height="573" loading="lazy" decoding="async"
+               alt="The cockpit of a finished roadster, wheel and red shift knob">
         </li>
         <li class="recent__item" data-rise="up">
-          <img src="assets/img/gallery-5.jpg" width="800" height="800" loading="lazy" decoding="async"
-               alt="A roadster parked outdoors under trees.">
+          <img src="assets/img/gallery-6.jpg" width="457" height="573" loading="lazy" decoding="async"
+               alt="Louvred bonnet detail in raw carbon">
         </li>
       </ul>
     </div>

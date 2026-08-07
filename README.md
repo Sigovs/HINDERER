@@ -110,6 +110,8 @@ unrelated CSS with it.
 | Recently-purchased photographs | `trade-in.html` | The four frames in that section are the site's own gallery pictures standing in. They are evidence that cars get bought here, so they need to be cars actually bought here. |
 | A payment window | `trade-in.html` | The FAQ answers *how long does it take to get paid* with the sequence, not a number of days — the client has not stated one, and inventing it would be a promise the dealership has not made. |
 
+| A play glyph baked into `gallery-3.jpg` | `index.html` | That frame is a still lifted from a video and carries a play triangle **in its pixels**, so on the home page's mosaic it draws a control that does nothing. It is kept off `trade-in.html` for that reason; on the home page it needs either the film behind it or a different frame. |
+
 ## Video
 
 `assets/video/_src/` holds the camera master and is gitignored. The two files

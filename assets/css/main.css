@@ -5743,6 +5743,104 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
    ground and the picture keeps its light beside it.
    ========================================================================= */
 
+/* ---- the opening band ---------------------------------------------------
+   The same move the contact page opens with — a photograph the content stands
+   on — and it took a change of picture to make it legal here. The lift shot has
+   no quiet region at all (mean L=0.148, 15.9% of the frame over L=0.35), so type
+   on it would have needed a scrim at 0.94 and the photograph would have become a
+   dark rectangle. promo-trade.jpg is the frame this page should have had all
+   along: the roadster and a modern coupé in one workshop, which IS "we buy all
+   makes and models" stated as a picture — and it measures L=0.036 with 1.3% hot
+   where the head sits, so a light scrim is enough and the cars keep their light.
+
+   The instrument runs ACROSS the foot rather than standing in a column at the
+   trailing side the way the contact form does. Four short answers are a bar, not
+   a panel, and a bar wants the width. */
+.tradein-open {
+  position: relative;
+  isolation: isolate;
+  padding-block: 0;
+  overflow-x: clip;
+}
+
+.tradein-open__media { position: absolute; inset: 0; z-index: 0; }
+.tradein-open__media img {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  /* The roadster is the subject and it sits left of centre; at a tall crop the
+     frame is held on it rather than on the coupé behind. */
+  object-position: 38% 50%;
+}
+
+/* MUCH LIGHTER than the contact band's, and that is the whole point of changing
+   the picture. 0.80 at the leading edge over a ground already at L=0.036 puts
+   the copper title at 3.60:1 and the white lead at 16.5:1, and it is clear by
+   66% so both cars keep their light. The second gradient is the seam: the foot
+   lands on --bg, so the picture dissolves into the page's own ground. */
+.tradein-open__media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(to right,
+      rgb(var(--bg-rgb) / 0.80) 0%,
+      rgb(var(--bg-rgb) / 0.66) 26%,
+      rgb(var(--bg-rgb) / 0.34) 46%,
+      rgb(var(--bg-rgb) / 0.10) 58%,
+      rgb(var(--bg-rgb) / 0) 66%),
+    linear-gradient(to bottom,
+      rgb(var(--bg-rgb) / 0) 86%,
+      rgb(var(--bg-rgb) / 1) 100%);
+}
+
+/* One column puts the head across the full width, so the gradient that runs
+   across stops covering the end of every line. Same answer as the contact band:
+   below the two-column width it runs down instead. */
+@media (max-width: 61.99rem) {
+  .tradein-open__media::after {
+    background: linear-gradient(to bottom,
+      rgb(var(--bg-rgb) / 0.88) 0%,
+      rgb(var(--bg-rgb) / 0.86) 44%,
+      rgb(var(--bg-rgb) / 0.68) 62%,
+      rgb(var(--bg-rgb) / 0.84) 88%,
+      rgb(var(--bg-rgb) / 1) 100%);
+  }
+}
+
+/* For the header, which floats over the top of the frame. */
+.tradein-open__media::before {
+  content: "";
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline: 0;
+  block-size: calc(var(--header-h) * 2);
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(to bottom,
+    rgb(var(--bg-deep-rgb) / 0.72) 0%,
+    rgb(var(--bg-deep-rgb) / 0.34) 46%,
+    rgb(var(--bg-deep-rgb) / 0) 100%);
+}
+
+.tradein-open__inner {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  gap: var(--space-8);
+  padding-block: calc(var(--header-h) + var(--space-8)) var(--space-8);
+}
+
+@media (min-width: 62rem) {
+  /* The head is capped at just over half so the coupé on the trailing side is
+     never behind text — the picture is making the page's argument and covering
+     it would be arguing over it. */
+  .tradein-open__head { max-inline-size: 56%; }
+  .tradein-open__inner { gap: var(--space-9); }
+}
+
+
 /* ---- the offer bar ------------------------------------------------------
    The same bone surface as .facets, .vdp-panel and .contact-form, and it joins
    the inversion group in 15c for the same one-line cost. Wide rather than tall
@@ -5797,13 +5895,17 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
    Four photographs, no captions. They are evidence that cars actually get
    bought here, and a caption on each would make them read as inventory — which
    is the opposite claim. */
+/* The gallery's own interval, not a section interval: 16px is what the mosaic on
+   the home page sets between tiles, and four photographs that belong to one
+   claim should sit at the same distance from each other as those do. At 24 and
+   32 they read as four separate pictures. */
 .recent {
   display: grid;
-  gap: var(--space-5);
+  gap: var(--space-4);
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 @media (min-width: 62rem) {
-  .recent { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-6); }
+  .recent { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
 
 .recent__item {
@@ -5815,7 +5917,10 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
   display: block;
   inline-size: 100%;
   block-size: 100%;
-  aspect-ratio: 1 / 1;
+  /* Landscape, not square. A square tile is the tallest a four-across row can
+     be, and this block is evidence rather than a subject — it should be read in
+     one glance and left. */
+  aspect-ratio: 4 / 3;
   object-fit: cover;
 }
 
@@ -5835,9 +5940,10 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
   align-items: center;
   justify-content: space-between;
   gap: var(--space-5);
-  /* The whole row is the target, and it clears the 44px floor by construction:
-     24px of padding above and below a line of body text. */
-  padding-block: var(--space-5);
+  /* Tightened from 24px to 16px. The row still clears the 44px target floor by
+     construction — 16 + a line of lead type + 16 is 56 — and five questions now
+     read as a list you can take in at once rather than a column you scroll. */
+  padding-block: var(--space-4);
   font-size: var(--text-lead);
   line-height: var(--lh-tight);
   color: var(--ink);
@@ -5863,7 +5969,7 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
 .faq__item[open] .faq__caret { rotate: 180deg; background: var(--accent-ink); }
 
 .faq__a {
-  padding-block-end: var(--space-6);
+  padding-block-end: var(--space-5);
   max-inline-size: var(--measure);
   color: var(--ink-quiet);
 }
