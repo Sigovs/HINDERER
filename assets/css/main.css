@@ -5931,7 +5931,20 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
    them. The separator is a hairline under each row rather than a box around it,
    because these are one list read in order — the same reason .spec-list is
    ruled and not carded. */
-.faq { border-block-start: 1px solid var(--rule); }
+/* THE RULE ENDS WHERE THE TEXT ENDS. The answers are capped at the reading
+   measure, as body copy must be; the question rows were not, so a hairline ran
+   1560px under a column of text 620 wide and every answer looked like it had
+   been cut off early. Capping the block instead of widening the answer keeps
+   the measure — a 98ch line is not a fix, it is a worse one. */
+.faq {
+  max-inline-size: var(--measure);
+  /* Centred, and the head and the CTA are centred with it. Capping the column
+     without centring it left the block hard against the leading edge with 720px
+     of nothing beside it and the centred button below floating away from the
+     list it belongs to. One column, three parts, one axis. */
+  margin-inline: auto;
+  border-block-start: 1px solid var(--rule);
+}
 
 .faq__item { border-block-end: 1px solid var(--rule); }
 
@@ -5949,6 +5962,9 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
   color: var(--ink);
   cursor: pointer;
   list-style: none;
+  /* A summary is not a heading, so it never got the balance h1–h4 have. Without
+     it "…the most accurate offer?" broke with "offer?" alone on line two. */
+  text-wrap: pretty;
   transition: color var(--dur-1) var(--ease-out);
 }
 .faq__q::-webkit-details-marker { display: none; }
@@ -5970,12 +5986,17 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
 
 .faq__a {
   padding-block-end: var(--space-5);
-  max-inline-size: var(--measure);
+  /* No cap of its own: the block above is the measure now, and two caps in one
+     column is how the inner one silently wins and nobody knows which. */
   color: var(--ink-quiet);
 }
 .faq__a p + p { margin-block-start: var(--space-4); }
 /* A numbered answer is a sequence, so it is an <ol> and reads as one. */
 .faq__a ol { margin: 0; padding-inline-start: var(--space-5); }
+/* `pretty` is on <p> globally but a list item is not a p, which is why the last
+   line of answer one was the single word "give." — the browser had no
+   instruction not to leave it there. */
+.faq__a li { text-wrap: pretty; }
 .faq__a li + li { margin-block-start: var(--space-3); }
 
 @media (prefers-reduced-motion: reduce) {
