@@ -1210,4 +1210,170 @@
     paint();
   }
 
+  /* -----------------------------------------------------------------------
+     FAQ — a soft disclosure
+
+     <details> opens in one frame and no stylesheet changes that: the browser
+     hides the closed content outright, so there is no height to transition
+     FROM. ::details-content fixes it natively but only in the newest Chrome,
+     which would leave most visitors with the hard cut and a few with the soft
+     one — a worse outcome than either. So the animation is driven here.
+
+     The element stays a real <details> the whole time. Script gone, motion
+     suppressed, or the browser mid-update: the native open/close runs and the
+     answers are still reachable. Nothing below hides content.
+
+     Height is the one layout property this page animates. There is no
+     transform equivalent for a panel of unknown height that does not distort
+     the type, so the cost is paid deliberately: short durations, only while a
+     row is actually moving, and never more than one row at a time.
+     ----------------------------------------------------------------------- */
+  var faqItems = document.querySelectorAll('.faq__item');
+
+  if (faqItems.length && motionOK) {
+    var css = getComputedStyle(document.documentElement);
+    var seconds = function (name, fallback) {
+      var v = parseFloat(css.getPropertyValue(name));
+      return (v ? v : fallback) * 1000;
+    };
+    /* Straight from the token scale, so a change there moves this with it.
+       Entering decelerates, leaving accelerates, and the exit is one step
+       quicker than the entrance — a disclosure that closes slower than it
+       opens feels stuck. */
+    var OPEN_MS  = seconds('--dur-3', 0.4);
+    var CLOSE_MS = seconds('--dur-2', 0.25);
+    var EASE_IN_ANIM  = css.getPropertyValue('--ease-out').trim() || 'ease-out';
+    var EASE_OUT_ANIM = css.getPropertyValue('--ease-in').trim()  || 'ease-in';
+
+    /* ONE ANSWER OPEN AT A TIME.
+       The mechanism is the `name` attribute in the markup: <details> sharing a
+       name is a native exclusive accordion, so with no script at all — and
+       under reduced motion, where none of this binds — the browser owns the
+       behaviour and opening one shuts the rest. Everything below is only what
+       native does NOT give: the closing answer collapses instead of vanishing
+       in a frame, which is the whole point of having softened the opening. */
+    var faqState = new WeakMap();   /* item → running animation */
+
+    var animatePanel = function (item, opening, done) {
+      var panel = item.querySelector('.faq__a');
+      if (!panel) return null;
+
+      var prev = faqState.get(item);
+      if (prev) prev.cancel();      /* interruptible, never queued */
+
+      var settle = function () {
+        panel.style.removeProperty('height');
+        panel.style.removeProperty('overflow');
+        panel.style.removeProperty('opacity');
+        faqState.delete(item);
+      };
+
+      /* The panel has to be in the document to be measured, so the attribute
+         goes on first and the travel is animated afterwards. */
+      if (opening) item.open = true;
+
+      var full = panel.scrollHeight;
+      panel.style.overflow = 'hidden';
+
+      var anim = panel.animate(
+        opening
+          ? [{ height: '0px', opacity: 0 }, { height: full + 'px', opacity: 1 }]
+          : [{ height: full + 'px', opacity: 1 }, { height: '0px', opacity: 0 }],
+        {
+          duration: opening ? OPEN_MS : CLOSE_MS,
+          easing: opening ? EASE_IN_ANIM : EASE_OUT_ANIM
+        }
+      );
+
+      anim.onfinish = function () {
+        if (!opening) item.open = false;
+        settle();
+        if (done) done();
+      };
+      /* A cancelled animation must not leave an inline height behind, or the
+         next open measures the wrong number. */
+      anim.oncancel = settle;
+
+      faqState.set(item, anim);
+      return anim;
+    };
+
+    faqItems.forEach(function (item) {
+      var summary = item.querySelector('.faq__q');
+      if (!summary || !item.querySelector('.faq__a')) return;
+
+      summary.addEventListener('click', function (e) {
+        e.preventDefault();
+
+        if (item.open) { animatePanel(item, false); return; }
+
+        /* Whoever has to give way. Collected before anything moves. */
+        var leaving = [];
+        faqItems.forEach(function (other) { if (other !== item && other.open) leaving.push(other); });
+
+        if (!leaving.length) { animatePanel(item, true); return; }
+
+        /* THE NATIVE EXCLUSIVITY HAS TO STAND ASIDE FOR THE LENGTH OF THE
+           TRANSITION. Setting `open` on a named <details> makes the browser
+           shut its siblings in the same frame — measured: the outgoing answer
+           vanished instantly while the incoming one animated, which is the
+           hard cut moved rather than removed. So `name` comes off for the
+           handover and goes back on once the outgoing row has actually
+           closed, at which point exactly one is open and restoring it changes
+           nothing. Anyone without JS still gets the native group. */
+        var names = [];
+        faqItems.forEach(function (d, i) { names[i] = d.getAttribute('name'); d.removeAttribute('name'); });
+        var restoreNames = function () {
+          faqItems.forEach(function (d, i) { if (names[i] != null) d.setAttribute('name', names[i]); });
+        };
+
+        /* WHEN WHAT CLOSES SITS ABOVE WHAT OPENS, the page pulls up by the
+           height it gives back and the question you just clicked slides out
+           from under the cursor — on a five-row list, most of a screen.
+
+           Pinning the clicked ROW rather than tracking the closing panel is
+           both simpler and exactly right: it holds whatever the transition
+           does above it, however many rows collapse and whatever easing they
+           use. Scrolling is instant here on purpose — the page sets
+           scroll-behavior: smooth, and a correction that animates is a second
+           movement rather than the cancellation of the first. */
+        var anchor = summary.getBoundingClientRect().top;
+        var pinned = true;
+        var release = function () { pinned = false; };
+
+        /* A visitor who scrolls mid-handover outranks the correction. */
+        window.addEventListener('wheel', release, { once: true, passive: true });
+        window.addEventListener('touchmove', release, { once: true, passive: true });
+
+        var hold = function () {
+          if (!pinned) return;
+          var drift = summary.getBoundingClientRect().top - anchor;
+          /* `behavior: instant` is not decoration. The page sets
+             scroll-behavior: smooth globally, so a plain scrollBy here gets
+             SMOOTHED — every frame's correction started easing toward a target
+             the next frame had already moved, and the row still drifted 24px.
+             The correction has to land in the frame that asks for it. */
+          if (Math.abs(drift) > 0.5) window.scrollBy({ top: drift, behavior: 'instant' });
+          window.requestAnimationFrame(hold);
+        };
+        window.requestAnimationFrame(hold);
+
+        var pendingCloses = leaving.length;
+        leaving.forEach(function (other) {
+          animatePanel(other, false, function () {
+            if (--pendingCloses) return;
+            restoreNames();
+            /* The last layout change is `open = false` removing the panel from
+               flow, and it happens in this callback — so the pin is held for
+               two more frames to catch it, then let go. */
+            window.requestAnimationFrame(function () {
+              window.requestAnimationFrame(release);
+            });
+          });
+        });
+        animatePanel(item, true);
+      });
+    });
+  }
+
 })();

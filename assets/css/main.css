@@ -5922,6 +5922,24 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
      one glance and left. */
   aspect-ratio: 4 / 3;
   object-fit: cover;
+  transition: transform var(--dur-3) var(--ease-out);
+}
+
+/* Hover zooms the PHOTOGRAPH inside a frame that does not move — deliberately
+   not the .vehicle gesture, which lifts the whole tile with a shadow. That one
+   says "this is a control, press it", and these four have nothing behind them:
+   they are evidence that cars get bought here, not stock for sale. An image
+   growing inside a fixed frame reads as the photograph breathing instead.
+
+   It also keeps the row still. Four tiles that each lifted would nudge their
+   neighbours or need a z-index argument to sit over them; scaling inside
+   `overflow: hidden` moves nothing and resamples no text, because there is
+   none on these tiles.
+
+   `hover: hover` so a touch device never gets stuck holding the zoomed state
+   after a tap. */
+@media (hover: hover) {
+  .recent__item:hover img { transform: scale(1.06); }
 }
 
 
@@ -5988,7 +6006,22 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
   padding-block-end: var(--space-5);
   /* No cap of its own: the block above is the measure now, and two caps in one
      column is how the inner one silently wins and nobody knows which. */
-  color: var(--ink-quiet);
+
+  /* Question and answer are two voices, and they were not reading as two.
+     --ink-quiet is #e2e2e2 against a white question — a 12.99:1 step next to a
+     16.83:1 one, which the eye does not resolve as a change of speaker at all.
+
+     --ink-muted is the answer, and not only because it is darker: it is the
+     one WARM step in the ink scale, so the question stays neutral and the
+     answer takes the page's own warmth. The difference is in temperature as
+     well as in weight, which is what makes it read as a different voice rather
+     than as the same voice dimmed.
+
+     It is also the token the system already names for exactly this job —
+     "warm sand, all secondary body" in DS.html — and the one .step__body and
+     .optcard use for the same relationship. 7.19:1: comfortably AA for a
+     paragraph. */
+  color: var(--ink-muted);
 }
 .faq__a p + p { margin-block-start: var(--space-4); }
 /* A numbered answer is a sequence, so it is an <ol> and reads as one. */
@@ -5999,8 +6032,21 @@ select.control option { background: var(--bg-raised); color: var(--ink); }
 .faq__a li { text-wrap: pretty; }
 .faq__a li + li { margin-block-start: var(--space-3); }
 
+/* The panel's own travel is animated in main.js, because a closed <details>
+   has no height for CSS to transition from. What belongs here is the shape
+   that travel needs: a box that clips while it grows, so the answer is
+   revealed rather than squashed. Nothing here hides content — with the script
+   absent the panel has no inline height and behaves natively. */
+.faq__a { will-change: height; }
+
 @media (prefers-reduced-motion: reduce) {
   .faq__caret { transition: none; }
+  /* And the disclosure is instant: main.js does not bind at all under reduced
+     motion, so the native open/close is what runs. */
+  .faq__a { will-change: auto; }
+  /* The zoom goes with it — a health setting, not a preference toggle. */
+  .recent__item img { transition: none; }
+  .recent__item:hover img { transform: none; }
 }
 
 
